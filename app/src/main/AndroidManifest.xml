@@ -18,7 +18,8 @@
         </activity>
         <activity android:name=".TimelineActivity" />
         <activity android:name=".SearchActivity" />
-        <activity android:name=".ProfileActivity"></activity>
+        <activity android:name=".ProfileActivity" />
+        <activity android:name=".SignUpActivity" />
     </application>
 
 </manifest>
