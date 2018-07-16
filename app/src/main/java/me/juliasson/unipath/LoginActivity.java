@@ -1,5 +1,6 @@
 package me.juliasson.unipath;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -28,7 +29,7 @@ public class LoginActivity extends AppCompatActivity {
         ParseUser currentUser = ParseUser.getCurrentUser();
         if (currentUser != null) {
             Log.d("LoginActivity", "Login successful");
-            Intent i = new Intent(LoginActivity.this, ProfileActivity.class);
+            Intent i = new Intent(LoginActivity.this, TimelineActivity.class);
             startActivity(i);
             finish();
         }
