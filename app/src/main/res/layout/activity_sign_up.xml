@@ -4,7 +4,24 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/signup_gradient"
     tools:context=".SignUpActivity">
+
+    <ImageView
+        android:id="@+id/ivProfileImage"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/button_border_orange"
+        android:padding="4dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/add_image" />
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -28,7 +45,9 @@
             android:layout_weight="1"
             android:hint="first name"
             android:inputType="text"
-            android:padding="8dp" />
+            android:textColorHint="@color/background_light_orange"
+            android:padding="8dp"
+            android:background="@drawable/button_border_orange" />
 
         <EditText
             android:id="@+id/etLastName"
@@ -36,9 +55,11 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
             android:layout_weight="1"
+            android:textColorHint="@color/background_light_orange"
             android:hint="last name"
             android:inputType="text"
-            android:padding="8dp" />
+            android:padding="8dp"
+            android:background="@drawable/button_border_orange" />
     </LinearLayout>
 
     <EditText
@@ -50,12 +71,14 @@
         android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:textColorHint="@color/background_light_orange"
         android:hint="username"
         android:inputType="text"
         android:padding="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        android:background="@drawable/button_border_orange" />
 
     <EditText
         android:id="@+id/etPassword"
@@ -66,12 +89,14 @@
         android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:textColorHint="@color/background_light_orange"
         android:hint="password"
         android:inputType="textPassword"
         android:padding="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etUsername" />
+        app:layout_constraintTop_toBottomOf="@+id/etUsername"
+        android:background="@drawable/button_border_orange" />
 
     <EditText
         android:id="@+id/etEmail"
@@ -82,27 +107,15 @@
         android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:textColorHint="@color/background_light_orange"
         android:hint="email"
         android:inputType="textPassword"
         android:padding="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etPassword" />
-
-    <ImageView
-        android:id="@+id/ivProfileImage"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@color/solid_black" />
+        app:layout_constraintTop_toBottomOf="@+id/etPassword"
+        android:background="@drawable/button_border_orange" />
 
     <Button
         android:id="@+id/bvCreateAccount"
@@ -113,7 +126,9 @@
         android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:background="@color/background_light_orange"
         android:text="Create Account"
+        android:textColor="@color/solid_white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -128,7 +143,9 @@
         android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:background="@color/background_light_orange"
         android:text="Cancel"
+        android:textColor="@color/solid_white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/bvCreateAccount" />

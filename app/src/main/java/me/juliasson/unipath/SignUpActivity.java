@@ -15,6 +15,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseUser;
@@ -90,6 +92,13 @@ public class SignUpActivity extends AppCompatActivity {
                 });
             }
         });
+
+        bvCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
     }
 
     private void onSignUp(String firstName, String lastName, String username, String password, String email, ParseFile profileImage) {
@@ -131,7 +140,11 @@ public class SignUpActivity extends AppCompatActivity {
 
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
-                ivProfileImage.setImageBitmap(bitmap);
+                Glide.with(this)
+                        .load(bitmap)
+                        .apply(RequestOptions.circleCropTransform())
+                        .into(ivProfileImage);
+                //ivProfileImage.setImageBitmap(bitmap);
             } catch (IOException e) {
                 e.printStackTrace();
             }
