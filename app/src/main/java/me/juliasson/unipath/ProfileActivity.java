@@ -12,6 +12,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.parse.ParseUser;
 
 public class ProfileActivity extends AppCompatActivity {
@@ -20,10 +22,13 @@ public class ProfileActivity extends AppCompatActivity {
     private ProgressBar pbProgress;
     private ImageView ivProfileImage;
     private TextView tvFirstName;
-    private TextView tvLastName;
     private TextView tvEmail;
     private ImageButton bvBack;
     private Button bvLogout;
+
+    private final String KEY_FIRST_NAME = "firstName";
+    private final String KEY_LAST_NAME = "lastName";
+    private final String KEY_PROFILE_IMAGE = "profileImage";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,10 +39,20 @@ public class ProfileActivity extends AppCompatActivity {
         pbProgress = findViewById(R.id.pbProgress);
         ivProfileImage = findViewById(R.id.ivProfileImage);
         tvFirstName = findViewById(R.id.tvFirstName);
-        tvLastName = findViewById(R.id.tvLastName);
         tvEmail = findViewById(R.id.tvEmail);
         bvBack = findViewById(R.id.bvBack);
         bvLogout = findViewById(R.id.bvLogout);
+
+        final String firstName = ParseUser.getCurrentUser().get(KEY_FIRST_NAME).toString();
+        final String lastName = ParseUser.getCurrentUser().get(KEY_LAST_NAME).toString();
+        tvProgressLabel.setText(String.format("Hi, %s! Here's your progress.", firstName));
+        tvFirstName.setText(String.format("%s %s", firstName, lastName));
+        tvEmail.setText(ParseUser.getCurrentUser().getEmail());
+
+        Glide.with(this)
+                .load(ParseUser.getCurrentUser().getParseFile(KEY_PROFILE_IMAGE).getUrl())
+                .apply(RequestOptions.circleCropTransform())
+                .into(ivProfileImage);
 
         bvBack.setOnClickListener(new View.OnClickListener() {
             @Override

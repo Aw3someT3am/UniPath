@@ -28,7 +28,7 @@ public class LoginActivity extends AppCompatActivity {
         ParseUser currentUser = ParseUser.getCurrentUser();
         if (currentUser != null) {
             Log.d("LoginActivity", "Login successful");
-            Intent i = new Intent(LoginActivity.this, TimelineActivity.class);
+            Intent i = new Intent(LoginActivity.this, ProfileActivity.class);
             startActivity(i);
             finish();
         }

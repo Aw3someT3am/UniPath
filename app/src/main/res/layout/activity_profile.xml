@@ -41,6 +41,7 @@
         android:layout_marginTop="8dp"
         android:padding="8dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/pbProgress">
 
@@ -50,39 +51,24 @@
             android:layout_height="100dp"
             app:srcCompat="@color/solid_black" />
 
-        <LinearLayout
-            android:id="@+id/llName"
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/tvFirstName"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
             android:layout_alignParentTop="true"
-            android:layout_marginLeft="8dp"
-            android:layout_toRightOf="@id/ivProfileImage">
-
-            <TextView
-                android:id="@+id/tvFirstName"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="8dp"
-                android:layout_weight="1"
-                android:text="first name"
-                android:textAppearance="@android:style/TextAppearance.Medium" />
-
-            <TextView
-                android:id="@+id/tvLastName"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="0dp"
-                android:layout_weight="1"
-                android:text="last name"
-                android:textAppearance="@android:style/TextAppearance.Medium" />
-        </LinearLayout>
+            android:layout_toRightOf="@id/ivProfileImage"
+            android:layout_marginLeft="16dp"
+            android:text="first name"
+            android:textAppearance="@android:style/TextAppearance.Medium" />
 
         <TextView
             android:id="@+id/tvEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/llName"
-            android:layout_marginLeft="8dp"
+            android:layout_below="@+id/tvFirstName"
+            android:layout_alignParentEnd="true"
+            android:layout_marginLeft="16dp"
             android:layout_marginTop="8dp"
             android:layout_toRightOf="@+id/ivProfileImage"
             android:textAppearance="@android:style/TextAppearance.Medium"
