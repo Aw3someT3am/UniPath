@@ -11,7 +11,7 @@
         android:theme="@style/AppTheme">
         <meta-data android:name="android.app.searchable"
             android:resource="@xml/searchable"/>
-        <activity android:name=".Login_Activity">
+        <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -25,6 +25,17 @@
         </activity>
         <activity android:name=".ProfileActivity" />
         <activity android:name=".SignUpActivity" />
+
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="me.juliasson.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/fileprovider" />
+        </provider>
+
     </application>
 
 </manifest>

@@ -7,7 +7,7 @@
     tools:context=".ProfileActivity">
 
     <ProgressBar
-        android:id="@+id/determinateBar"
+        android:id="@+id/pbProgress"
         style="@android:style/Widget.ProgressBar.Horizontal"
         android:layout_width="match_parent"
         android:layout_height="20dp"
@@ -42,7 +42,7 @@
         android:padding="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/determinateBar">
+        app:layout_constraintTop_toBottomOf="@+id/pbProgress">
 
         <ImageView
             android:id="@+id/ivProfileImage"
@@ -90,7 +90,7 @@
     </RelativeLayout>
 
     <ImageButton
-        android:id="@+id/ibBack"
+        android:id="@+id/bvBack"
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:layout_marginBottom="8dp"
