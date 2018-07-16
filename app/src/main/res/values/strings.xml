@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">UniPath</string>
+    <string name="app_label">Search</string>
+    <string name="search_hint">search</string>
 </resources>
