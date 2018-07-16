@@ -1,6 +1,5 @@
 package me.juliasson.unipath;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -53,6 +52,27 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View view) {
                 final Intent i = new Intent(LoginActivity.this, SignUpActivity.class);
                 startActivity(i);
+            }
+        });
+
+        //TODO: REMOVE THESE LATER
+        Button TIMELINE = findViewById(R.id.TIMELINE);
+        TIMELINE.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(LoginActivity.this, TimelineActivity.class);
+                startActivity(i);
+                finish();
+            }
+        });
+
+        Button SEARCH = findViewById(R.id.SEARCH);
+        SEARCH.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(LoginActivity.this, SearchActivity.class);
+                startActivity(i);
+                finish();
             }
         });
     }
