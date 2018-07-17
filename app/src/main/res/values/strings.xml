@@ -2,4 +2,6 @@
     <string name="app_name">UniPath</string>
     <string name="app_label">Search</string>
     <string name="search_hint">search</string>
+    <string name="search">Search</string>
+    <string name="title_activity_test">test</string>
 </resources>
