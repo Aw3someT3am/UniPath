@@ -6,4 +6,6 @@
     <dimen name="item_post_grid_margin_v">4dp</dimen>
     <dimen name="button_corner_radius">20dp</dimen>
     <dimen name="button_gradient_padding">64dp</dimen>
+    <dimen name="fab_margin">64dp</dimen>
+
 </resources>
