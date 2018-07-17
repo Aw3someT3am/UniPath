@@ -1,4 +1,4 @@
-package me.juliasson.unipath;
+package me.juliasson.unipath.fragments;
 
 import android.app.Activity;
 import android.content.Context;
@@ -29,6 +29,10 @@ import com.parse.SaveCallback;
 
 import java.io.File;
 import java.io.IOException;
+
+import me.juliasson.unipath.GalleryUtilities;
+import me.juliasson.unipath.LoginActivity;
+import me.juliasson.unipath.R;
 
 public class ProfileFragment extends Fragment {
 
