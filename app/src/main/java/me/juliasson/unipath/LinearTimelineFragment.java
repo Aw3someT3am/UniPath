@@ -2,11 +2,19 @@ package me.juliasson.unipath;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 public class LinearTimelineFragment extends Fragment {
+
+    private MyExpandableListAdapter adapter;
+    private LinearLayoutManager layoutManager;
+    private RecyclerView feedRecycler;
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         // Defines the xml file for the fragment
