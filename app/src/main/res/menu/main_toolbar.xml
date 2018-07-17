@@ -11,8 +11,8 @@
 
     <item android:id="@+id/action_settings"
         android:title="@string/profile"
-        android:iconTint="@color/solid_white"
         android:icon="@drawable/instagram_user_outline_24"
+        android:tint="@color/solid_white"
         android:orderInCategory="100"
         app:showAsAction="always" />
 
