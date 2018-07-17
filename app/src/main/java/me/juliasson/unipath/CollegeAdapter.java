@@ -76,12 +76,10 @@ public class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.ViewHold
             int position = getAdapterPosition();
             if (position != RecyclerView.NO_POSITION) {
                 College college = mColleges.get(position);
-                //TOOD: implement viewing a detail fragment
+                //TODO: implement viewing a detail fragment
             }
         }
     }
-
-
 
     // Clean all elements of the recycler
     public void clear() {

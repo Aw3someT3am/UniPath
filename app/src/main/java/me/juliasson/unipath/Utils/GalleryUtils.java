@@ -1,4 +1,4 @@
-package me.juliasson.unipath;
+package me.juliasson.unipath.Utils;
 
 import android.content.ContentUris;
 import android.content.Context;
@@ -9,7 +9,7 @@ import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 
-public class GalleryUtilities {
+public class GalleryUtils {
     public static String getPath(final Context context, final Uri uri) {
 
         final boolean isKitKat = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT;

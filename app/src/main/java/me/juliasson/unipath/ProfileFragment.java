@@ -30,6 +30,8 @@ import com.parse.SaveCallback;
 import java.io.File;
 import java.io.IOException;
 
+import me.juliasson.unipath.Utils.GalleryUtils;
+
 public class ProfileFragment extends Fragment {
 
     private TextView tvProgressLabel;
@@ -117,7 +119,7 @@ public class ProfileFragment extends Fragment {
 
         if (requestCode == GALLERY_IMAGE_SELECTION_REQUEST_CODE && data.getData() != null) {
             Uri uri = data.getData();
-            filePath = GalleryUtilities.getPath(mContext, uri);
+            filePath = GalleryUtils.getPath(mContext, uri);
 
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(mContext.getContentResolver(), uri);
