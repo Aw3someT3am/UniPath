@@ -1,13 +1,13 @@
 package me.juliasson.unipath;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -92,7 +92,10 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
         childText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(finalConvertView.getContext(), childText.getText(), Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(context, CollegeDetailsActivity.class);
+                context.startActivity(intent);
+
+                //Toast.makeText(finalConvertView.getContext(), childText.getText(), Toast.LENGTH_LONG).show();
             }
         });
 
