@@ -14,8 +14,11 @@
         android:name=".ParseApp"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <meta-data android:name="android.app.searchable"
-            android:resource="@xml/searchable"/>
+
+        <meta-data
+            android:name="android.app.searchable"
+            android:resource="@xml/searchable" />
+
         <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,9 +27,10 @@
             </intent-filter>
         </activity>
         <activity android:name=".TimelineActivity" />
-        <activity android:name=".SearchActivity" >
-            <meta-data android:name="android.app.searchable"
-                android:resource="@xml/searchable"/>
+        <activity android:name=".SearchActivity">
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
         </activity>
         <activity android:name=".ProfileActivity" />
         <activity android:name=".SignUpActivity" />
