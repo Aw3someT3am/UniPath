@@ -12,5 +12,8 @@
     <color name="background_lighter_orange">#FFD6CC</color>
     <color name="background_dark_orange">#B32400</color>
     <color name="progress_green">#00E600</color>
+    <color name="red">#f44e42</color>
+    <color name="white">#e8e8e8</color>
+
 
 </resources>
