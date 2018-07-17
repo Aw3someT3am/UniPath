@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="action_bar_elevation">6dp</dimen>
+    <dimen name="item_post_margin_v">8dp</dimen>
+    <dimen name="item_post_margin_h">8dp</dimen>
+    <dimen name="item_post_grid_margin_v">4dp</dimen>
+    <dimen name="button_corner_radius">20dp</dimen>
+    <dimen name="button_gradient_padding">64dp</dimen>
+</resources>

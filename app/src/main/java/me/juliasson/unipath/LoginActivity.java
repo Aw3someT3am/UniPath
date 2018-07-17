@@ -82,13 +82,13 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void done(ParseUser user, ParseException e) {
                 if (e == null) {
-                    Log.d("login_activity", "Login successful");
+                    Log.d("LoginActivity", "Login successful");
                     Toast.makeText(LoginActivity.this, "Login successful", Toast.LENGTH_SHORT).show();
                     final Intent i = new Intent(LoginActivity.this, TimelineActivity.class);
                     startActivity(i);
                     finish();
                 } else {
-                    Log.e("login_activity","Login failure");
+                    Log.e("LoginActivity","Login failure");
                     e.printStackTrace();
                 }
             }
