@@ -9,4 +9,11 @@
         android:title="Profile"
         app:showAsAction="ifRoom" />
 
+    <item android:id="@+id/action_settings"
+        android:title="@string/profile"
+        android:iconTint="@color/solid_white"
+        android:icon="@drawable/instagram_user_outline_24"
+        android:orderInCategory="100"
+        app:showAsAction="always" />
+
 </menu>
