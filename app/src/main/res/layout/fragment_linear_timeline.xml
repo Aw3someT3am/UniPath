@@ -5,7 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/refresh_layout"
     android:layout_height="match_parent"
-    tools:context=".LinearTimelineFragment">
+    tools:context=".fragments.LinearTimelineFragment">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView"

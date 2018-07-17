@@ -1,4 +1,4 @@
-package me.juliasson.unipath;
+package me.juliasson.unipath.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -15,6 +15,9 @@ import java.util.List;
 
 import me.juliasson.unipath.Model.OrderStatus;
 import me.juliasson.unipath.Model.TimeLine;
+import me.juliasson.unipath.R;
+import me.juliasson.unipath.TimeLineAdapter;
+git
 
 public class LinearTimelineFragment extends Fragment {
 

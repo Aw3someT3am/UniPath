@@ -14,6 +14,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import me.juliasson.unipath.fragments.CalendarFragment;
+import me.juliasson.unipath.fragments.FavoritesFragment;
 import me.juliasson.unipath.internal.Refreshable;
 
 
