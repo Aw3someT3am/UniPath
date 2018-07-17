@@ -17,7 +17,6 @@ import me.juliasson.unipath.Model.OrderStatus;
 import me.juliasson.unipath.Model.TimeLine;
 import me.juliasson.unipath.R;
 import me.juliasson.unipath.TimeLineAdapter;
-git
 
 public class LinearTimelineFragment extends Fragment {
 
