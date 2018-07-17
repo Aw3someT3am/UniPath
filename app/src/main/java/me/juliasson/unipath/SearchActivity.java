@@ -79,11 +79,12 @@ public class SearchActivity extends AppCompatActivity implements SearchView.OnQu
         ParentRow parentRow = null;
 
         childRows.add(new ChildRow(R.mipmap.ic_launcher, "New list in search"));
+        childRows.add(new ChildRow(R.mipmap.ic_launcher, "college"));
         childRows.add(new ChildRow(R.mipmap.ic_launcher, "A new Emoticon"));
-        parentRow = new ParentRow("First Group", childRows);
-        parentList.add(parentRow);
+        //parentRow = new ParentRow("First Group", childRows);
+        //parentList.add(parentRow);
 
-        childRows = new ArrayList<>();
+        //childRows = new ArrayList<>();
 
         childRows.add(new ChildRow(R.mipmap.ic_launcher, "YEAH"));
         childRows.add(new ChildRow(R.mipmap.ic_launcher, "A"));
