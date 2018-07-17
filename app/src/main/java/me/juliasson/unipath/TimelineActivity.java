@@ -14,6 +14,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import me.juliasson.unipath.internal.Refreshable;
+
 
 public class TimelineActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener,
         BottomNavigationView.OnNavigationItemReselectedListener
@@ -89,7 +91,7 @@ public class TimelineActivity extends AppCompatActivity implements BottomNavigat
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_home:
-                Log.d(TAG, "home se lected.");
+                Log.d(TAG, "home selected.");
                 homePager.setCurrentItem(0);
                 return true;
             case R.id.action_post:

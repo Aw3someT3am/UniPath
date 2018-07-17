@@ -81,6 +81,8 @@ public class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.ViewHold
         }
     }
 
+
+
     // Clean all elements of the recycler
     public void clear() {
         mColleges.clear();
