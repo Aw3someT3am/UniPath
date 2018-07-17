@@ -26,6 +26,8 @@ import com.parse.SignUpCallback;
 import java.io.File;
 import java.io.IOException;
 
+import me.juliasson.unipath.Utils.GalleryUtils;
+
 public class SignUpActivity extends AppCompatActivity {
 
     private ImageView ivProfileImage;
@@ -136,7 +138,7 @@ public class SignUpActivity extends AppCompatActivity {
 
         if (requestCode == GALLERY_IMAGE_SELECTION_REQUEST_CODE && data.getData() != null) {
             Uri uri = data.getData();
-            filePath = GalleryUtilities.getPath(this, uri);
+            filePath = GalleryUtils.getPath(this, uri);
 
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
