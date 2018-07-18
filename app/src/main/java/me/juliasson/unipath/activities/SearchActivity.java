@@ -13,7 +13,7 @@ import android.widget.SearchView;
 import java.util.ArrayList;
 
 import me.juliasson.unipath.ChildRow;
-import me.juliasson.unipath.Rows.ParentRow;
+import me.juliasson.unipath.rows.ParentRow;
 import me.juliasson.unipath.R;
 import me.juliasson.unipath.adapters.MyExpandableListAdapter;
 
