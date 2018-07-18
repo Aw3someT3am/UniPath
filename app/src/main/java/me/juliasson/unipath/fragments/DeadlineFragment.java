@@ -19,9 +19,8 @@ public class DeadlineFragment extends Fragment{
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        final View rootView = inflater.inflate(R.layout.fragmnet_general_info, container, false);
+        final View rootView = inflater.inflate(R.layout.fragmnet_deadlines, container, false);
 
-        tvCollegeName = (TextView) rootView.findViewById(R.id.tvCollegeName);
         tvEarlyDeadline = (TextView) rootView.findViewById(R.id.tvDescription);
         tvRegularDeadline = (TextView) rootView.findViewById(R.id.tvRegular);
 

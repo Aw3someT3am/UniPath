@@ -2,8 +2,6 @@ package me.juliasson.unipath.rows;
 
 import java.util.ArrayList;
 
-import me.juliasson.unipath.ChildRow;
-
 public class ParentRow {
     private String name;
     private ArrayList<ChildRow> childList;

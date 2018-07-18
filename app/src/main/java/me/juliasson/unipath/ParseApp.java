@@ -1,4 +1,4 @@
-package me.juliasson.unipath.rows;
+package me.juliasson.unipath;
 
 import android.app.Application;
 

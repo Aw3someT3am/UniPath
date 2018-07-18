@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import me.juliasson.unipath.ChildRow;
+import me.juliasson.unipath.rows.ChildRow;
 import me.juliasson.unipath.activities.CollegeDetailsActivity;
 import me.juliasson.unipath.rows.ParentRow;
 import me.juliasson.unipath.R;

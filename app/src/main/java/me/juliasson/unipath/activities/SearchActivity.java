@@ -12,7 +12,7 @@ import android.widget.SearchView;
 
 import java.util.ArrayList;
 
-import me.juliasson.unipath.ChildRow;
+import me.juliasson.unipath.rows.ChildRow;
 import me.juliasson.unipath.rows.ParentRow;
 import me.juliasson.unipath.R;
 import me.juliasson.unipath.adapters.MyExpandableListAdapter;
@@ -83,18 +83,37 @@ public class SearchActivity extends AppCompatActivity implements SearchView.OnQu
         ArrayList<ChildRow> childRows =  new ArrayList<>();
         ParentRow parentRow = null;
 
-        childRows.add(new ChildRow(R.mipmap.ic_launcher, "New list in search"));
-        childRows.add(new ChildRow(R.mipmap.ic_launcher, "college"));
-        childRows.add(new ChildRow(R.mipmap.ic_launcher, "A new Emoticon"));
+        childRows.add(new ChildRow(R.mipmap.ic_launcher, "Harvard University"));
+        childRows.add(new ChildRow(R.mipmap.ic_launcher, "University of Illinois, Urbana-Champaign"));
+        childRows.add(new ChildRow(R.mipmap.ic_launcher, "Stanford University"));
+        childRows.add(new ChildRow(R.mipmap.ic_launcher, "University of California, Berkeley"));
+        childRows.add(new ChildRow(R.mipmap.ic_launcher, "Yale"));
+        childRows.add(new ChildRow(R.mipmap.ic_launcher, "Princeton University"));
+        childRows.add(new ChildRow(R.mipmap.ic_launcher, "Massachusetts Institute of Technology"));
+        childRows.add(new ChildRow(R.mipmap.ic_launcher, "California Institute of Technology"));
+        childRows.add(new ChildRow(R.mipmap.ic_launcher, "University of Pennsylvania"));
+        childRows.add(new ChildRow(R.mipmap.ic_launcher, "Duke University"));
+        childRows.add(new ChildRow(R.mipmap.ic_launcher, "Brown University"));
+        childRows.add(new ChildRow(R.mipmap.ic_launcher, "Claremont McKenna College"));
+        childRows.add(new ChildRow(R.mipmap.ic_launcher, "Dartmouth College"));
+        childRows.add(new ChildRow(R.mipmap.ic_launcher, "Williams College"));
+        childRows.add(new ChildRow(R.mipmap.ic_launcher, "Columbia University"));
+        childRows.add(new ChildRow(R.mipmap.ic_launcher, "Cornell University"));
+        childRows.add(new ChildRow(R.mipmap.ic_launcher, "Amherst College"));
+        childRows.add(new ChildRow(R.mipmap.ic_launcher, "Harvey Mudd College"));
+        childRows.add(new ChildRow(R.mipmap.ic_launcher, "Swarthmore Collegeo"));
+        childRows.add(new ChildRow(R.mipmap.ic_launcher, "United States Naval Academy"));
+        childRows.add(new ChildRow(R.mipmap.ic_launcher, "Georgetown University"));
+        childRows.add(new ChildRow(R.mipmap.ic_launcher, "Rice University"));
+
+
+
         //parentRow = new ParentRow("First Group", childRows);
         //parentList.add(parentRow);
 
         //childRows = new ArrayList<>();
 
-        childRows.add(new ChildRow(R.mipmap.ic_launcher, "YEAH"));
-        childRows.add(new ChildRow(R.mipmap.ic_launcher, "A"));
-
-        parentRow = new ParentRow("Second Group", childRows);
+        parentRow = new ParentRow("Colleges", childRows);
         parentList.add(parentRow);
     }
 
