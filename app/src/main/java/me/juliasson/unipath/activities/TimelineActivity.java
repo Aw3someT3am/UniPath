@@ -38,8 +38,8 @@ public class TimelineActivity extends AppCompatActivity implements BottomNavigat
     private HomeAdapter homeAdapter;
 
     private final Fragment[] fragments = new Fragment[] {
-            new CalendarFragment(),
             new LinearTimelineFragment(),
+            new CalendarFragment(),
             new FavoritesFragment()
 
 //            ProfileFragment.create(ParseUser.getCurrentUser())
