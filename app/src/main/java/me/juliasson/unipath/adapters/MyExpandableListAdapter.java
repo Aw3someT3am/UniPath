@@ -8,15 +8,26 @@ import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.List;
 
-import me.juliasson.unipath.rows.ChildRow;
-import me.juliasson.unipath.activities.CollegeDetailsActivity;
-import me.juliasson.unipath.rows.ParentRow;
 import me.juliasson.unipath.R;
+import me.juliasson.unipath.activities.CollegeDetailsActivity;
+import me.juliasson.unipath.model.College;
+import me.juliasson.unipath.rows.ChildRow;
+import me.juliasson.unipath.rows.ParentRow;
 
 public class MyExpandableListAdapter extends BaseExpandableListAdapter {
+    private List<College> mColleges;
+    private Context mContext;
+
+    private final static String KEY_COLLEGE_NAME = "name";
+    private final static String KEY_EARLY_ACTION = "earlyAction";
+    private final static String KEY_REGULAR_ACTION = "regularAction";
+    private final static String KEY_COLLEGE_IMAGE = "image";
+
     private Context context;
     private ArrayList<ParentRow> parentRowList;
     private ArrayList<ParentRow> originalList;
@@ -100,7 +111,7 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
                 Intent intent = new Intent(context, CollegeDetailsActivity.class);
                 context.startActivity(intent);
 
-                //Toast.makeText(finalConvertView.getContext(), childText.getText(), Toast.LENGTH_LONG).show();
+                Toast.makeText(finalConvertView.getContext(), childText.getText(), Toast.LENGTH_LONG).show();
             }
         });
 
