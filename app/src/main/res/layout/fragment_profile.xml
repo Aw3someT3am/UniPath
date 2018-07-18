@@ -76,20 +76,6 @@
             tools:text="email" />
     </RelativeLayout>
 
-    <ImageButton
-        android:id="@+id/bvBack"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginStart="8dp"
-        android:scaleType="centerCrop"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/back_button"
-        android:background="@android:color/transparent"
-        android:tint="@color/background_orange" />
-
     <Button
         android:id="@+id/bvLogout"
         android:layout_width="wrap_content"
@@ -98,8 +84,8 @@
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:background="@color/background_orange"
-        android:textColor="@color/solid_white"
         android:text="Log out"
+        android:textColor="@color/solid_white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 

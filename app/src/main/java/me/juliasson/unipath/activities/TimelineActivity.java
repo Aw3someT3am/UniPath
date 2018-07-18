@@ -16,8 +16,8 @@ import android.view.MenuItem;
 
 import me.juliasson.unipath.R;
 import me.juliasson.unipath.fragments.CalendarFragment;
-import me.juliasson.unipath.fragments.FavoritesFragment;
 import me.juliasson.unipath.fragments.LinearTimelineFragment;
+import me.juliasson.unipath.fragments.ProfileFragment;
 import me.juliasson.unipath.internal.Refreshable;
 
 
@@ -40,7 +40,7 @@ public class TimelineActivity extends AppCompatActivity implements BottomNavigat
     private final Fragment[] fragments = new Fragment[] {
             new LinearTimelineFragment(),
             new CalendarFragment(),
-            new FavoritesFragment()
+            new ProfileFragment()
 
 //            ProfileFragment.create(ParseUser.getCurrentUser())
     };

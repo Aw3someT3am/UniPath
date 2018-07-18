@@ -14,7 +14,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -30,8 +29,8 @@ import com.parse.SaveCallback;
 import java.io.File;
 import java.io.IOException;
 
-import me.juliasson.unipath.activities.LoginActivity;
 import me.juliasson.unipath.R;
+import me.juliasson.unipath.activities.LoginActivity;
 import me.juliasson.unipath.utils.GalleryUtils;
 
 public class ProfileFragment extends Fragment {
@@ -41,7 +40,6 @@ public class ProfileFragment extends Fragment {
     private ImageView ivProfileImage;
     private TextView tvFirstName;
     private TextView tvEmail;
-    private ImageButton bvBack;
     private Button bvLogout;
 
     private final String KEY_FIRST_NAME = "firstName";
@@ -70,7 +68,6 @@ public class ProfileFragment extends Fragment {
         ivProfileImage = view.findViewById(R.id.ivProfileImage);
         tvFirstName = view.findViewById(R.id.tvFirstName);
         tvEmail = view.findViewById(R.id.tvEmail);
-        bvBack = view.findViewById(R.id.bvBack);
         bvLogout = view.findViewById(R.id.bvLogout);
 
         final String firstName = ParseUser.getCurrentUser().get(KEY_FIRST_NAME).toString();
@@ -83,13 +80,6 @@ public class ProfileFragment extends Fragment {
                 .load(ParseUser.getCurrentUser().getParseFile(KEY_PROFILE_IMAGE).getUrl())
                 .apply(RequestOptions.circleCropTransform())
                 .into(ivProfileImage);
-
-        bvBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                getActivity().getSupportFragmentManager().popBackStack();
-            }
-        });
 
         bvLogout.setOnClickListener(new View.OnClickListener() {
             @Override
