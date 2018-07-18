@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 import me.juliasson.unipath.ChildRow;
 import me.juliasson.unipath.activities.CollegeDetailsActivity;
-import me.juliasson.unipath.ParentRow;
+import me.juliasson.unipath.Rows.ParentRow;
 import me.juliasson.unipath.R;
 
 public class MyExpandableListAdapter extends BaseExpandableListAdapter {
