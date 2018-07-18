@@ -1,7 +1,9 @@
 package me.juliasson.unipath.activities;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+
+import me.juliasson.unipath.R;
 
 public class CollegeDetailsActivity extends AppCompatActivity {
 
