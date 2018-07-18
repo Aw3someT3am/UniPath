@@ -14,8 +14,8 @@ public class UserDeadlineRelation extends ParseObject {
 
     }
 
-    public College getDeadline() {
-        return (College) getParseObject(KEY_DEADLINE);
+    public Deadline getDeadline() {
+        return (Deadline) getParseObject(KEY_DEADLINE);
     }
 
     public ParseUser getUser() {
