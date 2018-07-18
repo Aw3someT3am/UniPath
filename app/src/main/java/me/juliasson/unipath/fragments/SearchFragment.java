@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,6 +47,7 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
         activity = getActivity();
         context = view.getContext();
         android.support.v7.widget.Toolbar toolbar = (android.support.v7.widget.Toolbar) activity.findViewById(R.id.toolbar);
+        //activity.setSupportActionBar(toolbar);
         searchManager = (SearchManager) context.getSystemService(Context.SEARCH_SERVICE);
 
         parentList = new ArrayList<>();
@@ -56,6 +58,25 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
 
         // This expands the list.
         expandAll();
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_search, menu);
+        searchItem = menu.findItem(R.id.action_search);
+        searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(activity.getComponentName()));
+        searchView.setIconifiedByDefault(false);
+        searchView.setOnQueryTextListener(this);
+        searchView.setOnCloseListener(this);
+        searchView.requestFocus();
+        super.onCreateOptionsMenu(menu, inflater);
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {

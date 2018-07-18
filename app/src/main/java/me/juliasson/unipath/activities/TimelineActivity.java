@@ -15,9 +15,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import me.juliasson.unipath.R;
-import me.juliasson.unipath.fragments.CalendarFragment;
 import me.juliasson.unipath.fragments.LinearTimelineFragment;
 import me.juliasson.unipath.fragments.ProfileFragment;
+import me.juliasson.unipath.fragments.SearchFragment;
 import me.juliasson.unipath.internal.Refreshable;
 
 
@@ -39,7 +39,7 @@ public class TimelineActivity extends AppCompatActivity implements BottomNavigat
 
     private final Fragment[] fragments = new Fragment[] {
             new LinearTimelineFragment(),
-            new CalendarFragment(),
+            new SearchFragment(),
             new ProfileFragment()
 
 //            ProfileFragment.create(ParseUser.getCurrentUser())
@@ -179,7 +179,7 @@ public class TimelineActivity extends AppCompatActivity implements BottomNavigat
      @Override
      public boolean onCreateOptionsMenu(Menu menu) {
          // Inflate the menu; this adds items to the action bar if it is present.
-         getMenuInflater().inflate(R.menu.main_toolbar, menu);
+//         getMenuInflater().inflate(R.menu.main_toolbar, menu);
          return true;
      }
      //and this to handle actions
