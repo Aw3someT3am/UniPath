@@ -18,7 +18,7 @@ public class ParseApp extends Application {
         final Parse.Configuration configuration = new Parse.Configuration.Builder(this)
                 .applicationId("unipath")
                 .clientKey("juliajorg3kath3rin3")
-                .server("http://unipath.herokuapp.com/parse")
+                .server("https://unipath.herokuapp.com/parse/")
                 .build();
 
         Parse.initialize(configuration);
