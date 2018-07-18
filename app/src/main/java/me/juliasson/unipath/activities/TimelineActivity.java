@@ -1,4 +1,4 @@
-package me.juliasson.unipath;
+package me.juliasson.unipath.activities;
 
 import android.content.Context;
 import android.content.Intent;
@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import me.juliasson.unipath.R;
 import me.juliasson.unipath.fragments.CalendarFragment;
 import me.juliasson.unipath.fragments.FavoritesFragment;
 import me.juliasson.unipath.internal.Refreshable;

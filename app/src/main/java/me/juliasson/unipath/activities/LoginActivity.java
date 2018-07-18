@@ -1,4 +1,4 @@
-package me.juliasson.unipath;
+package me.juliasson.unipath.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,6 +12,8 @@ import android.widget.Toast;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
+
+import me.juliasson.unipath.R;
 
 public class LoginActivity extends AppCompatActivity {
 

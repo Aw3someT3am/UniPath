@@ -1,4 +1,4 @@
-package me.juliasson.unipath;
+package me.juliasson.unipath.activities;
 
 import android.app.SearchManager;
 import android.content.Context;
@@ -11,6 +11,11 @@ import android.widget.ExpandableListView;
 import android.widget.SearchView;
 
 import java.util.ArrayList;
+
+import me.juliasson.unipath.ChildRow;
+import me.juliasson.unipath.ParentRow;
+import me.juliasson.unipath.R;
+import me.juliasson.unipath.adapters.MyExpandableListAdapter;
 
 public class SearchActivity extends AppCompatActivity implements SearchView.OnQueryTextListener, SearchView.OnCloseListener{
     private SearchManager searchManager;

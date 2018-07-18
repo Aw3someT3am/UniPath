@@ -13,10 +13,10 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
 
-import me.juliasson.unipath.Model.OrderStatus;
-import me.juliasson.unipath.Model.TimeLine;
+import me.juliasson.unipath.model.OrderStatus;
+import me.juliasson.unipath.model.TimeLine;
 import me.juliasson.unipath.R;
-import me.juliasson.unipath.TimeLineAdapter;
+import me.juliasson.unipath.adapters.TimeLineAdapter;
 
 public class LinearTimelineFragment extends Fragment {
 
@@ -31,12 +31,9 @@ public class LinearTimelineFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_linear_timeline, parent, false);
     }
 
-    // This event is triggered soon after onCreateView().
-    // Any view setup should occur here.  E.g., view lookups and attaching view listeners.
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         mContext = view.getContext();
-
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.setHasFixedSize(true);

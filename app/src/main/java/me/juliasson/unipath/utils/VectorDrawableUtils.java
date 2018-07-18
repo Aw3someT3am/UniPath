@@ -1,4 +1,4 @@
-package me.juliasson.unipath.Utils;
+package me.juliasson.unipath.utils;
 
 import android.content.Context;
 import android.graphics.Bitmap;
