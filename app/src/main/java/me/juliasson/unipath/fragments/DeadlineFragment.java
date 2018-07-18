@@ -1,4 +1,4 @@
-package me.juliasson.unipath;
+package me.juliasson.unipath.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -9,9 +9,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-public class GeneralInfoFragment extends Fragment{
+import me.juliasson.unipath.R;
+
+public class DeadlineFragment extends Fragment{
     TextView tvCollegeName;
-    TextView tvDescription;
+    TextView tvEarlyDeadline;
+    TextView tvRegularDeadline;
 
     @Nullable
     @Override
@@ -19,7 +22,8 @@ public class GeneralInfoFragment extends Fragment{
         final View rootView = inflater.inflate(R.layout.fragmnet_general_info, container, false);
 
         tvCollegeName = (TextView) rootView.findViewById(R.id.tvCollegeName);
-        tvDescription = (TextView) rootView.findViewById(R.id.tvDescription);
+        tvEarlyDeadline = (TextView) rootView.findViewById(R.id.tvDescription);
+        tvRegularDeadline = (TextView) rootView.findViewById(R.id.tvRegular);
 
         return rootView;
     }

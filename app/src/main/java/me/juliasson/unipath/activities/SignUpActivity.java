@@ -1,4 +1,4 @@
-package me.juliasson.unipath;
+package me.juliasson.unipath.activities;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -26,7 +26,8 @@ import com.parse.SignUpCallback;
 import java.io.File;
 import java.io.IOException;
 
-import me.juliasson.unipath.Utils.GalleryUtils;
+import me.juliasson.unipath.R;
+import me.juliasson.unipath.utils.GalleryUtils;
 
 public class SignUpActivity extends AppCompatActivity {
 

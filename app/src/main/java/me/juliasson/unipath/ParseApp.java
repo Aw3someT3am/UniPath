@@ -5,7 +5,7 @@ import android.app.Application;
 import com.parse.Parse;
 import com.parse.ParseObject;
 
-import me.juliasson.unipath.Model.College;
+import me.juliasson.unipath.model.College;
 
 public class ParseApp extends Application {
 

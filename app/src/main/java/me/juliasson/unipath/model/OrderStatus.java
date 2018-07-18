@@ -1,4 +1,4 @@
-package me.juliasson.unipath.Model;
+package me.juliasson.unipath.model;
 
 public enum OrderStatus {
 

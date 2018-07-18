@@ -1,4 +1,4 @@
-package me.juliasson.unipath;
+package me.juliasson.unipath.adapters;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -13,7 +13,8 @@ import com.bumptech.glide.Glide;
 
 import java.util.List;
 
-import me.juliasson.unipath.Model.College;
+import me.juliasson.unipath.R;
+import me.juliasson.unipath.model.College;
 
 public class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.ViewHolder>{
 

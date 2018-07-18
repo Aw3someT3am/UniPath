@@ -1,4 +1,4 @@
-package me.juliasson.unipath;
+package me.juliasson.unipath.adapters;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -15,10 +15,11 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import me.juliasson.unipath.Model.OrderStatus;
-import me.juliasson.unipath.Model.TimeLine;
-import me.juliasson.unipath.Utils.DateTimeUtils;
-import me.juliasson.unipath.Utils.VectorDrawableUtils;
+import me.juliasson.unipath.R;
+import me.juliasson.unipath.model.OrderStatus;
+import me.juliasson.unipath.model.TimeLine;
+import me.juliasson.unipath.utils.DateTimeUtils;
+import me.juliasson.unipath.utils.VectorDrawableUtils;
 
 public class TimeLineAdapter extends RecyclerView.Adapter<TimeLineAdapter.ViewHolder> {
 

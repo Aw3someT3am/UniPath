@@ -1,4 +1,4 @@
-package me.juliasson.unipath;
+package me.juliasson.unipath.activities;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -27,7 +27,8 @@ import com.parse.SaveCallback;
 import java.io.File;
 import java.io.IOException;
 
-import me.juliasson.unipath.Utils.GalleryUtils;
+import me.juliasson.unipath.R;
+import me.juliasson.unipath.utils.GalleryUtils;
 
 public class ProfileActivity extends AppCompatActivity {
 

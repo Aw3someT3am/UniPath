@@ -1,4 +1,4 @@
-package me.juliasson.unipath;
+package me.juliasson.unipath.adapters;
 
 import android.content.Context;
 import android.content.Intent;
@@ -10,6 +10,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+
+import me.juliasson.unipath.ChildRow;
+import me.juliasson.unipath.activities.CollegeDetailsActivity;
+import me.juliasson.unipath.ParentRow;
+import me.juliasson.unipath.R;
 
 public class MyExpandableListAdapter extends BaseExpandableListAdapter {
     private Context context;

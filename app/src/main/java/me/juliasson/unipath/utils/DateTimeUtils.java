@@ -1,4 +1,4 @@
-package me.juliasson.unipath.Utils;
+package me.juliasson.unipath.utils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

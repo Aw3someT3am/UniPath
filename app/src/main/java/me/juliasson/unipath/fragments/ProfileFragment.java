@@ -30,9 +30,9 @@ import com.parse.SaveCallback;
 import java.io.File;
 import java.io.IOException;
 
-import me.juliasson.unipath.LoginActivity;
+import me.juliasson.unipath.activities.LoginActivity;
 import me.juliasson.unipath.R;
-import me.juliasson.unipath.Utils.GalleryUtils;
+import me.juliasson.unipath.utils.GalleryUtils;
 
 public class ProfileFragment extends Fragment {
 
