@@ -45,7 +45,7 @@ public class UserCollegeRelation extends ParseObject{
             return this;
         }
 
-        public UserCollegeRelation.Query withDeadline() {
+        public UserCollegeRelation.Query withUser() {
             include(KEY_USER);
             return this;
         }

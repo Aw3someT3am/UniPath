@@ -40,12 +40,12 @@ public class UserDeadlineRelation extends ParseObject {
             return this;
         }
 
-        public UserDeadlineRelation.Query withCollege() {
+        public UserDeadlineRelation.Query withDeadline() {
             include(KEY_DEADLINE);
             return this;
         }
 
-        public UserDeadlineRelation.Query withDeadline() {
+        public UserDeadlineRelation.Query withUser() {
             include(KEY_USER);
             return this;
         }
