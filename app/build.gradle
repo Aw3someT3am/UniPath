@@ -58,4 +58,6 @@ dependencies {
     implementation 'jp.co.cyberagent.android.gpuimage:gpuimage-library:1.4.1'
     //likes
     implementation 'com.github.jd-alexander:LikeButton:0.2.3'
+
+    implementation 'com.github.sundeepk:compact-calendar-view:3.0.0'
 }
