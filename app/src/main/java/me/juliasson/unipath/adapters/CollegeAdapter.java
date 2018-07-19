@@ -88,28 +88,6 @@ public class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.ViewHold
         });
     }
 
-    private void loadFavoriteColleges(@NonNull final CollegeAdapter.ViewHolder viewHolder, final College college) {
-        UserCollegeRelation.Query ucQuery = new UserCollegeRelation.Query();
-        ucQuery.getTop().withUser().withCollege();
-
-        ucQuery.findInBackground(new FindCallback<UserCollegeRelation>() {
-            @Override
-            public void done(List<UserCollegeRelation> objects, ParseException e) {
-                if (e == null) {
-                    for (int i = 0; i < objects.size(); i++) {
-                        UserCollegeRelation relation = objects.get(i);
-                        if(relation.getCollege().getObjectId().equals(college.getObjectId()) &&
-                                relation.getUser().getObjectId().equals(ParseUser.getCurrentUser().getObjectId())) {
-                            viewHolder.lbLikeButton.setLiked(true);
-                        }
-                    }
-                } else {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
-
     @Override
     public int getItemCount() {
         return mColleges.size();
@@ -137,25 +115,11 @@ public class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.ViewHold
             int position = getAdapterPosition();
 
             if (position != RecyclerView.NO_POSITION) {
-//                popInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-//                ViewGroup container = (ViewGroup) popInflater.inflate(R.layout.activity_college_details,null);
-//
-//                popupWindow = new PopupWindow(container,600,600,true);
-//                popupWindow.showAtLocation(SearchFragment.collegeDetails, Gravity.NO_GRAVITY, 500, 500);
                 College college = mColleges.get(position);
 
-//                Bundle args = new Bundle();
                 Intent intent = new Intent(mContext, CollegeDetailsActivity.class);
                 intent.putExtra(College.class.getSimpleName(), Parcels.wrap(college));
                 mContext.startActivity(intent);
-
-//                args.putParcelable("college", college);
-//                ShowDetailsFragment fragmnent = new ShowDetailsFragment();
-//                fragmnent.setArguments(args);
-//                HomeActivity activity = (HomeActivity)context;
-//                FragmentTransaction fragmentTransaction = activity.getSupportFragmentManager().beginTransaction();
-//                fragmentTransaction.replace(R.id.flContainer, fragmnent);
-//                fragmentTransaction.commit();
             }
         }
     }
@@ -204,7 +168,39 @@ public class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.ViewHold
         notifyDataSetChanged();
     }
 
+    /**
+     * Grabs all of the "liked" colleges related to the user.
+     * @param viewHolder the view of the college being determined as "liked" or "not liked"
+     * @param college the college being deemed "liked" or "not liked"
+     */
+    private void loadFavoriteColleges(@NonNull final CollegeAdapter.ViewHolder viewHolder, final College college) {
+        UserCollegeRelation.Query ucQuery = new UserCollegeRelation.Query();
+        ucQuery.getTop().withUser().withCollege();
+
+        ucQuery.findInBackground(new FindCallback<UserCollegeRelation>() {
+            @Override
+            public void done(List<UserCollegeRelation> objects, ParseException e) {
+                if (e == null) {
+                    for (int i = 0; i < objects.size(); i++) {
+                        UserCollegeRelation relation = objects.get(i);
+                        if(relation.getCollege().getObjectId().equals(college.getObjectId()) &&
+                                relation.getUser().getObjectId().equals(ParseUser.getCurrentUser().getObjectId())) {
+                            viewHolder.lbLikeButton.setLiked(true);
+                        }
+                    }
+                } else {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
     // ---------------------REMOVING AND ADDING RELATIONS BASED ON CLICKING LIKE BUTTON-------------------------
+
+    /**
+     * Removes a UserCollegeRelation row from the parse-dashboard database based on inputted college.
+     * @param college the college being unrelated to the user.
+     */
     private void removeUserCollegeRelation(final College college) {
         UserCollegeRelation.Query ucQuery = new UserCollegeRelation.Query();
         ucQuery.getTop().withCollege().withUser();
@@ -236,6 +232,10 @@ public class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.ViewHold
         });
     }
 
+    /**
+     * Removes all UserDeadlineRelation rows from the parse-dashboard database based on inputted college.
+     * @param college the college whose deadlines are being unrelated to the user.
+     */
     private void removeUserDeadlinesRelation(final College college) {
         CollegeDeadlineRelation.Query cdQuery = new CollegeDeadlineRelation.Query();
         cdQuery.getTop().withDeadline().withCollege();
@@ -249,6 +249,7 @@ public class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.ViewHold
                         CollegeDeadlineRelation relation = objects.get(i);
                         Deadline deadline = relation.getDeadline();
 
+                        //Making a new query to remove deadlines of a specific college from being related to user.
                         UserDeadlineRelation.Query udQuery = new UserDeadlineRelation.Query();
                         udQuery.getTop().withDeadline().withUser();
 
@@ -278,7 +279,6 @@ public class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.ViewHold
                                 }
                             }
                         });
-
                     }
                 } else {
                     e.printStackTrace();
@@ -287,6 +287,10 @@ public class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.ViewHold
         });
     }
 
+    /**
+     * Adds UserCollegeRelation to parse-dashboard database based on college.
+     * @param college the college the user wants to be related to.
+     */
     private void addUserCollegeRelation(final College college) {
         UserCollegeRelation userCollegeRelation = new UserCollegeRelation();
         userCollegeRelation.setUser(ParseUser.getCurrentUser());
@@ -303,6 +307,10 @@ public class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.ViewHold
         });
     }
 
+    /**
+     * Adds UserDeadlineRelations to parse-dashboard databased based on college.
+     * @param college the college whose deadlines are now being related to the user.
+     */
     private void addUserDeadlineRelations(final College college) {
         CollegeDeadlineRelation.Query cdQuery = new CollegeDeadlineRelation.Query();
         cdQuery.getTop().withDeadline().withCollege();
