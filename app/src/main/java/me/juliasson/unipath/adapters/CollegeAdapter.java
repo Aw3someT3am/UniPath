@@ -91,7 +91,7 @@ public class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.ViewHold
 
     @Override
     public int getItemCount() {
-        return mColleges.size();
+        return mFilteredList.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -141,7 +141,7 @@ public class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.ViewHold
                 } else {
                     ArrayList<College> filteredList = new ArrayList<>();
                     for (College college : mColleges) {
-                        if (college.getCollegeName().toLowerCase().contains(charString) || college.getCollegeName().toLowerCase().contains(charString) || college.getCollegeName().toLowerCase().contains(charString)) {
+                        if (college.getCollegeName().toString().toLowerCase().contains(charString)/* || college.getCollegeName().toLowerCase().contains(charString) || college.getCollegeName().toLowerCase().contains(charString)*/) {
                             filteredList.add(college);
                         }
                     }
@@ -154,7 +154,7 @@ public class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.ViewHold
 
             @Override
             protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
-                mColleges = (ArrayList<College>) filterResults.values;
+                mFilteredList = (ArrayList<College>) filterResults.values;
                 notifyDataSetChanged();
             }
         };
