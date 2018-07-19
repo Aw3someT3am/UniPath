@@ -46,10 +46,10 @@ dependencies {
     //timeline stuff
     implementation 'com.github.vipulasri:timelineview:1.0.6'
     implementation 'com.jakewharton:butterknife:8.8.1'
-
-
     implementation 'com.squareup.retrofit2:retrofit:2.2.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.2.0'
-
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+
+    //likes
+    implementation 'com.github.jd-alexander:LikeButton:0.2.3'
 }

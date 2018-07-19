@@ -2,6 +2,7 @@ package me.juliasson.unipath.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,6 +11,7 @@ import android.view.ViewGroup;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
+import com.parse.ParseUser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,15 +36,41 @@ public class FavoritesFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_favorites, parent, false);
     }
 
-    //---------------QUERIES----------------
-
     @Override
     public void onViewCreated(final View view, Bundle savedInstanceState) {
         rvColleges = view.findViewById(R.id.rvCollegeList);
         colleges = new ArrayList<>();
         collegeAdapter = new CollegeAdapter(colleges);
+        rvColleges.setLayoutManager(new LinearLayoutManager(getActivity()));
+        rvColleges.setAdapter(collegeAdapter);
 
+        loadFavoriteColleges();
     }
+
+    public void loadFavoriteColleges() {
+        final UserCollegeRelation.Query ucRelationQuery = new UserCollegeRelation.Query();
+        ucRelationQuery.getTop().withCollege().withUser();
+
+        ucRelationQuery.findInBackground(new FindCallback<UserCollegeRelation>() {
+            @Override
+            public void done(List<UserCollegeRelation> objects, ParseException e) {
+                if (e == null) {
+                    for(int i = 0; i < objects.size(); i++) {
+                        UserCollegeRelation relation = objects.get(i);
+                        if (ParseUser.getCurrentUser().getObjectId().equals(relation.getUser().getObjectId())) {
+                            College college = relation.getCollege();
+                            colleges.add(college);
+                            collegeAdapter.notifyItemInserted(colleges.size()-1);
+                        }
+                    }
+                } else {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    //---------------QUERIES----------------
 
     public void queryUDRelation() {
         final UserDeadlineRelation.Query udRelationQuery = new UserDeadlineRelation.Query();

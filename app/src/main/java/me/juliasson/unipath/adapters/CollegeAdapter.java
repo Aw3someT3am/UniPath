@@ -27,8 +27,6 @@ public class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.ViewHold
     private ArrayList<College> mFilteredList;
 
     private final static String KEY_COLLEGE_NAME = "name";
-    private final static String KEY_EARLY_ACTION = "earlyAction";
-    private final static String KEY_REGULAR_ACTION = "regularAction";
     private final static String KEY_COLLEGE_IMAGE = "image";
     
     public CollegeAdapter(ArrayList<College> arrayList) {
@@ -52,12 +50,12 @@ public class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.ViewHold
     public void onBindViewHolder(@NonNull CollegeAdapter.ViewHolder viewHolder, int position) {
         College college = mColleges.get(position);
         viewHolder.tvCollegeName.setText(college.getString(KEY_COLLEGE_NAME));
-        viewHolder.tvEarlyActionDate.setText(college.getDate(KEY_EARLY_ACTION).toString());
-        viewHolder.tvRegularActionDate.setText(college.getDate(KEY_REGULAR_ACTION).toString());
 
         Glide.with(mContext)
                 .load(college.getParseFile(KEY_COLLEGE_IMAGE).getUrl())
                 .into(viewHolder.ivCollegeImage);
+
+        //TODO: IMPLEMENT BUTTON CLICK
     }
 
     @Override
@@ -68,16 +66,13 @@ public class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.ViewHold
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         public TextView tvCollegeName;
-        public TextView tvEarlyActionDate;
-        public TextView tvRegularActionDate;
         public ImageView ivCollegeImage;
+
 
         public ViewHolder(View itemView) {
             super(itemView);
 
             tvCollegeName = itemView.findViewById(R.id.tvCollegeName);
-            tvEarlyActionDate = itemView.findViewById(R.id.tvEarlyActionDate);
-            tvRegularActionDate = itemView.findViewById(R.id.tvRegularActionDate);
             ivCollegeImage = itemView.findViewById(R.id.ivCollegeImage);
 
             itemView.setOnClickListener(this);
