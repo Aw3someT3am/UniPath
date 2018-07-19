@@ -2,18 +2,19 @@
 <resources>
     <color name="colorPrimary">#FF5C33</color>
     <color name="colorPrimaryDark">#B32400</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorAccent">#CC0099</color>
     <color name="solid_white">#FFFFFF</color>
-    <color name="white_20_transparent">#35ffffff</color>
+    <color name="white_20_transparent">#35FFFFFF</color>
+    <color name="white_80_transparent">#80FFFFFF</color>
+    <color name="white">#e8e8e8</color>
     <color name="grey">#808080</color>
     <color name="solid_black">#000000</color>
     <color name="background_orange">#FF5C33</color>
     <color name="background_light_orange">#ff8566</color>
     <color name="background_lighter_orange">#FFD6CC</color>
     <color name="background_dark_orange">#B32400</color>
-    <color name="progress_green">#00E600</color>
     <color name="red">#f44e42</color>
-    <color name="white">#e8e8e8</color>
+    <color name="progress_green">#00E600</color>
 
 
 </resources>

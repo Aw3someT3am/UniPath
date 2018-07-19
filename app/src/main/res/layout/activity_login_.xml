@@ -18,10 +18,15 @@
         android:layout_marginTop="8dp"
         android:background="@drawable/button_border"
         android:hint="username"
-        android:textColorHint="@color/solid_white"
-        android:textColor="@color/solid_white"
         android:inputType="text"
-        android:padding="8dp"
+        android:lines="1"
+        android:maxLines="1"
+        android:paddingBottom="16dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:paddingTop="16dp"
+        android:textColor="@color/solid_white"
+        android:textColorHint="@color/white_80_transparent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView" />
@@ -36,11 +41,16 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:background="@drawable/button_border"
-        android:textColorHint="@color/solid_white"
-        android:textColor="@color/solid_white"
         android:hint="password"
         android:inputType="textPassword"
-        android:padding="8dp"
+        android:lines="1"
+        android:maxLines="1"
+        android:paddingBottom="16dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:paddingTop="16dp"
+        android:textColor="@color/solid_white"
+        android:textColorHint="@color/white_80_transparent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etUsername" />
@@ -91,27 +101,5 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/up" />
-
-    <Button
-        android:id="@+id/TIMELINE"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginStart="8dp"
-        android:text="TIMELINE"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/SEARCH"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:text="SEARCH"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
 
 </android.support.constraint.ConstraintLayout>
