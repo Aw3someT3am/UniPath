@@ -3,6 +3,7 @@ package me.juliasson.unipath.model;
 import com.parse.ParseClassName;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
+import com.parse.ParseQuery;
 
 import java.util.Date;
 
@@ -27,5 +28,26 @@ public class College extends ParseObject {
 
     public Date getRegularAction() {
         return getDate(KEY_REGULAR_ACTION);
+    }
+
+    public static Query query() {
+        return new Query();
+    }
+
+    public static class Query extends ParseQuery<College> {
+
+        public Query() {
+            super(College.class);
+        }
+
+        public Query newestFirst() {
+            orderByDescending("createdAt");
+            return this;
+        }
+
+        public Query limit20() {
+            setLimit(20);
+            return this;
+        }
     }
 }

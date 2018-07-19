@@ -6,6 +6,9 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -13,12 +16,19 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
-import android.widget.SearchView;
+import android.support.v7.widget.SearchView;
+import android.widget.Toast;
+
+import com.parse.FindCallback;
+import com.parse.ParseException;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import me.juliasson.unipath.R;
+import me.juliasson.unipath.adapters.CollegeAdapter;
 import me.juliasson.unipath.adapters.MyExpandableListAdapter;
+import me.juliasson.unipath.model.College;
 import me.juliasson.unipath.rows.ChildRow;
 import me.juliasson.unipath.rows.ParentRow;
 
@@ -33,10 +43,15 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
     private Activity activity;
     private Context context;
 
+
+    private RecyclerView mRecyclerView;
+    private ArrayList<College> colleges;
+    private CollegeAdapter collegeAdapter;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         // Defines the xml file for the fragment
-        View v = inflater.inflate(R.layout.activity_search, parent, false);
+        View v = inflater.inflate(R.layout.fragment_search, parent, false);
         return v;
     }
 
@@ -50,14 +65,21 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
         //activity.setSupportActionBar(toolbar);
         searchManager = (SearchManager) context.getSystemService(Context.SEARCH_SERVICE);
 
-        parentList = new ArrayList<>();
-        showTheseParentList = new ArrayList<>();
+        colleges = new ArrayList<>();
 
-        // The app will crash if display list is not called here.
-        displayList();
 
-        // This expands the list.
-        expandAll();
+        initViews();
+        loadTopColleges();
+
+
+//        parentList = new ArrayList<>();
+//        showTheseParentList = new ArrayList<>();
+//
+//        // The app will crash if display list is not called here.
+//        displayList();
+//
+//        // This expands the list.
+//        expandAll();
     }
 
     @Override
@@ -69,28 +91,39 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_search, menu);
-        searchItem = menu.findItem(R.id.action_search);
-        searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
-        searchView.setSearchableInfo(searchManager.getSearchableInfo(activity.getComponentName()));
-        searchView.setIconifiedByDefault(false);
-        searchView.setOnQueryTextListener(this);
-        searchView.setOnCloseListener(this);
-        searchView.requestFocus();
-        super.onCreateOptionsMenu(menu, inflater);
+        MenuItem search = menu.findItem(R.id.search);
+        SearchView searchView = (SearchView) MenuItemCompat.getActionView(search);
+        search(searchView);
+
+//        search(searchView);
+//        inflater.inflate(R.menu.menu_search, menu);
+//        searchItem = menu.findItem(R.id.action_search);
+//        searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+//        searchView.setSearchableInfo(searchManager.getSearchableInfo(activity.getComponentName()));
+//        searchView.setIconifiedByDefault(false);
+//        searchView.setOnQueryTextListener(this);
+//        searchView.setOnCloseListener(this);
+//        searchView.requestFocus();
+//        super.onCreateOptionsMenu(menu, inflater);
     }
 
-    public boolean onCreateOptionsMenu(Menu menu) {
-        activity.getMenuInflater().inflate(R.menu.menu_search, menu);
-        searchItem = menu.findItem(R.id.action_search);
-        searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
-        searchView.setSearchableInfo(searchManager.getSearchableInfo(activity.getComponentName()));
-        searchView.setIconifiedByDefault(false);
-        searchView.setOnQueryTextListener(this);
-        searchView.setOnCloseListener(this);
-        searchView.requestFocus();
-
-        return true;
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        return super.onOptionsItemSelected(item);
     }
+
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        activity.getMenuInflater().inflate(R.menu.menu_search, menu);
+//        searchItem = menu.findItem(R.id.action_search);
+//        searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+//        searchView.setSearchableInfo(searchManager.getSearchableInfo(activity.getComponentName()));
+//        searchView.setIconifiedByDefault(false);
+//        searchView.setOnQueryTextListener(this);
+//        searchView.setOnCloseListener(this);
+//        searchView.requestFocus();
+//
+//        return true;
+//    }
 
     @Override
     public boolean onClose() {
@@ -158,12 +191,55 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
         }
     }
 
-    private void displayList() {
-        loadData();
 
-        myList = (ExpandableListView) activity.findViewById(R.id.expandableListView_search);
-        listAdapter = new MyExpandableListAdapter(activity, parentList);
+    private void initViews(){
+        mRecyclerView = (RecyclerView) activity.findViewById(R.id.card_recycler_view);
+        mRecyclerView.setHasFixedSize(true);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context);
+        mRecyclerView.setLayoutManager(layoutManager);
+    }
 
-        myList.setAdapter(listAdapter);
+    private void loadTopColleges() {
+        Toast.makeText(getActivity(), "Loading colleges!", Toast.LENGTH_SHORT).show();
+        final College.Query postsQuery = new College.Query();
+        postsQuery.limit20();
+        collegeAdapter = new CollegeAdapter(colleges);
+        mRecyclerView.setAdapter(collegeAdapter);
+        postsQuery.orderByDescending("createdAt");
+        postsQuery.findInBackground(new FindCallback<College>() {
+            @Override
+            public void done(List<College> objects, ParseException e) {
+                if (e == null){
+                    //Toast.makeText(getActivity(), "Add Posts", Toast.LENGTH_SHORT).show();
+                    Log.d("Search", Integer.toString(objects.size()));
+                    for(int i = 0; i < objects.size(); i++) {
+                        College college = objects.get(i);
+                        colleges.add(college);
+                        collegeAdapter.notifyItemInserted(colleges.size() - 1);
+                    }
+                } else {
+                    //Toast.makeText(getActivity(), "null?", Toast.LENGTH_SHORT).show();
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    private void search(SearchView searchView) {
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+
+                if (collegeAdapter != null) collegeAdapter.getFilter().filter(newText);
+                return true;
+            }
+        });
     }
 }
