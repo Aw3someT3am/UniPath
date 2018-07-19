@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -16,7 +17,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
-import android.support.v7.widget.SearchView;
 import android.widget.Toast;
 
 import com.parse.FindCallback;
@@ -61,8 +61,10 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
     public void onViewCreated(View view, Bundle savedInstanceState) {
         activity = getActivity();
         context = view.getContext();
-        android.support.v7.widget.Toolbar toolbar = (android.support.v7.widget.Toolbar) activity.findViewById(R.id.toolbar);
-        //activity.setSupportActionBar(toolbar);
+
+        //android.support.v7.widget.Toolbar toolbar = (android.support.v7.widget.Toolbar) activity.findViewById(R.id.toolbar);
+        //((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
+
         searchManager = (SearchManager) context.getSystemService(Context.SEARCH_SERVICE);
 
         colleges = new ArrayList<>();
@@ -111,19 +113,6 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
     public boolean onOptionsItemSelected(MenuItem item) {
         return super.onOptionsItemSelected(item);
     }
-
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        activity.getMenuInflater().inflate(R.menu.menu_search, menu);
-//        searchItem = menu.findItem(R.id.action_search);
-//        searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
-//        searchView.setSearchableInfo(searchManager.getSearchableInfo(activity.getComponentName()));
-//        searchView.setIconifiedByDefault(false);
-//        searchView.setOnQueryTextListener(this);
-//        searchView.setOnCloseListener(this);
-//        searchView.requestFocus();
-//
-//        return true;
-//    }
 
     @Override
     public boolean onClose() {

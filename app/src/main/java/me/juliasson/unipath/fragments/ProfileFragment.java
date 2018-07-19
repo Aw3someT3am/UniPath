@@ -119,7 +119,6 @@ public class ProfileFragment extends Fragment {
                         .load(bitmap)
                         .apply(RequestOptions.circleCropTransform())
                         .into(ivProfileImage);
-                //ivProfileImage.setImageBitmap(bitmap);
             } catch (IOException e) {
                 e.printStackTrace();
             }

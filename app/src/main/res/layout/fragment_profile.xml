@@ -27,6 +27,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:text="Hi, first name! Here's your progress."
         android:textAppearance="@android:style/TextAppearance.Large"
         app:layout_constraintStart_toStartOf="parent"
