@@ -29,7 +29,6 @@ import me.juliasson.unipath.R;
 import me.juliasson.unipath.adapters.CollegeAdapter;
 import me.juliasson.unipath.adapters.MyExpandableListAdapter;
 import me.juliasson.unipath.model.College;
-import me.juliasson.unipath.rows.ChildRow;
 import me.juliasson.unipath.rows.ParentRow;
 
 public class SearchFragment extends Fragment implements SearchView.OnQueryTextListener, SearchView.OnCloseListener{
@@ -61,27 +60,11 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
     public void onViewCreated(View view, Bundle savedInstanceState) {
         activity = getActivity();
         context = view.getContext();
-
-        //android.support.v7.widget.Toolbar toolbar = (android.support.v7.widget.Toolbar) activity.findViewById(R.id.toolbar);
-        //((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
-
         searchManager = (SearchManager) context.getSystemService(Context.SEARCH_SERVICE);
-
         colleges = new ArrayList<>();
-
 
         initViews();
         loadTopColleges();
-
-
-//        parentList = new ArrayList<>();
-//        showTheseParentList = new ArrayList<>();
-//
-//        // The app will crash if display list is not called here.
-//        displayList();
-//
-//        // This expands the list.
-//        expandAll();
     }
 
     @Override
@@ -96,17 +79,6 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
         MenuItem search = menu.findItem(R.id.search);
         SearchView searchView = (SearchView) MenuItemCompat.getActionView(search);
         search(searchView);
-
-//        search(searchView);
-//        inflater.inflate(R.menu.menu_search, menu);
-//        searchItem = menu.findItem(R.id.action_search);
-//        searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
-//        searchView.setSearchableInfo(searchManager.getSearchableInfo(activity.getComponentName()));
-//        searchView.setIconifiedByDefault(false);
-//        searchView.setOnQueryTextListener(this);
-//        searchView.setOnCloseListener(this);
-//        searchView.requestFocus();
-//        super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override
@@ -133,44 +105,6 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
         listAdapter.filterData(s);
         expandAll();
         return false;
-    }
-
-    private void loadData() {
-        ArrayList<ChildRow> childRows =  new ArrayList<>();
-        ParentRow parentRow = null;
-
-        childRows.add(new ChildRow(R.mipmap.ic_launcher, "Harvard University"));
-        childRows.add(new ChildRow(R.mipmap.ic_launcher, "University of Illinois, Urbana-Champaign"));
-        childRows.add(new ChildRow(R.mipmap.ic_launcher, "Stanford University"));
-        childRows.add(new ChildRow(R.mipmap.ic_launcher, "University of California, Berkeley"));
-        childRows.add(new ChildRow(R.mipmap.ic_launcher, "Yale"));
-        childRows.add(new ChildRow(R.mipmap.ic_launcher, "Princeton University"));
-        childRows.add(new ChildRow(R.mipmap.ic_launcher, "Massachusetts Institute of Technology"));
-        childRows.add(new ChildRow(R.mipmap.ic_launcher, "California Institute of Technology"));
-        childRows.add(new ChildRow(R.mipmap.ic_launcher, "University of Pennsylvania"));
-        childRows.add(new ChildRow(R.mipmap.ic_launcher, "Duke University"));
-        childRows.add(new ChildRow(R.mipmap.ic_launcher, "Brown University"));
-        childRows.add(new ChildRow(R.mipmap.ic_launcher, "Claremont McKenna College"));
-        childRows.add(new ChildRow(R.mipmap.ic_launcher, "Dartmouth College"));
-        childRows.add(new ChildRow(R.mipmap.ic_launcher, "Williams College"));
-        childRows.add(new ChildRow(R.mipmap.ic_launcher, "Columbia University"));
-        childRows.add(new ChildRow(R.mipmap.ic_launcher, "Cornell University"));
-        childRows.add(new ChildRow(R.mipmap.ic_launcher, "Amherst College"));
-        childRows.add(new ChildRow(R.mipmap.ic_launcher, "Harvey Mudd College"));
-        childRows.add(new ChildRow(R.mipmap.ic_launcher, "Swarthmore Collegeo"));
-        childRows.add(new ChildRow(R.mipmap.ic_launcher, "United States Naval Academy"));
-        childRows.add(new ChildRow(R.mipmap.ic_launcher, "Georgetown University"));
-        childRows.add(new ChildRow(R.mipmap.ic_launcher, "Rice University"));
-
-
-
-        //parentRow = new ParentRow("First Group", childRows);
-        //parentList.add(parentRow);
-
-        //childRows = new ArrayList<>();
-
-        parentRow = new ParentRow("Colleges", childRows);
-        parentList.add(parentRow);
     }
 
     private void expandAll() {

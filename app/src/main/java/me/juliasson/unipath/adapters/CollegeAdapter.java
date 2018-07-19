@@ -1,6 +1,7 @@
 package me.juliasson.unipath.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -21,10 +22,13 @@ import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
+import org.parceler.Parcels;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import me.juliasson.unipath.R;
+import me.juliasson.unipath.activities.CollegeDetailsActivity;
 import me.juliasson.unipath.model.College;
 import me.juliasson.unipath.model.CollegeDeadlineRelation;
 import me.juliasson.unipath.model.Deadline;
@@ -40,7 +44,7 @@ public class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.ViewHold
 
     private final static String KEY_COLLEGE_NAME = "name";
     private final static String KEY_COLLEGE_IMAGE = "image";
-    
+
     public CollegeAdapter(ArrayList<College> arrayList) {
         mColleges = arrayList;
         mFilteredList = arrayList;
@@ -131,9 +135,27 @@ public class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.ViewHold
         @Override
         public void onClick(View view) {
             int position = getAdapterPosition();
+
             if (position != RecyclerView.NO_POSITION) {
+//                popInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+//                ViewGroup container = (ViewGroup) popInflater.inflate(R.layout.activity_college_details,null);
+//
+//                popupWindow = new PopupWindow(container,600,600,true);
+//                popupWindow.showAtLocation(SearchFragment.collegeDetails, Gravity.NO_GRAVITY, 500, 500);
                 College college = mColleges.get(position);
-                //TODO: implement viewing a detail fragment
+
+//                Bundle args = new Bundle();
+                Intent intent = new Intent(mContext, CollegeDetailsActivity.class);
+                intent.putExtra(College.class.getSimpleName(), Parcels.wrap(college));
+                mContext.startActivity(intent);
+
+//                args.putParcelable("college", college);
+//                ShowDetailsFragment fragmnent = new ShowDetailsFragment();
+//                fragmnent.setArguments(args);
+//                HomeActivity activity = (HomeActivity)context;
+//                FragmentTransaction fragmentTransaction = activity.getSupportFragmentManager().beginTransaction();
+//                fragmentTransaction.replace(R.id.flContainer, fragmnent);
+//                fragmentTransaction.commit();
             }
         }
     }
@@ -146,25 +168,17 @@ public class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.ViewHold
             protected FilterResults performFiltering(CharSequence charSequence) {
 
                 String charString = charSequence.toString();
-
                 if (charString.isEmpty()) {
-
                     mFilteredList = mColleges;
                 } else {
-
                     ArrayList<College> filteredList = new ArrayList<>();
-
                     for (College college : mColleges) {
-
                         if (college.getCollegeName().toLowerCase().contains(charString) || college.getCollegeName().toLowerCase().contains(charString) || college.getCollegeName().toLowerCase().contains(charString)) {
-
                             filteredList.add(college);
                         }
                     }
-
                     mFilteredList = filteredList;
                 }
-
                 FilterResults filterResults = new FilterResults();
                 filterResults.values = mFilteredList;
                 return filterResults;

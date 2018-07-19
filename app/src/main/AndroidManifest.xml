@@ -44,7 +44,10 @@
                 android:resource="@xml/fileprovider" />
         </provider>
 
-        <activity android:name=".activities.CollegeDetailsActivity"></activity>
+        <activity android:name=".activities.CollegeDetailsActivity"
+            android:theme="@style/Theme.AppCompat.Dialog"
+            android:excludeFromRecents="true">
+        </activity>
     </application>
 
 </manifest>
