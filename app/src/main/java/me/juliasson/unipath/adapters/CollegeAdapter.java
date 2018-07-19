@@ -2,6 +2,7 @@ package me.juliasson.unipath.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -193,12 +194,12 @@ public class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.ViewHold
 //                popupWindow.showAtLocation(SearchFragment.collegeDetails, Gravity.NO_GRAVITY, 500, 500);
                 College college = mColleges.get(position);
 
-//                Bundle args = new Bundle();
+                Bundle args = new Bundle();
                 Intent intent = new Intent(mContext, CollegeDetailsActivity.class);
                 intent.putExtra(College.class.getSimpleName(), Parcels.wrap(college));
                 mContext.startActivity(intent);
 
-//                args.putParcelable("college", college);
+                args.putParcelable("college", college);
 //                ShowDetailsFragment fragmnent = new ShowDetailsFragment();
 //                fragmnent.setArguments(args);
 //                HomeActivity activity = (HomeActivity)context;

@@ -56,9 +56,12 @@ public class CollegeDetailsActivity extends AppCompatActivity {
         int radius = 30; // corner radius, higher value = more rounded
         int margin = 10; // crop margin, set to 0 for corners with no crop
         Glide.with(this)
-                .load(college.getCollegeImage())
+                .load(college.getCollegeImage().getUrl())
                 .apply(RequestOptions.bitmapTransform(new RoundedCornersTransformation(radius, margin)))
                 .into(ivCollegeImage);
+
+        Bundle args = new Bundle();
+        args.putParcelable("college", college);
 
         final FragmentManager fragmentManager = getSupportFragmentManager();
 
@@ -66,6 +69,9 @@ public class CollegeDetailsActivity extends AppCompatActivity {
 
         generalInfoFragmnet = new GeneralInfoFragment();
         deadlinesFragmnet = new DeadlineFragment();
+
+        generalInfoFragmnet.setArguments(args);
+        deadlinesFragmnet.setArguments(args);
 
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
 
