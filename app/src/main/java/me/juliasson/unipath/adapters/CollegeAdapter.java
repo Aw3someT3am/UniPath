@@ -35,7 +35,6 @@ import me.juliasson.unipath.model.CollegeDeadlineRelation;
 import me.juliasson.unipath.model.Deadline;
 import me.juliasson.unipath.model.UserCollegeRelation;
 import me.juliasson.unipath.model.UserDeadlineRelation;
-import retrofit2.http.HEAD;
 
 public class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.ViewHolder> implements Filterable{
 
@@ -330,6 +329,7 @@ public class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.ViewHold
                             UserDeadlineRelation userDeadlineRelation = new UserDeadlineRelation();
                             userDeadlineRelation.setUser(ParseUser.getCurrentUser());
                             userDeadlineRelation.setDeadline(relation.getDeadline());
+                            userDeadlineRelation.setCompleted(false);
                             userDeadlineRelation.saveInBackground(new SaveCallback() {
                                 @Override
                                 public void done(ParseException e) {
