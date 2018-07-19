@@ -32,6 +32,7 @@ import me.juliasson.unipath.R;
 import me.juliasson.unipath.activities.CollegeDetailsActivity;
 import me.juliasson.unipath.model.College;
 import me.juliasson.unipath.model.CollegeDeadlineRelation;
+import me.juliasson.unipath.model.Deadline;
 import me.juliasson.unipath.model.UserCollegeRelation;
 import me.juliasson.unipath.model.UserDeadlineRelation;
 
@@ -73,7 +74,6 @@ public class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.ViewHold
 
         loadFavoriteColleges(viewHolder, college);
 
-        //TODO: IMPLEMENT
         viewHolder.lbLikeButton.setOnLikeListener(new OnLikeListener() {
             @Override
             public void liked(LikeButton likeButton) {
@@ -83,57 +83,8 @@ public class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.ViewHold
 
             @Override
             public void unLiked(LikeButton likeButton) {
-
-            }
-        });
-    }
-
-    public void addUserCollegeRelation(final College college) {
-        UserCollegeRelation userCollegeRelation = new UserCollegeRelation();
-        userCollegeRelation.setUser(ParseUser.getCurrentUser());
-        userCollegeRelation.setCollege(college);
-        userCollegeRelation.saveInBackground(new SaveCallback() {
-            @Override
-            public void done(ParseException e) {
-                if (e == null) {
-                    Log.d("CollegeAdapter", "Create UserCollegeRelation success");
-                } else {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
-
-    public void addUserDeadlineRelations(final College college) {
-        CollegeDeadlineRelation.Query cdQuery = new CollegeDeadlineRelation.Query();
-        cdQuery.getTop().withDeadline().withCollege();
-
-        cdQuery.findInBackground(new FindCallback<CollegeDeadlineRelation>() {
-            @Override
-            public void done(List<CollegeDeadlineRelation> objects, ParseException e) {
-                if (e == null) {
-                    for(int i = 0; i < objects.size(); i++) {
-                        CollegeDeadlineRelation relation = objects.get(i);
-                        if (relation.getCollege().getObjectId().equals(college.getObjectId())) {
-                            UserDeadlineRelation userDeadlineRelation = new UserDeadlineRelation();
-                            userDeadlineRelation.setUser(ParseUser.getCurrentUser());
-                            userDeadlineRelation.setDeadline(relation.getDeadline());
-                            userDeadlineRelation.saveInBackground(new SaveCallback() {
-                                @Override
-                                public void done(ParseException e) {
-                                    if (e == null) {
-                                        Log.d("CollegeAdapter", "Create UserDeadlineRelation success");
-                                        Toast.makeText(mContext, "College and Deadlines added!", Toast.LENGTH_SHORT).show();
-                                    } else {
-                                        e.printStackTrace();
-                                    }
-                                }
-                            });
-                        }
-                    }
-                } else {
-                    e.printStackTrace();
-                }
+                removeUserCollegeRelation(college);
+                removeUserDeadlinesRelation(college);
             }
         });
     }
@@ -252,5 +203,138 @@ public class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.ViewHold
     public void addAll(List<College> list) {
         mColleges.addAll(list);
         notifyDataSetChanged();
+    }
+
+    // ---------------------REMOVING AND ADDING RELATIONS BASED ON CLICKING LIKE BUTTON-------------------------
+    private void removeUserCollegeRelation(final College college) {
+        UserCollegeRelation.Query ucQuery = new UserCollegeRelation.Query();
+        ucQuery.getTop().withCollege().withUser();
+        ucQuery.whereEqualTo("college", college);
+        ucQuery.whereEqualTo("user", ParseUser.getCurrentUser());
+
+        ucQuery.findInBackground(new FindCallback<UserCollegeRelation>() {
+            @Override
+            public void done(List<UserCollegeRelation> objects, ParseException e) {
+                if (e == null) {
+                    for (int i = 0; i < objects.size(); i++) {
+                        try {
+                            UserCollegeRelation relation = objects.get(i);
+                            relation.delete();
+                            relation.saveInBackground(new SaveCallback() {
+                                @Override
+                                public void done(ParseException e) {
+                                    Log.d("CollegeAdapter", "College User Relation removed");
+                                }
+                            });
+                        } catch (ParseException o) {
+                            o.printStackTrace();
+                        }
+                    }
+                } else {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    private void removeUserDeadlinesRelation(final College college) {
+        CollegeDeadlineRelation.Query cdQuery = new CollegeDeadlineRelation.Query();
+        cdQuery.getTop().withDeadline().withCollege();
+        cdQuery.whereEqualTo("college", college);
+
+        cdQuery.findInBackground(new FindCallback<CollegeDeadlineRelation>() {
+            @Override
+            public void done(List<CollegeDeadlineRelation> objects, ParseException e) {
+                if (e == null) {
+                    for (int i = 0; i < objects.size(); i++) {
+                        CollegeDeadlineRelation relation = objects.get(i);
+                        Deadline deadline = relation.getDeadline();
+
+                        UserDeadlineRelation.Query udQuery = new UserDeadlineRelation.Query();
+                        udQuery.getTop().withDeadline().withUser();
+
+                        udQuery.whereEqualTo("deadline", deadline);
+                        udQuery.whereEqualTo("user", ParseUser.getCurrentUser());
+
+                        udQuery.findInBackground(new FindCallback<UserDeadlineRelation>() {
+                            @Override
+                            public void done(List<UserDeadlineRelation> objects, ParseException e) {
+                                if (e == null) {
+                                    for (int i = 0; i < objects.size(); i++) {
+                                        try {
+                                            UserDeadlineRelation relation = objects.get(i);
+                                            relation.delete();
+                                            relation.saveInBackground(new SaveCallback() {
+                                                @Override
+                                                public void done(ParseException e) {
+                                                    Log.d("College Adapter", "User Deadline Relation removed");
+                                                }
+                                            });
+                                        } catch (ParseException o) {
+                                            o.printStackTrace();
+                                        }
+                                    }
+                                } else {
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
+
+                    }
+                } else {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    private void addUserCollegeRelation(final College college) {
+        UserCollegeRelation userCollegeRelation = new UserCollegeRelation();
+        userCollegeRelation.setUser(ParseUser.getCurrentUser());
+        userCollegeRelation.setCollege(college);
+        userCollegeRelation.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e == null) {
+                    Log.d("CollegeAdapter", "Create UserCollegeRelation success");
+                } else {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    private void addUserDeadlineRelations(final College college) {
+        CollegeDeadlineRelation.Query cdQuery = new CollegeDeadlineRelation.Query();
+        cdQuery.getTop().withDeadline().withCollege();
+
+        cdQuery.findInBackground(new FindCallback<CollegeDeadlineRelation>() {
+            @Override
+            public void done(List<CollegeDeadlineRelation> objects, ParseException e) {
+                if (e == null) {
+                    for(int i = 0; i < objects.size(); i++) {
+                        CollegeDeadlineRelation relation = objects.get(i);
+                        if (relation.getCollege().getObjectId().equals(college.getObjectId())) {
+                            UserDeadlineRelation userDeadlineRelation = new UserDeadlineRelation();
+                            userDeadlineRelation.setUser(ParseUser.getCurrentUser());
+                            userDeadlineRelation.setDeadline(relation.getDeadline());
+                            userDeadlineRelation.saveInBackground(new SaveCallback() {
+                                @Override
+                                public void done(ParseException e) {
+                                    if (e == null) {
+                                        Log.d("CollegeAdapter", "Create UserDeadlineRelation success");
+                                        Toast.makeText(mContext, "College and Deadlines added!", Toast.LENGTH_SHORT).show();
+                                    } else {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            });
+                        }
+                    }
+                } else {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 }
