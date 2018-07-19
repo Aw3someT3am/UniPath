@@ -9,12 +9,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 import me.juliasson.unipath.R;
+import me.juliasson.unipath.model.College;
+import me.juliasson.unipath.model.CollegeDeadlineRelation;
 
 public class DeadlineFragment extends Fragment{
     TextView tvCollegeName;
     TextView tvEarlyDeadline;
     TextView tvRegularDeadline;
+    College college;
+    CollegeDeadlineRelation collegeDeadlineRelation;
+
+    private ArrayList<College> colleges;
 
     @Nullable
     @Override
@@ -23,6 +31,8 @@ public class DeadlineFragment extends Fragment{
 
         tvEarlyDeadline = (TextView) rootView.findViewById(R.id.tvDescription);
         tvRegularDeadline = (TextView) rootView.findViewById(R.id.tvRegular);
+
+        college = getArguments().getParcelable("college");
 
         return rootView;
     }
