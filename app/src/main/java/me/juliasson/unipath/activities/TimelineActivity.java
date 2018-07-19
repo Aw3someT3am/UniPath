@@ -11,7 +11,6 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 
 import me.juliasson.unipath.R;
@@ -42,7 +41,6 @@ public class TimelineActivity extends AppCompatActivity implements BottomNavigat
             new SearchFragment(),
             new FavoritesFragment()
 
-//            ProfileFragment.create(ParseUser.getCurrentUser())
     };
 
     @Override
@@ -132,31 +130,6 @@ public class TimelineActivity extends AppCompatActivity implements BottomNavigat
         }
     }
 
-//    @Override
-//    public void onPostCreated() {
-//        navigationView.setSelectedItemId(R.id.action_home);
-//        ((Refreshable) fragments[0]).onRefresh();
-//    }
-//
-//    @Override
-//    public void onLogoutClick() {
-//        Log.d(TAG, "onLogoutClick()");
-//
-//        ParseUser.logOutInBackground(new LogOutCallback() {
-//            @Override
-//            public void done(ParseException e) {
-//                if (e == null) {
-//                    Log.d(TAG, "Logout successful!");
-//                    startActivity(new Intent(TimelineActivity.this, SignUpActivity.class));
-//                    finish();
-//                } else {
-//                    Toast.makeText(TimelineActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
-//                    e.printStackTrace();
-//                }
-//            }
-//        });
-//    }
-
     static class HomeAdapter extends FragmentStatePagerAdapter {
         private final Fragment[] fragments;
 
@@ -175,25 +148,4 @@ public class TimelineActivity extends AppCompatActivity implements BottomNavigat
             return fragments.length;
         }
     }
-
-     @Override
-     public boolean onCreateOptionsMenu(Menu menu) {
-         // Inflate the menu; this adds items to the action bar if it is present.
-//         getMenuInflater().inflate(R.menu.main_toolbar, menu);
-         return true;
-     }
-     //and this to handle actions
-     @Override
-     public boolean onOptionsItemSelected(MenuItem item) {
-         // Handle action bar item clicks here. The action bar will
-         // automatically handle clicks on the Home/Up button, so long
-         // as you specify a parent activity in AndroidManifest.xml.
-         int id = item.getItemId();
-         if (id == R.id.action_settings) {
-             Intent intent = new Intent(TimelineActivity.this, ProfileActivity.class);
-             startActivity(intent);
-             return true;
-         }
-         return super.onOptionsItemSelected(item);
-     }
 }
