@@ -5,13 +5,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".activities.SearchActivity"
-    tools:showIn="@layout/activity_search">
+    tools:showIn="@layout/fragment_search" >
 
     <ExpandableListView
         android:id="@+id/expandableListView_search"
         android:layout_width="match_parent"
         android:layout_height="505dp"
-        android:layout_alignParentLeft="true"></ExpandableListView>
+        android:layout_alignParentLeft="true" />
 
 </RelativeLayout>

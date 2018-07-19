@@ -45,7 +45,7 @@ public class SignUpActivity extends AppCompatActivity {
     private final String KEY_PROFILE_IMAGE = "profileImage";
 
     private final static int GALLERY_IMAGE_SELECTION_REQUEST_CODE = 2034;
-    private String filePath;
+    private String filePath="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,6 +89,8 @@ public class SignUpActivity extends AppCompatActivity {
                         if (e == null) {
                             onSignUp(firstName, lastName, username, password, email, parseImageProfile);
                         } else {
+                            Toast.makeText(SignUpActivity.this, "Please choose a profile image", Toast.LENGTH_SHORT).show();
+                            Log.d("SignupActivity", "Bad Parse Image");
                             e.printStackTrace();
                         }
                     }
@@ -119,12 +121,14 @@ public class SignUpActivity extends AppCompatActivity {
             @Override
             public void done(ParseException e) {
                 if (e == null) {
+                    Toast.makeText(SignUpActivity.this, "Sign up successful", Toast.LENGTH_SHORT).show();
                     Log.d("SignupActivity", "Sign Up successful");
-                    Toast.makeText(SignUpActivity.this, "Sign up successful", Toast.LENGTH_LONG).show();
                     final Intent i = new Intent(SignUpActivity.this, TimelineActivity.class);
                     startActivity(i);
                     finish();
                 } else {
+                    Toast.makeText(SignUpActivity.this, "Sign up failure\nComplete all fields.", Toast.LENGTH_SHORT).show();
+                    Log.d("SignupActivity", "Sign up failure");
                     e.printStackTrace();
                 }
             }

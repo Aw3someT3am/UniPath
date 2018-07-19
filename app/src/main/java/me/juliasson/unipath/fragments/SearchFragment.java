@@ -17,7 +17,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
-import android.widget.Toast;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -90,7 +89,6 @@ public class SearchFragment extends Fragment{
     }
 
     private void loadTopColleges() {
-        Toast.makeText(getActivity(), "Loading colleges!", Toast.LENGTH_SHORT).show();
         final College.Query postsQuery = new College.Query();
         postsQuery.limit20();
         collegeAdapter = new CollegeAdapter(colleges);

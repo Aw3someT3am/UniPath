@@ -56,27 +56,6 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
-
-        //TODO: REMOVE THESE LATER
-        Button TIMELINE = findViewById(R.id.TIMELINE);
-        TIMELINE.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(LoginActivity.this, TimelineActivity.class);
-                startActivity(i);
-                finish();
-            }
-        });
-
-        Button SEARCH = findViewById(R.id.SEARCH);
-        SEARCH.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(LoginActivity.this, SearchActivity.class);
-                startActivity(i);
-                finish();
-            }
-        });
     }
 
     private void logIn(String username, String password) {
@@ -91,6 +70,7 @@ public class LoginActivity extends AppCompatActivity {
                     finish();
                 } else {
                     Log.e("LoginActivity","Login failure");
+                    Toast.makeText(LoginActivity.this, "Login failure\nIncorrect username or password", Toast.LENGTH_SHORT).show();
                     e.printStackTrace();
                 }
             }

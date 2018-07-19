@@ -1,12 +1,14 @@
-<android.support.v7.widget.CardView
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+<android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/tools"
     android:layout_marginTop="5dp"
     android:layout_marginLeft="5dp"
     android:layout_marginRight="5dp"
-    card_view:cardCornerRadius="5dp">
+    card_view:cardCornerRadius="5dp"
+    app:cardElevation="7dp"
+    app:cardBackgroundColor="@color/white_20_transparent">
 
     <LinearLayout
         android:layout_width="match_parent"
