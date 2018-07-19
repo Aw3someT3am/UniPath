@@ -2,6 +2,7 @@ package me.juliasson.unipath.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -26,6 +27,7 @@ import me.juliasson.unipath.utils.DateTimeUtils;
 
 public class FavoritesFragment extends Fragment {
 
+    private SwipeRefreshLayout swipeContainer;
     CollegeAdapter collegeAdapter;
     ArrayList<College> colleges;
     RecyclerView rvColleges;
@@ -45,6 +47,24 @@ public class FavoritesFragment extends Fragment {
         rvColleges.setAdapter(collegeAdapter);
 
         loadFavoriteColleges();
+
+        //find the swipe container
+        swipeContainer = view.findViewById(R.id.swipeContainer);
+        // Setup refresh listener which triggers new data loading
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                // Your code to refresh the list here.
+                // Make sure you call swipeContainer.setRefreshing(false)
+                refresh();
+            }
+        });
+        // Configure the refreshing colors
+        swipeContainer.setColorSchemeResources(
+                android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
     }
 
     public void loadFavoriteColleges() {
@@ -68,6 +88,14 @@ public class FavoritesFragment extends Fragment {
                 }
             }
         });
+    }
+
+    public void refresh() {
+        collegeAdapter.clear();
+        loadFavoriteColleges();
+        collegeAdapter.addAll(colleges);
+        // Now we call setRefreshing(false) to signal refresh has finished
+        swipeContainer.setRefreshing(false);
     }
 
     //---------------QUERIES----------------
