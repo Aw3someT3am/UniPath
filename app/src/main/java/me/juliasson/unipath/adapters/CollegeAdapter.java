@@ -30,7 +30,7 @@ public class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.ViewHold
     private final static String KEY_EARLY_ACTION = "earlyAction";
     private final static String KEY_REGULAR_ACTION = "regularAction";
     private final static String KEY_COLLEGE_IMAGE = "image";
-
+    
     public CollegeAdapter(ArrayList<College> arrayList) {
         mColleges = arrayList;
         mFilteredList = arrayList;
