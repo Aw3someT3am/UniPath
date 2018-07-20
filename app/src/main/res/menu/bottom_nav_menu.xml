@@ -4,16 +4,16 @@
 
     <item
         android:id="@+id/action_home"
-        android:icon="@drawable/nav_inbox_paper_plane"
+        android:icon="@drawable/action_list"
         android:title="" />
 
     <item
         android:id="@+id/action_post"
-        android:icon="@drawable/nav_inbox_paper_plane"
+        android:icon="@drawable/action_calendar"
         android:title="" />
 
     <item
         android:id="@+id/action_profile"
-        android:icon="@drawable/nav_inbox_paper_plane"
+        android:icon="@android:drawable/ic_menu_search"
         android:title="" />
 </menu>
