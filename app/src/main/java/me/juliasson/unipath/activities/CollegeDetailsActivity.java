@@ -13,11 +13,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 
 import org.parceler.Parcels;
 
-import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 import me.juliasson.unipath.R;
 import me.juliasson.unipath.fragments.DeadlineFragment;
 import me.juliasson.unipath.fragments.GeneralInfoFragment;
@@ -41,23 +39,14 @@ public class CollegeDetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_college_details);
         this.setFinishOnTouchOutside(true);
 
-//        DisplayMetrics dm = new DisplayMetrics();
-//        getWindowManager().getDefaultDisplay().getMetrics(dm);
-//
-//        int width = dm.widthPixels;
-//        int height =  dm.heightPixels;
-//
-//        getWindow().setLayout((int) (width*.8), (int)(height*.6));
         tvcollegeName = (TextView) findViewById(R.id.tvCollege);
         ivCollegeImage = (ImageView) findViewById(R.id.ivCollegeImage);
         college = (College) Parcels.unwrap(getIntent().getParcelableExtra(College.class.getSimpleName()));
 
         tvcollegeName.setText(college.getCollegeName());
-        int radius = 30; // corner radius, higher value = more rounded
-        int margin = 10; // crop margin, set to 0 for corners with no crop
+
         Glide.with(this)
                 .load(college.getCollegeImage().getUrl())
-                .apply(RequestOptions.bitmapTransform(new RoundedCornersTransformation(radius, margin)))
                 .into(ivCollegeImage);
 
         Bundle args = new Bundle();

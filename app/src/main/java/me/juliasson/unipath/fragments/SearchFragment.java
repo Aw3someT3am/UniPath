@@ -30,7 +30,7 @@ import me.juliasson.unipath.adapters.MyExpandableListAdapter;
 import me.juliasson.unipath.model.College;
 import me.juliasson.unipath.rows.ParentRow;
 
-public class SearchFragment extends Fragment implements SearchView.OnQueryTextListener, SearchView.OnCloseListener{
+public class SearchFragment extends Fragment{
     private SearchManager searchManager;
     private android.widget.SearchView searchView;
     private MyExpandableListAdapter listAdapter;
@@ -80,39 +80,6 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
         search(searchView);
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public boolean onClose() {
-        listAdapter.filterData("");
-        expandAll();
-        return false;
-    }
-
-    @Override
-    public boolean onQueryTextSubmit(String s) {
-        listAdapter.filterData(s);
-        expandAll();
-        return false;
-    }
-
-    @Override
-    public boolean onQueryTextChange(String s) {
-        listAdapter.filterData(s);
-        expandAll();
-        return false;
-    }
-
-    private void expandAll() {
-        int count = listAdapter.getGroupCount();
-        for (int i =0; i < count; i+=1) {
-            myList.expandGroup(i);
-        }
-    }
-
 
     private void initViews(){
         mRecyclerView = (RecyclerView) activity.findViewById(R.id.card_recycler_view);
@@ -159,7 +126,7 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
             public boolean onQueryTextChange(String newText) {
 
                 if (collegeAdapter != null) collegeAdapter.getFilter().filter(newText);
-                return true;
+                return false;
             }
         });
     }

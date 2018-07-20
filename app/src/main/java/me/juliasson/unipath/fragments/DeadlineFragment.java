@@ -29,6 +29,8 @@ public class DeadlineFragment extends Fragment{
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.fragmnet_deadlines, container, false);
 
+        //final CollegeDeadlineRelation.Query postsQuery = new ImagePost.Query();
+
         tvEarlyDeadline = (TextView) rootView.findViewById(R.id.tvDescription);
         tvRegularDeadline = (TextView) rootView.findViewById(R.id.tvRegular);
 
