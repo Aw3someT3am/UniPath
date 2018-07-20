@@ -14,7 +14,7 @@ public class DeadlineDetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_deadline_details);
         this.setFinishOnTouchOutside(true);
 
-        
+
     }
 }
 
