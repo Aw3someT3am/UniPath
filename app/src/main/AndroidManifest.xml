@@ -45,6 +45,7 @@
             android:theme="@style/Theme.AppCompat.Dialog"
             android:excludeFromRecents="true">
         </activity>
+
     </application>
 
 </manifest>
