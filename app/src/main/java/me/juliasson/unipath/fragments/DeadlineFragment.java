@@ -29,10 +29,34 @@ public class DeadlineFragment extends Fragment{
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.fragmnet_deadlines, container, false);
 
-        //final CollegeDeadlineRelation.Query postsQuery = new ImagePost.Query();
+        final CollegeDeadlineRelation.Query deadlineQuery = new CollegeDeadlineRelation.Query();
 
-        tvEarlyDeadline = (TextView) rootView.findViewById(R.id.tvDescription);
-        tvRegularDeadline = (TextView) rootView.findViewById(R.id.tvRegular);
+        deadlineQuery.whereEqualTo("college",college);
+
+//        deadlineQuery.findInBackground(new FindCallback<CollegeDeadlineRelation>() {
+//            @Override
+//            public void done(List<CollegeDeadlineRelation> objects, ParseException e) {
+//                if (e == null){
+//                    //Toast.makeText(getActivity(), "Add Posts", Toast.LENGTH_SHORT).show();
+//                    Log.d("HomeActivity", Integer.toString(objects.size()));
+//                    for(int i = 0; i < objects.size(); i++) {
+////                        Log.d("HomeActivity", "Post[" + i + "] = " + objects.get(i).getDescription()
+////                                + "\nusername = " + objects.get(i).getUser().getUsername());
+////                        posts.addAll(objects);
+////                        postAdapter.notifyDataSetChanged();
+//                    }
+////                    postAdapter.clear();
+////                    postAdapter.addAll(objects);
+////                    postAdapter.notifyDataSetChanged();
+//                } else {
+//                    //Toast.makeText(getActivity(), "null?", Toast.LENGTH_SHORT).show();
+//                    e.printStackTrace();
+//                }
+//            }
+//        });
+//
+//        tvEarlyDeadline = (TextView) rootView.findViewById(R.id.tvDescription);
+//        tvRegularDeadline = (TextView) rootView.findViewById(R.id.tvRegular);
 
         college = getArguments().getParcelable("college");
 

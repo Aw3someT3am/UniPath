@@ -65,7 +65,7 @@ public class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull final CollegeAdapter.ViewHolder viewHolder, int position) {
-        final College college = mColleges.get(position);
+        final College college = mFilteredList.get(position);
         viewHolder.tvCollegeName.setText(college.getString(KEY_COLLEGE_NAME));
 
         Glide.with(mContext)
@@ -116,7 +116,7 @@ public class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.ViewHold
             int position = getAdapterPosition();
 
             if (position != RecyclerView.NO_POSITION) {
-                College college = mColleges.get(position);
+                College college = mFilteredList.get(position);
 
                 Bundle args = new Bundle();
                 Intent intent = new Intent(mContext, CollegeDetailsActivity.class);
@@ -136,17 +136,25 @@ public class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.ViewHold
             protected FilterResults performFiltering(CharSequence charSequence) {
 
                 String charString = charSequence.toString();
+
                 if (charString.isEmpty()) {
+
                     mFilteredList = mColleges;
                 } else {
+
                     ArrayList<College> filteredList = new ArrayList<>();
-                    for (College college : mColleges) {
-                        if (college.getCollegeName().toString().toLowerCase().contains(charString)/* || college.getCollegeName().toLowerCase().contains(charString) || college.getCollegeName().toLowerCase().contains(charString)*/) {
+
+                    for (College college: mColleges) {
+
+                        if (college.getCollegeName().toLowerCase().contains(charString)) {
+
                             filteredList.add(college);
                         }
                     }
+
                     mFilteredList = filteredList;
                 }
+
                 FilterResults filterResults = new FilterResults();
                 filterResults.values = mFilteredList;
                 return filterResults;
