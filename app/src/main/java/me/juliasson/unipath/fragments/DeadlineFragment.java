@@ -23,6 +23,7 @@ import me.juliasson.unipath.model.CollegeDeadlineRelation;
 import me.juliasson.unipath.model.Deadline;
 
 public class DeadlineFragment extends Fragment{
+
     private RecyclerView mRecyclerView;
     private DeadlineAdapter mDeadlineAdapter;
     private ArrayList<Deadline> mDeadlineList = new ArrayList<>();
@@ -40,6 +41,9 @@ public class DeadlineFragment extends Fragment{
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         mContext = view.getContext();
+
+        college = getArguments().getParcelable(College.class.getSimpleName());
+
         mRecyclerView = (RecyclerView) view.findViewById(R.id.rvDeadlines);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.setHasFixedSize(true);
@@ -51,6 +55,7 @@ public class DeadlineFragment extends Fragment{
         setDeadlineListItems();
         mDeadlineAdapter = new DeadlineAdapter(mDeadlineList);
         mRecyclerView.setAdapter(mDeadlineAdapter);
+        mDeadlineAdapter.clear();
     }
 
     private void setDeadlineListItems(){

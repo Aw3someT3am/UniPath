@@ -2,7 +2,6 @@ package me.juliasson.unipath.adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -118,13 +117,9 @@ public class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.ViewHold
 
             if (position != RecyclerView.NO_POSITION) {
                 College college = mFilteredList.get(position);
-
-                Bundle args = new Bundle();
                 Intent intent = new Intent(mContext, CollegeDetailsActivity.class);
                 intent.putExtra(College.class.getSimpleName(), Parcels.wrap(college));
                 mContext.startActivity(intent);
-
-                args.putParcelable("college", college);
             }
         }
     }

@@ -50,7 +50,7 @@ public class CollegeDetailsActivity extends AppCompatActivity {
                 .into(ivCollegeImage);
 
         Bundle args = new Bundle();
-        args.putParcelable("college", college);
+        args.putParcelable(College.class.getSimpleName(), college);
 
         final FragmentManager fragmentManager = getSupportFragmentManager();
 
