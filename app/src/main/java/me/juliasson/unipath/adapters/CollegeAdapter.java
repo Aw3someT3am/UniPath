@@ -74,16 +74,6 @@ public class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.ViewHold
 
         loadFavoriteColleges(viewHolder, college);
 
-//        Log.d("CollegeAdapter", DateTimeUtils.parseDateTime(college.getEarlyAction().toString(), DateTimeUtils.parseInputFormat, DateTimeUtils.parseOutputFormat));
-//        Log.d("CollegeAdapter", DateTimeUtils.parseDateTime(college.getEarlyAction().toString(), DateTimeUtils.parseInputFormat, DateTimeUtils.parseOutputFormat));
-//        Log.d("CollegeAdapter", DateTimeUtils.parseDateTime(college.getEarlyAction().toString(), DateTimeUtils.parseInputFormat, DateTimeUtils.parseOutputFormat));
-//        Log.d("CollegeAdapter", DateTimeUtils.parseDateTime(college.getEarlyAction().toString(), DateTimeUtils.parseInputFormat, DateTimeUtils.parseOutputFormat));
-//        Log.d("CollegeAdapter", DateTimeUtils.parseDateTime(college.getEarlyAction().toString(), DateTimeUtils.parseInputFormat, DateTimeUtils.parseOutputFormat));
-//        Log.d("CollegeAdapter", DateTimeUtils.parseDateTime(college.getEarlyAction().toString(), DateTimeUtils.parseInputFormat, DateTimeUtils.parseOutputFormat));
-//        Log.d("CollegeAdapter", DateTimeUtils.parseDateTime(college.getEarlyAction().toString(), DateTimeUtils.parseInputFormat, DateTimeUtils.parseOutputFormat));
-//        Log.d("CollegeAdapter", DateTimeUtils.parseDateTime(college.getEarlyAction().toString(), DateTimeUtils.parseInputFormat, DateTimeUtils.parseOutputFormat));
-
-
         viewHolder.lbLikeButton.setOnLikeListener(new OnLikeListener() {
             @Override
             public void liked(LikeButton likeButton) {
@@ -315,6 +305,7 @@ public class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.ViewHold
                 if (e == null) {
                     Log.d("CollegeAdapter", "Create UserCollegeRelation success");
                 } else {
+                    Log.d("CollegeAdapter", "Create UserCollegeRelation failure");
                     e.printStackTrace();
                 }
             }
@@ -340,6 +331,7 @@ public class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.ViewHold
                             userDeadlineRelation.setUser(ParseUser.getCurrentUser());
                             userDeadlineRelation.setDeadline(relation.getDeadline());
                             userDeadlineRelation.setCompleted(false);
+                            userDeadlineRelation.setCollege(college);
                             userDeadlineRelation.saveInBackground(new SaveCallback() {
                                 @Override
                                 public void done(ParseException e) {
@@ -347,6 +339,7 @@ public class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.ViewHold
                                         Log.d("CollegeAdapter", "Create UserDeadlineRelation success");
                                         Toast.makeText(mContext, "College and Deadlines added!", Toast.LENGTH_SHORT).show();
                                     } else {
+                                        Log.d("CollegeAdapter", "Create UserDeadlineRelation failure");
                                         e.printStackTrace();
                                     }
                                 }

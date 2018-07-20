@@ -10,6 +10,7 @@ public class UserDeadlineRelation extends ParseObject {
     final static private String KEY_DEADLINE = "deadline";
     final static private String KEY_USER = "user";
     final static private String KEY_COMPLETED = "completed";
+    final static private String KEY_COLLEGE = "college";
 
     public UserDeadlineRelation() {
 
@@ -21,6 +22,10 @@ public class UserDeadlineRelation extends ParseObject {
 
     public ParseUser getUser() {
         return getParseUser(KEY_USER);
+    }
+
+    public College getCollege() {
+        return (College) getParseObject(KEY_COLLEGE);
     }
 
     public Boolean getCompleted() {
@@ -37,6 +42,10 @@ public class UserDeadlineRelation extends ParseObject {
 
     public void setCompleted(Boolean completed) {
         put(KEY_COMPLETED, completed);
+    }
+
+    public void setCollege(College college) {
+        put(KEY_COLLEGE, college);
     }
 
     public static class Query extends ParseQuery<UserDeadlineRelation> {
@@ -56,6 +65,11 @@ public class UserDeadlineRelation extends ParseObject {
 
         public UserDeadlineRelation.Query withUser() {
             include(KEY_USER);
+            return this;
+        }
+
+        public UserDeadlineRelation.Query withCollege() {
+            include(KEY_COLLEGE);
             return this;
         }
     }
