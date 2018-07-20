@@ -14,8 +14,13 @@ import android.util.Log;
 import android.view.MenuItem;
 
 import me.juliasson.unipath.R;
+<<<<<<< HEAD
 import me.juliasson.unipath.fragments.FavoritesFragment;
 import me.juliasson.unipath.fragments.LinearTimelineFragment;
+=======
+import me.juliasson.unipath.fragments.LinearTimelineFragment;
+import me.juliasson.unipath.fragments.ProfileFragment;
+>>>>>>> d581858ff73fb928f302ca1e7cfe726e49295d19
 import me.juliasson.unipath.fragments.SearchFragment;
 import me.juliasson.unipath.internal.Refreshable;
 
@@ -40,7 +45,6 @@ public class TimelineActivity extends AppCompatActivity implements BottomNavigat
             new LinearTimelineFragment(),
             new SearchFragment(),
             new FavoritesFragment()
-
     };
 
     @Override
