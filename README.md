@@ -29,3 +29,5 @@ The purpose of this app is to assist students and parents with finding and apply
 - feed page/reviews
 - after accepted what to do
 
+## Walkthrough week 1 progress
+![Walkthrough](walkthrough.gif)
