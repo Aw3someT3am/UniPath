@@ -32,7 +32,6 @@ import me.juliasson.unipath.R;
 import me.juliasson.unipath.activities.CollegeDetailsActivity;
 import me.juliasson.unipath.model.College;
 import me.juliasson.unipath.model.CollegeDeadlineRelation;
-import me.juliasson.unipath.model.Deadline;
 import me.juliasson.unipath.model.UserCollegeRelation;
 import me.juliasson.unipath.model.UserDeadlineRelation;
 
@@ -45,6 +44,8 @@ public class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.ViewHold
 
     private final static String KEY_COLLEGE_NAME = "name";
     private final static String KEY_COLLEGE_IMAGE = "image";
+    private final static String KEY_UD_COLLEGE = "college";
+    private final static String KEY_UD_USER = "user";
 
     public CollegeAdapter(ArrayList<College> arrayList) {
         mColleges = arrayList;
@@ -130,31 +131,21 @@ public class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.ViewHold
 
     @Override
     public Filter getFilter() {
-
         return new Filter() {
             @Override
             protected FilterResults performFiltering(CharSequence charSequence) {
-
                 String charString = charSequence.toString();
-
                 if (charString.isEmpty()) {
-
                     mFilteredList = mColleges;
                 } else {
-
                     ArrayList<College> filteredList = new ArrayList<>();
-
                     for (College college: mColleges) {
-
                         if (college.getCollegeName().toLowerCase().contains(charString)) {
-
                             filteredList.add(college);
                         }
                     }
-
                     mFilteredList = filteredList;
                 }
-
                 FilterResults filterResults = new FilterResults();
                 filterResults.values = mFilteredList;
                 return filterResults;
@@ -249,48 +240,30 @@ public class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.ViewHold
      * @param college the college whose deadlines are being unrelated to the user.
      */
     private void removeUserDeadlinesRelation(final College college) {
-        CollegeDeadlineRelation.Query cdQuery = new CollegeDeadlineRelation.Query();
-        cdQuery.getTop().withDeadline().withCollege();
-        cdQuery.whereEqualTo("college", college);
+        UserDeadlineRelation.Query udQuery = new UserDeadlineRelation.Query();
+        udQuery.getTop().withDeadline().withUser().withCollege();
+        udQuery.whereEqualTo(KEY_UD_COLLEGE, college);
+        udQuery.whereEqualTo(KEY_UD_USER, ParseUser.getCurrentUser());
 
-        cdQuery.findInBackground(new FindCallback<CollegeDeadlineRelation>() {
+        udQuery.findInBackground(new FindCallback<UserDeadlineRelation>() {
             @Override
-            public void done(List<CollegeDeadlineRelation> objects, ParseException e) {
+            public void done(List<UserDeadlineRelation> objects, ParseException e) {
                 if (e == null) {
                     for (int i = 0; i < objects.size(); i++) {
-                        CollegeDeadlineRelation relation = objects.get(i);
-                        Deadline deadline = relation.getDeadline();
-
-                        //Making a new query to remove deadlines of a specific college from being related to user.
-                        UserDeadlineRelation.Query udQuery = new UserDeadlineRelation.Query();
-                        udQuery.getTop().withDeadline().withUser();
-
-                        udQuery.whereEqualTo("deadline", deadline);
-                        udQuery.whereEqualTo("user", ParseUser.getCurrentUser());
-
-                        udQuery.findInBackground(new FindCallback<UserDeadlineRelation>() {
-                            @Override
-                            public void done(List<UserDeadlineRelation> objects, ParseException e) {
-                                if (e == null) {
-                                    for (int i = 0; i < objects.size(); i++) {
-                                        try {
-                                            UserDeadlineRelation relation = objects.get(i);
-                                            relation.delete();
-                                            relation.saveInBackground(new SaveCallback() {
-                                                @Override
-                                                public void done(ParseException e) {
-                                                    Log.d("College Adapter", "User Deadline Relation removed");
-                                                }
-                                            });
-                                        } catch (ParseException o) {
-                                            o.printStackTrace();
-                                        }
-                                    }
-                                } else {
-                                    e.printStackTrace();
+                        try {
+                            UserDeadlineRelation relation = objects.get(i);
+                            relation.delete();
+                            relation.saveInBackground(new SaveCallback() {
+                                @Override
+                                public void done(ParseException e) {
+                                    Toast.makeText(mContext, "College and Deadlines removed!", Toast.LENGTH_SHORT).show();
+                                    Log.d("College Adapter", "User Deadline Relation removed");
                                 }
-                            }
-                        });
+                            });
+                        } catch (ParseException o) {
+                            o.printStackTrace();
+                        }
+
                     }
                 } else {
                     e.printStackTrace();
