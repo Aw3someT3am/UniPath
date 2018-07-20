@@ -74,6 +74,16 @@ public class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.ViewHold
 
         loadFavoriteColleges(viewHolder, college);
 
+//        Log.d("CollegeAdapter", DateTimeUtils.parseDateTime(college.getEarlyAction().toString(), DateTimeUtils.parseInputFormat, DateTimeUtils.parseOutputFormat));
+//        Log.d("CollegeAdapter", DateTimeUtils.parseDateTime(college.getEarlyAction().toString(), DateTimeUtils.parseInputFormat, DateTimeUtils.parseOutputFormat));
+//        Log.d("CollegeAdapter", DateTimeUtils.parseDateTime(college.getEarlyAction().toString(), DateTimeUtils.parseInputFormat, DateTimeUtils.parseOutputFormat));
+//        Log.d("CollegeAdapter", DateTimeUtils.parseDateTime(college.getEarlyAction().toString(), DateTimeUtils.parseInputFormat, DateTimeUtils.parseOutputFormat));
+//        Log.d("CollegeAdapter", DateTimeUtils.parseDateTime(college.getEarlyAction().toString(), DateTimeUtils.parseInputFormat, DateTimeUtils.parseOutputFormat));
+//        Log.d("CollegeAdapter", DateTimeUtils.parseDateTime(college.getEarlyAction().toString(), DateTimeUtils.parseInputFormat, DateTimeUtils.parseOutputFormat));
+//        Log.d("CollegeAdapter", DateTimeUtils.parseDateTime(college.getEarlyAction().toString(), DateTimeUtils.parseInputFormat, DateTimeUtils.parseOutputFormat));
+//        Log.d("CollegeAdapter", DateTimeUtils.parseDateTime(college.getEarlyAction().toString(), DateTimeUtils.parseInputFormat, DateTimeUtils.parseOutputFormat));
+
+
         viewHolder.lbLikeButton.setOnLikeListener(new OnLikeListener() {
             @Override
             public void liked(LikeButton likeButton) {
