@@ -9,24 +9,23 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import me.juliasson.unipath.R;
 import me.juliasson.unipath.model.Deadline;
 
 public class DeadlineAdapter extends RecyclerView.Adapter<DeadlineAdapter.ViewHolder> {
-    private Context mContext;
 
+    private Context mContext;
     private ArrayList<Deadline> deadlines;
 
     public DeadlineAdapter(ArrayList<Deadline> deadlines) {
         this.deadlines = deadlines;
     }
 
-
     @NonNull
     @Override
     public DeadlineAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-
         mContext = viewGroup.getContext();
         LayoutInflater inflater = LayoutInflater.from(mContext);
 
@@ -60,5 +59,17 @@ public class DeadlineAdapter extends RecyclerView.Adapter<DeadlineAdapter.ViewHo
 
             //itemView.setOnClickListener(this);
         }
+    }
+
+    // Clean all elements of the recycler
+    public void clear() {
+        deadlines.clear();
+        notifyDataSetChanged();
+    }
+
+    // Add a list of items -- change to type used
+    public void addAll(List<Deadline> list) {
+        deadlines.addAll(list);
+        notifyDataSetChanged();
     }
 }
