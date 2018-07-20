@@ -46,6 +46,7 @@
             android:excludeFromRecents="true"
             android:theme="@style/Theme.AppCompat.Dialog"></activity>
         <activity android:name=".activities.DeadlineDetailsActivity"></activity>
+
     </application>
 
 </manifest>
