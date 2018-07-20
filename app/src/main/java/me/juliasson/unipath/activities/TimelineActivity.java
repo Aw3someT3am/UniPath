@@ -14,9 +14,9 @@ import android.util.Log;
 import android.view.MenuItem;
 
 import me.juliasson.unipath.R;
+import me.juliasson.unipath.fragments.CalendarFragment;
 import me.juliasson.unipath.fragments.FavoritesFragment;
 import me.juliasson.unipath.fragments.LinearTimelineFragment;
-import me.juliasson.unipath.fragments.SearchFragment;
 import me.juliasson.unipath.internal.Refreshable;
 
 
@@ -38,7 +38,7 @@ public class TimelineActivity extends AppCompatActivity implements BottomNavigat
 
     private final Fragment[] fragments = new Fragment[] {
             new LinearTimelineFragment(),
-            new SearchFragment(),
+            new CalendarFragment(),
             new FavoritesFragment()
 
     };
@@ -49,15 +49,17 @@ public class TimelineActivity extends AppCompatActivity implements BottomNavigat
         setContentView(R.layout.activity_timeline);
 
         navigationView = findViewById(R.id.bottom_nav);
-        navigationView.setSelectedItemId(R.id.action_home);
+        navigationView.setSelectedItemId(R.id.action_post);
         navigationView.setOnNavigationItemSelectedListener(this);
         navigationView.setOnNavigationItemReselectedListener(this);
 
         homePager = findViewById(R.id.home_pager);
         homePager.setOffscreenPageLimit(2);
 
+
         homeAdapter = new HomeAdapter(getSupportFragmentManager(), fragments);
         homePager.setAdapter(homeAdapter);
+        homePager.setCurrentItem(1);
 
         homePager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
@@ -66,7 +68,6 @@ public class TimelineActivity extends AppCompatActivity implements BottomNavigat
                     case 0:
                         if(navigationView.getSelectedItemId() != R.id.action_home) {
                             navigationView.setSelectedItemId(R.id.action_home);
-
                             getSupportActionBar().setElevation(
                                     getResources().getDimensionPixelSize(R.dimen.action_bar_elevation)
                             );
@@ -85,6 +86,7 @@ public class TimelineActivity extends AppCompatActivity implements BottomNavigat
                         }
                         break;
                     default:
+
                         break;
                 }
             }
@@ -116,7 +118,7 @@ public class TimelineActivity extends AppCompatActivity implements BottomNavigat
         switch (item.getItemId()) {
             case R.id.action_home:
                 Log.d(TAG, "home re-selected.");
-                final Refreshable fragment = (Refreshable)fragments[0];
+                final Refreshable fragment = (Refreshable)fragments[1];
                 fragment.onRefresh();
                 break;
             case R.id.action_post:
