@@ -14,7 +14,15 @@ public class CalendarFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
         // Defines the xml file for the fragment
-        return inflater.inflate(R.layout.fragment_calendar, parent, false);
+        View view = inflater.inflate(R.layout.fragment_calendar, parent, false);
+
+//        final CompactCalendarView compactCalendarView = (CompactCalendarView) getView().findViewById(R.id.compactcalendar_view);
+
+        // Set first day of week to Monday, defaults to Monday so calling setFirstDayOfWeek is not necessary
+        // Use constants provided by Java Calendar class
+//        compactCalendarView.setFirstDayOfWeek(Calendar.MONDAY);
+
+        return view;
     }
 
     // This event is triggered soon after onCreateView().

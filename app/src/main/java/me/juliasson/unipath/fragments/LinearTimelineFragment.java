@@ -10,13 +10,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseUser;
+
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
-import me.juliasson.unipath.model.OrderStatus;
-import me.juliasson.unipath.model.TimeLine;
 import me.juliasson.unipath.R;
 import me.juliasson.unipath.adapters.TimeLineAdapter;
+import me.juliasson.unipath.model.Deadline;
+import me.juliasson.unipath.model.OrderStatus;
+import me.juliasson.unipath.model.TimeLine;
+import me.juliasson.unipath.model.UserDeadlineRelation;
 
 public class LinearTimelineFragment extends Fragment {
 
@@ -24,6 +31,8 @@ public class LinearTimelineFragment extends Fragment {
     private TimeLineAdapter mTimeLineAdapter;
     private List<TimeLine> mDataList = new ArrayList<>();
     private Context mContext;
+
+    private static final String KEY_USER = "user";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
@@ -48,15 +57,27 @@ public class LinearTimelineFragment extends Fragment {
     }
 
     private void setDataListItems(){
-        //TODO: REPLACE ITEMS
-        mDataList.add(new TimeLine("Item successfully delivered", "", OrderStatus.INACTIVE));
-        mDataList.add(new TimeLine("Courier is out to delivery your order", "2017-02-12 08:00", OrderStatus.ACTIVE));
-        mDataList.add(new TimeLine("Item has reached courier facility at New Delhi", "2017-02-11 21:00", OrderStatus.COMPLETED));
-        mDataList.add(new TimeLine("Item has been given to the courier", "2017-02-11 18:00", OrderStatus.COMPLETED));
-        mDataList.add(new TimeLine("Item is packed and will dispatch soon", "2017-02-11 09:30", OrderStatus.COMPLETED));
-        mDataList.add(new TimeLine("Order is being readied for dispatch", "2017-02-11 08:00", OrderStatus.COMPLETED));
-        mDataList.add(new TimeLine("Order processing initiated", "2017-02-10 15:00", OrderStatus.COMPLETED));
-        mDataList.add(new TimeLine("Order confirmed by seller", "2017-02-10 14:30", OrderStatus.COMPLETED));
-        mDataList.add(new TimeLine("Order placed successfully", "2017-02-10 14:00", OrderStatus.COMPLETED));
+        //ParseQuery go through each of the current user's deadlines and add them.
+        UserDeadlineRelation.Query udQuery = new UserDeadlineRelation.Query();
+        udQuery.getTop().withUser().withDeadline();
+        udQuery.whereEqualTo(KEY_USER, ParseUser.getCurrentUser());
+
+        udQuery.findInBackground(new FindCallback<UserDeadlineRelation>() {
+            @Override
+            public void done(List<UserDeadlineRelation> objects, ParseException e) {
+                if (e == null) {
+                    for (int i = 0; i < objects.size(); i++) {
+                        UserDeadlineRelation relation = objects.get(i);
+                        Deadline deadline = relation.getDeadline();
+                        String description = deadline.getDescription();
+                        Date date = deadline.getDeadlineDate();
+                        mDataList.add(new TimeLine(description, date.toString(), relation.getCompleted() ? OrderStatus.COMPLETED : OrderStatus.ACTIVE));
+                        mTimeLineAdapter.notifyItemInserted(mDataList.size()-1);
+                    }
+                } else {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 }
