@@ -45,6 +45,11 @@
             android:name=".activities.CollegeDetailsActivity"
             android:excludeFromRecents="true"
             android:theme="@style/Theme.AppCompat.Dialog" />
+
+        <activity android:name=".activities.DeadlineDetailsActivity"
+            android:theme="@style/Theme.AppCompat.Dialog"
+            android:excludeFromRecents="true"/>
+
     </application>
 
 </manifest>
