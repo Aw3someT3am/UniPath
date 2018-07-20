@@ -1,6 +1,7 @@
 package me.juliasson.unipath.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
@@ -11,11 +12,14 @@ import android.widget.TextView;
 
 import com.github.vipulasri.timelineview.TimelineView;
 
+import org.parceler.Parcels;
+
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.juliasson.unipath.R;
+import me.juliasson.unipath.activities.DeadlineDetailsActivity;
 import me.juliasson.unipath.model.OrderStatus;
 import me.juliasson.unipath.model.TimeLine;
 import me.juliasson.unipath.utils.DateTimeUtils;
@@ -69,7 +73,7 @@ public class TimeLineAdapter extends RecyclerView.Adapter<TimeLineAdapter.ViewHo
                 ;
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         @BindView(R.id.text_timeline_date)
         TextView mDate;
@@ -83,6 +87,21 @@ public class TimeLineAdapter extends RecyclerView.Adapter<TimeLineAdapter.ViewHo
 
             ButterKnife.bind(this, itemView);
             mTimelineView.initLine(viewType);
+
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View view) {
+            int position = getAdapterPosition();
+
+            if (position != RecyclerView.NO_POSITION) {
+                TimeLine timeline = mFeedList.get(position);
+
+                Intent intent = new Intent (mContext, DeadlineDetailsActivity.class);
+                intent.putExtra(TimeLine.class.getSimpleName(), Parcels.wrap(timeline));
+                mContext.startActivity(intent);
+            }
         }
     }
 
