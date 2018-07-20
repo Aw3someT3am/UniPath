@@ -25,8 +25,8 @@
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rvCollegeList"
-        android:layout_width="336dp"
-        android:layout_height="565dp"
+        android:layout_width="match_parent"
+        android:layout_height="564dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginLeft="8dp"
@@ -38,4 +38,4 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvDate" />
 
-</android.support.constraint.ConstraintLayout><?xml version="1.0" encoding="utf-8"?>
+</android.support.constraint.ConstraintLayout>
