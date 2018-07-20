@@ -85,16 +85,7 @@ public class VerticalPager extends ViewGroup {
         this(context, attrs, 0);
     }
 
-    /**
-     * Used to inflate the Workspace from XML.
-     *
-     * @param context
-     *            The application's context.
-     * @param attrs
-     *            The attribtues set containing the Workspace's customization values.
-     * @param defStyle
-     *            Unused.
-     */
+
     public VerticalPager(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         init(context);
@@ -114,7 +105,6 @@ public class VerticalPager extends ViewGroup {
 
     /**
      * Returns the index of the currently displayed page.
-     *
      * @return The index of the currently displayed page.
      */
     public int getCurrentPage() {
@@ -143,9 +133,6 @@ public class VerticalPager extends ViewGroup {
     /**
      * Gets the value that getScrollX() should return if the specified page is the current page (and no other scrolling
      * is occurring). Use this to pass a value to scrollTo(), for example.
-     *
-     * @param whichPage
-     * @return
      */
     private int getScrollYForPage(int whichPage) {
         int height = 0;
