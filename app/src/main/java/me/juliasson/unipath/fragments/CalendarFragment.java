@@ -40,6 +40,7 @@ public class CalendarFragment extends Fragment {
     private boolean shouldShow = false;
     private CompactCalendarView compactCalendarView;
     private ActionBar toolbar;
+    private TextView monthYearBtn;
 
 
 
@@ -51,6 +52,7 @@ public class CalendarFragment extends Fragment {
 
 
         final List<String> mutableBookings = new ArrayList<>();
+        monthYearBtn = view.findViewById(R.id.monthYearBtn);
 
         final ListView bookingsListView = view.findViewById(R.id.bookings_listview);
 //        final Button slideCalendarBut = view.findViewById(R.id.slide_calendar);
@@ -75,7 +77,6 @@ public class CalendarFragment extends Fragment {
         };
 
 
-
         bookingsListView.setAdapter(adapter);
         compactCalendarView = view.findViewById(R.id.compactcalendar_view);
 
@@ -97,14 +98,13 @@ public class CalendarFragment extends Fragment {
 
 
         //set initial title
-//        toolbar = ((AppCompatActivity) getActivity()).getSupportActionBar();
-//        toolbar.setTitle(dateFormatForMonth.format(compactCalendarView.getFirstDayOfCurrentMonth()));
+        monthYearBtn.setText(dateFormatForMonth.format(compactCalendarView.getFirstDayOfCurrentMonth()));
 
         //set title on calendar scroll
         compactCalendarView.setListener(new CompactCalendarView.CompactCalendarViewListener() {
                 @Override
                 public void onDayClick(Date dateClicked) {
-//                    toolbar.setTitle(dateFormatForMonth.format(dateClicked));
+                    monthYearBtn.setText(dateFormatForMonth.format(dateClicked));
                     List<Event> bookingsFromMap = compactCalendarView.getEvents(dateClicked);
                     Log.d(TAG, "inside onclick " + dateFormatForDisplaying.format(dateClicked));
                     if (bookingsFromMap != null) {
@@ -119,7 +119,7 @@ public class CalendarFragment extends Fragment {
                 }
             @Override
             public void onMonthScroll(Date firstDayOfNewMonth) {
-//                toolbar.setTitle(dateFormatForMonth.format(firstDayOfNewMonth));
+                monthYearBtn.setText(dateFormatForMonth.format(firstDayOfNewMonth));
             }
         });
 
@@ -143,8 +143,10 @@ public class CalendarFragment extends Fragment {
     public void onResume() {
         super.onResume();
 //        toolbar.setTitle(dateFormatForMonth.format(compactCalendarView.getFirstDayOfCurrentMonth()));
+        monthYearBtn.setText(dateFormatForMonth.format(compactCalendarView.getFirstDayOfCurrentMonth()));
         // Set to current day on resume to set calendar to latest day
         // toolbar.setTitle(dateFormatForMonth.format(new Date()));
+        monthYearBtn.setText(dateFormatForMonth.format(new Date()));
     }
 
 
