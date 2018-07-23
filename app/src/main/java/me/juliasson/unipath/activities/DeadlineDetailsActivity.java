@@ -93,6 +93,7 @@ public class DeadlineDetailsActivity extends AppCompatActivity {
                         String relationDeadline = DateTimeUtils.parseDateTime(relation.getDeadline().getDeadlineDate().toString(), DateTimeUtils.parseInputFormat, DateTimeUtils.parseOutputFormat);
                         if (activityDate.equals(relationDeadline)) {
                             relations.add(relation);
+                            ddcAdapter.notifyItemInserted(relations.size() - 1);
                         }
                     }
                 } else {

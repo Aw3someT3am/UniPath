@@ -15,9 +15,12 @@ import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import me.juliasson.unipath.R;
 import me.juliasson.unipath.adapters.TimeLineAdapter;
@@ -25,6 +28,7 @@ import me.juliasson.unipath.model.Deadline;
 import me.juliasson.unipath.model.OrderStatus;
 import me.juliasson.unipath.model.TimeLine;
 import me.juliasson.unipath.model.UserDeadlineRelation;
+import me.juliasson.unipath.utils.DateTimeUtils;
 
 public class LinearTimelineFragment extends Fragment {
 
@@ -33,6 +37,7 @@ public class LinearTimelineFragment extends Fragment {
     private TimeLineAdapter mTimeLineAdapter;
     private List<TimeLine> mDataList = new ArrayList<>();
     private Context mContext;
+    private DateFormat format;
 
     private static final String KEY_USER = "user";
 
@@ -48,6 +53,8 @@ public class LinearTimelineFragment extends Fragment {
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.setHasFixedSize(true);
+
+        format = new SimpleDateFormat(DateTimeUtils.parseInputFormat, Locale.ENGLISH);
 
         initView();
 
@@ -71,9 +78,10 @@ public class LinearTimelineFragment extends Fragment {
     }
 
     private void initView() {
-        setDataListItems();
-        mTimeLineAdapter = new TimeLineAdapter(mDataList);
+        mTimeLineAdapter = new TimeLineAdapter();
         mRecyclerView.setAdapter(mTimeLineAdapter);
+        setDataListItems();
+        mTimeLineAdapter.addAll(mDataList);
     }
 
     private void setDataListItems(){
@@ -91,8 +99,7 @@ public class LinearTimelineFragment extends Fragment {
                         Deadline deadline = relation.getDeadline();
                         String description = deadline.getDescription();
                         Date date = deadline.getDeadlineDate();
-                        mDataList.add(new TimeLine(description, date.toString(), relation.getCompleted() ? OrderStatus.COMPLETED : OrderStatus.ACTIVE));
-                        mTimeLineAdapter.notifyItemInserted(mDataList.size()-1);
+                        mDataList.add(new TimeLine(description, date.toString(), date, relation.getCompleted() ? OrderStatus.COMPLETED : OrderStatus.ACTIVE));
                     }
                 } else {
                     e.printStackTrace();

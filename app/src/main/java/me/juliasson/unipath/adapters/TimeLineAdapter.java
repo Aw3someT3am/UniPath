@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.util.SortedList;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,12 +28,47 @@ import me.juliasson.unipath.utils.VectorDrawableUtils;
 
 public class TimeLineAdapter extends RecyclerView.Adapter<TimeLineAdapter.ViewHolder> {
 
-    private List<TimeLine> mFeedList;
+    private SortedList<TimeLine> mFeedList;
     private Context mContext;
     private LayoutInflater mLayoutInflater;
 
-    public TimeLineAdapter(List<TimeLine> feedList) {
-        mFeedList = feedList;
+    public TimeLineAdapter() {
+        mFeedList = new SortedList<TimeLine>(TimeLine.class, new SortedList.Callback<TimeLine>() {
+            @Override
+            public int compare(TimeLine t1, TimeLine t2) {
+                return t1.getDDate().compareTo(t2.getDDate());
+            }
+
+            @Override
+            public void onChanged(int position, int count) {
+                notifyItemRangeChanged(position, count);
+            }
+
+            @Override
+            public boolean areContentsTheSame(TimeLine t1, TimeLine t2) {
+                return t1.getDate().equals(t2.getDate());
+            }
+
+            @Override
+            public boolean areItemsTheSame(TimeLine t1, TimeLine t2) {
+                return t1.getDate().equals(t2.getDate());
+            }
+
+            @Override
+            public void onInserted(int position, int count) {
+                notifyItemRangeInserted(position, count);
+            }
+
+            @Override
+            public void onRemoved(int position, int count) {
+                notifyItemRangeRemoved(position, count);
+            }
+
+            @Override
+            public void onMoved(int fromPosition, int toPosition) {
+                notifyItemMoved(fromPosition, toPosition);
+            }
+        });
     }
 
     @NonNull
