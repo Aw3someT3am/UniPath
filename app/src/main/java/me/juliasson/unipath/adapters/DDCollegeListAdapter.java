@@ -31,7 +31,7 @@ public class DDCollegeListAdapter extends RecyclerView.Adapter<DDCollegeListAdap
         mContext = viewGroup.getContext();
         LayoutInflater inflater = LayoutInflater.from(mContext);
 
-        View collegeView = inflater.inflate(R.layout.card_row, viewGroup, false);
+        View collegeView = inflater.inflate(R.layout.item_deadlinedetails_college, viewGroup, false);
         DDCollegeListAdapter.ViewHolder viewHolder = new DDCollegeListAdapter.ViewHolder(collegeView);
         return viewHolder;
     }
