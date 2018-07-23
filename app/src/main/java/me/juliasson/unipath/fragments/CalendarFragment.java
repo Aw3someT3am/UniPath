@@ -4,7 +4,6 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.util.TypedValue;
@@ -35,12 +34,16 @@ public class CalendarFragment extends Fragment {
 
     private static final String TAG = "MainActivity";
     private Calendar currentCalender = Calendar.getInstance(Locale.getDefault());
-    private SimpleDateFormat dateFormatForDisplaying = new SimpleDateFormat("dd-M-yyyy hh:mm:ss a", Locale.getDefault());
+//    private SimpleDateFormat dateFormatForDisplaying = new SimpleDateFormat("dd-M-yyyy hh:mm:ss a", Locale.getDefault());
+    private SimpleDateFormat dateFormatForDisplaying = new SimpleDateFormat("dd-M-yyyy a", Locale.getDefault());
     private SimpleDateFormat dateFormatForMonth = new SimpleDateFormat("MMM - yyyy", Locale.getDefault());
     private boolean shouldShow = false;
     private CompactCalendarView compactCalendarView;
-    private ActionBar toolbar;
     private TextView monthYearBtn;
+
+    private List<Date> mDataList = new ArrayList<>();
+
+    private static final String KEY_USER = "user";
 
 
 
@@ -55,12 +58,6 @@ public class CalendarFragment extends Fragment {
         monthYearBtn = view.findViewById(R.id.monthYearBtn);
 
         final ListView bookingsListView = view.findViewById(R.id.bookings_listview);
-//        final Button slideCalendarBut = view.findViewById(R.id.slide_calendar);
-//        final Button showCalendarWithAnimationBut = view.findViewById(R.id.show_with_animation_calendar);
-//        final Button setLocaleBut = view.findViewById(R.id.set_locale);
-//        final Button removeAllEventsBut = view.findViewById(R.id.remove_all_events);
-
-//        final ArrayAdapter adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, mutableBookings)
 
         final ArrayAdapter adapter = new ArrayAdapter(getContext(), android.R.layout.simple_list_item_1, mutableBookings){
 
@@ -69,8 +66,12 @@ public class CalendarFragment extends Fragment {
                 View view =super.getView(position, convertView, parent);
 
                 TextView textView=(TextView) view.findViewById(android.R.id.text1);
+
+//                String dateText = textView.getText().
+
                 textView.setTextColor(Color.WHITE);
                 textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18f);
+
 
                 return view;
             }
@@ -99,6 +100,12 @@ public class CalendarFragment extends Fragment {
 
         //set initial title
         monthYearBtn.setText(dateFormatForMonth.format(compactCalendarView.getFirstDayOfCurrentMonth()));
+
+        // remove hard-coded events
+        compactCalendarView.removeAllEvents();
+
+        // fetch list of userDeadlineRelations from parse and feed into calendar
+//        compactCalendarView.addEvents(mDataList);
 
         //set title on calendar scroll
         compactCalendarView.setListener(new CompactCalendarView.CompactCalendarViewListener() {
@@ -142,10 +149,8 @@ public class CalendarFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-//        toolbar.setTitle(dateFormatForMonth.format(compactCalendarView.getFirstDayOfCurrentMonth()));
         monthYearBtn.setText(dateFormatForMonth.format(compactCalendarView.getFirstDayOfCurrentMonth()));
         // Set to current day on resume to set calendar to latest day
-        // toolbar.setTitle(dateFormatForMonth.format(new Date()));
         monthYearBtn.setText(dateFormatForMonth.format(new Date()));
     }
 
@@ -233,6 +238,32 @@ public class CalendarFragment extends Fragment {
         calendar.set(Calendar.SECOND, 0);
         calendar.set(Calendar.MILLISECOND, 0);
     }
+
+
+//    private void setDataListItems(){
+//        //ParseQuery go through each of the current user's deadlines and add them.
+//        UserDeadlineRelation.Query udQuery = new UserDeadlineRelation.Query();
+//        udQuery.getTop().withUser().withDeadline();
+//        udQuery.whereEqualTo(KEY_USER, ParseUser.getCurrentUser());
+//
+//        udQuery.findInBackground(new FindCallback<UserDeadlineRelation>() {
+//            @Override
+//            public void done(List<UserDeadlineRelation> objects, ParseException e) {
+//                if (e == null) {
+//                    for (int i = 0; i < objects.size(); i++) {
+//                        UserDeadlineRelation relation = objects.get(i);
+//                        Deadline deadline = relation.getDeadline();
+//                        String description = deadline.getDescription();
+//                        Date date = deadline.getDeadlineDate();
+//                        mDataList.add(date);
+////                        mTimeLineAdapter.notifyItemInserted(mDataList.size()-1);
+//                    }
+//                } else {
+//                    e.printStackTrace();
+//                }
+//            }
+//        });
+//    }
 
 
 }

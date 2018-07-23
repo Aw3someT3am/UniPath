@@ -69,8 +69,7 @@ public class TimeLineAdapter extends RecyclerView.Adapter<TimeLineAdapter.ViewHo
 
     @Override
     public int getItemCount() {
-        return mFeedList.size()
-                ;
+        return mFeedList.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
