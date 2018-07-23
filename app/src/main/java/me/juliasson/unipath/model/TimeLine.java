@@ -3,18 +3,22 @@ package me.juliasson.unipath.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.Date;
+
 public class TimeLine implements Parcelable{
     private String mMessage;
+    private Date dDate;
     private String mDate;
     private OrderStatus mStatus;
 
     public TimeLine() {
     }
 
-    public TimeLine(String mMessage, String mDate, OrderStatus mStatus) {
+    public TimeLine(String mMessage, String mDate, Date dDate, OrderStatus mStatus) {
         this.mMessage = mMessage;
         this.mDate = mDate;
         this.mStatus = mStatus;
+        this.dDate = dDate;
     }
 
     public String getMessage() {
@@ -39,6 +43,14 @@ public class TimeLine implements Parcelable{
 
     public void setStatus(OrderStatus mStatus) {
         this.mStatus = mStatus;
+    }
+
+    public Date getDDate() {
+        return dDate;
+    }
+
+    public void setDDate(Date dDate) {
+        this.dDate = dDate;
     }
 
     @Override

@@ -3,6 +3,7 @@ package me.juliasson.unipath.adapters;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,8 @@ import android.widget.TextView;
 
 import com.like.LikeButton;
 import com.like.OnLikeListener;
+import com.parse.ParseException;
+import com.parse.SaveCallback;
 
 import java.util.List;
 
@@ -47,11 +50,33 @@ public class DDCollegeListAdapter extends RecyclerView.Adapter<DDCollegeListAdap
             @Override
             public void liked(LikeButton likeButton) {
                 relation.setCompleted(true);
+                relation.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        if (e == null) {
+                            Log.d("DDCLAdapter", "Deadline completion saved");
+                        } else {
+                            e.printStackTrace();
+                            Log.d("DDCLAdapter", "Deadline completion failed to save");
+                        }
+                    }
+                });
             }
 
             @Override
             public void unLiked(LikeButton likeButton) {
                 relation.setCompleted(false);
+                relation.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        if (e == null) {
+                            Log.d("DDCLAdapter", "Deadline incompletion saved");
+                        } else {
+                            e.printStackTrace();
+                            Log.d("DDCLAdapter", "Deadline incompletion failed to save");
+                        }
+                    }
+                });
             }
         });
     }
