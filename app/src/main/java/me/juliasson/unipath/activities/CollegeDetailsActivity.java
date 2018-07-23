@@ -17,14 +17,20 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.like.LikeButton;
 import com.like.OnLikeListener;
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseUser;
 
 import org.parceler.Parcels;
+
+import java.util.List;
 
 import me.juliasson.unipath.R;
 import me.juliasson.unipath.adapters.CollegeAdapter;
 import me.juliasson.unipath.fragments.DeadlineFragment;
 import me.juliasson.unipath.fragments.GeneralInfoFragment;
 import me.juliasson.unipath.model.College;
+import me.juliasson.unipath.model.UserCollegeRelation;
 
 public class CollegeDetailsActivity extends AppCompatActivity {
     FrameLayout flContainer;
@@ -54,17 +60,19 @@ public class CollegeDetailsActivity extends AppCompatActivity {
 
         lbLikeButtonDetails.setLiked(false);
 
+        loadCollege(college);
+
         lbLikeButtonDetails.setOnLikeListener(new OnLikeListener() {
             @Override
             public void liked(LikeButton likeButton) {
                 CollegeAdapter.addUserCollegeRelation(college);
-                addUserDeadlineRelations(college);
+                CollegeAdapter.addUserDeadlineRelations(college);
             }
 
             @Override
             public void unLiked(LikeButton likeButton) {
-                removeUserCollegeRelation(college);
-                removeUserDeadlinesRelation(college);
+                CollegeAdapter.removeUserCollegeRelation(college);
+                CollegeAdapter.removeUserDeadlinesRelation(college);
             }
         });
 
@@ -115,5 +123,31 @@ public class CollegeDetailsActivity extends AppCompatActivity {
         int height = metrics.heightPixels;
 
         getWindow().setLayout(ActionBar.LayoutParams.MATCH_PARENT, (6 * height)/7);
+    }
+
+    /**
+     * Grabs all of the "liked" colleges related to the user.
+     * @param college the college being deemed "liked" or "not liked"
+     */
+    private void loadCollege(final College college) {
+        UserCollegeRelation.Query ucQuery = new UserCollegeRelation.Query();
+        ucQuery.getTop().withUser().withCollege();
+
+        ucQuery.findInBackground(new FindCallback<UserCollegeRelation>() {
+            @Override
+            public void done(List<UserCollegeRelation> objects, ParseException e) {
+                if (e == null) {
+                    for (int i = 0; i < objects.size(); i++) {
+                        UserCollegeRelation relation = objects.get(i);
+                        if(relation.getCollege().getObjectId().equals(college.getObjectId()) &&
+                                relation.getUser().getObjectId().equals(ParseUser.getCurrentUser().getObjectId())) {
+                            lbLikeButtonDetails.setLiked(true);
+                        }
+                    }
+                } else {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 }
