@@ -18,6 +18,9 @@ import android.widget.TextView;
 
 import com.github.sundeepk.compactcalendarview.CompactCalendarView;
 import com.github.sundeepk.compactcalendarview.domain.Event;
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseUser;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -29,6 +32,8 @@ import java.util.List;
 import java.util.Locale;
 
 import me.juliasson.unipath.R;
+import me.juliasson.unipath.model.Deadline;
+import me.juliasson.unipath.model.UserDeadlineRelation;
 
 public class CalendarFragment extends Fragment {
 
@@ -41,10 +46,9 @@ public class CalendarFragment extends Fragment {
     private CompactCalendarView compactCalendarView;
     private TextView monthYearBtn;
 
-    private List<Date> mDataList = new ArrayList<>();
+    private List<UserDeadlineRelation> mDataList = new ArrayList<>();
 
     private static final String KEY_USER = "user";
-
 
 
     @Override
@@ -106,6 +110,8 @@ public class CalendarFragment extends Fragment {
 
         // fetch list of userDeadlineRelations from parse and feed into calendar
 //        compactCalendarView.addEvents(mDataList);
+        setDataListItems();
+
 
         //set title on calendar scroll
         compactCalendarView.setListener(new CompactCalendarView.CompactCalendarViewListener() {
@@ -240,30 +246,32 @@ public class CalendarFragment extends Fragment {
     }
 
 
-//    private void setDataListItems(){
-//        //ParseQuery go through each of the current user's deadlines and add them.
-//        UserDeadlineRelation.Query udQuery = new UserDeadlineRelation.Query();
-//        udQuery.getTop().withUser().withDeadline();
-//        udQuery.whereEqualTo(KEY_USER, ParseUser.getCurrentUser());
-//
-//        udQuery.findInBackground(new FindCallback<UserDeadlineRelation>() {
-//            @Override
-//            public void done(List<UserDeadlineRelation> objects, ParseException e) {
-//                if (e == null) {
-//                    for (int i = 0; i < objects.size(); i++) {
-//                        UserDeadlineRelation relation = objects.get(i);
-//                        Deadline deadline = relation.getDeadline();
-//                        String description = deadline.getDescription();
-//                        Date date = deadline.getDeadlineDate();
-//                        mDataList.add(date);
-////                        mTimeLineAdapter.notifyItemInserted(mDataList.size()-1);
-//                    }
-//                } else {
-//                    e.printStackTrace();
-//                }
-//            }
-//        });
-//    }
+    private void setDataListItems(){
+        //ParseQuery go through each of the current user's deadlines and add them.
+        UserDeadlineRelation.Query udQuery = new UserDeadlineRelation.Query();
+        udQuery.getTop().withUser().withDeadline();
+        udQuery.whereEqualTo(KEY_USER, ParseUser.getCurrentUser());
+
+        udQuery.findInBackground(new FindCallback<UserDeadlineRelation>() {
+            @Override
+            public void done(List<UserDeadlineRelation> objects, ParseException e) {
+                if (e == null) {
+                    for (int i = 0; i < objects.size(); i++) {
+                        UserDeadlineRelation relation = objects.get(i);
+                        Deadline deadline = relation.getDeadline();
+                        String description = deadline.getDescription();
+                        Date date = deadline.getDeadlineDate();
+                        Event event = new Event(Color.argb(255, 169, 68, 65), date.getTime());
+                        compactCalendarView.addEvent(event);
+                        mDataList.add(relation);
+//                        mTimeLineAdapter.notifyItemInserted(mDataList.size()-1);
+                    }
+                } else {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
 
 
 }
