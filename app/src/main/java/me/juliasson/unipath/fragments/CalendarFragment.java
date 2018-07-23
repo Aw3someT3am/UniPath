@@ -75,8 +75,8 @@ public class CalendarFragment extends Fragment {
 
 
         //set initial title
-        toolbar = ((AppCompatActivity) getActivity()).getSupportActionBar();
-        toolbar.setTitle(dateFormatForMonth.format(compactCalendarView.getFirstDayOfCurrentMonth()));
+//        toolbar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+//        toolbar.setTitle(dateFormatForMonth.format(compactCalendarView.getFirstDayOfCurrentMonth()));
 
         //set title on calendar scroll
         compactCalendarView.setListener(new CompactCalendarView.CompactCalendarViewListener() {
