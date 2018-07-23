@@ -13,6 +13,7 @@ import java.util.List;
 
 import me.juliasson.unipath.R;
 import me.juliasson.unipath.model.Deadline;
+import me.juliasson.unipath.utils.DateTimeUtils;
 
 public class DeadlineAdapter extends RecyclerView.Adapter<DeadlineAdapter.ViewHolder> {
 
@@ -38,7 +39,7 @@ public class DeadlineAdapter extends RecyclerView.Adapter<DeadlineAdapter.ViewHo
     public void onBindViewHolder(@NonNull DeadlineAdapter.ViewHolder viewHolder, int i) {
         final Deadline deadline = deadlines.get(i);
         viewHolder.tvDeadlineDesc.setText(deadline.getDescription());
-        viewHolder.tvDeadlineDate.setText(deadline.getDeadlineDate().toString());
+        viewHolder.tvDeadlineDate.setText(DateTimeUtils.parseDateTime(deadline.getDeadlineDate().toString(), DateTimeUtils.parseInputFormat, DateTimeUtils.parseOutputFormat));
     }
 
     @Override

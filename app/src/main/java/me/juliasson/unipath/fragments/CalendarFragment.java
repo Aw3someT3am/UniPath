@@ -1,6 +1,7 @@
 package me.juliasson.unipath.fragments;
 
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
@@ -9,8 +10,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 
 import com.github.sundeepk.compactcalendarview.CompactCalendarView;
 import com.github.sundeepk.compactcalendarview.domain.Event;
@@ -75,14 +78,14 @@ public class CalendarFragment extends Fragment {
 
 
         //set initial title
-        toolbar = ((AppCompatActivity) getActivity()).getSupportActionBar();
-        toolbar.setTitle(dateFormatForMonth.format(compactCalendarView.getFirstDayOfCurrentMonth()));
+//        toolbar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+//        toolbar.setTitle(dateFormatForMonth.format(compactCalendarView.getFirstDayOfCurrentMonth()));
 
         //set title on calendar scroll
         compactCalendarView.setListener(new CompactCalendarView.CompactCalendarViewListener() {
                 @Override
                 public void onDayClick(Date dateClicked) {
-                    toolbar.setTitle(dateFormatForMonth.format(dateClicked));
+//                    toolbar.setTitle(dateFormatForMonth.format(dateClicked));
                     List<Event> bookingsFromMap = compactCalendarView.getEvents(dateClicked);
                     Log.d(TAG, "inside onclick " + dateFormatForDisplaying.format(dateClicked));
                     if (bookingsFromMap != null) {
@@ -97,7 +100,7 @@ public class CalendarFragment extends Fragment {
                 }
             @Override
             public void onMonthScroll(Date firstDayOfNewMonth) {
-                toolbar.setTitle(dateFormatForMonth.format(firstDayOfNewMonth));
+//                toolbar.setTitle(dateFormatForMonth.format(firstDayOfNewMonth));
             }
         });
 
@@ -120,7 +123,7 @@ public class CalendarFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        toolbar.setTitle(dateFormatForMonth.format(compactCalendarView.getFirstDayOfCurrentMonth()));
+//        toolbar.setTitle(dateFormatForMonth.format(compactCalendarView.getFirstDayOfCurrentMonth()));
         // Set to current day on resume to set calendar to latest day
         // toolbar.setTitle(dateFormatForMonth.format(new Date()));
     }
@@ -170,6 +173,22 @@ public class CalendarFragment extends Fragment {
 
             compactCalendarView.addEvents(events);
         }
+    }
+
+    private void openCalendarOnCreate(View v) {
+        final RelativeLayout layout = v.findViewById(R.id.main_content);
+        ViewTreeObserver vto = layout.getViewTreeObserver();
+        vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                if (Build.VERSION.SDK_INT < 16) {
+                    layout.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                } else {
+                    layout.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                }
+                compactCalendarView.showCalendarWithAnimation();
+            }
+        });
     }
 
     private List<Event> getEvents(long timeInMillis, int day) {
