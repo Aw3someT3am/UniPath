@@ -46,7 +46,7 @@ The purpose of this app is to assist students and parents with finding and apply
 - [ ] Clicking on a calendar date should change the bottom half of the fragment to display colleges.
 - [ ] Implement organization of app (4-way swipe? something more simple?)
 - [X] A way to complete deadline/check it off/delete it from list. (update progress bar). 
-- [ ] be able to tell if they missed a deadline.
+- [X] be able to tell if they missed a deadline.
 - [ ] Implement calendar functionality (showing favorite college deadlines)
 - [X] Fix view for search list of colleges (some colleges are liked when they shouldn't be)
 - [ ] Clean up detail college page.
