@@ -1,6 +1,5 @@
 package me.juliasson.unipath.fragments;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -15,15 +14,13 @@ import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Locale;
 
 import me.juliasson.unipath.R;
 import me.juliasson.unipath.adapters.TimeLineAdapter;
@@ -31,7 +28,6 @@ import me.juliasson.unipath.model.Deadline;
 import me.juliasson.unipath.model.OrderStatus;
 import me.juliasson.unipath.model.TimeLine;
 import me.juliasson.unipath.model.UserDeadlineRelation;
-import me.juliasson.unipath.utils.DateTimeUtils;
 
 public class LinearTimelineFragment extends Fragment {
 
@@ -40,8 +36,7 @@ public class LinearTimelineFragment extends Fragment {
     private TimeLineAdapter mTimeLineAdapter;
     private List<TimeLine> mDataList = new ArrayList<>();
     private HashSet<TimeLine> mDataSet = new HashSet<>();
-    private Context mContext;
-    private DateFormat format;
+    private Date currentDate;
 
     private static final String KEY_USER = "user";
 
@@ -53,12 +48,11 @@ public class LinearTimelineFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
-        mContext = view.getContext();
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.setHasFixedSize(true);
 
-        format = new SimpleDateFormat(DateTimeUtils.parseInputFormat, Locale.ENGLISH);
+        currentDate = Calendar.getInstance().getTime();
 
         //find the swipe container
         swipeContainer = view.findViewById(R.id.swipeContainer);
@@ -102,7 +96,14 @@ public class LinearTimelineFragment extends Fragment {
                         Deadline deadline = relation.getDeadline();
                         String description = deadline.getDescription();
                         Date date = deadline.getDeadlineDate();
-                        mDataSet.add(new TimeLine(description, date.toString(), date, OrderStatus.ACTIVE));
+                        if (currentDate.after(date) && relation.getCompleted()) {
+                            mDataSet.add(new TimeLine(description, date.toString(), date, OrderStatus.INACTIVE));
+                        } else if (currentDate.after(date) && !relation.getCompleted()) {
+                            mDataSet.add(new TimeLine(description, date.toString(), date, OrderStatus.MISSED));
+                        }
+                        else {
+                            mDataSet.add(new TimeLine(description, date.toString(), date, OrderStatus.ACTIVE));
+                        }
                     }
                     mDataList.addAll(mDataSet);
                     sortData();

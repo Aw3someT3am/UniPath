@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +22,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseUser;
@@ -28,13 +30,16 @@ import com.parse.SaveCallback;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 import me.juliasson.unipath.R;
 import me.juliasson.unipath.activities.LoginActivity;
+import me.juliasson.unipath.model.UserDeadlineRelation;
 import me.juliasson.unipath.utils.GalleryUtils;
 
 public class ProfileFragment extends Fragment {
 
+    private SwipeRefreshLayout swipeContainer;
     private TextView tvProgressLabel;
     private ProgressBar pbProgress;
     private ImageView ivProfileImage;
@@ -63,6 +68,7 @@ public class ProfileFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         mContext = view.getContext();
 
+        swipeContainer = view.findViewById(R.id.swipeContainer);
         tvProgressLabel = view.findViewById(R.id.tvProgressLabel);
         pbProgress = view.findViewById(R.id.pbProgress);
         ivProfileImage = view.findViewById(R.id.ivProfileImage);
@@ -100,6 +106,32 @@ public class ProfileFragment extends Fragment {
                 intent.addCategory(Intent.CATEGORY_OPENABLE);
                 intent.setType("image/jpeg");
                 startActivityForResult(intent, GALLERY_IMAGE_SELECTION_REQUEST_CODE);
+            }
+        });
+
+        setPbProgress();
+    }
+
+    public void setPbProgress() {
+        UserDeadlineRelation.Query udQuery = new UserDeadlineRelation.Query();
+        udQuery.getTop().withUser();
+        udQuery.whereEqualTo("user", ParseUser.getCurrentUser());
+
+        udQuery.findInBackground(new FindCallback<UserDeadlineRelation>() {
+            @Override
+            public void done(List<UserDeadlineRelation> objects, ParseException e) {
+                if (e == null) {
+                    double numCompleted = 0;
+                    for (int i = 0; i < objects.size(); i++) {
+                        UserDeadlineRelation relation = objects.get(i);
+                        if (relation.getCompleted()) {
+                            numCompleted++;
+                        }
+                    }
+                    pbProgress.setProgress((int)(numCompleted/objects.size()*100));
+                } else {
+                    e.printStackTrace();
+                }
             }
         });
     }

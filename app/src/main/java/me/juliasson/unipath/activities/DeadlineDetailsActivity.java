@@ -21,6 +21,7 @@ import java.util.List;
 
 import me.juliasson.unipath.R;
 import me.juliasson.unipath.adapters.DDCollegeListAdapter;
+import me.juliasson.unipath.model.OrderStatus;
 import me.juliasson.unipath.model.TimeLine;
 import me.juliasson.unipath.model.UserDeadlineRelation;
 import me.juliasson.unipath.utils.DateTimeUtils;
@@ -29,9 +30,11 @@ import me.juliasson.unipath.utils.DateTimeUtils;
 public class DeadlineDetailsActivity extends AppCompatActivity {
 
     private SwipeRefreshLayout swipeContainer;
-    DDCollegeListAdapter ddcAdapter;
-    ArrayList<UserDeadlineRelation> relations;
-    RecyclerView rvRelations;
+    private int count_completed_deadlines = 0;
+    private DDCollegeListAdapter ddcAdapter;
+    private ArrayList<UserDeadlineRelation> relations;
+    private RecyclerView rvRelations;
+    private TimeLine timeline;
 
     TextView tvDate;
 
@@ -46,7 +49,7 @@ public class DeadlineDetailsActivity extends AppCompatActivity {
 
         setSize();
 
-        TimeLine timeline = Parcels.unwrap(getIntent().getParcelableExtra(TimeLine.class.getSimpleName()));
+        timeline = Parcels.unwrap(getIntent().getParcelableExtra(TimeLine.class.getSimpleName()));
         tvDate = findViewById(R.id.tvDate);
         activityDate = DateTimeUtils.parseDateTime(timeline.getDate(), DateTimeUtils.parseInputFormat, DateTimeUtils.parseOutputFormat);
         tvDate.setText(activityDate);
@@ -94,8 +97,15 @@ public class DeadlineDetailsActivity extends AppCompatActivity {
                         if (activityDate.equals(relationDeadline)) {
                             relations.add(relation);
                             ddcAdapter.notifyItemInserted(relations.size() - 1);
+                            if (relation.getCompleted()) {
+                                count_completed_deadlines++;
+                            }
                         }
                     }
+                    if (ddcAdapter.getItemCount() == count_completed_deadlines) {
+                        timeline.setStatus(OrderStatus.COMPLETED);
+                    }
+                    count_completed_deadlines = 0;
                 } else {
                     e.printStackTrace();
                 }
