@@ -40,7 +40,6 @@ public class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.ViewHold
 
     private ArrayList<College> mFilteredList;
 
-    private final static String KEY_COLLEGE_NAME = "name";
     private final static String KEY_COLLEGE_IMAGE = "image";
     private final static String KEY_UD_COLLEGE = "college";
     private final static String KEY_UD_USER = "user";
@@ -65,7 +64,7 @@ public class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.ViewHold
     @Override
     public void onBindViewHolder(@NonNull final CollegeAdapter.ViewHolder viewHolder, int position) {
         final College college = mFilteredList.get(position);
-        viewHolder.tvCollegeName.setText(college.getString(KEY_COLLEGE_NAME));
+        viewHolder.tvCollegeName.setText(college.getCollegeName());
 
         Glide.with(mContext)
                 .load(college.getParseFile(KEY_COLLEGE_IMAGE).getUrl())
