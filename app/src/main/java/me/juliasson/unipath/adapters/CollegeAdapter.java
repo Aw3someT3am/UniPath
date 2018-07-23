@@ -12,7 +12,6 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.like.LikeButton;
@@ -200,7 +199,7 @@ public class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.ViewHold
      * Removes a UserCollegeRelation row from the parse-dashboard database based on inputted college.
      * @param college the college being unrelated to the user.
      */
-    private void removeUserCollegeRelation(final College college) {
+    public static void removeUserCollegeRelation(final College college) {
         UserCollegeRelation.Query ucQuery = new UserCollegeRelation.Query();
         ucQuery.getTop().withCollege().withUser();
         ucQuery.whereEqualTo("college", college);
@@ -235,7 +234,7 @@ public class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.ViewHold
      * Removes all UserDeadlineRelation rows from the parse-dashboard database based on inputted college.
      * @param college the college whose deadlines are being unrelated to the user.
      */
-    private void removeUserDeadlinesRelation(final College college) {
+    public static void removeUserDeadlinesRelation(final College college) {
         UserDeadlineRelation.Query udQuery = new UserDeadlineRelation.Query();
         udQuery.getTop().withDeadline().withUser().withCollege();
         udQuery.whereEqualTo(KEY_UD_COLLEGE, college);
@@ -252,7 +251,7 @@ public class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.ViewHold
                             relation.saveInBackground(new SaveCallback() {
                                 @Override
                                 public void done(ParseException e) {
-                                    Toast.makeText(mContext, "College and Deadlines removed!", Toast.LENGTH_SHORT).show();
+                                    //Toast.makeText(mContext, "College and Deadlines removed!", Toast.LENGTH_SHORT).show();
                                     Log.d("College Adapter", "User Deadline Relation removed");
                                 }
                             });
@@ -272,7 +271,7 @@ public class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.ViewHold
      * Adds UserCollegeRelation to parse-dashboard database based on college.
      * @param college the college the user wants to be related to.
      */
-    private void addUserCollegeRelation(final College college) {
+    public static void addUserCollegeRelation(final College college) {
         UserCollegeRelation userCollegeRelation = new UserCollegeRelation();
         userCollegeRelation.setUser(ParseUser.getCurrentUser());
         userCollegeRelation.setCollege(college);
@@ -293,7 +292,7 @@ public class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.ViewHold
      * Adds UserDeadlineRelations to parse-dashboard databased based on college.
      * @param college the college whose deadlines are now being related to the user.
      */
-    private void addUserDeadlineRelations(final College college) {
+    public static void addUserDeadlineRelations(final College college) {
         CollegeDeadlineRelation.Query cdQuery = new CollegeDeadlineRelation.Query();
         cdQuery.getTop().withDeadline().withCollege();
 
@@ -314,7 +313,7 @@ public class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.ViewHold
                                 public void done(ParseException e) {
                                     if (e == null) {
                                         Log.d("CollegeAdapter", "Create UserDeadlineRelation success");
-                                        Toast.makeText(mContext, "College and Deadlines added!", Toast.LENGTH_SHORT).show();
+                                        //Toast.makeText(mContext, "College and Deadlines added!", Toast.LENGTH_SHORT).show();
                                     } else {
                                         Log.d("CollegeAdapter", "Create UserDeadlineRelation failure");
                                         e.printStackTrace();
