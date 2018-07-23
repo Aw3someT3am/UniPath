@@ -6,6 +6,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
@@ -41,7 +42,7 @@ public class SearchFragment extends Fragment{
     private Activity activity;
     private Context context;
 
-
+    private SwipeRefreshLayout swipeContainerSearch;
     private RecyclerView mRecyclerView;
     private ArrayList<College> colleges;
     private CollegeAdapter collegeAdapter;
@@ -64,6 +65,23 @@ public class SearchFragment extends Fragment{
 
         initViews();
         loadTopColleges();
+
+        swipeContainerSearch = (SwipeRefreshLayout) view.findViewById(R.id.swipeContainerSearch);
+        // Setup refresh listener which triggers new data loading
+        swipeContainerSearch.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                // Your code to refresh the list here.
+                // Make sure you call swipeContainer.setRefreshing(false)
+                // once the network request has completed successfully.
+                refresh();
+            }
+        });
+        // Configure the refreshing colors
+        swipeContainerSearch.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
     }
 
     @Override
@@ -129,5 +147,14 @@ public class SearchFragment extends Fragment{
                 return false;
             }
         });
+    }
+
+    public void refresh() {
+        collegeAdapter.clear();
+        initViews();
+        loadTopColleges();
+        collegeAdapter.addAll(colleges);
+        // Now we call setRefreshing(false) to signal refresh has finished
+        swipeContainerSearch.setRefreshing(false);
     }
 }
