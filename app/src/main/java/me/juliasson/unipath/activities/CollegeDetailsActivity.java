@@ -15,10 +15,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.like.LikeButton;
+import com.like.OnLikeListener;
 
 import org.parceler.Parcels;
 
 import me.juliasson.unipath.R;
+import me.juliasson.unipath.adapters.CollegeAdapter;
 import me.juliasson.unipath.fragments.DeadlineFragment;
 import me.juliasson.unipath.fragments.GeneralInfoFragment;
 import me.juliasson.unipath.model.College;
@@ -32,6 +35,7 @@ public class CollegeDetailsActivity extends AppCompatActivity {
 
     TextView tvcollegeName;
     ImageView ivCollegeImage;
+    LikeButton lbLikeButtonDetails;
 
     College college;
 
@@ -46,6 +50,23 @@ public class CollegeDetailsActivity extends AppCompatActivity {
         tvcollegeName = (TextView) findViewById(R.id.tvCollege);
         ivCollegeImage = (ImageView) findViewById(R.id.ivCollegeImage);
         college = (College) Parcels.unwrap(getIntent().getParcelableExtra(College.class.getSimpleName()));
+        lbLikeButtonDetails = (LikeButton) findViewById(R.id.lbLikeButtonDetails);
+
+        lbLikeButtonDetails.setLiked(false);
+
+        lbLikeButtonDetails.setOnLikeListener(new OnLikeListener() {
+            @Override
+            public void liked(LikeButton likeButton) {
+                CollegeAdapter.addUserCollegeRelation(college);
+                addUserDeadlineRelations(college);
+            }
+
+            @Override
+            public void unLiked(LikeButton likeButton) {
+                removeUserCollegeRelation(college);
+                removeUserDeadlinesRelation(college);
+            }
+        });
 
         tvcollegeName.setText(college.getCollegeName());
 
