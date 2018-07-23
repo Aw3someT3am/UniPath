@@ -16,8 +16,9 @@
         android:layout_height="317dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="53dp"
+        android:layout_marginTop="74dp"
         android:fadingEdge="vertical"
+        android:hapticFeedbackEnabled="true"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         app:compactCalendarBackgroundColor="@color/white_20_transparent"
@@ -26,17 +27,26 @@
         app:compactCalendarMultiEventIndicatorColor="#fff"
         app:compactCalendarTargetHeight="250dp"
         app:compactCalendarTextColor="#fff"
-        app:compactCalendarTextSize="16sp"
-         />
+        app:compactCalendarTextSize="16sp" />
 
 
     <ListView
         android:id="@+id/bookings_listview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:fontFamily="@font/lato"
+        android:textSize="18sp"
         android:layout_below="@+id/compactcalendar_view">
 
     </ListView>
+
+    <TextView
+        android:id="@+id/monthYearBtn"
+        android:layout_width="296dp"
+        android:layout_height="60dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true" />
 
 </RelativeLayout>
 
