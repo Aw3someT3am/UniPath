@@ -8,6 +8,7 @@
     <color name="white_80_transparent">#80FFFFFF</color>
     <color name="white">#e8e8e8</color>
     <color name="grey">#808080</color>
+    <color name="dark_grey">#303030</color>
     <color name="solid_black">#000000</color>
     <color name="background_orange">#FF5C33</color>
     <color name="background_light_orange">#ff8566</color>

@@ -44,10 +44,10 @@
         <activity
             android:name=".activities.CollegeDetailsActivity"
             android:excludeFromRecents="true"
-            android:theme="@style/Theme.AppCompat.Dialog" />
+            android:theme="@style/AppTheme.Dialog" />
 
         <activity android:name=".activities.DeadlineDetailsActivity"
-            android:theme="@style/Theme.AppCompat.Dialog"
+            android:theme="@style/AppTheme.Dialog"
             android:excludeFromRecents="true"/>
 
     </application>

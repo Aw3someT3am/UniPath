@@ -20,4 +20,5 @@
     <string name="early_decision">Early Decision</string>
     <string name="regular_desicion">Regular Desicion</string>
     <string name="description">Description</string>
+    <string name="date">date</string>
 </resources>

@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background = "@color/dark_grey"
     tools:context=".activities.DeadlineDetailsActivity">
 
     <TextView
@@ -15,13 +16,13 @@
         android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="@string/college_name"
+        android:text = "@string/date"
         android:textAppearance="@android:style/TextAppearance.Large"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="Date" />
+        android:textColor="@color/solid_white" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rvCollegeList"

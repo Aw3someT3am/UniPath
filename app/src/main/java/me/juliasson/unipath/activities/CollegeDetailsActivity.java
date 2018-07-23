@@ -40,7 +40,7 @@ public class CollegeDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_college_details);
         this.setFinishOnTouchOutside(true);
-
+        
         setSize();
 
         tvcollegeName = (TextView) findViewById(R.id.tvCollege);
