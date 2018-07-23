@@ -72,6 +72,8 @@ public class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.ViewHold
                 .load(college.getParseFile(KEY_COLLEGE_IMAGE).getUrl())
                 .into(viewHolder.ivCollegeImage);
 
+        viewHolder.lbLikeButton.setLiked(false);
+
         loadFavoriteColleges(viewHolder, college);
 
         viewHolder.lbLikeButton.setOnLikeListener(new OnLikeListener() {

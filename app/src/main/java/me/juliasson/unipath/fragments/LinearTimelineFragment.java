@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -27,6 +28,7 @@ import me.juliasson.unipath.model.UserDeadlineRelation;
 
 public class LinearTimelineFragment extends Fragment {
 
+    private SwipeRefreshLayout swipeContainer;
     private RecyclerView mRecyclerView;
     private TimeLineAdapter mTimeLineAdapter;
     private List<TimeLine> mDataList = new ArrayList<>();
@@ -48,6 +50,24 @@ public class LinearTimelineFragment extends Fragment {
         mRecyclerView.setHasFixedSize(true);
 
         initView();
+
+        //find the swipe container
+        swipeContainer = view.findViewById(R.id.swipeContainer);
+        // Setup refresh listener which triggers new data loading
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                // Your code to refresh the list here.
+                // Make sure you call swipeContainer.setRefreshing(false)
+                refresh();
+            }
+        });
+        // Configure the refreshing colors
+        swipeContainer.setColorSchemeResources(
+                android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
     }
 
     private void initView() {
@@ -80,4 +100,13 @@ public class LinearTimelineFragment extends Fragment {
             }
         });
     }
+
+    public void refresh() {
+        mTimeLineAdapter.clear();
+        setDataListItems();
+        mTimeLineAdapter.addAll(mDataList);
+        // Now we call setRefreshing(false) to signal refresh has finished
+        swipeContainer.setRefreshing(false);
+    }
+
 }

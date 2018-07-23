@@ -93,5 +93,4 @@ public class FavoritesFragment extends Fragment {
         // Now we call setRefreshing(false) to signal refresh has finished
         swipeContainer.setRefreshing(false);
     }
-
 }

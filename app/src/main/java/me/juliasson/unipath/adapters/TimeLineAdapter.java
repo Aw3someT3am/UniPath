@@ -110,4 +110,16 @@ public class TimeLineAdapter extends RecyclerView.Adapter<TimeLineAdapter.ViewHo
         return TimelineView.getTimeLineViewType(position, getItemCount());
     }
 
+    // Clean all elements of the recycler
+    public void clear() {
+        mFeedList.clear();
+        notifyDataSetChanged();
+    }
+
+    // Add a list of items -- change to type used
+    public void addAll(List<TimeLine> list) {
+        mFeedList.addAll(list);
+        notifyDataSetChanged();
+    }
+
 }

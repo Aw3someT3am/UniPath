@@ -1,5 +1,6 @@
 package me.juliasson.unipath.activities;
 
+import android.app.ActionBar;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -7,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.util.DisplayMetrics;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -38,6 +40,8 @@ public class CollegeDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_college_details);
         this.setFinishOnTouchOutside(true);
+
+        setSize();
 
         tvcollegeName = (TextView) findViewById(R.id.tvCollege);
         ivCollegeImage = (ImageView) findViewById(R.id.ivCollegeImage);
@@ -83,5 +87,12 @@ public class CollegeDetailsActivity extends AppCompatActivity {
                 return true;
             }
         });
+    }
+
+    private void setSize() {
+        DisplayMetrics metrics = getResources().getDisplayMetrics();
+        int height = metrics.heightPixels;
+
+        getWindow().setLayout(ActionBar.LayoutParams.MATCH_PARENT, (6 * height)/7);
     }
 }
