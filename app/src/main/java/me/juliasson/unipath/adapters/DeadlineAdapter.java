@@ -29,7 +29,7 @@ public class DeadlineAdapter extends RecyclerView.Adapter<DeadlineAdapter.ViewHo
         mContext = viewGroup.getContext();
         LayoutInflater inflater = LayoutInflater.from(mContext);
 
-        View deadlineView = inflater.inflate(R.layout.item_details_deadline, viewGroup, false);
+        View deadlineView = inflater.inflate(R.layout.item_collegedetails_deadline, viewGroup, false);
         DeadlineAdapter.ViewHolder viewHolder = new DeadlineAdapter.ViewHolder(deadlineView);
         return viewHolder;
     }

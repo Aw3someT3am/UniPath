@@ -25,7 +25,7 @@ public class DeadlineDetailsActivity extends AppCompatActivity {
         DisplayMetrics metrics = getResources().getDisplayMetrics();
         int height = metrics.heightPixels;
 
-        getWindow().setLayout(ActionBar.LayoutParams.MATCH_PARENT, (6 * height)/7);
+        getWindow().setLayout(ActionBar.LayoutParams.MATCH_PARENT, (3 * height)/4);
     }
 }
 

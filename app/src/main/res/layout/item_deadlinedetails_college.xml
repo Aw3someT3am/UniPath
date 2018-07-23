@@ -1,30 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <ImageView
-        android:id="@+id/imageView2"
+    <com.like.LikeButton
+        android:id="@+id/lbLikeButton"
         android:layout_width="46dp"
         android:layout_height="45dp"
         android:layout_marginLeft="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        app:anim_scale_factor="2"
+        app:icon_size="25dp"
+        app:icon_type="heart"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_radio_button_unchecked_black_24dp" />
+        app:like_drawable="@drawable/check_active"
+        app:unlike_drawable="@drawable/check_inactive" />
 
     <TextView
-        android:id="@+id/tvDeadlineDate"
+        android:id="@+id/tvCollegeName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="TextView"
-        app:layout_constraintStart_toEndOf="@+id/imageView2"
+        android:text="@string/college_name"
+        app:layout_constraintStart_toEndOf="@+id/lbLikeButton"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -35,8 +38,9 @@
         android:layout_marginLeft="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="TextView"
+        android:text="@string/deadline_description"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imageView2"
-        app:layout_constraintTop_toBottomOf="@+id/tvDeadlineDate" />
+        app:layout_constraintStart_toEndOf="@+id/lbLikeButton"
+        app:layout_constraintTop_toBottomOf="@+id/tvCollegeName" />
+
 </android.support.constraint.ConstraintLayout>
