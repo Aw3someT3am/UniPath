@@ -18,7 +18,10 @@ import com.parse.ParseUser;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 
@@ -36,6 +39,7 @@ public class LinearTimelineFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private TimeLineAdapter mTimeLineAdapter;
     private List<TimeLine> mDataList = new ArrayList<>();
+    private HashSet<TimeLine> mDataSet = new HashSet<>();
     private Context mContext;
     private DateFormat format;
 
@@ -56,8 +60,6 @@ public class LinearTimelineFragment extends Fragment {
 
         format = new SimpleDateFormat(DateTimeUtils.parseInputFormat, Locale.ENGLISH);
 
-        initView();
-
         //find the swipe container
         swipeContainer = view.findViewById(R.id.swipeContainer);
         // Setup refresh listener which triggers new data loading
@@ -75,13 +77,14 @@ public class LinearTimelineFragment extends Fragment {
                 android.R.color.holo_green_light,
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
+
+        initView();
     }
 
     private void initView() {
-        mTimeLineAdapter = new TimeLineAdapter();
+        mTimeLineAdapter = new TimeLineAdapter(mDataList);
         mRecyclerView.setAdapter(mTimeLineAdapter);
         setDataListItems();
-        mTimeLineAdapter.addAll(mDataList);
     }
 
     private void setDataListItems(){
@@ -99,8 +102,10 @@ public class LinearTimelineFragment extends Fragment {
                         Deadline deadline = relation.getDeadline();
                         String description = deadline.getDescription();
                         Date date = deadline.getDeadlineDate();
-                        mDataList.add(new TimeLine(description, date.toString(), date, relation.getCompleted() ? OrderStatus.COMPLETED : OrderStatus.ACTIVE));
+                        mDataSet.add(new TimeLine(description, date.toString(), date, OrderStatus.ACTIVE));
                     }
+                    mDataList.addAll(mDataSet);
+                    sortData();
                 } else {
                     e.printStackTrace();
                 }
@@ -108,8 +113,19 @@ public class LinearTimelineFragment extends Fragment {
         });
     }
 
+    public void sortData() {
+        Collections.sort(mDataList, new Comparator<TimeLine>() {
+            @Override
+            public int compare(TimeLine t1, TimeLine t2) {
+                return t1.getDDate().compareTo(t2.getDDate());
+            }
+        });
+        mTimeLineAdapter.notifyDataSetChanged();
+    }
+
     public void refresh() {
         mTimeLineAdapter.clear();
+        mDataSet.clear();
         setDataListItems();
         mTimeLineAdapter.addAll(mDataList);
         // Now we call setRefreshing(false) to signal refresh has finished

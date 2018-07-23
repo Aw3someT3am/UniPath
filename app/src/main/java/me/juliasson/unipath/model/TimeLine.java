@@ -1,9 +1,11 @@
 package me.juliasson.unipath.model;
 
+import android.annotation.SuppressLint;
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.util.Date;
+import java.util.Objects;
 
 public class TimeLine implements Parcelable{
     private String mMessage;
@@ -83,4 +85,23 @@ public class TimeLine implements Parcelable{
             return new TimeLine[size];
         }
     };
+
+    @SuppressLint("NewApi")
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        TimeLine timeLine = (TimeLine) o;
+        return Objects.equals(mMessage, timeLine.mMessage) &&
+                Objects.equals(dDate, timeLine.dDate) &&
+                Objects.equals(mDate, timeLine.mDate) &&
+                mStatus == timeLine.mStatus;
+    }
+
+    @SuppressLint("NewApi")
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(mMessage, dDate, mDate, mStatus);
+    }
 }
