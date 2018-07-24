@@ -82,7 +82,6 @@ public class DeadlineDetailsActivity extends AppCompatActivity {
     }
 
     public void loadRelations() {
-        //TODO: we'll be using a hashmap to get the userdeadlinerelations for a specific date. Use information from the hashmap to do this part.
         UserDeadlineRelation.Query udQuery = new UserDeadlineRelation.Query();
         udQuery.getTop().withCollege().withUser().withDeadline();
         udQuery.whereEqualTo("user", ParseUser.getCurrentUser());
