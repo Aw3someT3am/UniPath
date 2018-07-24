@@ -32,7 +32,6 @@ import java.util.List;
 import java.util.Locale;
 
 import me.juliasson.unipath.R;
-import me.juliasson.unipath.adapters.CalendarAdapter;
 import me.juliasson.unipath.model.College;
 import me.juliasson.unipath.model.Deadline;
 import me.juliasson.unipath.model.UserDeadlineRelation;
@@ -47,10 +46,6 @@ public class CalendarFragment extends Fragment {
     private boolean shouldShow = false;
     private CompactCalendarView compactCalendarView;
     private TextView monthYearTv;
-
-
-    private CalendarAdapter mCalendarAdapter;
-
 
     private List<UserDeadlineRelation> mDataList = new ArrayList<>();
 
@@ -276,7 +271,6 @@ public class CalendarFragment extends Fragment {
                         Event event = new Event(Color.argb(255, 169, 68, 65), date.getTime(), description + " " + college);
                         compactCalendarView.addEvent(event);
                         mDataList.add(relation);
-
 
 //                        mCalendarAdapter.notifyItemInserted(mDataList.size()-1);
                     }
