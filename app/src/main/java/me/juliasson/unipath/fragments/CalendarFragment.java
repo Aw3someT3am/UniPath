@@ -226,11 +226,11 @@ public class CalendarFragment extends Fragment {
 
     private List<Event> getEvents(long timeInMillis, int day) {
         if (day < 2) {
-            return Arrays.asList(new Event(Color.argb(255, 169, 68, 65), timeInMillis, "Event at " + new Date(timeInMillis)));
+            return Arrays.asList(new Event(android.R.color.holo_blue_bright, timeInMillis, "Event at " + new Date(timeInMillis)));
         } else if ( day > 2 && day <= 4) {
             return Arrays.asList(
                     new Event(Color.argb(255, 169, 68, 65), timeInMillis, "Event at " + new Date(timeInMillis)),
-                    new Event(Color.argb(255, 100, 68, 65), timeInMillis, "Event 2 at " + new Date(timeInMillis)));
+                    new Event(android.R.color.holo_blue_bright, timeInMillis, "Event 2 at " + new Date(timeInMillis)));
         } else {
             return Arrays.asList(
                     new Event(Color.argb(255, 169, 68, 65), timeInMillis, "Event at " + new Date(timeInMillis) ),
@@ -268,11 +268,9 @@ public class CalendarFragment extends Fragment {
                         Date date = deadline.getDeadlineDate();
 
                         // Create event for each deadline and add to CompactCalendarView
-                        Event event = new Event(Color.argb(255, 169, 68, 65), date.getTime(), description + " " + college);
+                        Event event = new Event(Color.argb(255, 0, 221, 255), date.getTime(), college + ", " + description);
                         compactCalendarView.addEvent(event);
                         mDataList.add(relation);
-
-//                        mCalendarAdapter.notifyItemInserted(mDataList.size()-1);
                     }
                 } else {
                     e.printStackTrace();
