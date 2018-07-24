@@ -29,6 +29,12 @@ public class ParseApp extends Application {
                 .server("https://unipath.herokuapp.com/parse/")
                 .build();
 
+//        Stetho.initializeWithDefaults(this);
+//
+//        Parse.addNetworkInterceptor(new ParseStethoInterceptor());
+//
+//        Parse.addParseNetworkInterceptor(new ParseLogInterceptor());
+
         Parse.initialize(configuration);
     }
 }
