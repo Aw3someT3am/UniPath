@@ -11,6 +11,12 @@ import java.util.Date;
 public class College extends ParseObject {
     private static final String KEY_IMAGE = "image";
     private static final String KEY_NAME = "name";
+    private static final String KEY_ADDRESS = "address";
+    private static final String KEY_STUDENT_POPULATION = "studentPopulation";
+    private static final String KEY_OUT_OF_STATE_COST = "outOfStateCost";
+    private static final String KEY_IN_STATE_COST = "inStateCost";
+    private static final String KEY_ACCEPATNCE_RATE = "acceptanceRate";
+
     private static final String KEY_EARLY_ACTION = "earlyAction";
     private static final String KEY_REGULAR_ACTION = "regularAction";
 
@@ -20,6 +26,26 @@ public class College extends ParseObject {
 
     public String getCollegeName() {
         return getString(KEY_NAME);
+    }
+
+    public String getAddress() {
+        return getString(KEY_ADDRESS);
+    }
+
+    public Integer getStudentPopulation() {
+        return getNumber(KEY_STUDENT_POPULATION).intValue();
+    }
+
+    public Integer getOutOfStateCost() {
+        return getNumber(KEY_OUT_OF_STATE_COST).intValue();
+    }
+
+    public Integer getInStateCost() {
+        return getNumber(KEY_IN_STATE_COST).intValue();
+    }
+
+    public Double getAccepatnceRate() {
+        return getNumber(KEY_ACCEPATNCE_RATE).doubleValue();
     }
 
     public Date getEarlyAction() {

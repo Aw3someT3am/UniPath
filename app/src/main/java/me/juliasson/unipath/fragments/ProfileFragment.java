@@ -10,6 +10,8 @@ import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,12 +32,17 @@ import com.parse.SaveCallback;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import me.juliasson.unipath.R;
 import me.juliasson.unipath.activities.LoginActivity;
+import me.juliasson.unipath.adapters.CollegeAdapter;
+import me.juliasson.unipath.model.College;
+import me.juliasson.unipath.model.UserCollegeRelation;
 import me.juliasson.unipath.model.UserDeadlineRelation;
 import me.juliasson.unipath.utils.GalleryUtils;
+import me.juliasson.unipath.utils.SpaceItemDecoration;
 
 public class ProfileFragment extends Fragment {
 
@@ -47,9 +54,14 @@ public class ProfileFragment extends Fragment {
     private TextView tvEmail;
     private Button bvLogout;
 
+    private CollegeAdapter collegeAdapter;
+    private ArrayList<College> colleges;
+    private RecyclerView rvColleges;
+
     private final String KEY_FIRST_NAME = "firstName";
     private final String KEY_LAST_NAME = "lastName";
     private final String KEY_PROFILE_IMAGE = "profileImage";
+    private final String KEY_RELATION_USER = "user";
 
     private final static int GALLERY_IMAGE_SELECTION_REQUEST_CODE = 2034;
     private String filePath;
@@ -68,6 +80,7 @@ public class ProfileFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         mContext = view.getContext();
 
+        //settings up general profile info
         swipeContainer = view.findViewById(R.id.swipeContainer);
         tvProgressLabel = view.findViewById(R.id.tvProgressLabel);
         pbProgress = view.findViewById(R.id.pbProgress);
@@ -76,6 +89,24 @@ public class ProfileFragment extends Fragment {
         tvEmail = view.findViewById(R.id.tvEmail);
         bvLogout = view.findViewById(R.id.bvLogout);
 
+        //setting up favorite colleges list adapter
+        rvColleges = view.findViewById(R.id.rvCollegeList);
+        int spacingInPixels = getResources().getDimensionPixelSize(R.dimen.direct_gallery_grid_spacing);
+        rvColleges.addItemDecoration(new SpaceItemDecoration(spacingInPixels));
+        colleges = new ArrayList<>();
+        collegeAdapter = new CollegeAdapter(colleges);
+        rvColleges.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+        rvColleges.setAdapter(collegeAdapter);
+
+        assignGeneralProfileInfo();
+
+        //set up of favorite colleges list
+        loadFavoriteColleges();
+        setUpSwipeContainer(view);
+    }
+
+    //-------------------Handling assignment/prep for profile general info----------------------------
+    public void assignGeneralProfileInfo() {
         final String firstName = ParseUser.getCurrentUser().get(KEY_FIRST_NAME).toString();
         final String lastName = ParseUser.getCurrentUser().get(KEY_LAST_NAME).toString();
         tvProgressLabel.setText(String.format("Hi, %s! Here's your progress.", firstName));
@@ -115,7 +146,7 @@ public class ProfileFragment extends Fragment {
     public void setPbProgress() {
         UserDeadlineRelation.Query udQuery = new UserDeadlineRelation.Query();
         udQuery.getTop().withUser();
-        udQuery.whereEqualTo("user", ParseUser.getCurrentUser());
+        udQuery.whereEqualTo(KEY_RELATION_USER, ParseUser.getCurrentUser());
 
         udQuery.findInBackground(new FindCallback<UserDeadlineRelation>() {
             @Override
@@ -136,6 +167,27 @@ public class ProfileFragment extends Fragment {
         });
     }
 
+    public void setUpSwipeContainer(View view) {
+        //find the swipe container
+        swipeContainer = view.findViewById(R.id.swipeContainer);
+        // Setup refresh listener which triggers new data loading
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                // Your code to refresh the list here.
+                // Make sure you call swipeContainer.setRefreshing(false)
+                refresh();
+            }
+        });
+        // Configure the refreshing colors
+        swipeContainer.setColorSchemeResources(
+                android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
+    }
+
+    //-------------------Handling profile image changes----------------------------
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if (resultCode != Activity.RESULT_OK) return;
@@ -183,5 +235,37 @@ public class ProfileFragment extends Fragment {
                 }
             }
         });
+    }
+
+    //-------------------Loading Recycler View----------------------------
+    public void loadFavoriteColleges() {
+        final UserCollegeRelation.Query ucRelationQuery = new UserCollegeRelation.Query();
+        ucRelationQuery.getTop().withCollege().withUser();
+
+        ucRelationQuery.findInBackground(new FindCallback<UserCollegeRelation>() {
+            @Override
+            public void done(List<UserCollegeRelation> objects, ParseException e) {
+                if (e == null) {
+                    for(int i = 0; i < objects.size(); i++) {
+                        UserCollegeRelation relation = objects.get(i);
+                        if (ParseUser.getCurrentUser().getObjectId().equals(relation.getUser().getObjectId())) {
+                            College college = relation.getCollege();
+                            colleges.add(college);
+                            collegeAdapter.notifyItemInserted(colleges.size()-1);
+                        }
+                    }
+                } else {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    public void refresh() {
+        collegeAdapter.clear();
+        loadFavoriteColleges();
+        collegeAdapter.addAll(colleges);
+        // Now we call setRefreshing(false) to signal refresh has finished
+        swipeContainer.setRefreshing(false);
     }
 }
