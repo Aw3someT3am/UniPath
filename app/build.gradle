@@ -60,4 +60,12 @@ dependencies {
     implementation 'com.github.jd-alexander:LikeButton:0.2.3'
 
     implementation 'com.github.sundeepk:compact-calendar-view:3.0.0'
+    debugImplementation 'com.parse:parseinterceptors:0.0.2'
+    implementation 'com.parse:parse-android:1.14.1'
+
+    debugImplementation 'com.facebook.stetho:stetho:1.4.2'
+    debugImplementation 'com.parse:parseinterceptors:0.0.2'
+
+    compile 'com.parse:parse-android:1.14.0'
+    debugCompile 'com.parse:parseinterceptors:0.0.2'
 }
