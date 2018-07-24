@@ -50,7 +50,9 @@ The purpose of this app is to assist students and parents with finding and apply
 - [X] be able to tell if they missed a deadline.
 - [X] Implement calendar functionality (showing favorite college deadlines)
 - [X] Fix view for search list of colleges (some colleges are liked when they shouldn't be)
-- [ ] Clean up detail college page.
+- Clean up detail college page:
+  - [X] Appearance
+  - [ ] General Info fragment, including description, cost, population, and more.
 
 ## Walkthrough week 1 progress
 ![Walkthrough](walkthrough.gif)
