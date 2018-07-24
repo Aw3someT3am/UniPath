@@ -94,14 +94,12 @@ public class TimeLine implements Parcelable{
         TimeLine timeLine = (TimeLine) o;
         return Objects.equals(mMessage, timeLine.mMessage) &&
                 Objects.equals(dDate, timeLine.dDate) &&
-                Objects.equals(mDate, timeLine.mDate) &&
-                mStatus == timeLine.mStatus;
+                Objects.equals(mDate, timeLine.mDate);
     }
 
     @SuppressLint("NewApi")
     @Override
     public int hashCode() {
-
-        return Objects.hash(mMessage, dDate, mDate, mStatus);
+        return Objects.hash(mMessage, dDate, mDate);
     }
 }

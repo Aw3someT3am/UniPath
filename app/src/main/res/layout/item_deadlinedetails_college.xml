@@ -16,8 +16,8 @@
         app:icon_type="heart"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:like_drawable="@drawable/check_active"
-        app:unlike_drawable="@drawable/check_inactive" />
+        app:like_drawable="@drawable/ic_check_active"
+        app:unlike_drawable="@drawable/ic_check_inactive" />
 
     <TextView
         android:id="@+id/tvCollegeName"
