@@ -3,7 +3,6 @@ package me.juliasson.unipath.adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,8 +30,8 @@ public class TimeLineAdapter extends RecyclerView.Adapter<TimeLineAdapter.ViewHo
     private Context mContext;
     private LayoutInflater mLayoutInflater;
 
-    public TimeLineAdapter(List<TimeLine> feedList) {
-        mFeedList = feedList;
+    public TimeLineAdapter(List<TimeLine> list) {
+        mFeedList = list;
     }
 
     @NonNull
@@ -52,9 +51,11 @@ public class TimeLineAdapter extends RecyclerView.Adapter<TimeLineAdapter.ViewHo
         if(timeLineModel.getStatus() == OrderStatus.INACTIVE) {
             viewHolder.mTimelineView.setMarker(VectorDrawableUtils.getDrawable(mContext, R.drawable.ic_marker_inactive, android.R.color.darker_gray));
         } else if(timeLineModel.getStatus() == OrderStatus.ACTIVE) {
-            viewHolder.mTimelineView.setMarker(VectorDrawableUtils.getDrawable(mContext, R.drawable.ic_marker_active, R.color.colorPrimary));
+            viewHolder.mTimelineView.setMarker(VectorDrawableUtils.getDrawable(mContext, R.drawable.ic_marker_active, android.R.color.holo_blue_light));
+        } else if (timeLineModel.getStatus() == OrderStatus.MISSED) {
+            viewHolder.mTimelineView.setMarker(VectorDrawableUtils.getDrawable(mContext, R.drawable.ic_marker_missed, android.R.color.holo_orange_light));
         } else {
-            viewHolder.mTimelineView.setMarker(ContextCompat.getDrawable(mContext, R.drawable.ic_marker), ContextCompat.getColor(mContext, R.color.colorPrimary));
+            viewHolder.mTimelineView.setMarker(VectorDrawableUtils.getDrawable(mContext, R.drawable.ic_marker_inactive, android.R.color.darker_gray));
         }
 
         if(!timeLineModel.getDate().isEmpty()) {
@@ -69,8 +70,7 @@ public class TimeLineAdapter extends RecyclerView.Adapter<TimeLineAdapter.ViewHo
 
     @Override
     public int getItemCount() {
-        return mFeedList.size()
-                ;
+        return mFeedList.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {

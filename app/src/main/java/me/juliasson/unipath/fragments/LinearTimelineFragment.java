@@ -1,6 +1,5 @@
 package me.juliasson.unipath.fragments;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -16,7 +15,11 @@ import com.parse.ParseException;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 
 import me.juliasson.unipath.R;
@@ -32,7 +35,8 @@ public class LinearTimelineFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private TimeLineAdapter mTimeLineAdapter;
     private List<TimeLine> mDataList = new ArrayList<>();
-    private Context mContext;
+    private HashSet<TimeLine> mDataSet = new HashSet<>();
+    private Date currentDate;
 
     private static final String KEY_USER = "user";
 
@@ -44,12 +48,11 @@ public class LinearTimelineFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
-        mContext = view.getContext();
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.setHasFixedSize(true);
 
-        initView();
+        currentDate = Calendar.getInstance().getTime();
 
         //find the swipe container
         swipeContainer = view.findViewById(R.id.swipeContainer);
@@ -68,12 +71,14 @@ public class LinearTimelineFragment extends Fragment {
                 android.R.color.holo_green_light,
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
+
+        initView();
     }
 
     private void initView() {
-        setDataListItems();
         mTimeLineAdapter = new TimeLineAdapter(mDataList);
         mRecyclerView.setAdapter(mTimeLineAdapter);
+        setDataListItems();
     }
 
     private void setDataListItems(){
@@ -91,9 +96,17 @@ public class LinearTimelineFragment extends Fragment {
                         Deadline deadline = relation.getDeadline();
                         String description = deadline.getDescription();
                         Date date = deadline.getDeadlineDate();
-                        mDataList.add(new TimeLine(description, date.toString(), relation.getCompleted() ? OrderStatus.COMPLETED : OrderStatus.ACTIVE));
-                        mTimeLineAdapter.notifyItemInserted(mDataList.size()-1);
+                        if (currentDate.after(date) && relation.getCompleted()) {
+                            mDataSet.add(new TimeLine(description, date.toString(), date, OrderStatus.INACTIVE));
+                        } else if (currentDate.after(date) && !relation.getCompleted()) {
+                            mDataSet.add(new TimeLine(description, date.toString(), date, OrderStatus.MISSED));
+                        }
+                        else {
+                            mDataSet.add(new TimeLine(description, date.toString(), date, OrderStatus.ACTIVE));
+                        }
                     }
+                    mDataList.addAll(mDataSet);
+                    sortData();
                 } else {
                     e.printStackTrace();
                 }
@@ -101,8 +114,19 @@ public class LinearTimelineFragment extends Fragment {
         });
     }
 
+    public void sortData() {
+        Collections.sort(mDataList, new Comparator<TimeLine>() {
+            @Override
+            public int compare(TimeLine t1, TimeLine t2) {
+                return t1.getDDate().compareTo(t2.getDDate());
+            }
+        });
+        mTimeLineAdapter.notifyDataSetChanged();
+    }
+
     public void refresh() {
         mTimeLineAdapter.clear();
+        mDataSet.clear();
         setDataListItems();
         mTimeLineAdapter.addAll(mDataList);
         // Now we call setRefreshing(false) to signal refresh has finished

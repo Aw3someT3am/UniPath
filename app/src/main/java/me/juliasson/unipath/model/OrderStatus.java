@@ -4,6 +4,7 @@ public enum OrderStatus {
 
     COMPLETED,
     ACTIVE,
+    MISSED,
     INACTIVE;
 
 }
