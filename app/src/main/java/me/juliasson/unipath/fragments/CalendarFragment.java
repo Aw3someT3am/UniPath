@@ -32,6 +32,8 @@ import java.util.List;
 import java.util.Locale;
 
 import me.juliasson.unipath.R;
+import me.juliasson.unipath.adapters.CalendarAdapter;
+import me.juliasson.unipath.model.College;
 import me.juliasson.unipath.model.Deadline;
 import me.juliasson.unipath.model.UserDeadlineRelation;
 
@@ -44,7 +46,11 @@ public class CalendarFragment extends Fragment {
     private SimpleDateFormat dateFormatForMonth = new SimpleDateFormat("MMM - yyyy", Locale.getDefault());
     private boolean shouldShow = false;
     private CompactCalendarView compactCalendarView;
-    private TextView monthYearBtn;
+    private TextView monthYearTv;
+
+
+    private CalendarAdapter mCalendarAdapter;
+
 
     private List<UserDeadlineRelation> mDataList = new ArrayList<>();
 
@@ -57,26 +63,24 @@ public class CalendarFragment extends Fragment {
         // Defines the xml file for the fragment
         View view = inflater.inflate(R.layout.fragment_calendar, parent, false);
 
-
+        // A list of strings of format "description, college" to display for each specific date when clicked
         final List<String> mutableBookings = new ArrayList<>();
-        monthYearBtn = view.findViewById(R.id.monthYearBtn);
 
+        //Title textview shows in form "Mmm YYYY"
+        monthYearTv = view.findViewById(R.id.monthYearBtn);
+
+        // Listview of details for selected date in calendar
         final ListView bookingsListView = view.findViewById(R.id.bookings_listview);
 
+        // This adapter will feed information into the listview depending on selected date
         final ArrayAdapter adapter = new ArrayAdapter(getContext(), android.R.layout.simple_list_item_1, mutableBookings){
 
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
                 View view =super.getView(position, convertView, parent);
-
                 TextView textView=(TextView) view.findViewById(android.R.id.text1);
-
-//                String dateText = textView.getText().
-
                 textView.setTextColor(Color.WHITE);
                 textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18f);
-
-
                 return view;
             }
         };
@@ -101,9 +105,8 @@ public class CalendarFragment extends Fragment {
 
         logEventsByMonth(compactCalendarView);
 
-
         //set initial title
-        monthYearBtn.setText(dateFormatForMonth.format(compactCalendarView.getFirstDayOfCurrentMonth()));
+        monthYearTv.setText(dateFormatForMonth.format(compactCalendarView.getFirstDayOfCurrentMonth()));
 
         // remove hard-coded events
         compactCalendarView.removeAllEvents();
@@ -112,27 +115,30 @@ public class CalendarFragment extends Fragment {
 //        compactCalendarView.addEvents(mDataList);
         setDataListItems();
 
-
         //set title on calendar scroll
         compactCalendarView.setListener(new CompactCalendarView.CompactCalendarViewListener() {
-                @Override
-                public void onDayClick(Date dateClicked) {
-                    monthYearBtn.setText(dateFormatForMonth.format(dateClicked));
-                    List<Event> bookingsFromMap = compactCalendarView.getEvents(dateClicked);
-                    Log.d(TAG, "inside onclick " + dateFormatForDisplaying.format(dateClicked));
-                    if (bookingsFromMap != null) {
-                        Log.d(TAG, bookingsFromMap.toString());
-                        mutableBookings.clear();
-                        for (Event booking : bookingsFromMap) {
-                            mutableBookings.add((String) booking.getData());
-                        }
-                        adapter.notifyDataSetChanged();
-                    }
+            @Override
+            public void onDayClick(Date dateClicked) {
+                monthYearTv.setText(dateFormatForMonth.format(dateClicked));
+                List<Event> bookingsFromMap = compactCalendarView.getEvents(dateClicked);
+                Log.d(TAG, "inside onclick " + dateFormatForDisplaying.format(dateClicked));
+                if (bookingsFromMap != null) {
+                    Log.d(TAG, bookingsFromMap.toString());
+                    mutableBookings.clear();
+                    for (Event booking : bookingsFromMap) {
 
+                        // Query through Parse to find additional info for each event for given date
+
+                        booking.getTimeInMillis();
+
+                        mutableBookings.add((String) booking.getData());
+                    }
+                    adapter.notifyDataSetChanged();
                 }
+            }
             @Override
             public void onMonthScroll(Date firstDayOfNewMonth) {
-                monthYearBtn.setText(dateFormatForMonth.format(firstDayOfNewMonth));
+                monthYearTv.setText(dateFormatForMonth.format(firstDayOfNewMonth));
             }
         });
 
@@ -155,9 +161,9 @@ public class CalendarFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        monthYearBtn.setText(dateFormatForMonth.format(compactCalendarView.getFirstDayOfCurrentMonth()));
+        monthYearTv.setText(dateFormatForMonth.format(compactCalendarView.getFirstDayOfCurrentMonth()));
         // Set to current day on resume to set calendar to latest day
-        monthYearBtn.setText(dateFormatForMonth.format(new Date()));
+        monthYearTv.setText(dateFormatForMonth.format(new Date()));
     }
 
 
@@ -249,7 +255,7 @@ public class CalendarFragment extends Fragment {
     private void setDataListItems(){
         //ParseQuery go through each of the current user's deadlines and add them.
         UserDeadlineRelation.Query udQuery = new UserDeadlineRelation.Query();
-        udQuery.getTop().withUser().withDeadline();
+        udQuery.getTop().withUser().withDeadline().withCollege();
         udQuery.whereEqualTo(KEY_USER, ParseUser.getCurrentUser());
 
         udQuery.findInBackground(new FindCallback<UserDeadlineRelation>() {
@@ -257,14 +263,22 @@ public class CalendarFragment extends Fragment {
             public void done(List<UserDeadlineRelation> objects, ParseException e) {
                 if (e == null) {
                     for (int i = 0; i < objects.size(); i++) {
+                        // Access each deadline associated with current user
                         UserDeadlineRelation relation = objects.get(i);
                         Deadline deadline = relation.getDeadline();
+
                         String description = deadline.getDescription();
+                        College collegeCollege = relation.getCollege();
+                        String college = collegeCollege.getCollegeName();
                         Date date = deadline.getDeadlineDate();
-                        Event event = new Event(Color.argb(255, 169, 68, 65), date.getTime());
+
+                        // Create event for each deadline and add to CompactCalendarView
+                        Event event = new Event(Color.argb(255, 169, 68, 65), date.getTime(), description + " " + college);
                         compactCalendarView.addEvent(event);
                         mDataList.add(relation);
-//                        mTimeLineAdapter.notifyItemInserted(mDataList.size()-1);
+
+
+//                        mCalendarAdapter.notifyItemInserted(mDataList.size()-1);
                     }
                 } else {
                     e.printStackTrace();
@@ -272,6 +286,4 @@ public class CalendarFragment extends Fragment {
             }
         });
     }
-
-
 }
