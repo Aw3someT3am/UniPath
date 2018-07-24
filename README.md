@@ -41,13 +41,14 @@ The purpose of this app is to assist students and parents with finding and apply
 - [ ] after accepted what to do
 
 ## Goals for this week
-- [ ] Show dots on calendar and linear timeline based on # of colleges who has deadline on a date.
+- [X] Show dots on calendar based on # of colleges who has deadline on a date.
+- [ ] Show dots on linear timeline
 - [X] Clicking on a linear timeline date should open a pop up with list of colleges who has deadline on a date.
-- [ ] Clicking on a calendar date should change the bottom half of the fragment to display colleges.
+- [X] Clicking on a calendar date should change the bottom half of the fragment to display colleges.
 - [ ] Implement organization of app (4-way swipe? something more simple?)
 - [X] A way to complete deadline/check it off/delete it from list. (update progress bar). 
 - [X] be able to tell if they missed a deadline.
-- [ ] Implement calendar functionality (showing favorite college deadlines)
+- [X] Implement calendar functionality (showing favorite college deadlines)
 - [X] Fix view for search list of colleges (some colleges are liked when they shouldn't be)
 - [ ] Clean up detail college page.
 
