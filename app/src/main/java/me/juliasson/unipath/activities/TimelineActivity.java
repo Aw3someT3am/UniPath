@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.MenuItem;
 
 import me.juliasson.unipath.R;
+import me.juliasson.unipath.fragments.CalendarFragment;
 import me.juliasson.unipath.fragments.LinearTimelineFragment;
 import me.juliasson.unipath.fragments.ProfileFragment;
 import me.juliasson.unipath.fragments.SearchFragment;
@@ -34,12 +35,17 @@ public class TimelineActivity extends AppCompatActivity implements BottomNavigat
     private ViewPager homePager;
     private BottomNavigationView navigationView;
 
+    private LinearTimelineFragment fragment_linear_timeline = new LinearTimelineFragment();
+    private SearchFragment fragment_search = new SearchFragment();
+    private ProfileFragment fragment_profile = new ProfileFragment();
+    private CalendarFragment fragment_calendar = new CalendarFragment();
+
     private HomeAdapter homeAdapter;
 
     private final Fragment[] fragments = new Fragment[] {
-            new LinearTimelineFragment(),
-            new SearchFragment(),
-            new ProfileFragment()
+            fragment_linear_timeline,
+            fragment_search,
+            fragment_profile
     };
 
     @Override
@@ -81,6 +87,7 @@ public class TimelineActivity extends AppCompatActivity implements BottomNavigat
                     case 2:
                         if (navigationView.getSelectedItemId() != R.id.action_profile) {
                             navigationView.setSelectedItemId(R.id.action_profile);
+                            fragment_profile.setPbProgress();
                             getSupportActionBar().setElevation(0);
                         }
                         break;
@@ -106,6 +113,7 @@ public class TimelineActivity extends AppCompatActivity implements BottomNavigat
             case R.id.action_profile:
                 Log.d(TAG, "profile selected.");
                 homePager.setCurrentItem(2);
+                fragment_profile.setPbProgress();
                 return true;
             default:
                 return false;
@@ -125,6 +133,7 @@ public class TimelineActivity extends AppCompatActivity implements BottomNavigat
                 break;
             case R.id.action_profile:
                 Log.d(TAG, "profile re-selected.");
+                fragment_profile.setPbProgress();
                 break;
             default:
                 break;

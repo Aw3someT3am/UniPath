@@ -105,8 +105,6 @@ public class TimeLineAdapter extends RecyclerView.Adapter<TimeLineAdapter.ViewHo
         } else {
             viewHolder.mTimelineView.setMarker(VectorDrawableUtils.getDrawable(mContext, R.drawable.ic_marker_inactive, android.R.color.darker_gray));
         }
-
-        viewHolder.mMessage.setText(timeLineModel.getMessage());
     }
 
     @Override
@@ -118,8 +116,6 @@ public class TimeLineAdapter extends RecyclerView.Adapter<TimeLineAdapter.ViewHo
 
         @BindView(R.id.text_timeline_date)
         TextView mDate;
-        @BindView(R.id.text_timeline_title)
-        TextView mMessage;
         @BindView(R.id.time_marker)
         TimelineView mTimelineView;
         @BindView(R.id.ivEventDots)

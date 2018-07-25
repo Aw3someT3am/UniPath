@@ -91,9 +91,8 @@ public class LinearTimelineFragment extends Fragment {
                     for (int i = 0; i < objects.size(); i++) {
                         UserDeadlineRelation relation = objects.get(i);
                         Deadline deadline = relation.getDeadline();
-                        String description = deadline.getDescription();
                         Date date = deadline.getDeadlineDate();
-                        TimeLine timeline = new TimeLine(description, date.toString(), date, OrderStatus.INACTIVE); //default OrderStatus will be inactive.
+                        TimeLine timeline = new TimeLine(date.toString(), date, OrderStatus.INACTIVE); //default OrderStatus will be inactive.
                         mDataSet.add(timeline);
                         addTimeLineToRelationMap(timeline, relation);
                     }

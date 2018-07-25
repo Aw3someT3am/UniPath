@@ -41,25 +41,12 @@
                 <android.support.v7.widget.AppCompatTextView
                     android:id="@+id/text_timeline_date"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_marginLeft="8dp"
                     android:fontFamily="@font/lato"
-                    android:textColor="@android:color/white"
-                    android:textSize="12sp"
-                    android:textStyle="bold"
+                    android:textAppearance="@android:style/TextAppearance.Large"
+                    android:textColor="@color/solid_white"
                     tools:text="24 JAN" />
-
-                <android.support.v7.widget.AppCompatTextView
-                    android:id="@+id/text_timeline_title"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginTop="5dp"
-                    android:fontFamily="@font/lato"
-                    android:textColor="@android:color/white"
-                    android:textStyle="bold"
-                    app:fontFamily="@font/lato"
-                    tools:text="College Name: Deadline type" />
 
             </LinearLayout>
 
@@ -68,7 +55,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="15dp"
                 android:layout_alignParentRight="true"
-                android:layout_alignParentTop="true"
+                android:layout_centerVertical="true"
                 android:scaleType="fitEnd"
                 app:srcCompat="@android:color/transparent" />
         </RelativeLayout>
