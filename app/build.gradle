@@ -17,6 +17,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+}
+ext {
+    googlePlayVersion = "15.0.0"
 }
 
 dependencies {
@@ -71,6 +75,9 @@ dependencies {
     // Getting a "Could not find" error? Make sure you have
     // added the Google maven respository to your root build.gradle
     implementation 'com.google.firebase:firebase-core'
+
+    implementation "com.google.android.gms:play-services-maps:$googlePlayVersion"
+    implementation "com.google.android.gms:play-services-location:$googlePlayVersion"
 }
 
 apply plugin: 'com.google.gms.google-services'
