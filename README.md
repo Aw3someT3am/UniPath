@@ -53,7 +53,7 @@ The purpose of this app is to assist students and parents with finding and apply
 - [ ] Push notifications
 - [ ] Get started on Map
 - Clean up detail college page:
-  - [ ] Appearance of general info fragment
+  - [X] Appearance of general info fragment
   - [X] General Info fragment, including description, cost, population, and more.
 
 ## Walkthrough week 1 progress
