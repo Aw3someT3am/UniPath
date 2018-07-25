@@ -16,7 +16,6 @@ import com.parse.ParseException;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -39,7 +38,6 @@ public class LinearTimelineFragment extends Fragment {
     private List<TimeLine> mDataList = new ArrayList<>();
     private HashSet<TimeLine> mDataSet = new HashSet<>();
     private HashMap<TimeLine, ArrayList<UserDeadlineRelation>> mRelationsInTimeLine = new HashMap<>();
-    private Date currentDate; //TODO: remove?
 
     private static final String KEY_USER = "user";
 
@@ -54,8 +52,6 @@ public class LinearTimelineFragment extends Fragment {
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.setHasFixedSize(true);
-
-        currentDate = Calendar.getInstance().getTime(); //TODO: remove?
 
         //find the swipe container
         swipeContainer = view.findViewById(R.id.swipeContainer);

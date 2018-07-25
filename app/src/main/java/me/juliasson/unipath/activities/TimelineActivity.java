@@ -44,8 +44,8 @@ public class TimelineActivity extends AppCompatActivity implements BottomNavigat
 
     private final Fragment[] fragments = new Fragment[] {
             fragment_linear_timeline,
-            fragment_search,
-            fragment_profile
+            fragment_calendar,
+            fragment_profile //DO NOT CHANGE WITH OTHER FRAGMENTS.
     };
 
     @Override
