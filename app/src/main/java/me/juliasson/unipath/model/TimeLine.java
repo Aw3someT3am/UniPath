@@ -8,7 +8,6 @@ import java.util.Date;
 import java.util.Objects;
 
 public class TimeLine implements Parcelable{
-    private String mMessage;
     private Date dDate;
     private String mDate;
     private OrderStatus mStatus;
@@ -16,19 +15,10 @@ public class TimeLine implements Parcelable{
     public TimeLine() {
     }
 
-    public TimeLine(String mMessage, String mDate, Date dDate, OrderStatus mStatus) {
-        this.mMessage = mMessage;
+    public TimeLine(String mDate, Date dDate, OrderStatus mStatus) {
         this.mDate = mDate;
         this.mStatus = mStatus;
         this.dDate = dDate;
-    }
-
-    public String getMessage() {
-        return mMessage;
-    }
-
-    public void semMessage(String message) {
-        this.mMessage = message;
     }
 
     public String getDate() {
@@ -51,10 +41,6 @@ public class TimeLine implements Parcelable{
         return dDate;
     }
 
-    public void setDDate(Date dDate) {
-        this.dDate = dDate;
-    }
-
     @Override
     public int describeContents() {
         return 0;
@@ -62,13 +48,11 @@ public class TimeLine implements Parcelable{
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(this.mMessage);
         dest.writeString(this.mDate);
         dest.writeInt(this.mStatus == null ? -1 : this.mStatus.ordinal());
     }
 
     protected TimeLine(Parcel in) {
-        this.mMessage = in.readString();
         this.mDate = in.readString();
         int tmpMStatus = in.readInt();
         this.mStatus = tmpMStatus == -1 ? null : OrderStatus.values()[tmpMStatus];
@@ -92,14 +76,13 @@ public class TimeLine implements Parcelable{
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         TimeLine timeLine = (TimeLine) o;
-        return Objects.equals(mMessage, timeLine.mMessage) &&
-                Objects.equals(dDate, timeLine.dDate) &&
+        return Objects.equals(dDate, timeLine.dDate) &&
                 Objects.equals(mDate, timeLine.mDate);
     }
 
     @SuppressLint("NewApi")
     @Override
     public int hashCode() {
-        return Objects.hash(mMessage, dDate, mDate);
+        return Objects.hash(dDate, mDate);
     }
 }

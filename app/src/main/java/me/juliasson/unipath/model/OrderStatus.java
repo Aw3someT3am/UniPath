@@ -5,6 +5,7 @@ public enum OrderStatus {
     COMPLETED,
     ACTIVE,
     MISSED,
+    COMPLETED_EARLY,
     INACTIVE;
 
 }

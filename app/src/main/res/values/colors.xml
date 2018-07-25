@@ -16,6 +16,7 @@
     <color name="background_dark_orange">#B32400</color>
     <color name="red">#f44e42</color>
     <color name="progress_green">#00E600</color>
+    <color name="holo_blue_bright">#00DDFF</color>
 
 
 </resources>

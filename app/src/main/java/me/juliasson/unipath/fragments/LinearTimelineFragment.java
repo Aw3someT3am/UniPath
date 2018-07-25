@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,7 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
@@ -36,7 +38,8 @@ public class LinearTimelineFragment extends Fragment {
     private TimeLineAdapter mTimeLineAdapter;
     private List<TimeLine> mDataList = new ArrayList<>();
     private HashSet<TimeLine> mDataSet = new HashSet<>();
-    private Date currentDate;
+    private HashMap<TimeLine, ArrayList<UserDeadlineRelation>> mRelationsInTimeLine = new HashMap<>();
+    private Date currentDate; //TODO: remove?
 
     private static final String KEY_USER = "user";
 
@@ -52,7 +55,7 @@ public class LinearTimelineFragment extends Fragment {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.setHasFixedSize(true);
 
-        currentDate = Calendar.getInstance().getTime();
+        currentDate = Calendar.getInstance().getTime(); //TODO: remove?
 
         //find the swipe container
         swipeContainer = view.findViewById(R.id.swipeContainer);
@@ -72,19 +75,13 @@ public class LinearTimelineFragment extends Fragment {
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
 
-        initView();
-    }
-
-    private void initView() {
-        mTimeLineAdapter = new TimeLineAdapter(mDataList);
-        mRecyclerView.setAdapter(mTimeLineAdapter);
         setDataListItems();
     }
 
     private void setDataListItems(){
         //ParseQuery go through each of the current user's deadlines and add them.
         UserDeadlineRelation.Query udQuery = new UserDeadlineRelation.Query();
-        udQuery.getTop().withUser().withDeadline();
+        udQuery.getTop().withUser().withDeadline().withCollege();
         udQuery.whereEqualTo(KEY_USER, ParseUser.getCurrentUser());
 
         udQuery.findInBackground(new FindCallback<UserDeadlineRelation>() {
@@ -94,24 +91,30 @@ public class LinearTimelineFragment extends Fragment {
                     for (int i = 0; i < objects.size(); i++) {
                         UserDeadlineRelation relation = objects.get(i);
                         Deadline deadline = relation.getDeadline();
-                        String description = deadline.getDescription();
                         Date date = deadline.getDeadlineDate();
-                        if (currentDate.after(date) && relation.getCompleted()) {
-                            mDataSet.add(new TimeLine(description, date.toString(), date, OrderStatus.INACTIVE));
-                        } else if (currentDate.after(date) && !relation.getCompleted()) {
-                            mDataSet.add(new TimeLine(description, date.toString(), date, OrderStatus.MISSED));
-                        }
-                        else {
-                            mDataSet.add(new TimeLine(description, date.toString(), date, OrderStatus.ACTIVE));
-                        }
+                        TimeLine timeline = new TimeLine(date.toString(), date, OrderStatus.INACTIVE); //default OrderStatus will be inactive.
+                        mDataSet.add(timeline);
+                        addTimeLineToRelationMap(timeline, relation);
                     }
                     mDataList.addAll(mDataSet);
+                    mTimeLineAdapter = new TimeLineAdapter(mDataList, mRelationsInTimeLine);
+                    mRecyclerView.setAdapter(mTimeLineAdapter);
                     sortData();
                 } else {
                     e.printStackTrace();
                 }
             }
         });
+    }
+    
+    public void addTimeLineToRelationMap(TimeLine timeline, UserDeadlineRelation relation) {
+        ArrayList<UserDeadlineRelation> relationList = mRelationsInTimeLine.get(timeline);
+        if (relationList == null) {
+            relationList = new ArrayList<>();
+        }
+        relationList.add(relation);
+        mRelationsInTimeLine.put(timeline, relationList);
+        Log.d("LTFragment", String.format("%s has %s colleges", timeline.getDate(), mRelationsInTimeLine.get(timeline).size()));
     }
 
     public void sortData() {
@@ -127,6 +130,7 @@ public class LinearTimelineFragment extends Fragment {
     public void refresh() {
         mTimeLineAdapter.clear();
         mDataSet.clear();
+        mRelationsInTimeLine.clear();
         setDataListItems();
         mTimeLineAdapter.addAll(mDataList);
         // Now we call setRefreshing(false) to signal refresh has finished
