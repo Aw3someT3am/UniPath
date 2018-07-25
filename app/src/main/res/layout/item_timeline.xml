@@ -65,11 +65,11 @@
 
             <ImageView
                 android:id="@+id/ivEventDots"
-                android:layout_width="15dp"
+                android:layout_width="wrap_content"
                 android:layout_height="15dp"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentTop="true"
-                android:scaleType="fitXY"
+                android:scaleType="fitEnd"
                 app:srcCompat="@android:color/transparent" />
         </RelativeLayout>
 
