@@ -66,6 +66,7 @@ dependencies {
     debugImplementation 'com.facebook.stetho:stetho:1.4.2'
     debugImplementation 'com.parse:parseinterceptors:0.0.2'
 
-    compile 'com.parse:parse-android:1.14.0'
-    debugCompile 'com.parse:parseinterceptors:0.0.2'
+    implementation 'com.google.firebase:firebase-core:16.0.0'
 }
+
+apply plugin: 'com.google.gms.google-services'

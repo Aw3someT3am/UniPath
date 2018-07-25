@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "465720702175",
+    "firebase_url": "https://unipath-3b98f.firebaseio.com",
+    "project_id": "unipath-3b98f",
+    "storage_bucket": "unipath-3b98f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:465720702175:android:84b42341d9ba2715",
+        "android_client_info": {
+          "package_name": "me.juliasson.unipath"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "465720702175-q8e8a9bo2493k37o35cvush61to3fgug.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAeaUOfetYKhL5ba-2LoyrJt2OZm06J6ko"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
