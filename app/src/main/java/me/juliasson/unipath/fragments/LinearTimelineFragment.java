@@ -106,7 +106,7 @@ public class LinearTimelineFragment extends Fragment {
             }
         });
     }
-    
+
     public void addTimeLineToRelationMap(TimeLine timeline, UserDeadlineRelation relation) {
         ArrayList<UserDeadlineRelation> relationList = mRelationsInTimeLine.get(timeline);
         if (relationList == null) {

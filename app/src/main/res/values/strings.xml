@@ -22,4 +22,10 @@
     <string name="description">Description</string>
     <string name="date">date</string>
     <string name="deadline_description">Deadline Description</string>
+
+    <string name="google_maps_api_key">AIzaSyCZ3E-xEQqcWccJqAQaAR2zo_4DZshOCT0</string>
+
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
