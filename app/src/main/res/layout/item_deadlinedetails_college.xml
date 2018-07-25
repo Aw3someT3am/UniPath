@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="@drawable/button_border" >
 
     <com.like.LikeButton
         android:id="@+id/lbLikeButton"
@@ -14,38 +16,38 @@
         app:anim_scale_factor="2"
         app:icon_size="25dp"
         app:icon_type="heart"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         app:like_drawable="@drawable/ic_check_active"
-        app:unlike_drawable="@drawable/ic_check_inactive" />
+        app:unlike_drawable="@drawable/ic_check_inactive"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true" />
 
     <TextView
         android:id="@+id/tvCollegeName"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="@string/college_name"
-        android:textColor="@color/solid_white"
+        android:layout_marginRight="8dp"
         android:singleLine="false"
+        android:text="@string/college_name"
         android:textAppearance="@android:style/TextAppearance.Medium"
-        app:layout_constraintStart_toEndOf="@+id/lbLikeButton"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:textColor="@color/solid_white"
+        android:layout_toRightOf="@id/lbLikeButton" />
 
     <TextView
         android:id="@+id/tvDeadlineDesc"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:layout_marginRight="8dp"
         android:text="@string/deadline_description"
         android:textAppearance="@android:style/TextAppearance.Medium"
         android:textColor="@color/solid_white"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/lbLikeButton"
-        app:layout_constraintTop_toBottomOf="@+id/tvCollegeName" />
+        android:layout_toRightOf="@+id/lbLikeButton"
+        android:layout_below="@id/tvCollegeName" />
 
-</android.support.constraint.ConstraintLayout>
+</RelativeLayout>
