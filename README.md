@@ -42,7 +42,7 @@ The purpose of this app is to assist students and parents with finding and apply
 
 ## Goals for this week
 - [X] Show dots on calendar based on # of colleges who has deadline on a date.
-- [ ] Show dots on linear timeline
+- [X] Show dots on linear timeline
 - [X] Clicking on a linear timeline date should open a pop up with list of colleges who has deadline on a date.
 - [X] Clicking on a calendar date should change the bottom half of the fragment to display colleges.
 - [ ] Implement organization of app (4-way swipe? something more simple?)
@@ -50,9 +50,11 @@ The purpose of this app is to assist students and parents with finding and apply
 - [X] be able to tell if they missed a deadline.
 - [X] Implement calendar functionality (showing favorite college deadlines)
 - [X] Fix view for search list of colleges (some colleges are liked when they shouldn't be)
+- [ ] Push notifications
+- [ ] Get started on Map
 - Clean up detail college page:
-  - [X] Appearance
-  - [ ] General Info fragment, including description, cost, population, and more.
+  - [ ] Appearance of general info fragment
+  - [X] General Info fragment, including description, cost, population, and more.
 
 ## Walkthrough week 1 progress
 ![Walkthrough](walkthrough.gif)
