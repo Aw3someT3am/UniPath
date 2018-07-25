@@ -45,14 +45,16 @@
             android:name=".activities.CollegeDetailsActivity"
             android:excludeFromRecents="true"
             android:theme="@style/AppTheme.Dialog" />
+        <activity
+            android:name=".activities.DeadlineDetailsActivity"
+            android:excludeFromRecents="true"
+            android:theme="@style/AppTheme.Dialog" />
 
-        <activity android:name=".activities.DeadlineDetailsActivity"
-            android:theme="@style/AppTheme.Dialog"
-            android:excludeFromRecents="true"/>
-
-        <meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" />
-
-        <meta-data android:name="com.google.android.maps.v2.API_KEY"
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+        <meta-data
+            android:name="com.google.android.maps.v2.API_KEY"
             android:value="@string/google_maps_api_key" />
 
         <service android:name=".FirebaseServlet">
@@ -61,6 +63,7 @@
             </intent-filter>
         </service>
 
+        <activity android:name=".activities.MapDemoActivityPermissionsDispatcher"></activity>
     </application>
 
 </manifest>
