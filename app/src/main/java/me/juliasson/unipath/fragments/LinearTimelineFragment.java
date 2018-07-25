@@ -96,12 +96,12 @@ public class LinearTimelineFragment extends Fragment {
                         Deadline deadline = relation.getDeadline();
                         String description = deadline.getDescription();
                         Date date = deadline.getDeadlineDate();
-
-                        if (currentDate.after(date) && !relation.getCompleted()) {
-                            mDataSet.add(new TimeLine(description, date.toString(), date, OrderStatus.MISSED));
-                        } else if (currentDate.after(date) && relation.getCompleted()) {
+                        if (currentDate.after(date) && relation.getCompleted()) {
                             mDataSet.add(new TimeLine(description, date.toString(), date, OrderStatus.INACTIVE));
-                        } else {
+                        } else if (currentDate.after(date) && !relation.getCompleted()) {
+                            mDataSet.add(new TimeLine(description, date.toString(), date, OrderStatus.MISSED));
+                        }
+                        else {
                             mDataSet.add(new TimeLine(description, date.toString(), date, OrderStatus.ACTIVE));
                         }
                     }
@@ -113,8 +113,6 @@ public class LinearTimelineFragment extends Fragment {
             }
         });
     }
-
-    //hash map key = date, value = list of colleges. Add to hashmap as you go through query.
 
     public void sortData() {
         Collections.sort(mDataList, new Comparator<TimeLine>() {
