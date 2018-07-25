@@ -35,7 +35,7 @@ public class DeadlineFragment extends Fragment{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         // Defines the xml file for the fragment
-        return inflater.inflate(R.layout.fragmnet_deadlines, parent, false);
+        return inflater.inflate(R.layout.fragment_deadlines, parent, false);
     }
 
     @Override

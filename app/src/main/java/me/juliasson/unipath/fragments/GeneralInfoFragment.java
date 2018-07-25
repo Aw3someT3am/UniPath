@@ -24,7 +24,7 @@ public class GeneralInfoFragment extends Fragment{
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        final View rootView = inflater.inflate(R.layout.fragmnet_general_info, container, false);
+        final View rootView = inflater.inflate(R.layout.fragment_general_info, container, false);
 
         return rootView;
     }
@@ -38,13 +38,13 @@ public class GeneralInfoFragment extends Fragment{
         tvAddress = (TextView) view.findViewById(R.id.tvAddress);
         tvStudentPopulation = (TextView) view.findViewById(R.id.tvStudentPopulation);
         tvOutOfSateCost = (TextView) view.findViewById(R.id.tvCostOutState);
-        tvInStateCost = (TextView) view.findViewById(R.id.tvCostInSate);
+        tvInStateCost = (TextView) view.findViewById(R.id.tvCostInState);
         tvAcceptanceRate = (TextView) view.findViewById(R.id.tvAcceptanceRate);
 
-        tvAddress.setText("Address: " + college.getAddress());
-        tvStudentPopulation.setText("Population: " + Integer.toString(college.getStudentPopulation()) + " total students");
-        tvInStateCost.setText("In State Cost: $" + Integer.toString(college.getInStateCost()));
-        tvOutOfSateCost.setText("Out Of State Cost: $" + Integer.toString(college.getOutOfStateCost()));
-        tvAcceptanceRate.setText("Acceptance Rate: " + Double.toString(college.getAccepatnceRate()) + "%");
+        tvAddress.setText(college.getAddress());
+        tvStudentPopulation.setText(String.format("%s total students", Integer.toString(college.getStudentPopulation())));
+        tvInStateCost.setText(String.format("$%s", Integer.toString(college.getInStateCost())));
+        tvOutOfSateCost.setText(String.format("$%s", Integer.toString(college.getOutOfStateCost())));
+        tvAcceptanceRate.setText(String.format("%s%%", Double.toString(college.getAccepatnceRate())));
     }
 }
