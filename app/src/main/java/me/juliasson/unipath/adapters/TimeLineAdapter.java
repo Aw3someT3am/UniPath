@@ -82,15 +82,20 @@ public class TimeLineAdapter extends RecyclerView.Adapter<TimeLineAdapter.ViewHo
 
         //setting status of timeline event
         for (UserDeadlineRelation relation : relationList) {
-            if (currentDate.after(timeLineModel.getDDate()) && !relation.getCompleted()) {
-                timeLineModel.setStatus(OrderStatus.MISSED);
-                break;
-            } else if (currentDate.after(timeLineModel.getDDate()) && relation.getCompleted()) {
-                timeLineModel.setStatus(OrderStatus.COMPLETED);
-            } else if (relation.getCompleted()) {
-                timeLineModel.setStatus(OrderStatus.COMPLETED_EARLY);
+            if (currentDate.after(timeLineModel.getDDate())) {
+                if (!relation.getCompleted()) {
+                    timeLineModel.setStatus(OrderStatus.MISSED);
+                    break;
+                } else {
+                    timeLineModel.setStatus(OrderStatus.COMPLETED);
+                }
             } else {
-                timeLineModel.setStatus(OrderStatus.ACTIVE);
+                if (!relation.getCompleted()) {
+                    timeLineModel.setStatus(OrderStatus.ACTIVE);
+                    break;
+                } else {
+                    timeLineModel.setStatus(OrderStatus.COMPLETED_EARLY);
+                }
             }
         }
 
