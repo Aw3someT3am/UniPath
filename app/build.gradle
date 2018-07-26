@@ -71,6 +71,12 @@ dependencies {
     // Getting a "Could not find" error? Make sure you have
     // added the Google maven respository to your root build.gradle
     implementation 'com.google.firebase:firebase-core'
+    implementation 'com.google.firebase:firebase-database:16.0.1'
+
+    implementation 'com.microsoft.azure:notification-hubs-android-sdk:0.4@aar'
+    implementation 'com.microsoft.azure:azure-notifications-handler:1.0.1@aar'
+
+    implementation 'com.google.android.gms:play-services-gcm:12.0.0'
 }
 
 apply plugin: 'com.google.gms.google-services'
