@@ -53,10 +53,10 @@ public class MapActivity extends AppCompatActivity implements
      */
     private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
 
-//42.3770, 71.1167
-    private static final LatLng HARV = new LatLng(-31.952854, 115.857342);
-    private static final LatLng BERK = new LatLng(122.2727, 37.8716);
-    private static final LatLng UIUC = new LatLng(40.10203, 88.2272);
+    // Coordinates must have 6 decimal places to appear in correct location
+    private static final LatLng HARV = new LatLng(42.378036, -71.118340);
+    private static final LatLng BERK = new LatLng(37.871853, -122.258423);
+    private static final LatLng UIUC = new LatLng(40.116421, -88.243385);
 
     private Marker mHarv;
     private Marker mBerk;
@@ -136,7 +136,7 @@ public class MapActivity extends AppCompatActivity implements
 
 
         // Set a listener for marker click.
-        map.setOnMarkerClickListener(this);
+       //  map.setOnMarkerClickListener(this);
 
     }
 
