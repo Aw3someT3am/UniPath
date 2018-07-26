@@ -169,7 +169,6 @@ public class TimelineActivity extends AppCompatActivity implements BottomNavigat
             }
         });
 
-
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
