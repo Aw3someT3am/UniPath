@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "465720702175-9emub3bemu2ifl96p8cuaconj3j2u5gk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "me.juliasson.unipath",
+            "certificate_hash": "d8b39540f0364f8018b0cbb3c01dc81e8a6e3c38"
+          }
+        },
+        {
           "client_id": "465720702175-q8e8a9bo2493k37o35cvush61to3fgug.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -29,8 +37,13 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "465720702175-q8e8a9bo2493k37o35cvush61to3fgug.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         },
         "ads_service": {
           "status": 2

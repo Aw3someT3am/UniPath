@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -17,6 +18,11 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseUser;
@@ -40,9 +46,13 @@ public class SignUpActivity extends AppCompatActivity {
     private Button bvCreateAccount;
     private Button bvCancel;
 
+    private static final String TAG = "SignUpActivity";
+
     private final String KEY_FIRST_NAME = "firstName";
     private final String KEY_LAST_NAME = "lastName";
     private final String KEY_PROFILE_IMAGE = "profileImage";
+
+    private FirebaseAuth mAuth;
 
     private final static int GALLERY_IMAGE_SELECTION_REQUEST_CODE = 2034;
     private String filePath="";
@@ -51,6 +61,8 @@ public class SignUpActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
+
+        mAuth = FirebaseAuth.getInstance();
 
         ivProfileImage = findViewById(R.id.ivProfileImage);
         etFirstName = findViewById(R.id.etFirstName);
@@ -117,6 +129,25 @@ public class SignUpActivity extends AppCompatActivity {
         parseUser.put(KEY_LAST_NAME, lastName);
         parseUser.put(KEY_PROFILE_IMAGE, profileImage);
 
+        mAuth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+                            Log.d(TAG, "createUserWithEmail:success");
+                            FirebaseUser user = mAuth.getCurrentUser();
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            Log.w(TAG, "createUserWithEmail:failure", task.getException());
+                            Toast.makeText(SignUpActivity.this, "Authentication failed.",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+
+                        // ...
+                    }
+                });
+
         parseUser.signUpInBackground(new SignUpCallback() {
             @Override
             public void done(ParseException e) {
@@ -157,4 +188,12 @@ public class SignUpActivity extends AppCompatActivity {
             }
         }
     }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        // Check if user is signed in (non-null) and update UI accordingly.
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+    }
+
 }
