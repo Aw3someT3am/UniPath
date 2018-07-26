@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -28,7 +29,6 @@ import com.parse.ParseUser;
 import com.parse.SaveCallback;
 import com.yarolegovich.discretescrollview.DSVOrientation;
 import com.yarolegovich.discretescrollview.DiscreteScrollView;
-import com.yarolegovich.discretescrollview.InfiniteScrollAdapter;
 
 import java.io.File;
 import java.io.IOException;
@@ -96,8 +96,8 @@ public class ProfileFragment extends Fragment {
 
         colleges = new ArrayList<>();
         collegeAdapter = new CollegeAdapter(colleges);
-        InfiniteScrollAdapter wrapper = InfiniteScrollAdapter.wrap(collegeAdapter);
-        scrollView.setAdapter(wrapper);
+        //InfiniteScrollAdapter wrapper = InfiniteScrollAdapter.wrap(collegeAdapter);
+        scrollView.setAdapter(collegeAdapter);
 
         assignGeneralProfileInfo();
 
@@ -107,6 +107,7 @@ public class ProfileFragment extends Fragment {
         ivRefresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                view.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.image_view_click));
                 refresh();
             }
         });

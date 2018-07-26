@@ -171,11 +171,12 @@
 
         <ImageView
             android:id="@+id/ivRefresh"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
             android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
             android:layout_margin="8dp"
+            android:scaleType="fitXY"
             android:tint="@color/progress_green"
             app:srcCompat="@drawable/ic_cached_black_24dp" />
 
