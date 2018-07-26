@@ -17,6 +17,9 @@ public class College extends ParseObject {
     private static final String KEY_IN_STATE_COST = "inStateCost";
     private static final String KEY_ACCEPATNCE_RATE = "acceptanceRate";
 
+    private static final String KEY_LONGITUDE = "longitude";
+    private static final String KEY_LATITUDE = "latitude";
+
     private static final String KEY_EARLY_ACTION = "earlyAction";
     private static final String KEY_REGULAR_ACTION = "regularAction";
 
@@ -46,6 +49,14 @@ public class College extends ParseObject {
 
     public Double getAccepatnceRate() {
         return getNumber(KEY_ACCEPATNCE_RATE).doubleValue();
+    }
+
+    public Double getLongitude() {
+        return  getNumber(KEY_LONGITUDE).doubleValue();
+    }
+
+    public Double getLatitude() {
+        return  getNumber(KEY_LATITUDE).doubleValue();
     }
 
     public Date getEarlyAction() {

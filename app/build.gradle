@@ -17,14 +17,16 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-
+    buildToolsVersion '27.0.3'
 }
 ext {
     googlePlayVersion = "15.0.0"
+    permissionDispatcherVersion = "3.2.0"
+    supportLibVersion = "27.1.1"
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support:appcompat-v7:28.0.0-alpha3'
     implementation 'com.android.support.constraint:constraint-layout:1.1.2'
     testImplementation 'junit:junit:4.12'
@@ -33,7 +35,6 @@ dependencies {
     implementation 'com.android.support:design:28.0.0-alpha3'
     implementation 'com.parse.bolts:bolts-android:1.4.0'
     implementation 'com.parse:parse-android:1.17.3'
-
     implementation 'com.squareup.okhttp3:logging-interceptor:3.8.1'
     implementation 'com.android.support:design:27.1.1'
     implementation 'com.android.support:support-v4:27.1.1'
@@ -46,38 +47,43 @@ dependencies {
     implementation 'com.android.support:cardview-v7:27.1.1'
     implementation 'com.github.bumptech.glide:glide:4.7.1'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.7.1'
-
     //timeline stuff
     implementation 'com.github.vipulasri:timelineview:1.0.6'
     implementation 'com.jakewharton:butterknife:8.8.1'
     implementation 'com.squareup.retrofit2:retrofit:2.2.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.2.0'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
-
     implementation 'org.parceler:parceler-api:1.1.6'
     annotationProcessor 'org.parceler:parceler:1.1.6'
-
     implementation 'jp.wasabeef:glide-transformations:3.3.0'
     // If you want to use the GPU Filters
     implementation 'jp.co.cyberagent.android.gpuimage:gpuimage-library:1.4.1'
     //likes
     implementation 'com.github.jd-alexander:LikeButton:0.2.3'
-
     implementation 'com.github.sundeepk:compact-calendar-view:3.0.0'
     debugImplementation 'com.parse:parseinterceptors:0.0.2'
     implementation 'com.parse:parse-android:1.14.1'
-
     debugImplementation 'com.facebook.stetho:stetho:1.4.2'
     debugImplementation 'com.parse:parseinterceptors:0.0.2'
-
     implementation 'com.google.firebase:firebase-core:16.0.1'
     implementation 'com.google.firebase:firebase-messaging:17.1.0'
     // Getting a "Could not find" error? Make sure you have
     // added the Google maven respository to your root build.gradle
     implementation 'com.google.firebase:firebase-core'
-
+    implementation 'com.google.firebase:firebase-database:16.0.1'
+    implementation 'com.microsoft.azure:notification-hubs-android-sdk:0.4@aar'
+    implementation 'com.microsoft.azure:azure-notifications-handler:1.0.1@aar'
+    implementation 'com.google.android.gms:play-services-gcm:12.0.0'
+    implementation "com.android.support:appcompat-v7:$supportLibVersion"
+    implementation "com.android.support:support-v13:$supportLibVersion"
+    // to remove lint error, found in .idea/libraries
     implementation "com.google.android.gms:play-services-maps:$googlePlayVersion"
     implementation "com.google.android.gms:play-services-location:$googlePlayVersion"
+    implementation 'com.google.maps.android:android-maps-utils:0.5+'
+    implementation "com.github.hotchemi:permissionsdispatcher:$permissionDispatcherVersion"
+    annotationProcessor "com.github.hotchemi:permissionsdispatcher-processor:$permissionDispatcherVersion"
+
+
 }
 
 apply plugin: 'com.google.gms.google-services'
