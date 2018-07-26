@@ -63,6 +63,7 @@ public class LoginActivity extends AppCompatActivity {
 //                });
 
         ParseUser currentUser = ParseUser.getCurrentUser();
+
         if (currentUser != null) {
             Log.d("LoginActivity", "Login successful");
             Intent i = new Intent(LoginActivity.this, TimelineActivity.class);
@@ -92,18 +93,12 @@ public class LoginActivity extends AppCompatActivity {
             }
         };
 
-
         bvLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final String email = etEmail.getText().toString();
                 final String username = etUsername.getText().toString();
                 final String password = etPassword.getText().toString();
-                if(!email.equals("") && !password.equals("") && !username.equals("")) {
-                    mAuth.signInWithEmailAndPassword(email,password);
-                }else{
-                    Toast.makeText(LoginActivity.this,"You didn;t fill all the fields", Toast.LENGTH_LONG);
-                }
+
                 logIn(username, password);
             }
         });
@@ -117,11 +112,18 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    private void logIn(String username, String password) {
+    private void logIn(final String username, final String password) {
         ParseUser.logInInBackground(username, password, new LogInCallback() {
             @Override
             public void done(ParseUser user, ParseException e) {
                 if (e == null) {
+                    final String email = ParseUser.getCurrentUser().getEmail();
+                    if(!email.equals("") && !password.equals("") && !username.equals("")) {
+                        mAuth.signInWithEmailAndPassword(email,password);
+                    }else{
+                        Toast.makeText(LoginActivity.this,"You didn;t fill all the fields", Toast.LENGTH_LONG);
+                    }
+
                     Log.d("LoginActivity", "Login successful");
                     Toast.makeText(LoginActivity.this, "Login successful", Toast.LENGTH_SHORT).show();
                     final Intent i = new Intent(LoginActivity.this, TimelineActivity.class);

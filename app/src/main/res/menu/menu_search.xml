@@ -7,7 +7,7 @@
         <!--android:id="@+id/action_search"-->
         <!--android:orderInCategory="100"-->
         <!--android:title="@string/search"-->
-        <!--android:icon="@drawable/ic_search_black_24dp"-->
+        <!--android:icon="@drawable/ic_search_white_24dp"-->
         <!--app:actionViewClass="android.widget.SearchView"-->
         <!--app:showAsAction="ifRoom|collapseActionView"/>-->
 
@@ -20,7 +20,7 @@
     tools:context="com.learn2crack.recyclerviewsearch.SearchFragment">
     <item
         android:id="@+id/search"
-        android:icon="@drawable/ic_search_black_24dp"
+        android:icon="@drawable/ic_search_white_24dp"
         android:title="Search"
         app:showAsAction="ifRoom|collapseActionView"
         app:actionViewClass="android.support.v7.widget.SearchView" />

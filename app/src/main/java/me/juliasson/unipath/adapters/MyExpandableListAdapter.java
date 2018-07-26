@@ -99,7 +99,7 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
         }
 
         ImageView childIcon = (ImageView) view.findViewById(R.id.child_icon);
-        childIcon.setImageResource(R.drawable.ic_search_black_24dp);
+        childIcon.setImageResource(R.drawable.ic_search_white_24dp);
 
         final TextView childText = (TextView) view.findViewById(R.id.child_text);
         childText.setText(childRow.getText().trim());

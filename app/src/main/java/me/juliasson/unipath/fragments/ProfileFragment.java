@@ -9,9 +9,6 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,6 +26,9 @@ import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
+import com.yarolegovich.discretescrollview.DSVOrientation;
+import com.yarolegovich.discretescrollview.DiscreteScrollView;
+import com.yarolegovich.discretescrollview.InfiniteScrollAdapter;
 
 import java.io.File;
 import java.io.IOException;
@@ -42,21 +42,22 @@ import me.juliasson.unipath.model.College;
 import me.juliasson.unipath.model.UserCollegeRelation;
 import me.juliasson.unipath.model.UserDeadlineRelation;
 import me.juliasson.unipath.utils.GalleryUtils;
-import me.juliasson.unipath.utils.SpaceItemDecoration;
 
 public class ProfileFragment extends Fragment {
 
-    private SwipeRefreshLayout swipeContainer;
     private TextView tvProgressLabel;
     private ProgressBar pbProgress;
     private ImageView ivProfileImage;
+    private ImageView ivRefresh;
+    private TextView tvProgressText;
     private TextView tvFirstName;
     private TextView tvEmail;
     private Button bvLogout;
+    private DiscreteScrollView scrollView;
 
     private CollegeAdapter collegeAdapter;
     private ArrayList<College> colleges;
-    private RecyclerView rvColleges;
+    //private RecyclerView rvColleges;
 
     private final String KEY_FIRST_NAME = "firstName";
     private final String KEY_LAST_NAME = "lastName";
@@ -81,29 +82,44 @@ public class ProfileFragment extends Fragment {
         mContext = view.getContext();
 
         //settings up general profile info
-        swipeContainer = view.findViewById(R.id.swipeContainer);
         tvProgressLabel = view.findViewById(R.id.tvProgressLabel);
         pbProgress = view.findViewById(R.id.pbProgress);
         ivProfileImage = view.findViewById(R.id.ivProfileImage);
+        ivRefresh = view.findViewById(R.id.ivRefresh);
+        tvProgressText = view.findViewById(R.id.tvProgressText);
         tvFirstName = view.findViewById(R.id.tvFirstName);
         tvEmail = view.findViewById(R.id.tvEmail);
         bvLogout = view.findViewById(R.id.bvLogout);
 
-        //setting up favorite colleges list adapter
-        rvColleges = view.findViewById(R.id.rvCollegeList);
-        int spacingInPixels = getResources().getDimensionPixelSize(R.dimen.direct_gallery_grid_spacing);
-        rvColleges.addItemDecoration(new SpaceItemDecoration(spacingInPixels));
+        scrollView = view.findViewById(R.id.picker);
+        scrollView.setOrientation(DSVOrientation.HORIZONTAL);
+
         colleges = new ArrayList<>();
         collegeAdapter = new CollegeAdapter(colleges);
-        rvColleges.setLayoutManager(new GridLayoutManager(getActivity(), 2));
-        rvColleges.setAdapter(collegeAdapter);
+        InfiniteScrollAdapter wrapper = InfiniteScrollAdapter.wrap(collegeAdapter);
+        scrollView.setAdapter(wrapper);
 
         assignGeneralProfileInfo();
 
         //set up of favorite colleges list
         loadFavoriteColleges();
-        setUpSwipeContainer(view);
+
+        ivRefresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                refresh();
+            }
+        });
+
+        pbProgress.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                setPbProgress();
+            }
+        });
     }
+
+
 
     //-------------------Handling assignment/prep for profile general info----------------------------
     public void assignGeneralProfileInfo() {
@@ -160,31 +176,12 @@ public class ProfileFragment extends Fragment {
                         }
                     }
                     pbProgress.setProgress((int)(numCompleted/objects.size()*100));
+                    tvProgressText.setText(String.format("%s/%s", (int)numCompleted, objects.size()));
                 } else {
                     e.printStackTrace();
                 }
             }
         });
-    }
-
-    public void setUpSwipeContainer(View view) {
-        //find the swipe container
-        swipeContainer = view.findViewById(R.id.swipeContainer);
-        // Setup refresh listener which triggers new data loading
-        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                // Your code to refresh the list here.
-                // Make sure you call swipeContainer.setRefreshing(false)
-                refresh();
-            }
-        });
-        // Configure the refreshing colors
-        swipeContainer.setColorSchemeResources(
-                android.R.color.holo_blue_bright,
-                android.R.color.holo_green_light,
-                android.R.color.holo_orange_light,
-                android.R.color.holo_red_light);
     }
 
     //-------------------Handling profile image changes----------------------------
@@ -261,11 +258,11 @@ public class ProfileFragment extends Fragment {
         });
     }
 
+    //--------------------Refreshing Fragment-----------------------------
+
     public void refresh() {
         collegeAdapter.clear();
         loadFavoriteColleges();
         collegeAdapter.addAll(colleges);
-        // Now we call setRefreshing(false) to signal refresh has finished
-        swipeContainer.setRefreshing(false);
     }
 }

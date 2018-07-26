@@ -143,7 +143,7 @@ public class SearchFragment extends Fragment{
             @Override
             public boolean onQueryTextChange(String newText) {
 
-                if (collegeAdapter != null) collegeAdapter.getFilter().filter(newText);
+                if (collegeAdapter != null) collegeAdapter.getFilter().filter(newText.toLowerCase());
                 return false;
             }
         });
