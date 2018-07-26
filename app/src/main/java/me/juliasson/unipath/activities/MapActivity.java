@@ -55,7 +55,7 @@ public class MapActivity extends AppCompatActivity implements
 
 //42.3770, 71.1167
     private static final LatLng HARV = new LatLng(-31.952854, 115.857342);
-    private static final LatLng BERK = new LatLng(37.8716, 122.2727);
+    private static final LatLng BERK = new LatLng(122.2727, 37.8716);
     private static final LatLng UIUC = new LatLng(40.10203, 88.2272);
 
     private Marker mHarv;
@@ -94,8 +94,14 @@ public class MapActivity extends AppCompatActivity implements
 
 
     protected void loadMap(GoogleMap googleMap) {
+
+        // Add '+' and '-' icons for zooming
         map = googleMap;
-//        UiSettings.setZoomControlsEnabled(true);
+        map.getUiSettings().setZoomControlsEnabled(true);
+
+        //Disable Map Toolbar:
+        map.getUiSettings().setMapToolbarEnabled(false);
+
         if (map != null) {
             // Map is ready
             Toast.makeText(this, "Map Fragment was loaded properly", Toast.LENGTH_SHORT).show();
