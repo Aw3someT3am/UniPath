@@ -56,7 +56,7 @@ public class TimelineActivity extends AppCompatActivity implements BottomNavigat
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_map);
+        setContentView(R.layout.activity_timeline);
 
         navigationView = findViewById(R.id.bottom_nav);
         navigationView.setSelectedItemId(R.id.action_post);
