@@ -51,52 +51,52 @@ public class TimelineActivity extends AppCompatActivity implements BottomNavigat
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_timeline);
+        setContentView(R.layout.activity_map);
 
-        navigationView = findViewById(R.id.bottom_nav);
-        navigationView.setSelectedItemId(R.id.action_post);
-        navigationView.setOnNavigationItemSelectedListener(this);
-        navigationView.setOnNavigationItemReselectedListener(this);
+//        navigationView = findViewById(R.id.bottom_nav);
+//        navigationView.setSelectedItemId(R.id.action_post);
+//        navigationView.setOnNavigationItemSelectedListener(this);
+//        navigationView.setOnNavigationItemReselectedListener(this);
 
-        homePager = findViewById(R.id.home_pager);
-        homePager.setOffscreenPageLimit(2);
+//        homePager = findViewById(R.id.home_pager);
+//        homePager.setOffscreenPageLimit(2);
 
 
-        homeAdapter = new HomeAdapter(getSupportFragmentManager(), fragments);
-        homePager.setAdapter(homeAdapter);
-        homePager.setCurrentItem(1);
-
-        homePager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
-            @Override
-            public void onPageSelected(int position) {
-                switch (position) {
-                    case 0:
-                        if(navigationView.getSelectedItemId() != R.id.action_home) {
-                            navigationView.setSelectedItemId(R.id.action_home);
-                            getSupportActionBar().setElevation(
-                                    getResources().getDimensionPixelSize(R.dimen.action_bar_elevation)
-                            );
-                        }
-                        break;
-                    case 1:
-                        if(navigationView.getSelectedItemId() != R.id.action_post) {
-                            navigationView.setSelectedItemId(R.id.action_post);
-                            getSupportActionBar().setElevation(0);
-                        }
-                        break;
-                    case 2:
-                        if (navigationView.getSelectedItemId() != R.id.action_profile) {
-                            navigationView.setSelectedItemId(R.id.action_profile);
-                            fragment_profile.setPbProgress();
-                            getSupportActionBar().setElevation(0);
-                        }
-                        break;
-                    default:
-
-                        break;
-                }
-            }
-        });
+//        homeAdapter = new HomeAdapter(getSupportFragmentManager(), fragments);
+//        homePager.setAdapter(homeAdapter);
+//        homePager.setCurrentItem(1);
+//
+//        homePager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+//            @Override
+//            public void onPageSelected(int position) {
+//                switch (position) {
+//                    case 0:
+//                        if(navigationView.getSelectedItemId() != R.id.action_home) {
+//                            navigationView.setSelectedItemId(R.id.action_home);
+//                            getSupportActionBar().setElevation(
+//                                    getResources().getDimensionPixelSize(R.dimen.action_bar_elevation)
+//                            );
+//                        }
+//                        break;
+//                    case 1:
+//                        if(navigationView.getSelectedItemId() != R.id.action_post) {
+//                            navigationView.setSelectedItemId(R.id.action_post);
+//                            getSupportActionBar().setElevation(0);
+//                        }
+//                        break;
+//                    case 2:
+//                        if (navigationView.getSelectedItemId() != R.id.action_profile) {
+//                            navigationView.setSelectedItemId(R.id.action_profile);
+//                            fragment_profile.setPbProgress();
+//                            getSupportActionBar().setElevation(0);
+//                        }
+//                        break;
+//                    default:
+//
+//                        break;
+//                }
+//            }
+//        });
     }
 
     @Override
