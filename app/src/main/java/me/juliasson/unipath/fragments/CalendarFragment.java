@@ -1,5 +1,6 @@
 package me.juliasson.unipath.fragments;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -46,6 +48,7 @@ public class CalendarFragment extends Fragment {
     private boolean shouldShow = false;
     private CompactCalendarView compactCalendarView;
     private TextView monthYearTv;
+    private Context mContext;
 
     private List<UserDeadlineRelation> mDataList = new ArrayList<>();
 
@@ -53,6 +56,7 @@ public class CalendarFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
+        mContext = parent.getContext();
         ((AppCompatActivity) getActivity()).getSupportActionBar().show();
         // Defines the xml file for the fragment
         View view = inflater.inflate(R.layout.fragment_calendar, parent, false);
@@ -134,6 +138,7 @@ public class CalendarFragment extends Fragment {
         refreshBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                view.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.image_view_click));
                 compactCalendarView.removeAllEvents();
                 loadEvents();
                 setDataListItems();
