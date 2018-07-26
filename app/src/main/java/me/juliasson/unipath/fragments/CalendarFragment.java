@@ -136,6 +136,7 @@ public class CalendarFragment extends Fragment {
             public void onClick(View view) {
                 compactCalendarView.removeAllEvents();
                 loadEvents();
+                setDataListItems();
             }
         });
 

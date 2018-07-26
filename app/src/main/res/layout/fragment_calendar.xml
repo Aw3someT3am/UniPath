@@ -55,6 +55,7 @@
         android:id="@+id/refreshBtn"
         android:layout_width="33dp"
         android:layout_height="31dp"
+        android:tint="@color/progress_green"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_marginStart="20dp"
