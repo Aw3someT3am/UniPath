@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -22,6 +23,7 @@ import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 
+import java.text.DateFormatSymbols;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -29,7 +31,6 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
-import java.text.DateFormatSymbols;
 
 import me.juliasson.unipath.R;
 import me.juliasson.unipath.model.College;
@@ -126,6 +127,15 @@ public class CalendarFragment extends Fragment {
             @Override
             public void onMonthScroll(Date firstDayOfNewMonth) {
                 monthYearTv.setText(dateFormatForMonth.format(firstDayOfNewMonth));
+            }
+        });
+
+        ImageView refreshBtn = view.findViewById(R.id.refreshBtn);
+        refreshBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                compactCalendarView.removeAllEvents();
+                loadEvents();
             }
         });
 
