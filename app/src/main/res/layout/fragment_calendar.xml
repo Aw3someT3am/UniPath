@@ -60,7 +60,8 @@
         android:layout_alignParentTop="true"
         android:layout_marginStart="20dp"
         android:layout_marginTop="28dp"
-        app:srcCompat="@drawable/ic_cached_black_24dp" />
+        app:srcCompat="@drawable/ic_cached_black_24dp"
+        android:clickable="true"/>
 
 
 </RelativeLayout>
