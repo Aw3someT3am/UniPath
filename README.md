@@ -7,8 +7,8 @@ The purpose of this app is to assist students and parents with finding and apply
 - [X] See list of colleges
 - [X] See list of colleges saved to favorites
 - [X] See detailed college information
-- [ ] Calendar that shows deadlines taken from list of favorites (color code?)
-- [ ] When user favorites a college, deadlines for that college get added to a calendar
+- [X] Calendar that shows deadlines taken from list of favorites (color code?)
+- [X] When user favorites a college, deadlines for that college get added to a calendar
 - [ ] Financial aid: (e.g estimated cost, FAFSA, waiver fees)
 - [ ] Push notifications - Reminders for deadlines
 - [ ] Notification center
@@ -25,18 +25,17 @@ The purpose of this app is to assist students and parents with finding and apply
   - [ ] major
   - [ ] average GPA/SAT
   - [ ] happiness of students
-- [ ] Map based search (List view vs Map view)
+- [X] Map of saved colleges
 - [ ] notify if finished applications
 
 ## Optional user stores
 - [ ] Log in as either college admissions representative or general
-- [ ] Map of saved colleges
+- [ ] Map based search (List view vs Map view)
 - [ ] Showing colleges on map based on criteria (places that offer testing
 - [ ] Financial aid calculator that is specific to each college
 - [ ] Push notifications - Reminders to parents for deadlines (text message/email)
 - [ ] Suggestions to succeed while in high school? (AP classes, leadership opportunities, volunteering)
 - [ ] More detailed information about campus life/majors/classes (link to website?)
-- [ ] track how many people favorited college (?)
 - [ ] feed page/reviews
 - [ ] after accepted what to do
 
@@ -51,7 +50,7 @@ The purpose of this app is to assist students and parents with finding and apply
 - [X] Implement calendar functionality (showing favorite college deadlines)
 - [X] Fix view for search list of colleges (some colleges are liked when they shouldn't be)
 - [ ] Push notifications
-- [ ] Get started on Map
+- [X] Get started on Map
 - Clean up detail college page:
   - [X] Appearance of general info fragment
   - [X] General Info fragment, including description, cost, population, and more.
