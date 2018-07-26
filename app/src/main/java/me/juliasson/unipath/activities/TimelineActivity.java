@@ -13,6 +13,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
+
 import me.juliasson.unipath.R;
 import me.juliasson.unipath.fragments.CalendarFragment;
 import me.juliasson.unipath.fragments.LinearTimelineFragment;
@@ -53,50 +58,115 @@ public class TimelineActivity extends AppCompatActivity implements BottomNavigat
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
 
-//        navigationView = findViewById(R.id.bottom_nav);
-//        navigationView.setSelectedItemId(R.id.action_post);
-//        navigationView.setOnNavigationItemSelectedListener(this);
-//        navigationView.setOnNavigationItemReselectedListener(this);
+        navigationView = findViewById(R.id.bottom_nav);
+        navigationView.setSelectedItemId(R.id.action_post);
+        navigationView.setOnNavigationItemSelectedListener(this);
+        navigationView.setOnNavigationItemReselectedListener(this);
 
-//        homePager = findViewById(R.id.home_pager);
-//        homePager.setOffscreenPageLimit(2);
+        homePager = findViewById(R.id.home_pager);
+        homePager.setOffscreenPageLimit(2);
 
 
-//        homeAdapter = new HomeAdapter(getSupportFragmentManager(), fragments);
-//        homePager.setAdapter(homeAdapter);
-//        homePager.setCurrentItem(1);
-//
-//        homePager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
-//            @Override
-//            public void onPageSelected(int position) {
-//                switch (position) {
-//                    case 0:
-//                        if(navigationView.getSelectedItemId() != R.id.action_home) {
-//                            navigationView.setSelectedItemId(R.id.action_home);
-//                            getSupportActionBar().setElevation(
-//                                    getResources().getDimensionPixelSize(R.dimen.action_bar_elevation)
-//                            );
-//                        }
-//                        break;
-//                    case 1:
-//                        if(navigationView.getSelectedItemId() != R.id.action_post) {
-//                            navigationView.setSelectedItemId(R.id.action_post);
-//                            getSupportActionBar().setElevation(0);
-//                        }
-//                        break;
-//                    case 2:
-//                        if (navigationView.getSelectedItemId() != R.id.action_profile) {
-//                            navigationView.setSelectedItemId(R.id.action_profile);
-//                            fragment_profile.setPbProgress();
-//                            getSupportActionBar().setElevation(0);
-//                        }
-//                        break;
-//                    default:
-//
-//                        break;
-//                }
-//            }
-//        });
+        homeAdapter = new HomeAdapter(getSupportFragmentManager(), fragments);
+        homePager.setAdapter(homeAdapter);
+        homePager.setCurrentItem(1);
+
+        homePager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+            @Override
+            public void onPageSelected(int position) {
+                switch (position) {
+                    case 0:
+                        if(navigationView.getSelectedItemId() != R.id.action_home) {
+                            navigationView.setSelectedItemId(R.id.action_home);
+                            getSupportActionBar().setElevation(
+                                    getResources().getDimensionPixelSize(R.dimen.action_bar_elevation)
+                            );
+                        }
+                        break;
+                    case 1:
+                        if(navigationView.getSelectedItemId() != R.id.action_post) {
+                            navigationView.setSelectedItemId(R.id.action_post);
+                            getSupportActionBar().setElevation(0);
+                        }
+                        break;
+                    case 2:
+                        if (navigationView.getSelectedItemId() != R.id.action_profile) {
+                            navigationView.setSelectedItemId(R.id.action_profile);
+                            fragment_profile.setPbProgress();
+                            getSupportActionBar().setElevation(0);
+                        }
+                        break;
+                    default:
+
+                        break;
+                }
+            }
+        });
+        setContentView(R.layout.activity_timeline);
+
+        navigationView = findViewById(R.id.bottom_nav);
+        navigationView.setSelectedItemId(R.id.action_post);
+        navigationView.setOnNavigationItemSelectedListener(this);
+        navigationView.setOnNavigationItemReselectedListener(this);
+
+        homePager = findViewById(R.id.home_pager);
+        homePager.setOffscreenPageLimit(2);
+
+        FirebaseInstanceId.getInstance().getInstanceId()
+                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
+                        if (!task.isSuccessful()) {
+                            Log.w(TAG, "getInstanceId failed", task.getException());
+                            return;
+                        }
+
+                        // Get new Instance ID token
+                        String token = task.getResult().getToken();
+
+                        // Log and toast
+//                        String msg = getString(R.string.msg_token_fmt, token);
+//                        Log.d(TAG, msg);
+//                        Toast.makeText(TimelineActivity.this, msg, Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+        homeAdapter = new HomeAdapter(getSupportFragmentManager(), fragments);
+        homePager.setAdapter(homeAdapter);
+        homePager.setCurrentItem(1);
+
+        homePager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+            @Override
+            public void onPageSelected(int position) {
+                switch (position) {
+                    case 0:
+                        if(navigationView.getSelectedItemId() != R.id.action_home) {
+                            navigationView.setSelectedItemId(R.id.action_home);
+                            getSupportActionBar().setElevation(
+                                    getResources().getDimensionPixelSize(R.dimen.action_bar_elevation)
+                            );
+                        }
+                        break;
+                    case 1:
+                        if(navigationView.getSelectedItemId() != R.id.action_post) {
+                            navigationView.setSelectedItemId(R.id.action_post);
+                            getSupportActionBar().setElevation(0);
+                        }
+                        break;
+                    case 2:
+                        if (navigationView.getSelectedItemId() != R.id.action_profile) {
+                            navigationView.setSelectedItemId(R.id.action_profile);
+                            fragment_profile.setPbProgress();
+                            getSupportActionBar().setElevation(0);
+                        }
+                        break;
+                    default:
+
+                        break;
+                }
+            }
+        });
+
     }
 
     @Override

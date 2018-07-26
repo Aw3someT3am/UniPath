@@ -22,6 +22,8 @@
     <string name="description">Description</string>
     <string name="date">date</string>
     <string name="deadline_description">Deadline Description</string>
+    <string name="msg_token_fmt">Token</string>
+
 
     <string name="google_maps_api_key">AIzaSyCZ3E-xEQqcWccJqAQaAR2zo_4DZshOCT0</string>
 
