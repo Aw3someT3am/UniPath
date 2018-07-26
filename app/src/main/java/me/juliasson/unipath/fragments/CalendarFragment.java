@@ -234,7 +234,7 @@ public class CalendarFragment extends Fragment {
                         Date date = deadline.getDeadlineDate();
 
                         // Create event for each deadline and add to CompactCalendarView
-                        Event event = new Event(Color.argb(255, 0 ,221, 255), date.getTime(), college + ", " + description);
+                        Event event = new Event(Color.argb(255, 0 ,221, 255), date.getTime(), String.format("%s: %s", college, description.toUpperCase()));
                         compactCalendarView.addEvent(event);
                         mDataList.add(relation);
                     }

@@ -80,6 +80,10 @@ public class LinearTimelineFragment extends Fragment {
         udQuery.getTop().withUser().withDeadline().withCollege();
         udQuery.whereEqualTo(KEY_USER, ParseUser.getCurrentUser());
 
+        mDataSet.clear();
+        mDataList.clear();
+        mRelationsInTimeLine.clear();
+
         udQuery.findInBackground(new FindCallback<UserDeadlineRelation>() {
             @Override
             public void done(List<UserDeadlineRelation> objects, ParseException e) {
@@ -125,8 +129,6 @@ public class LinearTimelineFragment extends Fragment {
 
     public void refresh() {
         mTimeLineAdapter.clear();
-        mDataSet.clear();
-        mRelationsInTimeLine.clear();
         setDataListItems();
         mTimeLineAdapter.addAll(mDataList);
         // Now we call setRefreshing(false) to signal refresh has finished
