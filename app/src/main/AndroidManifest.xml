@@ -37,7 +37,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.TimelineActivity" />
+        <activity
+            android:name=".activities.TimelineActivity"
+            android:windowSoftInputMode="adjustPan"/>
         <activity android:name=".activities.SignUpActivity" />
 
         <provider
