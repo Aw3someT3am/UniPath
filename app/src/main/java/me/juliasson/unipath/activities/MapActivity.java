@@ -34,7 +34,9 @@ import com.google.maps.android.ui.IconGenerator;
 import me.juliasson.unipath.R;
 
 //@RuntimePermissions
-public class MapActivity extends AppCompatActivity implements GoogleMap.OnMapLongClickListener {
+public class MapActivity extends AppCompatActivity implements
+            GoogleMap.OnMapLongClickListener,
+            GoogleMap.OnMarkerClickListener {
 
     private SupportMapFragment mapFragment;
     private GoogleMap map;
@@ -50,6 +52,15 @@ public class MapActivity extends AppCompatActivity implements GoogleMap.OnMapLon
      * returned in Activity.onActivityResult
      */
     private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
+
+//42.3770, 71.1167
+    private static final LatLng HARV = new LatLng(-31.952854, 115.857342);
+    private static final LatLng BERK = new LatLng(37.8716, 122.2727);
+    private static final LatLng UIUC = new LatLng(40.10203, 88.2272);
+
+    private Marker mHarv;
+    private Marker mBerk;
+    private Marker mUiuc;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,11 +92,13 @@ public class MapActivity extends AppCompatActivity implements GoogleMap.OnMapLon
 
     }
 
+
     protected void loadMap(GoogleMap googleMap) {
         map = googleMap;
+//        UiSettings.setZoomControlsEnabled(true);
         if (map != null) {
             // Map is ready
-            Toast.makeText(this, "Map Fragment was loaded properly!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Map Fragment was loaded properly", Toast.LENGTH_SHORT).show();
 
 //            MapDemoActivityPermissionsDispatcher.getMyLocationWithPermissionCheck(this);
 //            MapDemoActivityPermissionsDispatcher.startLocationUpdatesWithPermissionCheck(this);
@@ -93,7 +106,34 @@ public class MapActivity extends AppCompatActivity implements GoogleMap.OnMapLon
         } else {
             Toast.makeText(this, "Error - Map was null!!", Toast.LENGTH_SHORT).show();
         }
+
+        map.moveCamera(CameraUpdateFactory.newLatLng(BERK));
+//        map.animateCamera(CameraUpdateFactory.newLatLngZoom(BERK, 15));
+
+
+        // Add some markers to the map, and add a data object to each marker.
+        mHarv = map.addMarker(new MarkerOptions()
+                .position(HARV)
+                .title("Harvard"));
+        mHarv.setTag(0);
+
+        mBerk = map.addMarker(new MarkerOptions()
+                .position(BERK)
+                .title("Berkeley"));
+        mBerk.setTag(0);
+
+        mUiuc = map.addMarker(new MarkerOptions()
+                .position(UIUC)
+                .title("Uiuc"));
+        mUiuc.setTag(0);
+
+
+
+        // Set a listener for marker click.
+        map.setOnMarkerClickListener(this);
+
     }
+
 
 //    @Override
 //    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
@@ -296,6 +336,29 @@ public class MapActivity extends AppCompatActivity implements GoogleMap.OnMapLon
 
         // Display the dialog
         alertDialog.show();
+    }
+
+    /** Called when the user clicks a marker. */
+    @Override
+    public boolean onMarkerClick(final Marker marker) {
+
+        // Retrieve the data from the marker.
+        Integer clickCount = (Integer) marker.getTag();
+
+        // Check if a click count was set, then display the click count.
+        if (clickCount != null) {
+            clickCount = clickCount + 1;
+            marker.setTag(clickCount);
+            Toast.makeText(this,
+                    marker.getTitle() +
+                            " has been clicked " + clickCount + " times.",
+                    Toast.LENGTH_SHORT).show();
+        }
+
+        // Return false to indicate that we have not consumed the event and that we wish
+        // for the default behavior to occur (which is for the camera to move such that the
+        // marker is centered and for the marker's info window to open, if it has one).
+        return false;
     }
 
     private void dropPinEffect(final Marker marker) {
