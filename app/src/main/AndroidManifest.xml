@@ -28,9 +28,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <meta-data
             android:name="android.app.searchable"
             android:resource="@xml/searchable" />
+
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
@@ -62,6 +64,7 @@
             android:name=".activities.CollegeDetailsActivity"
             android:excludeFromRecents="true"
             android:theme="@style/AppTheme.Dialog" />
+
         <activity
             android:name=".activities.DeadlineDetailsActivity"
             android:excludeFromRecents="true"
@@ -91,10 +94,12 @@
             android:resource="@drawable/ic_notifications_black_24dp" />
         <!-- Set color used with incoming notification messages. This is used when no color is set for the incoming
              notification message. See README(https://goo.gl/6BKBk7) for more. -->
+
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_color"
             android:resource="@color/colorAccent" />
-        <activity android:name=".activities.MapActivity"></activity>
+
+        <activity android:name=".activities.MapActivity" />
     </application>
 
 </manifest>

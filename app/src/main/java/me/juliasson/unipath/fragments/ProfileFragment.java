@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -22,6 +23,8 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
@@ -54,11 +57,14 @@ public class ProfileFragment extends Fragment {
     private TextView tvEmail;
     private Button bvLogout;
     private DiscreteScrollView scrollView;
+    private FirebaseAuth mAuth;
+    private FirebaseAuth.AuthStateListener mAuthListener;
 
     private CollegeAdapter collegeAdapter;
     private ArrayList<College> colleges;
     //private RecyclerView rvColleges;
 
+    private static final String TAG = "ProfileFragment";
     private final String KEY_FIRST_NAME = "firstName";
     private final String KEY_LAST_NAME = "lastName";
     private final String KEY_PROFILE_IMAGE = "profileImage";
@@ -79,6 +85,7 @@ public class ProfileFragment extends Fragment {
     // Any view setup should occur here.  E.g., view lookups and attaching view listeners.
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
+        mAuth = FirebaseAuth.getInstance();
         mContext = view.getContext();
 
         //settings up general profile info
@@ -112,6 +119,22 @@ public class ProfileFragment extends Fragment {
             }
         });
 
+        mAuthListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                if (user != null) {
+                    // User is signed in
+                    Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
+                    Toast.makeText(mContext,"Verify successful", Toast.LENGTH_LONG);
+                } else {
+                    // User is signed out
+                    Log.d(TAG, "onAuthStateChanged:signed_out");
+                }
+                // ...
+            }
+        };
+
         pbProgress.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -139,6 +162,7 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 ParseUser.logOut();
+                mAuth.signOut();
                 Log.d("ProfileActivity", "Logged out successfully");
                 Toast.makeText(mContext, "Logout successful", Toast.LENGTH_SHORT).show();
                 Intent i = new Intent(mContext, LoginActivity.class);
@@ -265,5 +289,19 @@ public class ProfileFragment extends Fragment {
         collegeAdapter.clear();
         loadFavoriteColleges();
         collegeAdapter.addAll(colleges);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        mAuth.addAuthStateListener(mAuthListener);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (mAuthListener != null) {
+            mAuth.removeAuthStateListener(mAuthListener);
+        }
     }
 }

@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.parse.LogInCallback;
@@ -35,10 +36,8 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_);
 
-        ParseUser.logOut();
-
+        FirebaseApp.initializeApp(this);
         mAuth = FirebaseAuth.getInstance();
-
         ParseUser currentUser = ParseUser.getCurrentUser();
 
         if (currentUser != null) {
@@ -95,7 +94,8 @@ public class LoginActivity extends AppCompatActivity {
             public void done(ParseUser user, ParseException e) {
                 if (e == null) {
                     final String email = ParseUser.getCurrentUser().getEmail();
-                    if(!email.equals("") && !password.equals("") && !username.equals("")) {
+                    if(!email.equals("") && !password.equals("")) {
+                        Toast.makeText(LoginActivity.this,"Login Authentication Accepted", Toast.LENGTH_LONG);
                         mAuth.signInWithEmailAndPassword(email,password);
                     }else{
                         Toast.makeText(LoginActivity.this,"You didn;t fill all the fields", Toast.LENGTH_LONG);

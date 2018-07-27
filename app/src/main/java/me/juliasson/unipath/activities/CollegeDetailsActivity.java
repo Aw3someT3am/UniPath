@@ -23,6 +23,7 @@ import com.parse.ParseUser;
 
 import org.parceler.Parcels;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import me.juliasson.unipath.R;
@@ -41,6 +42,7 @@ public class CollegeDetailsActivity extends AppCompatActivity {
 
     TextView tvcollegeName;
     ImageView ivCollegeImage;
+    CollegeAdapter collegeAdapter = new CollegeAdapter(new ArrayList<College>());
     LikeButton lbLikeButtonDetails;
 
     College college;

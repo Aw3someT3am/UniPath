@@ -26,7 +26,7 @@ allprojects {
         maven {
             url "http://dl.bintray.com/microsoftazuremobile/SDK"
         }
-        maven {
+        maven{
             url "https://maven.google.com"
         }
     }

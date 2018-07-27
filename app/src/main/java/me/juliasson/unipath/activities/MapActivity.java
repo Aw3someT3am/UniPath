@@ -60,8 +60,8 @@ import static com.google.android.gms.location.LocationServices.getFusedLocationP
 
 @RuntimePermissions
 public class MapActivity extends AppCompatActivity implements
-            GoogleMap.OnMapLongClickListener,
-            GoogleMap.OnMarkerClickListener {
+        GoogleMap.OnMapLongClickListener,
+        GoogleMap.OnMarkerClickListener {
 
     private SupportMapFragment mapFragment;
     private GoogleMap map;
@@ -144,7 +144,7 @@ public class MapActivity extends AppCompatActivity implements
         loadCollegeMarkers();
 
         // Set a listener for marker click.s
-       //  map.setOnMarkerClickListener(this);
+        //  map.setOnMarkerClickListener(this);
 
     }
 
