@@ -9,6 +9,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -18,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.github.sundeepk.compactcalendarview.CompactCalendarView;
 import com.github.sundeepk.compactcalendarview.domain.Event;
@@ -63,10 +67,8 @@ public class CalendarFragment extends Fragment {
         // Defines the xml file for the fragment
         View view = inflater.inflate(R.layout.fragment_calendar, parent, false);
 
-
         pager = (ViewPager) parent;
         mTimelineActivity=(TimelineActivity) getActivity();
-
 
         // A list of strings of format "description, college" to display for each specific date when clicked
         final List<String> mutableBookings = new ArrayList<>();
@@ -266,5 +268,20 @@ public class CalendarFragment extends Fragment {
                 }
             }
         });
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_new_deadline, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.new_deadline:
+                Toast.makeText(getContext(), "New deadline selected", Toast.LENGTH_SHORT).show();
+                break;
+        }
+        return true;
     }
 }
