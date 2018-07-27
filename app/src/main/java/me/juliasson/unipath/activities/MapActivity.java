@@ -138,7 +138,7 @@ public class MapActivity extends AppCompatActivity implements
 
 
         map.moveCamera(CameraUpdateFactory.newLatLng(center_us));
-        map.animateCamera(CameraUpdateFactory.newLatLngZoom(center_us, 1));
+        map.animateCamera(CameraUpdateFactory.newLatLngZoom(center_us, 2));
 
 
         loadCollegeMarkers();
