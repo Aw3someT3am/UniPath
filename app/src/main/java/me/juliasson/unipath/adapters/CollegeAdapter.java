@@ -35,7 +35,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import me.juliasson.unipath.R;
-import me.juliasson.unipath.activities.CollegeDetailsActivity;
+import me.juliasson.unipath.activities.CollegeDetailsDialog;
 import me.juliasson.unipath.model.College;
 import me.juliasson.unipath.model.CollegeDeadlineRelation;
 import me.juliasson.unipath.model.UserCollegeRelation;
@@ -138,7 +138,7 @@ public class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.ViewHold
 
             if (position != RecyclerView.NO_POSITION) {
                 College college = mFilteredList.get(position);
-                Intent intent = new Intent(mContext, CollegeDetailsActivity.class);
+                Intent intent = new Intent(mContext, CollegeDetailsDialog.class);
                 intent.putExtra(College.class.getSimpleName(), Parcels.wrap(college));
                 mContext.startActivity(intent);
             }

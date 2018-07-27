@@ -83,12 +83,17 @@
         <activity android:name=".activities.SignUpActivity" />
 
         <activity
-            android:name=".activities.CollegeDetailsActivity"
+            android:name=".activities.CollegeDetailsDialog"
             android:excludeFromRecents="true"
             android:theme="@style/AppTheme.Dialog" />
 
         <activity
-            android:name=".activities.DeadlineDetailsActivity"
+            android:name=".activities.DeadlineDetailsDialog"
+            android:excludeFromRecents="true"
+            android:theme="@style/AppTheme.Dialog" />
+
+        <activity
+            android:name=".activities.NewDeadlineDialog"
             android:excludeFromRecents="true"
             android:theme="@style/AppTheme.Dialog" />
 

@@ -33,7 +33,7 @@ import me.juliasson.unipath.fragments.GeneralInfoFragment;
 import me.juliasson.unipath.model.College;
 import me.juliasson.unipath.model.UserCollegeRelation;
 
-public class CollegeDetailsActivity extends AppCompatActivity {
+public class CollegeDetailsDialog extends AppCompatActivity {
     FrameLayout flContainer;
     FragmentTransaction fragmentTransaction;
 
@@ -50,7 +50,7 @@ public class CollegeDetailsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_college_details);
+        setContentView(R.layout.dialog_college_details);
         this.setFinishOnTouchOutside(true);
         
         setSize();

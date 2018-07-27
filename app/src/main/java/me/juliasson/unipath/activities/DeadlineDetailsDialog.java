@@ -21,7 +21,7 @@ import me.juliasson.unipath.model.UserDeadlineRelation;
 import me.juliasson.unipath.utils.DateTimeUtils;
 
 
-public class DeadlineDetailsActivity extends AppCompatActivity {
+public class DeadlineDetailsDialog extends AppCompatActivity {
 
     private DDCollegeListAdapter ddcAdapter;
     private ArrayList<UserDeadlineRelation> relations;
@@ -37,7 +37,7 @@ public class DeadlineDetailsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.activity_deadline_details);
+        setContentView(R.layout.dialog_deadline_details);
         this.setFinishOnTouchOutside(true);
 
         setSize();
