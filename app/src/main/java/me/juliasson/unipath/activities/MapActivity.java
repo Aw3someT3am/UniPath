@@ -77,6 +77,8 @@ public class MapActivity extends AppCompatActivity implements
     private static final String KEY_LONGITUDE = "longitude";
     private static final String KEY_LATITUDE = "latitude";
 
+    private static final LatLng center_us = new LatLng(39.809860, -98.555183);
+
     private List<LatLng> mLocationsList = new ArrayList<>();
 
     /*
@@ -84,15 +86,6 @@ public class MapActivity extends AppCompatActivity implements
      * returned in Activity.onActivityResult
      */
     private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
-
-    // Coordinates must have 6 decimal places to appear in correct location
-//    private static final LatLng HARV = new LatLng(42.378036, -71.118340);
-//    private static final LatLng BERK = new LatLng(37.871853, -122.258423);
-//    private static final LatLng UIUC = new LatLng(40.116421, -88.243385);
-//
-//    private Marker mHarv;
-//    private Marker mBerk;
-//    private Marker mUiuc;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -143,29 +136,14 @@ public class MapActivity extends AppCompatActivity implements
             Toast.makeText(this, "Error - Map was null!!", Toast.LENGTH_SHORT).show();
         }
 
-//        map.moveCamera(CameraUpdateFactory.newLatLng(BERK));
-//        map.animateCamera(CameraUpdateFactory.newLatLngZoom(BERK, 15));
+
+        map.moveCamera(CameraUpdateFactory.newLatLng(center_us));
+        map.animateCamera(CameraUpdateFactory.newLatLngZoom(center_us, 1));
+
 
         loadCollegeMarkers();
 
-
-        // Add some markers to the map, and add a data object to each marker.
-//        mHarv = map.addMarker(new MarkerOptions()
-//                .position(HARV)
-//                .title("Harvard"));
-//        mHarv.setTag(0);
-//
-//        mBerk = map.addMarker(new MarkerOptions()
-//                .position(BERK)
-//                .title("Berkeley"));
-//        mBerk.setTag(0);
-//
-//        mUiuc = map.addMarker(new MarkerOptions()
-//                .position(UIUC)
-//                .title("Uiuc"));
-//        mUiuc.setTag(0);
-
-        // Set a listener for marker click.
+        // Set a listener for marker click.s
        //  map.setOnMarkerClickListener(this);
 
     }
@@ -465,6 +443,7 @@ public class MapActivity extends AppCompatActivity implements
                         UserCollegeRelation relation = objects.get(i);
                         College college = relation.getCollege();
 
+                        // Note coords must have 6 decimal places to appear in correct location
                         Double lat = college.getLatitude();
                         Double lng = college.getLongitude();
 
