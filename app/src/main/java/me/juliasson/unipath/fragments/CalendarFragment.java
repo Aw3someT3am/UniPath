@@ -1,10 +1,10 @@
 package me.juliasson.unipath.fragments;
 
-import android.content.Context;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.util.TypedValue;
@@ -35,6 +35,7 @@ import java.util.List;
 import java.util.Locale;
 
 import me.juliasson.unipath.R;
+import me.juliasson.unipath.activities.TimelineActivity;
 import me.juliasson.unipath.model.College;
 import me.juliasson.unipath.model.Deadline;
 import me.juliasson.unipath.model.UserDeadlineRelation;
@@ -48,18 +49,24 @@ public class CalendarFragment extends Fragment {
     private boolean shouldShow = false;
     private CompactCalendarView compactCalendarView;
     private TextView monthYearTv;
-    private Context mContext;
+
+    ViewPager pager;
+    TimelineActivity mTimelineActivity;
 
     private List<UserDeadlineRelation> mDataList = new ArrayList<>();
 
     private static final String KEY_USER = "user";
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
-        mContext = parent.getContext();
+    public View onCreateView(LayoutInflater inflater, final ViewGroup parent, Bundle savedInstanceState) {
         ((AppCompatActivity) getActivity()).getSupportActionBar().show();
         // Defines the xml file for the fragment
         View view = inflater.inflate(R.layout.fragment_calendar, parent, false);
+
+
+        pager = (ViewPager) parent;
+        mTimelineActivity=(TimelineActivity) getActivity();
+
 
         // A list of strings of format "description, college" to display for each specific date when clicked
         final List<String> mutableBookings = new ArrayList<>();
@@ -138,7 +145,7 @@ public class CalendarFragment extends Fragment {
         refreshBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                view.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.image_view_click));
+                view.startAnimation(AnimationUtils.loadAnimation(parent.getContext(), R.anim.image_view_click));
                 compactCalendarView.removeAllEvents();
                 loadEvents();
                 setDataListItems();
