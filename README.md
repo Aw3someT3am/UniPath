@@ -81,4 +81,4 @@ The purpose of this app is to assist students and parents with finding and apply
   - [ ] OPTIONAL: begin researching optional features
 
 ## Walkthrough week 2 progress
-![Walkthrough](walkthrough_week_2.mp4)
+- click on walkthrough_week_2.mp4 file
