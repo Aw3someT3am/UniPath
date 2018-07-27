@@ -63,8 +63,8 @@ The purpose of this app is to assist students and parents with finding and apply
   - [ ] Make calendar look prettier?
   - [ ] Add buttons on action bar or on view that takes you to current day and takes you to closest deadline.
   - [ ] Upon refresh, calendar should load deadlines user's date is currently on without having to click the date again.
-  - [ ] OPTIONAL: change colors of events when they are "completed", "incomplete", or "active"
--Minor Improvements:
+  - [ ] OPTIONAL: change colors of events when they are "completed", "incomplete", or "active".
+- Minor Improvements:
   - [ ] Search refresh should refresh the filtered list, not the entire list.
   - [ ] Add more colleges/more data to database
   - [ ] Time based refreshing for progress bar OR...
