@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.parse.LogInCallback;
@@ -35,8 +36,8 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_);
 
+        FirebaseApp.initializeApp(this);
         mAuth = FirebaseAuth.getInstance();
-
         ParseUser currentUser = ParseUser.getCurrentUser();
 
         if (currentUser != null) {
