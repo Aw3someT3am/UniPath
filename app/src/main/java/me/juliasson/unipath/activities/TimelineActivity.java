@@ -50,7 +50,7 @@ public class TimelineActivity extends AppCompatActivity implements BottomNavigat
     private HomeAdapter homeAdapter;
 
     private final Fragment[] fragments = new Fragment[] {
-            fragment_linear_timeline,
+            fragment_search,
             fragment_calendar,
             fragment_profile //DO NOT CHANGE WITH OTHER FRAGMENTS. OK FINE OMGGGGGG
     };

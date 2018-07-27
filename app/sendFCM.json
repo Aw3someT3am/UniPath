@@ -1,0 +1,16 @@
+//url
+https://fcm.googleapis.com/fcm/send
+
+//headers
+Authorization: key=AAAAbG8d9N8:APA91bEq_11I3kebjyz-xu2rOV3KvPAFQ4CpeL31lfizQnIZ9f1-PEXvkByAEEF9HZty6HwLHqdDO4UUDdgCNVymNOfIOBvZ7iOHxO2YVJNkqwzV9B0QRxorFsCnQSU9b8enxjosEPKoUm9MItQw3hM1ygp8xK467w
+Content-Type: application/json
+
+//body
+{
+  "to" : "< user FCM token >",
+ "data" : {
+    "message" : "This is my data message",
+    "title" : "This is my data title",
+    "data_type": "direct_message"
+  }
+}
