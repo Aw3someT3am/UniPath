@@ -21,9 +21,6 @@ public class TimelineActivity extends AppCompatActivity {
      * Start page index. 0 - top page, 1 - central page, 2 - bottom page.
      */
     private static final int CENTRAL_PAGE_INDEX = 1;
-
-
-
     public VerticalPager mVerticalPager;
 
     @Override
