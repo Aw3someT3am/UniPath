@@ -21,19 +21,7 @@ public class TimelineActivity extends AppCompatActivity {
      * Start page index. 0 - top page, 1 - central page, 2 - bottom page.
      */
     private static final int CENTRAL_PAGE_INDEX = 1;
-
-
-
     public VerticalPager mVerticalPager;
-
-<<<<<<< HEAD
-    private final Fragment[] fragments = new Fragment[] {
-            fragment_search,
-            fragment_calendar,
-            fragment_profile //DO NOT CHANGE WITH OTHER FRAGMENTS. OK FINE OMGGGGGG
-    };
-=======
->>>>>>> 664859043428052e328dc2fbfc9a395f21c0ec4d
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
