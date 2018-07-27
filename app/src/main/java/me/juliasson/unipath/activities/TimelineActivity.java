@@ -1,242 +1,90 @@
 package me.juliasson.unipath.activities;
 
-import android.content.Context;
-import android.content.Intent;
+import android.annotation.TargetApi;
+import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.BottomNavigationView;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewTreeObserver;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.firebase.iid.InstanceIdResult;
+import com.squareup.otto.Subscribe;
 
 import me.juliasson.unipath.R;
-import me.juliasson.unipath.fragments.CalendarFragment;
-import me.juliasson.unipath.fragments.LinearTimelineFragment;
-import me.juliasson.unipath.fragments.ProfileFragment;
-import me.juliasson.unipath.fragments.SearchFragment;
-import me.juliasson.unipath.internal.Refreshable;
+import me.juliasson.unipath.event.EventBus;
+import me.juliasson.unipath.event.PageChangedEvent;
+import me.juliasson.unipath.view.VerticalPager;
 
 
-public class TimelineActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener,
-        BottomNavigationView.OnNavigationItemReselectedListener
-         {
+public class TimelineActivity extends AppCompatActivity {
 
-    private static final String TAG = TimelineActivity.class.getSimpleName();
+    /**
+     * Start page index. 0 - top page, 1 - central page, 2 - bottom page.
+     */
+    private static final int CENTRAL_PAGE_INDEX = 1;
 
-    public static void start(Context context) {
-        final Intent intent = new Intent(context, TimelineActivity.class);
-        context.startActivity(intent);
-    }
 
-    private ViewPager homePager;
-    private BottomNavigationView navigationView;
 
-    private LinearTimelineFragment fragment_linear_timeline = new LinearTimelineFragment();
-    private SearchFragment fragment_search = new SearchFragment();
-    private ProfileFragment fragment_profile = new ProfileFragment();
-    private CalendarFragment fragment_calendar = new CalendarFragment();
+    public VerticalPager mVerticalPager;
 
-    private HomeAdapter homeAdapter;
-
-    private final Fragment[] fragments = new Fragment[] {
-            fragment_linear_timeline,
-            fragment_calendar,
-            fragment_profile //DO NOT CHANGE WITH OTHER FRAGMENTS. OK FINE OMGGGGGG
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timeline);
+        findViews();
 
-        navigationView = findViewById(R.id.bottom_nav);
-        navigationView.setSelectedItemId(R.id.action_post);
-        navigationView.setOnNavigationItemSelectedListener(this);
-        navigationView.setOnNavigationItemReselectedListener(this);
+    }
 
-        homePager = findViewById(R.id.home_pager);
-        homePager.setOffscreenPageLimit(2);
+    private void findViews() {
+        mVerticalPager = (VerticalPager) findViewById(R.id.activity_main_vertical_pager);
+        initViews();
+    }
 
+    private void initViews() {
+        snapPageWhenLayoutIsReady(mVerticalPager, CENTRAL_PAGE_INDEX);
+    }
 
-        homeAdapter = new HomeAdapter(getSupportFragmentManager(), fragments);
-        homePager.setAdapter(homeAdapter);
-        homePager.setCurrentItem(1);
-
-        homePager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+    private void snapPageWhenLayoutIsReady(final View pageView, final int page) {
+        /*
+         * VerticalPager is not fully initialized at the moment, so we want to snap to the central page only when it
+         * layout and measure all its pages.
+         */
+        pageView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @SuppressWarnings("deprecation")
             @Override
-            public void onPageSelected(int position) {
-                switch (position) {
-                    case 0:
-                        if(navigationView.getSelectedItemId() != R.id.action_home) {
-                            navigationView.setSelectedItemId(R.id.action_home);
-                            getSupportActionBar().setElevation(
-                                    getResources().getDimensionPixelSize(R.dimen.action_bar_elevation)
-                            );
-                        }
-                        break;
-                    case 1:
-                        if(navigationView.getSelectedItemId() != R.id.action_post) {
-                            navigationView.setSelectedItemId(R.id.action_post);
-                            getSupportActionBar().setElevation(0);
-                        }
-                        break;
-                    case 2:
-                        if (navigationView.getSelectedItemId() != R.id.action_profile) {
-                            navigationView.setSelectedItemId(R.id.action_profile);
-                            fragment_profile.setPbProgress();
-                            getSupportActionBar().setElevation(0);
-                        }
-                        break;
-                    default:
+            public void onGlobalLayout() {
+                mVerticalPager.snapToPage(page, VerticalPager.PAGE_SNAP_DURATION_INSTANT);
 
-                        break;
-                }
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN)
+                    // recommended removeOnGlobalLayoutListener method is available since API 16 only
+                    pageView.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                else
+                    removeGlobalOnLayoutListenerForJellyBean(pageView);
+            }
+
+            @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+            private void removeGlobalOnLayoutListenerForJellyBean(final View pageView) {
+                pageView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
             }
         });
-        setContentView(R.layout.activity_timeline);
-
-        navigationView = findViewById(R.id.bottom_nav);
-        navigationView.setSelectedItemId(R.id.action_post);
-        navigationView.setOnNavigationItemSelectedListener(this);
-        navigationView.setOnNavigationItemReselectedListener(this);
-
-        homePager = findViewById(R.id.home_pager);
-        homePager.setOffscreenPageLimit(2);
-
-        FirebaseInstanceId.getInstance().getInstanceId()
-                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
-                        if (!task.isSuccessful()) {
-                            Log.w(TAG, "getInstanceId failed", task.getException());
-                            return;
-                        }
-
-                        // Get new Instance ID token
-                        String token = task.getResult().getToken();
-
-                        // Log and toast
-//                        String msg = getString(R.string.msg_token_fmt, token);
-//                        Log.d(TAG, msg);
-//                        Toast.makeText(TimelineActivity.this, msg, Toast.LENGTH_SHORT).show();
-                    }
-                });
-
-        homeAdapter = new HomeAdapter(getSupportFragmentManager(), fragments);
-        homePager.setAdapter(homeAdapter);
-        homePager.setCurrentItem(1);
-
-        homePager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
-            @Override
-            public void onPageSelected(int position) {
-                switch (position) {
-                    case 0:
-                        if(navigationView.getSelectedItemId() != R.id.action_home) {
-                            navigationView.setSelectedItemId(R.id.action_home);
-                            getSupportActionBar().setElevation(
-                                    getResources().getDimensionPixelSize(R.dimen.action_bar_elevation)
-                            );
-                        }
-                        break;
-                    case 1:
-                        if(navigationView.getSelectedItemId() != R.id.action_post) {
-                            navigationView.setSelectedItemId(R.id.action_post);
-                            getSupportActionBar().setElevation(0);
-                        }
-                        break;
-                    case 2:
-                        if (navigationView.getSelectedItemId() != R.id.action_profile) {
-                            navigationView.setSelectedItemId(R.id.action_profile);
-                            fragment_profile.setPbProgress();
-                            getSupportActionBar().setElevation(0);
-                        }
-                        break;
-                    default:
-
-                        break;
-                }
-            }
-        });
-
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(TimelineActivity.this, MapActivity.class);
-                startActivity(i);
-            }
-        });
-
     }
 
     @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_home:
-                Log.d(TAG, "home selected.");
-                homePager.setCurrentItem(0);
-                return true;
-            case R.id.action_post:
-                Log.d(TAG, "post selected.");
-                homePager.setCurrentItem(1);
-                return true;
-            case R.id.action_profile:
-                Log.d(TAG, "profile selected.");
-                homePager.setCurrentItem(2);
-                fragment_profile.setPbProgress();
-                return true;
-            default:
-                return false;
-        }
+    protected void onResume() {
+        super.onResume();
+        EventBus.getInstance().register(this);
     }
 
     @Override
-    public void onNavigationItemReselected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_home:
-                Log.d(TAG, "home re-selected.");
-                final Refreshable fragment = (Refreshable)fragments[1];
-                fragment.onRefresh();
-                break;
-            case R.id.action_post:
-                Log.d(TAG, "post re-selected.");
-                break;
-            case R.id.action_profile:
-                Log.d(TAG, "profile re-selected.");
-                fragment_profile.setPbProgress();
-                break;
-            default:
-                break;
-        }
+    protected void onPause() {
+        EventBus.getInstance().unregister(this);
+        super.onPause();
     }
 
-    static class HomeAdapter extends FragmentStatePagerAdapter {
-        private final Fragment[] fragments;
-
-        public HomeAdapter(FragmentManager fm, Fragment[] fragments) {
-            super(fm);
-            this.fragments = fragments;
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            return fragments[position];
-        }
-
-        @Override
-        public int getCount() {
-            return fragments.length;
-        }
+    @Subscribe
+    public void onLocationChanged(PageChangedEvent event) {
+        mVerticalPager.setPagingEnabled(event.hasVerticalNeighbors());
     }
+
+
 }
