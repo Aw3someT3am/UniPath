@@ -93,7 +93,7 @@ public class MapActivity extends AppCompatActivity implements
         setContentView(R.layout.activity_map);
 
         if (TextUtils.isEmpty(getResources().getString(R.string.google_maps_api_key))) {
-            throw new IllegalStateException("You forgot to supply a Google Maps API key");
+            throw new IllegalStateException("You forgot to supply a Google Maps API key ya dummy");
         }
 
         if (savedInstanceState != null && savedInstanceState.keySet().contains(KEY_LOCATION)) {
@@ -276,10 +276,6 @@ public class MapActivity extends AppCompatActivity implements
         // Report to the UI that the location was updated
 
         mCurrentLocation = location;
-        String msg = "Updated Location: " +
-                Double.toString(location.getLatitude()) + "," +
-                Double.toString(location.getLongitude());
-        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }
 
     public void onSaveInstanceState(Bundle savedInstanceState) {
