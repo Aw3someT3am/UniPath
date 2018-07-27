@@ -127,7 +127,6 @@ public class MapActivity extends AppCompatActivity implements
 
         if (map != null) {
             // Map is ready
-            Toast.makeText(this, "Map Fragment was loaded properly", Toast.LENGTH_SHORT).show();
 
             MapActivityPermissionsDispatcher.getMyLocationWithPermissionCheck(this);
             MapActivityPermissionsDispatcher.startLocationUpdatesWithPermissionCheck(this);
@@ -229,7 +228,7 @@ public class MapActivity extends AppCompatActivity implements
             CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 17);
             map.animateCamera(cameraUpdate);
         } else {
-            Toast.makeText(this, "Current location was null, enable GPS on emulator!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Current location unreachable, please enable GPS on your emulator.", Toast.LENGTH_SHORT).show();
         }
         MapActivityPermissionsDispatcher.startLocationUpdatesWithPermissionCheck(this);
     }
