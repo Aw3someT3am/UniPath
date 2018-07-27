@@ -42,9 +42,17 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.maps.android.ui.IconGenerator;
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseUser;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import me.juliasson.unipath.Manifest;
 import me.juliasson.unipath.R;
+import me.juliasson.unipath.model.College;
+import me.juliasson.unipath.model.UserCollegeRelation;
 import permissions.dispatcher.NeedsPermission;
 import permissions.dispatcher.RuntimePermissions;
 
@@ -65,6 +73,11 @@ public class MapActivity extends AppCompatActivity implements
 
     private static final String KEY_CAMERA_POSITION = "camera_position";
     private final static String KEY_LOCATION = "location";
+    private static final String KEY_USER = "user";
+    private static final String KEY_LONGITUDE = "longitude";
+    private static final String KEY_LATITUDE = "latitude";
+
+    private List<LatLng> mLocationsList = new ArrayList<>();
 
     /*
      * Define a request code to send to Google Play services This code is
@@ -73,13 +86,13 @@ public class MapActivity extends AppCompatActivity implements
     private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
 
     // Coordinates must have 6 decimal places to appear in correct location
-    private static final LatLng HARV = new LatLng(42.378036, -71.118340);
-    private static final LatLng BERK = new LatLng(37.871853, -122.258423);
-    private static final LatLng UIUC = new LatLng(40.116421, -88.243385);
-
-    private Marker mHarv;
-    private Marker mBerk;
-    private Marker mUiuc;
+//    private static final LatLng HARV = new LatLng(42.378036, -71.118340);
+//    private static final LatLng BERK = new LatLng(37.871853, -122.258423);
+//    private static final LatLng UIUC = new LatLng(40.116421, -88.243385);
+//
+//    private Marker mHarv;
+//    private Marker mBerk;
+//    private Marker mUiuc;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -130,25 +143,27 @@ public class MapActivity extends AppCompatActivity implements
             Toast.makeText(this, "Error - Map was null!!", Toast.LENGTH_SHORT).show();
         }
 
-        map.moveCamera(CameraUpdateFactory.newLatLng(BERK));
+//        map.moveCamera(CameraUpdateFactory.newLatLng(BERK));
 //        map.animateCamera(CameraUpdateFactory.newLatLngZoom(BERK, 15));
+
+        loadCollegeMarkers();
 
 
         // Add some markers to the map, and add a data object to each marker.
-        mHarv = map.addMarker(new MarkerOptions()
-                .position(HARV)
-                .title("Harvard"));
-        mHarv.setTag(0);
-
-        mBerk = map.addMarker(new MarkerOptions()
-                .position(BERK)
-                .title("Berkeley"));
-        mBerk.setTag(0);
-
-        mUiuc = map.addMarker(new MarkerOptions()
-                .position(UIUC)
-                .title("Uiuc"));
-        mUiuc.setTag(0);
+//        mHarv = map.addMarker(new MarkerOptions()
+//                .position(HARV)
+//                .title("Harvard"));
+//        mHarv.setTag(0);
+//
+//        mBerk = map.addMarker(new MarkerOptions()
+//                .position(BERK)
+//                .title("Berkeley"));
+//        mBerk.setTag(0);
+//
+//        mUiuc = map.addMarker(new MarkerOptions()
+//                .position(UIUC)
+//                .title("Uiuc"));
+//        mUiuc.setTag(0);
 
         // Set a listener for marker click.
        //  map.setOnMarkerClickListener(this);
@@ -221,7 +236,6 @@ public class MapActivity extends AppCompatActivity implements
                 errorFragment.setDialog(errorDialog);
                 errorFragment.show(getSupportFragmentManager(), "Location Updates");
             }
-
             return false;
         }
     }
@@ -231,7 +245,6 @@ public class MapActivity extends AppCompatActivity implements
         super.onResume();
 
         // Display the connection status
-
         if (mCurrentLocation != null) {
             Toast.makeText(this, "GPS location was found!", Toast.LENGTH_SHORT).show();
             LatLng latLng = new LatLng(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude());
@@ -437,4 +450,42 @@ public class MapActivity extends AppCompatActivity implements
         }
     }
 
+    public void loadCollegeMarkers(){
+        //ParseQuery go through each of the current user's colleges and add them.
+        UserCollegeRelation.Query ucQuery = new UserCollegeRelation.Query();
+        ucQuery.getTop().withUser().withCollege();
+        ucQuery.whereEqualTo(KEY_USER, ParseUser.getCurrentUser());
+
+        ucQuery.findInBackground(new FindCallback<UserCollegeRelation>() {
+            @Override
+            public void done(List<UserCollegeRelation> objects, ParseException e) {
+                if (e == null) {
+                    for (int i = 0; i < objects.size(); i++) {
+                        // Access each deadline associated with current user
+                        UserCollegeRelation relation = objects.get(i);
+                        College college = relation.getCollege();
+
+                        Double lat = college.getLatitude();
+                        Double lng = college.getLongitude();
+
+                        String name = college.getCollegeName();
+
+                        // Create LatLng for each deadline and add to CompactCalendarView
+                        LatLng coords = new LatLng(lat, lng);
+
+                        Marker mCollege = map.addMarker(new MarkerOptions()
+                                .position(coords)
+                                .title(name));
+                        mCollege.setTag(0);
+
+                        dropPinEffect(mCollege);
+
+                        mLocationsList.add(coords);
+                    }
+                } else {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
 }
