@@ -12,8 +12,16 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.like.LikeButton;
 import com.like.OnLikeListener;
 import com.parse.FindCallback;
@@ -32,17 +40,25 @@ import me.juliasson.unipath.model.College;
 import me.juliasson.unipath.model.CollegeDeadlineRelation;
 import me.juliasson.unipath.model.UserCollegeRelation;
 import me.juliasson.unipath.model.UserDeadlineRelation;
+import me.juliasson.unipath.utils.DateTimeUtils;
 
 public class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.ViewHolder> implements Filterable{
 
     private ArrayList<College> mColleges;
-    private Context mContext;
+    private static Context mContext;
 
     private ArrayList<College> mFilteredList;
 
     private final static String KEY_COLLEGE_IMAGE = "image";
     private final static String KEY_UD_COLLEGE = "college";
     private final static String KEY_UD_USER = "user";
+
+    private static final String TAG = "AddToDatabase";
+
+    private static FirebaseDatabase mFirebaseDatabase;
+    private static FirebaseAuth mAuth;
+    private static FirebaseAuth.AuthStateListener mAuthListener;
+    private static DatabaseReference myRef;
 
     public CollegeAdapter(ArrayList<College> arrayList) {
         mColleges = arrayList;
@@ -65,6 +81,11 @@ public class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.ViewHold
     public void onBindViewHolder(@NonNull final CollegeAdapter.ViewHolder viewHolder, int position) {
         final College college = mFilteredList.get(position);
         viewHolder.tvCollegeName.setText(college.getCollegeName());
+
+        mAuth = FirebaseAuth.getInstance();
+        mFirebaseDatabase = FirebaseDatabase.getInstance();
+        myRef = mFirebaseDatabase.getReference();
+
 
         Glide.with(mContext)
                 .load(college.getParseFile(KEY_COLLEGE_IMAGE).getUrl())
@@ -247,6 +268,14 @@ public class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.ViewHold
                     for (int i = 0; i < objects.size(); i++) {
                         try {
                             UserDeadlineRelation relation = objects.get(i);
+                            Log.d(TAG, "onClick: Attempting to add object to database.");
+                            String date = DateTimeUtils.parseDateTime(relation.getDeadline().getDeadlineDate().toString(), DateTimeUtils.parseInputFormat, DateTimeUtils.parseOutputFormat);
+                            if(!date.equals("")){
+                                FirebaseUser user = mAuth.getCurrentUser();
+                                String userID = user.getUid();
+                                myRef.child(userID).child("dates").child(date).removeValue();
+                                toastMessage("Removing " + date + " to database...");
+                            }
                             relation.delete();
                             relation.saveInBackground(new SaveCallback() {
                                 @Override
@@ -306,6 +335,48 @@ public class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.ViewHold
                             UserDeadlineRelation userDeadlineRelation = new UserDeadlineRelation();
                             userDeadlineRelation.setUser(ParseUser.getCurrentUser());
                             userDeadlineRelation.setDeadline(relation.getDeadline());
+                            mAuthListener = new FirebaseAuth.AuthStateListener() {
+                                @Override
+                                public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                                    FirebaseUser user = firebaseAuth.getCurrentUser();
+                                    if (user != null) {
+                                        // User is signed in
+                                        Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
+                                        toastMessage("Successfully signed in with: " + user.getEmail());
+                                    } else {
+                                        // User is signed out
+                                        Log.d(TAG, "onAuthStateChanged:signed_out");
+                                        toastMessage("Successfully signed out.");
+                                    }
+                                    // ...
+                                }
+                            };
+
+                            myRef.addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                    // This method is called once with the initial value and again
+                                    // whenever data at this location is updated.
+                                    Object value = dataSnapshot.getValue();
+                                    Log.d(TAG, "Value is: " + value);
+                                }
+
+                                @Override
+                                public void onCancelled(DatabaseError error) {
+                                    // Failed to read value
+                                    Log.w(TAG, "Failed to read value.", error.toException());
+                                }
+                            });
+
+                            Log.d(TAG, "onClick: Attempting to add object to database.");
+                            String date = DateTimeUtils.parseDateTime(relation.getDeadline().getDeadlineDate().toString(), DateTimeUtils.parseInputFormat, DateTimeUtils.parseOutputFormat);
+                            if(!date.equals("")){
+                                FirebaseUser user = mAuth.getCurrentUser();
+                                String userID = user.getUid();
+                                myRef.child(userID).child("dates").child(date).setValue("true");
+                                toastMessage("Adding " + date + " to database...");
+                            }
+
                             userDeadlineRelation.setCompleted(false);
                             userDeadlineRelation.setCollege(college);
                             userDeadlineRelation.saveInBackground(new SaveCallback() {
@@ -327,5 +398,15 @@ public class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.ViewHold
                 }
             }
         });
+    }
+
+
+    //add a toast to show when successfully signed in
+    /**
+     * customizable toast
+     * @param message
+     */
+    private static void toastMessage(String message){
+        Toast.makeText(mContext,message,Toast.LENGTH_SHORT).show();
     }
 }

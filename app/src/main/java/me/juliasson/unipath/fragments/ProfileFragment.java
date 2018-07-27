@@ -22,6 +22,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.google.firebase.auth.FirebaseAuth;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
@@ -54,6 +55,7 @@ public class ProfileFragment extends Fragment {
     private TextView tvEmail;
     private Button bvLogout;
     private DiscreteScrollView scrollView;
+    private FirebaseAuth mAuth;
 
     private CollegeAdapter collegeAdapter;
     private ArrayList<College> colleges;
@@ -79,6 +81,7 @@ public class ProfileFragment extends Fragment {
     // Any view setup should occur here.  E.g., view lookups and attaching view listeners.
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
+        mAuth = FirebaseAuth.getInstance();
         mContext = view.getContext();
 
         //settings up general profile info
@@ -139,6 +142,7 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 ParseUser.logOut();
+                mAuth.signOut();
                 Log.d("ProfileActivity", "Logged out successfully");
                 Toast.makeText(mContext, "Logout successful", Toast.LENGTH_SHORT).show();
                 Intent i = new Intent(mContext, LoginActivity.class);

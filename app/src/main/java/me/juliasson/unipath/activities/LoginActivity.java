@@ -35,9 +35,6 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_);
 
-        //TODO: REMOVE!
-        ParseUser.logOut();
-
         mAuth = FirebaseAuth.getInstance();
 
         ParseUser currentUser = ParseUser.getCurrentUser();
@@ -96,7 +93,8 @@ public class LoginActivity extends AppCompatActivity {
             public void done(ParseUser user, ParseException e) {
                 if (e == null) {
                     final String email = ParseUser.getCurrentUser().getEmail();
-                    if(!email.equals("") && !password.equals("") && !username.equals("")) {
+                    if(!email.equals("") && !password.equals("")) {
+                        Toast.makeText(LoginActivity.this,"Login Authentication Accepted", Toast.LENGTH_LONG);
                         mAuth.signInWithEmailAndPassword(email,password);
                     }else{
                         Toast.makeText(LoginActivity.this,"You didn;t fill all the fields", Toast.LENGTH_LONG);
