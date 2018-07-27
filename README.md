@@ -40,20 +40,45 @@ The purpose of this app is to assist students and parents with finding and apply
 - [ ] after accepted what to do
 
 ## Goals for this week
-- [X] Show dots on calendar based on # of colleges who has deadline on a date.
-- [X] Show dots on linear timeline
-- [X] Clicking on a linear timeline date should open a pop up with list of colleges who has deadline on a date.
-- [X] Clicking on a calendar date should change the bottom half of the fragment to display colleges.
-- [X] Implement organization of app (4-way swipe? something more simple?)
-- [X] A way to complete deadline/check it off/delete it from list. (update progress bar). 
-- [X] be able to tell if they missed a deadline.
-- [X] Implement calendar functionality (showing favorite college deadlines)
-- [X] Fix view for search list of colleges (some colleges are liked when they shouldn't be)
-- [ ] Push notifications
-- [X] Get started on Map
-- Clean up detail college page:
-  - [X] Appearance of general info fragment
-  - [X] General Info fragment, including description, cost, population, and more.
+- Search/Filtering:
+  - [ ] Cost, Size (# of students), Acceptance Rate, average GPA/SAT
+  - [ ] Location, looking on a map
+  - [ ] Majors and maybe happiness?
+- [ ] Get notifications done
+- Deadlines:
+  - [ ] Implement financial aid deadlines? (give special icons $)
+  - [ ] Implement custom deadlines
+- Map:
+  - [ ] Long click on pin favorites college (add animation to let user know)
+  - [ ] Short click on pin opens a detailed activity about college
+  - [ ] pin decoration/message over pin should be image of college? (Maybe: first click = name, second click = image)
+  - [ ] adjust activity such that it takes in a list of colleges from respective fragments/activities map is used in
+  - [ ] hide/remove actionbar
+- College Details:
+  - [ ] Research implementing a financial aid calculator (add a tab for it?)
+  - [ ] Add maps pin/button to allow user to see where on map college is
+  - [ ] Change icon colors in bottom navigation to be more visible. Inactive is black, change to white or transparent white.
+  - [ ] OPTIONAL: turn details activity into a scroll view? research how it would look. (Lyft uses scroll view btw)
+- Calendar:
+  - [ ] Make calendar look prettier?
+  - [ ] Add buttons on action bar or on view that takes you to current day and takes you to closest deadline.
+  - [ ] Upon refresh, calendar should load deadlines user's date is currently on without having to click the date again.
+  - [ ] OPTIONAL: change colors of events when they are "completed", "incomplete", or "active".
+- Minor Improvements:
+  - [ ] Search refresh should refresh the filtered list, not the entire list.
+  - [ ] Add more colleges/more data to database
+  - [ ] Time based refreshing for progress bar OR...
+  - [ ] Upon scrolling up event listener, refresh progress bar and favorite colleges.
+  - [ ] Arrow images in profile should scroll favorite colleges
+  - [ ] Link to Website in details
+  - [ ] If there are no search results, then add a message "No colleges" or something similar on view.
+  - [ ] If there are no deadlines for a day in calendar fragment, add message "no deadlines today" or something similar in view.
+  - [ ] Change action bar such that it either displays an icon, or displays words in the middle. Or have search icon be clickable over entire action bar.
+  - [ ] LOCK PORTRAIT MODE
+  - [ ] Remove unnecessary toasts. (e.g map location changes, firebase database additions and removals, etc.)
+  - [ ] Add actual launcher icon
+  - [ ] OPTIONAL: begin adding pretty animations
+  - [ ] OPTIONAL: begin researching optional features
 
 ## Walkthrough week 1 progress
 ![Walkthrough](walkthrough.gif)
