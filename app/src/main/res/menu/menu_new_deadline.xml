@@ -4,8 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/new_deadline"
-        android:icon="@drawable/ic_add_box_black_24dp"
-        android:iconTint="@color/solid_white"
+        android:icon="@drawable/ic_add_box_white_24dp"
         android:title="Add Deadline"
         app:showAsAction="always"
         />

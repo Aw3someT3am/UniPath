@@ -1,5 +1,7 @@
 package me.juliasson.unipath.fragments;
 
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -21,7 +23,6 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.github.sundeepk.compactcalendarview.CompactCalendarView;
 import com.github.sundeepk.compactcalendarview.domain.Event;
@@ -39,6 +40,7 @@ import java.util.List;
 import java.util.Locale;
 
 import me.juliasson.unipath.R;
+import me.juliasson.unipath.activities.NewDeadlineDialog;
 import me.juliasson.unipath.activities.TimelineActivity;
 import me.juliasson.unipath.model.College;
 import me.juliasson.unipath.model.Deadline;
@@ -53,6 +55,7 @@ public class CalendarFragment extends Fragment {
     private boolean shouldShow = false;
     private CompactCalendarView compactCalendarView;
     private TextView monthYearTv;
+    private Context mContext;
 
     ViewPager pager;
     TimelineActivity mTimelineActivity;
@@ -66,6 +69,9 @@ public class CalendarFragment extends Fragment {
         ((AppCompatActivity) getActivity()).getSupportActionBar().show();
         // Defines the xml file for the fragment
         View view = inflater.inflate(R.layout.fragment_calendar, parent, false);
+        setHasOptionsMenu(true);
+
+        mContext = parent.getContext();
 
         pager = (ViewPager) parent;
         mTimelineActivity=(TimelineActivity) getActivity();
@@ -279,7 +285,8 @@ public class CalendarFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.new_deadline:
-                Toast.makeText(getContext(), "New deadline selected", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(mContext, NewDeadlineDialog.class);
+                startActivity(intent);
                 break;
         }
         return true;
