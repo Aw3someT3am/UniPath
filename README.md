@@ -74,11 +74,11 @@ The purpose of this app is to assist students and parents with finding and apply
   - [ ] If there are no search results, then add a message "No colleges" or something similar on view.
   - [ ] If there are no deadlines for a day in calendar fragment, add message "no deadlines today" or something similar in view.
   - [ ] Change action bar such that it either displays an icon, or displays words in the middle. Or have search icon be clickable over entire action bar.
-  - [ ] LOCK PORTRAIT MODE
+  - [X] LOCK PORTRAIT MODE
   - [ ] Remove unnecessary toasts. (e.g map location changes, firebase database additions and removals, etc.)
   - [ ] Add actual launcher icon
   - [ ] OPTIONAL: begin adding pretty animations
   - [ ] OPTIONAL: begin researching optional features
 
-## Walkthrough week 1 progress
-![Walkthrough](walkthrough.gif)
+## Walkthrough week 2 progress
+- click on walkthrough_week_2.mp4 file
