@@ -1,7 +1,7 @@
 package me.juliasson.unipath.activities;
 
 import android.app.Dialog;
-import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -12,14 +12,10 @@ import android.os.Looper;
 import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
 import android.view.animation.BounceInterpolator;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -43,10 +39,11 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.maps.android.ui.IconGenerator;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
+
+import org.parceler.Parcels;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -146,7 +143,7 @@ public class MapActivity extends AppCompatActivity implements
         map.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
             @Override
             public void onInfoWindowClick(Marker marker) {
-                showDialogForCollege(marker.getPosition());
+                showDialogForCollege(marker);
             }
         });
 
@@ -294,64 +291,16 @@ public class MapActivity extends AppCompatActivity implements
     public void onMapLongClick(LatLng latLng) {
 
         // CHANGE THIS to add the marker to favorites (when map isn't showing fragments!)
-        showDialogForCollege(latLng);
+
     }
 
 
-    private void showDialogForCollege(final LatLng point) {
-        // inflate message_item.xml view
-        View  messageView = LayoutInflater.from(MapActivity.this).
-                inflate(R.layout.dialog_college_details, null);
-        // Create alert dialog builder
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-        // set message_item.xml to AlertDialog builder
-        alertDialogBuilder.setView(messageView);
-
-        // Create alert dialog
-        final AlertDialog alertDialog = alertDialogBuilder.create();
-
-        // Configure dialog button (OK)
-        alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "OK",
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        // Define color of marker icon
-                        BitmapDescriptor defaultMarker =
-                                BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN);
-                        // Extract content from alert dialog
-                        String title = ((EditText) alertDialog.findViewById(R.id.etTitle)).
-                                getText().toString();
-                        String snippet = ((EditText) alertDialog.findViewById(R.id.etSnippet)).
-                                getText().toString();
-
-                        IconGenerator iconGenerator = new IconGenerator(MapActivity.this);
-
-                        // Possible color options:
-                        // STYLE_WHITE, STYLE_RED, STYLE_BLUE, STYLE_GREEN, STYLE_PURPLE, STYLE_ORANGE
-                        iconGenerator.setStyle(IconGenerator.STYLE_GREEN);
-                        // Swap text here to live inside speech bubble
-                        Bitmap bitmap = iconGenerator.makeIcon(title);
-                        // Use BitmapDescriptorFactory to create the marker
-                        BitmapDescriptor icon = BitmapDescriptorFactory.fromBitmap(bitmap);
-
-                        // Creates and adds marker to the map
-                        Marker marker = map.addMarker(new MarkerOptions()
-                                .position(point)
-                                .title(title)
-                                .snippet(snippet)
-                                .icon(icon));
-                        dropPinEffect(marker);
-                    }
-                });
-
-        // Configure dialog button (Cancel)
-        alertDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancel",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) { dialog.cancel(); }
-                });
-
-        // Display the dialog
-        alertDialog.show();
+    private void showDialogForCollege(final Marker marker) {
+        // Marker should come with info bundle of college
+        College college = (College) marker.getTag();
+        Intent intent = new Intent(MapActivity.this, CollegeDetailsDialog.class);
+        intent.putExtra(College.class.getSimpleName(), Parcels.wrap(college));
+        startActivity(intent);
     }
 
     /** Called when the user clicks a marker. */
@@ -465,7 +414,7 @@ public class MapActivity extends AppCompatActivity implements
                                 .title(name)
                                 .snippet(city)
                                 .icon(markerIcon));
-                        mCollege.setTag(0);
+                        mCollege.setTag(college);
 
                         dropPinEffect(mCollege);
 
