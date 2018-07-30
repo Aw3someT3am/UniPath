@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import me.juliasson.unipath.R;
-import me.juliasson.unipath.activities.CollegeDetailsActivity;
+import me.juliasson.unipath.activities.CollegeDetailsDialog;
 import me.juliasson.unipath.model.College;
 import me.juliasson.unipath.rows.ChildRow;
 import me.juliasson.unipath.rows.ParentRow;
@@ -108,7 +108,7 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
         childText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(context, CollegeDetailsActivity.class);
+                Intent intent = new Intent(context, CollegeDetailsDialog.class);
                 context.startActivity(intent);
 
                 Toast.makeText(finalConvertView.getContext(), childText.getText(), Toast.LENGTH_LONG).show();

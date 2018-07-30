@@ -1,5 +1,7 @@
 package me.juliasson.unipath.fragments;
 
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -9,6 +11,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -35,6 +40,7 @@ import java.util.List;
 import java.util.Locale;
 
 import me.juliasson.unipath.R;
+import me.juliasson.unipath.activities.NewDeadlineDialog;
 import me.juliasson.unipath.activities.TimelineActivity;
 import me.juliasson.unipath.model.College;
 import me.juliasson.unipath.model.Deadline;
@@ -49,6 +55,7 @@ public class CalendarFragment extends Fragment {
     private boolean shouldShow = false;
     private CompactCalendarView compactCalendarView;
     private TextView monthYearTv;
+    private Context mContext;
 
     ViewPager pager;
     TimelineActivity mTimelineActivity;
@@ -62,11 +69,12 @@ public class CalendarFragment extends Fragment {
         ((AppCompatActivity) getActivity()).getSupportActionBar().show();
         // Defines the xml file for the fragment
         View view = inflater.inflate(R.layout.fragment_calendar, parent, false);
+        setHasOptionsMenu(true);
 
+        mContext = parent.getContext();
 
         pager = (ViewPager) parent;
         mTimelineActivity=(TimelineActivity) getActivity();
-
 
         // A list of strings of format "description, college" to display for each specific date when clicked
         final List<String> mutableBookings = new ArrayList<>();
@@ -266,5 +274,21 @@ public class CalendarFragment extends Fragment {
                 }
             }
         });
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_new_deadline, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.new_deadline:
+                Intent intent = new Intent(mContext, NewDeadlineDialog.class);
+                startActivity(intent);
+                break;
+        }
+        return true;
     }
 }

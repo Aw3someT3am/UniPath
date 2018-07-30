@@ -8,8 +8,12 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -44,6 +48,7 @@ public class LinearTimelineFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         // Defines the xml file for the fragment
+        setHasOptionsMenu(true);
         return inflater.inflate(R.layout.fragment_linear_timeline, parent, false);
     }
 
@@ -135,4 +140,18 @@ public class LinearTimelineFragment extends Fragment {
         swipeContainer.setRefreshing(false);
     }
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_new_deadline, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.new_deadline:
+                Toast.makeText(getContext(), "New deadline selected", Toast.LENGTH_SHORT).show();
+                break;
+        }
+        return true;
+    }
 }

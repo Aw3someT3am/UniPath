@@ -1,23 +1,21 @@
 package me.juliasson.unipath.activities;
 
 import android.app.Dialog;
-import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Looper;
 import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
 import android.view.animation.BounceInterpolator;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -41,10 +39,11 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.maps.android.ui.IconGenerator;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
+
+import org.parceler.Parcels;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -93,7 +92,7 @@ public class MapActivity extends AppCompatActivity implements
         setContentView(R.layout.activity_map);
 
         if (TextUtils.isEmpty(getResources().getString(R.string.google_maps_api_key))) {
-            throw new IllegalStateException("You forgot to supply a Google Maps API key");
+            throw new IllegalStateException("You forgot to supply a Google Maps API key ya dummy");
         }
 
         if (savedInstanceState != null && savedInstanceState.keySet().contains(KEY_LOCATION)) {
@@ -127,7 +126,6 @@ public class MapActivity extends AppCompatActivity implements
 
         if (map != null) {
             // Map is ready
-            Toast.makeText(this, "Map Fragment was loaded properly", Toast.LENGTH_SHORT).show();
 
             MapActivityPermissionsDispatcher.getMyLocationWithPermissionCheck(this);
             MapActivityPermissionsDispatcher.startLocationUpdatesWithPermissionCheck(this);
@@ -136,12 +134,18 @@ public class MapActivity extends AppCompatActivity implements
             Toast.makeText(this, "Error - Map was null!!", Toast.LENGTH_SHORT).show();
         }
 
-
         map.moveCamera(CameraUpdateFactory.newLatLng(center_us));
         map.animateCamera(CameraUpdateFactory.newLatLngZoom(center_us, 2));
 
 
         loadCollegeMarkers();
+
+        map.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+            @Override
+            public void onInfoWindowClick(Marker marker) {
+                showDialogForCollege(marker);
+            }
+        });
 
         // Set a listener for marker click.s
         //  map.setOnMarkerClickListener(this);
@@ -229,7 +233,7 @@ public class MapActivity extends AppCompatActivity implements
             CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 17);
             map.animateCamera(cameraUpdate);
         } else {
-            Toast.makeText(this, "Current location was null, enable GPS on emulator!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Current location unreachable, please enable GPS on your emulator.", Toast.LENGTH_SHORT).show();
         }
         MapActivityPermissionsDispatcher.startLocationUpdatesWithPermissionCheck(this);
     }
@@ -276,10 +280,6 @@ public class MapActivity extends AppCompatActivity implements
         // Report to the UI that the location was updated
 
         mCurrentLocation = location;
-        String msg = "Updated Location: " +
-                Double.toString(location.getLatitude()) + "," +
-                Double.toString(location.getLongitude());
-        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }
 
     public void onSaveInstanceState(Bundle savedInstanceState) {
@@ -289,64 +289,18 @@ public class MapActivity extends AppCompatActivity implements
 
     @Override
     public void onMapLongClick(LatLng latLng) {
-        Toast.makeText(this, "Long Press", Toast.LENGTH_LONG).show();
-        showAlertDialogForPoint(latLng);
+
+        // CHANGE THIS to add the marker to favorites (when map isn't showing fragments!)
+
     }
 
-    private void showAlertDialogForPoint(final LatLng point) {
-        // inflate message_item.xml view
-        View  messageView = LayoutInflater.from(MapActivity.this).
-                inflate(R.layout.map_item, null);
-        // Create alert dialog builder
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-        // set message_item.xml to AlertDialog builder
-        alertDialogBuilder.setView(messageView);
 
-        // Create alert dialog
-        final AlertDialog alertDialog = alertDialogBuilder.create();
-
-        // Configure dialog button (OK)
-        alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "OK",
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        // Define color of marker icon
-                        BitmapDescriptor defaultMarker =
-                                BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN);
-                        // Extract content from alert dialog
-                        String title = ((EditText) alertDialog.findViewById(R.id.etTitle)).
-                                getText().toString();
-                        String snippet = ((EditText) alertDialog.findViewById(R.id.etSnippet)).
-                                getText().toString();
-
-                        IconGenerator iconGenerator = new IconGenerator(MapActivity.this);
-
-                        // Possible color options:
-                        // STYLE_WHITE, STYLE_RED, STYLE_BLUE, STYLE_GREEN, STYLE_PURPLE, STYLE_ORANGE
-                        iconGenerator.setStyle(IconGenerator.STYLE_GREEN);
-                        // Swap text here to live inside speech bubble
-                        Bitmap bitmap = iconGenerator.makeIcon(title);
-                        // Use BitmapDescriptorFactory to create the marker
-                        BitmapDescriptor icon = BitmapDescriptorFactory.fromBitmap(bitmap);
-
-                        // Creates and adds marker to the map
-                        Marker marker = map.addMarker(new MarkerOptions()
-                                .position(point)
-                                .title(title)
-                                .snippet(snippet)
-                                .icon(icon));
-                        dropPinEffect(marker);
-                    }
-                });
-
-        // Configure dialog button (Cancel)
-        alertDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancel",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) { dialog.cancel(); }
-                });
-
-        // Display the dialog
-        alertDialog.show();
+    private void showDialogForCollege(final Marker marker) {
+        // Marker should come with info bundle of college
+        College college = (College) marker.getTag();
+        Intent intent = new Intent(MapActivity.this, CollegeDetailsDialog.class);
+        intent.putExtra(College.class.getSimpleName(), Parcels.wrap(college));
+        startActivity(intent);
     }
 
     /** Called when the user clicks a marker. */
@@ -355,16 +309,6 @@ public class MapActivity extends AppCompatActivity implements
 
         // Retrieve the data from the marker.
         Integer clickCount = (Integer) marker.getTag();
-
-        // Check if a click count was set, then display the click count.
-        if (clickCount != null) {
-            clickCount = clickCount + 1;
-            marker.setTag(clickCount);
-            Toast.makeText(this,
-                    marker.getTitle() +
-                            " has been clicked " + clickCount + " times.",
-                    Toast.LENGTH_SHORT).show();
-        }
 
         // Return false to indicate that we have not consumed the event and that we wish
         // for the default behavior to occur (which is for the camera to move such that the
@@ -376,7 +320,7 @@ public class MapActivity extends AppCompatActivity implements
         // Handler allows us to repeat a code block after a specified delay
         final android.os.Handler handler = new android.os.Handler();
         final long start = SystemClock.uptimeMillis();
-        final long duration = 1500;
+        final long duration = 1000;
 
         // Use the bounce interpolator
         final android.view.animation.Interpolator interpolator =
@@ -402,6 +346,15 @@ public class MapActivity extends AppCompatActivity implements
                 }
             }
         });
+    }
+
+    private BitmapDescriptor getMarkerIconFromDrawable(Drawable drawable) {
+        Canvas canvas = new Canvas();
+        Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+        canvas.setBitmap(bitmap);
+        drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
+        drawable.draw(canvas);
+        return BitmapDescriptorFactory.fromBitmap(bitmap);
     }
 
     // Define a DialogFragment that displays the error dialog
@@ -448,14 +401,20 @@ public class MapActivity extends AppCompatActivity implements
                         Double lng = college.getLongitude();
 
                         String name = college.getCollegeName();
+                        String city = college.getAddress();
 
                         // Create LatLng for each deadline and add to CompactCalendarView
                         LatLng coords = new LatLng(lat, lng);
 
+                        Drawable circleDrawable = getResources().getDrawable(R.drawable.circle_shape);
+                        BitmapDescriptor markerIcon = getMarkerIconFromDrawable(circleDrawable);
+
                         Marker mCollege = map.addMarker(new MarkerOptions()
                                 .position(coords)
-                                .title(name));
-                        mCollege.setTag(0);
+                                .title(name)
+                                .snippet(city)
+                                .icon(markerIcon));
+                        mCollege.setTag(college);
 
                         dropPinEffect(mCollege);
 

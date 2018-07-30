@@ -24,7 +24,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.juliasson.unipath.R;
-import me.juliasson.unipath.activities.DeadlineDetailsActivity;
+import me.juliasson.unipath.activities.DeadlineDetailsDialog;
 import me.juliasson.unipath.model.OrderStatus;
 import me.juliasson.unipath.model.TimeLine;
 import me.juliasson.unipath.model.UserDeadlineRelation;
@@ -142,7 +142,7 @@ public class TimeLineAdapter extends RecyclerView.Adapter<TimeLineAdapter.ViewHo
             if (position != RecyclerView.NO_POSITION) {
                 TimeLine timeline = mFeedList.get(position);
 
-                Intent intent = new Intent (mContext, DeadlineDetailsActivity.class);
+                Intent intent = new Intent (mContext, DeadlineDetailsDialog.class);
                 intent.putExtra(TimeLine.class.getSimpleName(), Parcels.wrap(timeline));
                 intent.putExtra(HashMap.class.getSimpleName(), Parcels.wrap(numEvents));
                 mContext.startActivity(intent);
