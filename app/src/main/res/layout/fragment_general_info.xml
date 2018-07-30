@@ -13,7 +13,9 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/lato"
+            >
 
             <TextView
                 android:id="@+id/etDescription"
@@ -29,7 +31,9 @@
                 android:textAppearance="@android:style/TextAppearance.Medium"
                 android:textColor="@color/solid_white"
                 android:layout_alignParentTop="true"
-                android:layout_alignParentRight="true" />
+                android:layout_alignParentRight="true"
+                android:fontFamily="@font/lato"
+                />
 
             <LinearLayout
                 android:id="@+id/llAddress"

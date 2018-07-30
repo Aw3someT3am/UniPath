@@ -75,8 +75,8 @@ The purpose of this app is to assist students and parents with finding and apply
   - [ ] If there are no deadlines for a day in calendar fragment, add message "no deadlines today" or something similar in view.
   - [ ] Change action bar such that it either displays an icon, or displays words in the middle. Or have search icon be clickable over entire action bar.
   - [X] LOCK PORTRAIT MODE
-  - [ ] Remove unnecessary toasts. (e.g map location changes, firebase database additions and removals, etc.)
-  - [ ] Add actual launcher icon
+  - [X] Remove unnecessary toasts. (e.g map location changes, firebase database additions and removals, etc.)
+  - [X] Add actual launcher icon
   - [ ] OPTIONAL: begin adding pretty animations
   - [ ] OPTIONAL: begin researching optional features
 

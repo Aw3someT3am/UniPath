@@ -1,0 +1,90 @@
+let functions = require('firebase-functions');
+
+let admin = require('firebase-admin');
+
+admin.initializeApp(functions.config().firebase);
+
+exports.sendNotification = functions.database.ref('/users').onWrite(event => {
+
+	// ///get the userId of the person receiving the notification because we need to get their token
+	// const receiverId = event.params.userId;
+	// console.log("receiverId: ", receiverId);
+  // const receiverId = event.data.child('user_id').val();
+	// console.log("receiverId: ", receiverId);
+  //
+	// ///get the user id of the person who sent the message
+	// const senderId = event.data.child('user_id').val();
+	// console.log("senderId: ", senderId);
+  //
+	// ///get the message
+	// // const message = event.data.child('message').val();
+	// // console.log("message: ", message);
+  // const text = event.data.child(username).val();
+  // console.log("text: ", text);
+  //
+	// ///get the message id. We'll be sending this in the payload
+	// const messageId = event.params.messageId;
+	// console.log("messageId: ", messageId);
+  //
+	// ///query the users node and get the name of the user who sent the message
+	// return admin.database().ref("/users/" + senderId).once('value').then(snap => {
+	// 	const senderName = snap.child("name").val();
+	// 	console.log("senderName: ", senderName);
+  //
+	// 	///get the token of the user receiving the message
+	// 	return admin.database().ref("/users/" + receiverId).once('value').then(snap => {
+	// 		const token = snap.child("messaging_token").val();
+	// 		console.log("token: ", token);
+  //
+	// 		///we have everything we need
+	// 		///Build the message payload and send the message
+	// 		console.log("Construction the notification message.");
+	// 		const payload = {
+	// 			data: {
+	// 				data_type: "direct_message",
+	// 				title: "New Message from " + senderName,
+	// 				message: text,
+	// 			}
+	// 		};
+  //
+	// 		return admin.messaging().sendToDevice(token, payload);
+	// 	});
+	// });
+// This registration token comes from the client FCM SDKs.
+//const registrationToken = 'c_DV0-f7imo:APA91bGGLfzuFXtEZWP35qd1Orw73EBE1D61r2JnUhGaCe4r0_YXXZvFueS30y8iO1wUXMhY3uH0GhanjX1gT86E_MGDVLXQLm1tWWpgiTr1fYpEgt8C1_sdtVPIQ918xJW9CHLdy-5Mu3veAyrNqFYIFSTWNCRA1Q';
+
+// const text = event.data.child(username).val();
+// console.log("text: ", text);
+
+// See documentation on defining a message payload.
+const payload = {
+  data: {
+    data_type: 'reminder',
+    title: "Reminder that you have added this deadline(username test) ",
+    message: 'hi',
+  },
+  notification: {
+    title: "Reminder that you have added this deadline(username test) ",
+    body: 'hi'
+  },
+};
+
+// Send a message to the device corresponding to the provided
+// registration token.
+//admin.messaging().send(message)
+  // .then((response) => {
+  //   // Response is a message ID string.
+  //   console.log('Successfully sent message:', response);
+  // })
+  // .catch((error) => {
+  //   console.log('Error sending message:', error);
+  // });
+  return admin.messaging().sendToDevice(registrationToken, payload);
+});
+
+// // Create and Deploy Your First Cloud Functions
+// // https://firebase.google.com/docs/functions/write-firebase-functions
+//
+// exports.helloWorld = functions.https.onRequest((request, response) => {
+//  response.send("Hello from Firebase!");
+// });

@@ -273,7 +273,7 @@ public class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.ViewHold
                             if(!date.equals("")){
                                 FirebaseUser user = mAuth.getCurrentUser();
                                 String userID = user.getUid();
-                                myRef.child(userID).child("dates").child(date).removeValue();
+                                myRef.child(mContext.getString(R.string.dbnode_users)).child(userID).child("dates").child(date).removeValue();
                                 //toastMessage("Removing " + date + " to database...");
                             }
                             relation.delete();
@@ -373,7 +373,7 @@ public class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.ViewHold
                             if(!date.equals("")){
                                 FirebaseUser user = mAuth.getCurrentUser();
                                 String userID = user.getUid();
-                                myRef.child(userID).child("dates").child(date).setValue("true");
+                                myRef.child(mContext.getString(R.string.dbnode_users)).child(userID).child("dates").child(date).setValue("true");
                                 //toastMessage("Adding " + date + " to database...");
                             }
 

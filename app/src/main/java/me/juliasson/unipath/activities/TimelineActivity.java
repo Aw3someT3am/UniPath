@@ -6,9 +6,15 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.parse.ParseUser;
 import com.squareup.otto.Subscribe;
 
 import me.juliasson.unipath.R;
@@ -25,6 +31,8 @@ public class TimelineActivity extends AppCompatActivity {
     private static final int CENTRAL_PAGE_INDEX = 1;
     public VerticalPager mVerticalPager;
 
+    private static final String TAG = "TimelineActivity";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,6 +48,7 @@ public class TimelineActivity extends AppCompatActivity {
             }
         });
 
+        initFCM();
     }
 
     private void findViews() {
@@ -93,5 +102,32 @@ public class TimelineActivity extends AppCompatActivity {
         mVerticalPager.setPagingEnabled(event.hasVerticalNeighbors());
     }
 
+    private void initFCM(){
+        String token = FirebaseInstanceId.getInstance().getToken();
+        Log.d(TAG, "initFCM: token: " + token);
+        sendRegistrationToServer(token);
+
+    }
+
+    /**
+     * Persist token to third-party servers.
+     *
+     * Modify this method to associate the user's FCM InstanceID token with any server-side account
+     * maintained by your application.
+     *
+     * @param token The new token.
+     */
+    private void sendRegistrationToServer(String token) {
+        Log.d(TAG, "sendRegistrationToServer: sending token to server: " + token);
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
+        reference.child(getString(R.string.dbnode_users))
+                .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                .child(getString(R.string.field_messaging_token))
+                .setValue(token);
+        reference.child(getString(R.string.dbnode_users))
+                .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                .child("username")
+                .setValue(ParseUser.getCurrentUser().getUsername());
+    }
 
 }
