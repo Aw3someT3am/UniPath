@@ -27,7 +27,6 @@ import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.SettingsClient;
-import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -228,10 +227,7 @@ public class MapActivity extends AppCompatActivity implements
 
         // Display the connection status
         if (mCurrentLocation != null) {
-            Toast.makeText(this, "GPS location was found!", Toast.LENGTH_SHORT).show();
             LatLng latLng = new LatLng(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude());
-            CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 17);
-            map.animateCamera(cameraUpdate);
         } else {
             Toast.makeText(this, "Current location unreachable, please enable GPS on your emulator.", Toast.LENGTH_SHORT).show();
         }
@@ -291,7 +287,6 @@ public class MapActivity extends AppCompatActivity implements
     public void onMapLongClick(LatLng latLng) {
 
         // CHANGE THIS to add the marker to favorites (when map isn't showing fragments!)
-
     }
 
 
@@ -341,8 +336,6 @@ public class MapActivity extends AppCompatActivity implements
                 if (t > 0.0) {
                     // Post this event again 15ms from now.
                     handler.postDelayed(this, 15);
-                } else { // done elapsing, show window
-                    marker.showInfoWindow();
                 }
             }
         });
@@ -406,7 +399,7 @@ public class MapActivity extends AppCompatActivity implements
                         // Create LatLng for each deadline and add to CompactCalendarView
                         LatLng coords = new LatLng(lat, lng);
 
-                        Drawable circleDrawable = getResources().getDrawable(R.drawable.circle_shape);
+                        Drawable circleDrawable = getResources().getDrawable(R.drawable.ic_circle);
                         BitmapDescriptor markerIcon = getMarkerIconFromDrawable(circleDrawable);
 
                         Marker mCollege = map.addMarker(new MarkerOptions()
@@ -419,6 +412,7 @@ public class MapActivity extends AppCompatActivity implements
                         dropPinEffect(mCollege);
 
                         mLocationsList.add(coords);
+
                     }
                 } else {
                     e.printStackTrace();
