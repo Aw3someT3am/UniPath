@@ -47,7 +47,8 @@ The purpose of this app is to assist students and parents with finding and apply
 - [ ] Get notifications done
 - Deadlines:
   - [ ] Implement financial aid deadlines? (give special icons $)
-  - [ ] Implement custom deadlines
+  - [X] Implement custom deadlines
+  - [X] Remove deadlines from linear timeline
 - Map:
   - [ ] Long click on pin favorites college (add animation to let user know)
   - [ ] Short click on pin opens a detailed activity about college
@@ -66,7 +67,7 @@ The purpose of this app is to assist students and parents with finding and apply
   - [ ] OPTIONAL: change colors of events when they are "completed", "incomplete", or "active".
 - Minor Improvements:
   - [ ] Search refresh should refresh the filtered list, not the entire list.
-  - [ ] Add more colleges/more data to database
+  - [X] Add more colleges/more data to database
   - [ ] Time based refreshing for progress bar OR...
   - [ ] Upon scrolling up event listener, refresh progress bar and favorite colleges.
   - [ ] Arrow images in profile should scroll favorite colleges
