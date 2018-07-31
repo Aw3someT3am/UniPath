@@ -47,6 +47,7 @@ import java.util.List;
 
 import me.juliasson.unipath.Manifest;
 import me.juliasson.unipath.R;
+import me.juliasson.unipath.adapters.CustomInfoWindowAdapter;
 import me.juliasson.unipath.model.College;
 import permissions.dispatcher.NeedsPermission;
 import permissions.dispatcher.RuntimePermissions;
@@ -394,8 +395,11 @@ public class MapActivity extends AppCompatActivity implements
                         .title(name)
                         .snippet(city)
                         .icon(markerIcon));
-                mCollege.setTag(college);
 
+                CustomInfoWindowAdapter customInfoWindow = new CustomInfoWindowAdapter(this);
+                map.setInfoWindowAdapter(customInfoWindow);
+
+                mCollege.setTag(college);
                 dropPinEffect(mCollege);
 
                 mLocationsList.add(coords);
