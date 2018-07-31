@@ -386,7 +386,7 @@ public class MapActivity extends AppCompatActivity implements
                 LatLng coords = new LatLng(lat, lng);
 
                 Drawable circleDrawable = getResources().getDrawable(R.drawable.show_map);
-                circleDrawable.mutate().setColorFilter(getResources().getColor(R.color.holo_blue_bright), PorterDuff.Mode.MULTIPLY);
+                circleDrawable.mutate().setColorFilter(getResources().getColor(R.color.background_orange), PorterDuff.Mode.MULTIPLY);
                 BitmapDescriptor markerIcon = getMarkerIconFromDrawable(circleDrawable);
 
                 Marker mCollege = map.addMarker(new MarkerOptions()
