@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -70,6 +71,15 @@ public class ProfileFragment extends Fragment {
     private final String KEY_LAST_NAME = "lastName";
     private final String KEY_PROFILE_IMAGE = "profileImage";
     private final String KEY_RELATION_USER = "user";
+
+    private final Handler handler = new Handler();
+    private final Runnable autoRefresh = new Runnable() {
+        @Override
+        public void run() {
+            setPbProgress();
+            handler.postDelayed(autoRefresh, 3000);
+        }
+    };
 
     private final static int GALLERY_IMAGE_SELECTION_REQUEST_CODE = 2034;
     private String filePath;
@@ -149,12 +159,7 @@ public class ProfileFragment extends Fragment {
             }
         };
 
-        pbProgress.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                setPbProgress();
-            }
-        });
+        handler.post(autoRefresh);
     }
 
 
