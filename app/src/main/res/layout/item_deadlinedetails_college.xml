@@ -54,11 +54,23 @@
 
     <ImageView
         android:id="@+id/ivRemoveDeadline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:layout_margin="8dp"
         app:srcCompat="@drawable/ic_remove_circle_outline" />
+
+    <ImageView
+        android:id="@+id/ivIsFinancial"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignBottom="@id/tvDeadlineDesc"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:scaleType="fitXY"
+        android:tint="@color/holo_blue_bright"
+        app:srcCompat="@android:color/transparent" />
 
 </RelativeLayout>

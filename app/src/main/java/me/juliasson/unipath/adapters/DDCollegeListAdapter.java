@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.like.LikeButton;
 import com.like.OnLikeListener;
 import com.parse.ParseException;
@@ -101,6 +102,12 @@ public class DDCollegeListAdapter extends RecyclerView.Adapter<DDCollegeListAdap
                 }
             }
         });
+
+        if (relation.getDeadline().getIsFinancial()) {
+            Glide.with(mContext)
+                    .load(R.drawable.ic_attach_money)
+                    .into(viewHolder.ivIsFinancial);
+        }
     }
 
     @Override
@@ -114,6 +121,7 @@ public class DDCollegeListAdapter extends RecyclerView.Adapter<DDCollegeListAdap
         TextView tvDeadlineDescription;
         LikeButton lbCheckBox;
         ImageView ivRemoveDeadline;
+        ImageView ivIsFinancial;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -122,6 +130,7 @@ public class DDCollegeListAdapter extends RecyclerView.Adapter<DDCollegeListAdap
             tvDeadlineDescription = itemView.findViewById(R.id.tvDeadlineDesc);
             lbCheckBox = itemView.findViewById(R.id.lbLikeButton);
             ivRemoveDeadline = itemView.findViewById(R.id.ivRemoveDeadline);
+            ivIsFinancial = itemView.findViewById(R.id.ivIsFinancial);
         }
     }
 
