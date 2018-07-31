@@ -76,8 +76,7 @@ public class TimeLine implements Parcelable{
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         TimeLine timeLine = (TimeLine) o;
-        return Objects.equals(dDate, timeLine.dDate) &&
-                Objects.equals(mDate, timeLine.mDate);
+        return Objects.equals(mDate, timeLine.mDate);
     }
 
     @SuppressLint("NewApi")

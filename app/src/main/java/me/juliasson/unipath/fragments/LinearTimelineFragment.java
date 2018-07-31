@@ -102,6 +102,7 @@ public class LinearTimelineFragment extends Fragment {
                         addTimeLineToRelationMap(timeline, relation);
                     }
                     mDataList.addAll(mDataSet);
+                    displayTime();
                     mTimeLineAdapter = new TimeLineAdapter(mDataList, mRelationsInTimeLine);
                     mRecyclerView.setAdapter(mTimeLineAdapter);
                     sortData();
@@ -110,6 +111,13 @@ public class LinearTimelineFragment extends Fragment {
                 }
             }
         });
+    }
+
+    //TODO: REMOVE
+    public void displayTime() {
+        for (TimeLine timeline : mDataList) {
+            Log.d("LinearTimelineFragment", timeline.getDDate().toString());
+        }
     }
 
     public void addTimeLineToRelationMap(TimeLine timeline, UserDeadlineRelation relation) {
