@@ -57,6 +57,8 @@ public class ProfileFragment extends Fragment {
     private TextView tvFirstName;
     private TextView tvEmail;
     private Button bvLogout;
+    private ImageView ivForward;
+    private ImageView ivBack;
     private ImageView bvFavoritesMap;
     private DiscreteScrollView scrollView;
     private FirebaseAuth mAuth;
@@ -99,6 +101,10 @@ public class ProfileFragment extends Fragment {
         tvEmail = view.findViewById(R.id.tvEmail);
         bvLogout = view.findViewById(R.id.bvLogout);
         bvFavoritesMap = view.findViewById(R.id.mapFavorites);
+        ivForward = view.findViewById(R.id.ivForward);
+        ivBack = view.findViewById(R.id.ivBack);
+
+        ivBack.setVisibility(View.INVISIBLE);
 
         scrollView = view.findViewById(R.id.picker);
         scrollView.setOrientation(DSVOrientation.HORIZONTAL);
@@ -130,6 +136,36 @@ public class ProfileFragment extends Fragment {
                 bundle.putParcelableArrayList("favoritedList", colleges);
                 i.putExtras(bundle);
                 startActivity(i);
+            }
+        });
+
+        ivForward.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Boolean scroll = scrollView.fling(10, 0);
+                if (scrollView.getCurrentItem() < colleges.size() - 1) {
+                    scrollView.scrollToPosition(scrollView.getCurrentItem() + 1);
+                    ivBack.setVisibility(View.VISIBLE);
+                }
+                else {
+                    ivForward.setVisibility(View.INVISIBLE);
+                }
+            }
+        });
+
+        ivBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Boolean scroll = scrollView.fling(10, 0);
+                if (scrollView.getCurrentItem() >= 1) {
+                    scrollView.scrollToPosition(scrollView.getCurrentItem() - 1);
+                    ivForward.setVisibility(View.VISIBLE);
+//                  ObjectAnimator.ofInt(scrollView, "scrollX",  scrollView.getCurrentItem() - 1).setDuration(500).start();
+
+                }
+                else {
+                    ivBack.setVisibility(View.INVISIBLE);
+                }
             }
         });
 
