@@ -51,10 +51,10 @@ The purpose of this app is to assist students and parents with finding and apply
   - [X] Remove deadlines from linear timeline
 - Map:
   - [ ] Long click on pin favorites college (add animation to let user know)
-  - [ ] Short click on pin opens a detailed activity about college
-  - [ ] pin decoration/message over pin should be image of college? (Maybe: first click = name, second click = image)
-  - [ ] adjust activity such that it takes in a list of colleges from respective fragments/activities map is used in
-  - [ ] hide/remove actionbar
+  - [X] Short click on pin opens a detailed activity about college
+  - [X] pin decoration/message over pin should be image of college? (Maybe: first click = name, second click = image)
+  - [X] adjust activity such that it takes in a list of colleges from respective fragments/activities map is used in
+  - [X] hide/remove actionbar
 - College Details:
   - [ ] Research implementing a financial aid calculator (add a tab for it?)
   - [X] Add maps pin/button to allow user to see where on map college is
