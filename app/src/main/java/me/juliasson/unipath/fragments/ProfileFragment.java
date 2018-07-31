@@ -40,6 +40,7 @@ import java.util.List;
 
 import me.juliasson.unipath.R;
 import me.juliasson.unipath.activities.LoginActivity;
+import me.juliasson.unipath.activities.MapActivity;
 import me.juliasson.unipath.adapters.CollegeAdapter;
 import me.juliasson.unipath.model.College;
 import me.juliasson.unipath.model.UserCollegeRelation;
@@ -56,6 +57,7 @@ public class ProfileFragment extends Fragment {
     private TextView tvFirstName;
     private TextView tvEmail;
     private Button bvLogout;
+    private ImageView bvFavoritesMap;
     private DiscreteScrollView scrollView;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
@@ -96,6 +98,7 @@ public class ProfileFragment extends Fragment {
         tvFirstName = view.findViewById(R.id.tvFirstName);
         tvEmail = view.findViewById(R.id.tvEmail);
         bvLogout = view.findViewById(R.id.bvLogout);
+        bvFavoritesMap = view.findViewById(R.id.mapFavorites);
 
         scrollView = view.findViewById(R.id.picker);
         scrollView.setOrientation(DSVOrientation.HORIZONTAL);
@@ -115,6 +118,17 @@ public class ProfileFragment extends Fragment {
             public void onClick(View view) {
                 view.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.image_view_click));
                 refresh();
+            }
+        });
+
+        bvFavoritesMap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(mContext, MapActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putParcelableArrayList("favoritedList", colleges);
+                i.putExtras(bundle);
+                startActivity(i);
             }
         });
 
