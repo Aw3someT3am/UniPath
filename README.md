@@ -59,7 +59,6 @@ The purpose of this app is to assist students and parents with finding and apply
   - [ ] Research implementing a financial aid calculator (add a tab for it?)
   - [X] Add maps pin/button to allow user to see where on map college is
   - [X] Change icon colors in bottom navigation to be more visible. Inactive is black, change to white or transparent white.
-  - [ ] OPTIONAL: turn details activity into a scroll view? research how it would look. (Lyft uses scroll view btw)
 - Calendar:
   - [ ] Make calendar look prettier?
   - [ ] Add buttons on action bar or on view that takes you to current day and takes you to closest deadline.
