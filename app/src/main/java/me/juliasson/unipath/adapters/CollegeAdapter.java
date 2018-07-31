@@ -37,6 +37,7 @@ import java.util.List;
 
 import me.juliasson.unipath.R;
 import me.juliasson.unipath.activities.CollegeDetailsDialog;
+import me.juliasson.unipath.activities.MapActivity;
 import me.juliasson.unipath.model.College;
 import me.juliasson.unipath.model.CollegeDeadlineRelation;
 import me.juliasson.unipath.model.UserCollegeRelation;
@@ -117,9 +118,12 @@ public class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.ViewHold
         mapsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(mContext, "where's the map", Toast.LENGTH_SHORT).show();
-//                Intent i = new Intent(CollegeDetailsDialog.this, MapActivity.class);
-//                startActivity(i);
+                // Send one college to map activity as arraylist object
+                Intent i = new Intent(mContext, MapActivity.class);
+                ArrayList<College> singleCollege = new ArrayList<>();
+                singleCollege.add(college);
+                i.putParcelableArrayListExtra("favoritedList", singleCollege);
+                mContext.startActivity(i);
             }
         });
 
@@ -135,6 +139,7 @@ public class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.ViewHold
         public TextView tvCollegeName;
         public ImageView ivCollegeImage;
         public LikeButton lbLikeButton;
+        public Button mapsButton;
 
 
         public ViewHolder(View itemView) {
@@ -143,6 +148,8 @@ public class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.ViewHold
             tvCollegeName = itemView.findViewById(R.id.tvCollegeName);
             ivCollegeImage = itemView.findViewById(R.id.ivCollegeImage);
             lbLikeButton = itemView.findViewById(R.id.lbLikeButton);
+            mapsButton = (Button) itemView.findViewById(R.id.mapsButton);
+
 
             itemView.setOnClickListener(this);
         }

@@ -124,6 +124,7 @@ public class ProfileFragment extends Fragment {
         bvFavoritesMap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // The list of 'liked' colleges is can simply be sent to map activity
                 Intent i = new Intent(mContext, MapActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putParcelableArrayList("favoritedList", colleges);
