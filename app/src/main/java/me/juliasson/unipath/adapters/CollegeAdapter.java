@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
@@ -60,6 +61,8 @@ public class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.ViewHold
     private static FirebaseAuth.AuthStateListener mAuthListener;
     private static DatabaseReference myRef;
 
+    Button mapsButton;
+
     public CollegeAdapter(ArrayList<College> arrayList) {
         mColleges = arrayList;
         mFilteredList = arrayList;
@@ -74,6 +77,9 @@ public class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.ViewHold
 
         View collegeView = inflater.inflate(R.layout.card_row, viewGroup, false);
         ViewHolder viewHolder = new ViewHolder(collegeView);
+
+        mapsButton = (Button) collegeView.findViewById(R.id.mapsButton);
+
         return viewHolder;
     }
 
@@ -108,6 +114,16 @@ public class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.ViewHold
                 removeUserDeadlinesRelation(college);
             }
         });
+
+        mapsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(mContext, "where's the map", Toast.LENGTH_SHORT).show();
+//                Intent i = new Intent(CollegeDetailsDialog.this, MapActivity.class);
+//                startActivity(i);
+            }
+        });
+
     }
 
     @Override
