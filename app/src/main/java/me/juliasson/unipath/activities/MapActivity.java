@@ -228,7 +228,7 @@ public class MapActivity extends AppCompatActivity implements
         if (mCurrentLocation != null) {
             LatLng latLng = new LatLng(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude());
         } else {
-            Toast.makeText(this, "Current location unreachable, please enable GPS on your emulator.", Toast.LENGTH_SHORT).show();
+            Log.d( "GPS", "Current location unreachable, please enable GPS on your emulator.");
         }
         MapActivityPermissionsDispatcher.startLocationUpdatesWithPermissionCheck(this);
     }

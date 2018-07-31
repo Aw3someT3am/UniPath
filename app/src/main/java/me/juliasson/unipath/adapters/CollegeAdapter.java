@@ -126,7 +126,6 @@ public class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.ViewHold
                 mContext.startActivity(i);
             }
         });
-
     }
 
     @Override
