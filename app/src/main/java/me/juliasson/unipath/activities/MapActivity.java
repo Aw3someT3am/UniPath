@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.os.Bundle;
@@ -374,15 +375,6 @@ public class MapActivity extends AppCompatActivity implements
 
     public void loadCollegeMarkers() {
 
-        Log.d("college", "SLKDGJALDKFJLAKDSJFLAKSJLFKDX");
-        Log.d("college", "SLKDGJALDKFJLAKDSJFLAKSJLFKDX");
-
-        Log.d("college", "SLKDGJALDKFJLAKDSJFLAKSJLFKDX");
-
-        Log.d("college", "SLKDGJALDKFJLAKDSJFLAKSJLFKDX");
-
-
-
         colleges = this.getIntent().getParcelableArrayListExtra("favoritedList");
         if (colleges != null) {
             for (int i = 0; i < colleges.size(); i++) {
@@ -400,7 +392,8 @@ public class MapActivity extends AppCompatActivity implements
                 // Create LatLng for each deadline and add to CompactCalendarView
                 LatLng coords = new LatLng(lat, lng);
 
-                Drawable circleDrawable = getResources().getDrawable(R.drawable.ic_circle);
+                Drawable circleDrawable = getResources().getDrawable(R.drawable.show_map);
+                circleDrawable.mutate().setColorFilter(getResources().getColor(R.color.holo_blue_bright), PorterDuff.Mode.MULTIPLY);
                 BitmapDescriptor markerIcon = getMarkerIconFromDrawable(circleDrawable);
 
                 Marker mCollege = map.addMarker(new MarkerOptions()
