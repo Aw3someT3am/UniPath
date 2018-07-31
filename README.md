@@ -46,7 +46,7 @@ The purpose of this app is to assist students and parents with finding and apply
   - [ ] Majors and maybe happiness?
 - [ ] Get notifications done
 - Deadlines:
-  - [ ] Implement financial aid deadlines? (give special icons $)
+  - [X] Implement financial aid deadlines? (give special icons $)
   - [X] Implement custom deadlines
   - [X] Remove deadlines from linear timeline
 - Map:
@@ -57,7 +57,7 @@ The purpose of this app is to assist students and parents with finding and apply
   - [ ] hide/remove actionbar
 - College Details:
   - [ ] Research implementing a financial aid calculator (add a tab for it?)
-  - [ ] Add maps pin/button to allow user to see where on map college is
+  - [X] Add maps pin/button to allow user to see where on map college is
   - [ ] Change icon colors in bottom navigation to be more visible. Inactive is black, change to white or transparent white.
   - [ ] OPTIONAL: turn details activity into a scroll view? research how it would look. (Lyft uses scroll view btw)
 - Calendar:
