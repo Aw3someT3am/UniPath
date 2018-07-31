@@ -68,9 +68,8 @@ The purpose of this app is to assist students and parents with finding and apply
 - Minor Improvements:
   - [ ] Search refresh should refresh the filtered list, not the entire list.
   - [X] Add more colleges/more data to database
-  - [ ] Time based refreshing for progress bar OR...
-  - [ ] Upon scrolling up event listener, refresh progress bar and favorite colleges.
-  - [ ] Arrow images in profile should scroll favorite colleges
+  - [X] Time based refreshing for progress bar 
+  - [X] Arrow images in profile should scroll favorite colleges
   - [ ] Link to Website in details
   - [ ] If there are no search results, then add a message "No colleges" or something similar on view.
   - [ ] If there are no deadlines for a day in calendar fragment, add message "no deadlines today" or something similar in view.
