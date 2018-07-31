@@ -62,7 +62,6 @@ public class ProfileFragment extends Fragment {
 
     private CollegeAdapter collegeAdapter;
     private ArrayList<College> colleges;
-    //private RecyclerView rvColleges;
 
     private static final String TAG = "ProfileFragment";
     private final String KEY_FIRST_NAME = "firstName";

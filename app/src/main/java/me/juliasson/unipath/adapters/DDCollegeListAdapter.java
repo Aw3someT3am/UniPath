@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.like.LikeButton;
@@ -40,7 +41,7 @@ public class DDCollegeListAdapter extends RecyclerView.Adapter<DDCollegeListAdap
     }
 
     @Override
-    public void onBindViewHolder(@NonNull DDCollegeListAdapter.ViewHolder viewHolder, int position) {
+    public void onBindViewHolder(@NonNull DDCollegeListAdapter.ViewHolder viewHolder, final int position) {
         final UserDeadlineRelation relation = mCollegeDeadlines.get(position);
         viewHolder.tvCollegeName.setText(relation.getCollege().getCollegeName());
         viewHolder.tvDeadlineDescription.setText(relation.getDeadline().getDescription());
@@ -79,6 +80,27 @@ public class DDCollegeListAdapter extends RecyclerView.Adapter<DDCollegeListAdap
                 });
             }
         });
+
+        viewHolder.ivRemoveDeadline.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //TODO: implement an alert dialog that reassures the user wants to remove a deadline
+                try {
+                    mCollegeDeadlines.remove(relation);
+                    notifyItemRemoved(position);
+                    relation.getDeadline().delete();
+                    relation.delete();
+                    relation.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            Log.d("DDCollegeListAdapter", "Deadline removed.");
+                        }
+                    });
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
     @Override
@@ -91,6 +113,7 @@ public class DDCollegeListAdapter extends RecyclerView.Adapter<DDCollegeListAdap
         TextView tvCollegeName;
         TextView tvDeadlineDescription;
         LikeButton lbCheckBox;
+        ImageView ivRemoveDeadline;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -98,6 +121,7 @@ public class DDCollegeListAdapter extends RecyclerView.Adapter<DDCollegeListAdap
             tvCollegeName = itemView.findViewById(R.id.tvCollegeName);
             tvDeadlineDescription = itemView.findViewById(R.id.tvDeadlineDesc);
             lbCheckBox = itemView.findViewById(R.id.lbLikeButton);
+            ivRemoveDeadline = itemView.findViewById(R.id.ivRemoveDeadline);
         }
     }
 
