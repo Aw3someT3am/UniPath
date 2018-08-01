@@ -47,6 +47,7 @@ import java.util.List;
 
 import me.juliasson.unipath.Manifest;
 import me.juliasson.unipath.R;
+import me.juliasson.unipath.adapters.CustomInfoWindowAdapter;
 import me.juliasson.unipath.model.College;
 import permissions.dispatcher.NeedsPermission;
 import permissions.dispatcher.RuntimePermissions;
@@ -135,7 +136,6 @@ public class MapActivity extends AppCompatActivity implements
 
         map.moveCamera(CameraUpdateFactory.newLatLng(center_us));
         map.animateCamera(CameraUpdateFactory.newLatLngZoom(center_us, 2));
-
 
         loadCollegeMarkers();
 
@@ -293,7 +293,6 @@ public class MapActivity extends AppCompatActivity implements
 
     @Override
     public void onMapLongClick(LatLng latLng) {
-
         // CHANGE THIS to add the marker to favorites (when map isn't showing fragments!)
     }
 
@@ -311,10 +310,6 @@ public class MapActivity extends AppCompatActivity implements
      */
     @Override
     public boolean onMarkerClick(final Marker marker) {
-
-        // Return false to indicate that we have not consumed the event and that we wish
-        // for the default behavior to occur (which is for the camera to move such that the
-        // marker is centered and for the marker's info window to open, if it has one).
         return false;
     }
 
@@ -382,7 +377,6 @@ public class MapActivity extends AppCompatActivity implements
     }
 
     public void loadCollegeMarkers() {
-
         colleges = this.getIntent().getParcelableArrayListExtra("favoritedList");
         if (colleges != null) {
             for (int i = 0; i < colleges.size(); i++) {
@@ -409,9 +403,11 @@ public class MapActivity extends AppCompatActivity implements
                         .title(name)
                         .snippet(city)
                         .icon(markerIcon));
+
+                CustomInfoWindowAdapter customInfoWindow = new CustomInfoWindowAdapter(this);
+                map.setInfoWindowAdapter(customInfoWindow);
+
                 mCollege.setTag(college);
-
-
                 dropPinEffect(mCollege);
 
                 mLocationsList.add(coords);
