@@ -125,6 +125,7 @@ public class CalendarFragment extends Fragment {
 //        compactCalendarView.addEvents(mDataList);
         setDataListItems();
 
+        //TODO: Display "No events for this day" on days where there are no deadlines.
         //set title on calendar scroll
         compactCalendarView.setListener(new CompactCalendarView.CompactCalendarViewListener() {
             @Override

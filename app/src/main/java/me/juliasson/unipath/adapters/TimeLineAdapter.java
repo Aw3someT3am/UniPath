@@ -75,8 +75,10 @@ public class TimeLineAdapter extends RecyclerView.Adapter<TimeLineAdapter.ViewHo
                 viewHolder.mEventDots.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.ic_event_dot));
             } else if (freq == 2) {
                 viewHolder.mEventDots.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.ic_event_dot_2));
-            } else if (freq == 3 || freq > 3) {
+            } else if (freq == 3) {
                 viewHolder.mEventDots.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.ic_event_dot_3));
+            } else if (freq > 3) {
+                viewHolder.mEventDots.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.ic_events_3more));
             }
         }
 
