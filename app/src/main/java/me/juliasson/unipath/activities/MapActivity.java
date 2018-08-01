@@ -146,8 +146,16 @@ public class MapActivity extends AppCompatActivity implements
             }
         });
 
-        // Set a listener for marker click.s
-        //  map.setOnMarkerClickListener(this);
+//        map.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
+//
+//            @Override
+//            public View getInfoContents(Marker marker) {
+//                View v = getLayoutInflater().inflate(
+//                        R.layout.info_window_layout, null);
+//                v.setBackgroundColor(Color.BLACK);
+//                return v;
+//            }
+//        });
 
     }
 

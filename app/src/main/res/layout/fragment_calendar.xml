@@ -55,13 +55,37 @@
         android:id="@+id/refreshBtn"
         android:layout_width="33dp"
         android:layout_height="31dp"
-        android:tint="@color/progress_green"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="28dp"
-        app:srcCompat="@drawable/ic_cached_black_24dp"
-        android:clickable="true"/>
+        android:layout_marginStart="91dp"
+        android:layout_marginTop="33dp"
+        android:clickable="true"
+        android:tint="@color/progress_green"
+        app:srcCompat="@drawable/ic_cached_black_24dp" />
+
+    <Button
+        android:id="@+id/btnToday"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/compactcalendar_view"
+        android:layout_centerHorizontal="true"
+        android:text="Today" />
+
+    <Button
+        android:id="@+id/btnNextDeadline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/compactcalendar_view"
+        android:layout_alignParentEnd="true"
+        android:text="Next" />
+
+    <Button
+        android:id="@+id/btnPreviousDeadine"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/compactcalendar_view"
+        android:layout_alignParentStart="true"
+        android:text="Previous" />
 
 
 </RelativeLayout>
