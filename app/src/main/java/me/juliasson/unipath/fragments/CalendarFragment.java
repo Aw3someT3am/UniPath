@@ -167,6 +167,26 @@ public class CalendarFragment extends Fragment {
             }
         });
 
+        btnToday = view.findViewById(R.id.btnToday);
+        btnToday.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Date firstDayOfMonth = currentCalender.getTime();
+                Date currentDate = new Date();
+//                currentCalender.setTime(currentDate);
+
+//                compactCalendarView.scrollBy();
+
+//                compactCalendarView.set(Calendar.MONTH, Calendar.getInstance().get(Calendar.MONTH));
+
+//                compactCalendarView.getFirstDayOfCurrentMonth();
+//
+//
+//                compactCalendarView.setCurrentDate(firstDayOfMonth);
+//                compactCalendarView.scrollBy();
+            }
+        });
+
         return view;
     }
 
