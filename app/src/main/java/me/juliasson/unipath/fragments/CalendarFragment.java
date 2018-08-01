@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -55,7 +56,12 @@ public class CalendarFragment extends Fragment {
     private boolean shouldShow = false;
     private CompactCalendarView compactCalendarView;
     private TextView monthYearTv;
+    private ImageView refreshBtn;
+    private Button btnToday;
+    private Button btnPrevious;
+    private Button btnNext;
     private Context mContext;
+
 
     ViewPager pager;
     TimelineActivity mTimelineActivity;
@@ -125,6 +131,7 @@ public class CalendarFragment extends Fragment {
 //        compactCalendarView.addEvents(mDataList);
         setDataListItems();
 
+        //TODO: Display "No events for this day" on days where there are no deadlines.
         //set title on calendar scroll
         compactCalendarView.setListener(new CompactCalendarView.CompactCalendarViewListener() {
             @Override
@@ -149,7 +156,7 @@ public class CalendarFragment extends Fragment {
             }
         });
 
-        ImageView refreshBtn = view.findViewById(R.id.refreshBtn);
+        refreshBtn = view.findViewById(R.id.refreshBtn);
         refreshBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -157,6 +164,26 @@ public class CalendarFragment extends Fragment {
                 compactCalendarView.removeAllEvents();
                 loadEvents();
                 setDataListItems();
+            }
+        });
+
+        btnToday = view.findViewById(R.id.btnToday);
+        btnToday.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Date firstDayOfMonth = currentCalender.getTime();
+                Date currentDate = new Date();
+//                currentCalender.setTime(currentDate);
+
+//                compactCalendarView.scrollBy();
+
+//                compactCalendarView.set(Calendar.MONTH, Calendar.getInstance().get(Calendar.MONTH));
+
+//                compactCalendarView.getFirstDayOfCurrentMonth();
+//
+//
+//                compactCalendarView.setCurrentDate(firstDayOfMonth);
+//                compactCalendarView.scrollBy();
             }
         });
 

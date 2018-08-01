@@ -120,9 +120,13 @@
             android:theme="@style/AppTheme.Dialog" />
 
         <activity
+            android:name=".activities.NDCollegeListDialog"
+            android:excludeFromRecents="true"
+            android:theme="@style/AppTheme.Dialog" />
+
+        <activity
             android:name=".activities.MapActivity"
             android:screenOrientation="portrait" />
-
 
         <provider
             android:name="android.support.v4.content.FileProvider"

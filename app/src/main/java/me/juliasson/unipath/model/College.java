@@ -5,8 +5,6 @@ import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
-import java.util.Date;
-
 @ParseClassName("College")
 public class College extends ParseObject {
     private static final String KEY_IMAGE = "image";
@@ -16,6 +14,7 @@ public class College extends ParseObject {
     private static final String KEY_OUT_OF_STATE_COST = "outOfStateCost";
     private static final String KEY_IN_STATE_COST = "inStateCost";
     private static final String KEY_ACCEPATNCE_RATE = "acceptanceRate";
+    private static final String KEY_WEBSITE = "website";
 
     private static final String KEY_LONGITUDE = "longitude";
     private static final String KEY_LATITUDE = "latitude";
@@ -59,12 +58,8 @@ public class College extends ParseObject {
         return  getNumber(KEY_LATITUDE).doubleValue();
     }
 
-    public Date getEarlyAction() {
-        return getDate(KEY_EARLY_ACTION);
-    }
-
-    public Date getRegularAction() {
-        return getDate(KEY_REGULAR_ACTION);
+    public String getWebsite() {
+        return getString(KEY_WEBSITE);
     }
 
     public static Query query() {

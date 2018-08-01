@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
@@ -38,6 +39,7 @@ import java.util.List;
 import me.juliasson.unipath.R;
 import me.juliasson.unipath.SearchInterface;
 import me.juliasson.unipath.activities.CollegeDetailsDialog;
+import me.juliasson.unipath.activities.MapActivity;
 import me.juliasson.unipath.model.College;
 import me.juliasson.unipath.model.CollegeDeadlineRelation;
 import me.juliasson.unipath.model.UserCollegeRelation;
@@ -73,6 +75,9 @@ public class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.ViewHold
         mFilteredList = arrayList;
     }
 
+    Button mapsButton;
+
+
     public CollegeAdapter(ArrayList<College> arrayList) {
         mColleges = arrayList;
         mFilteredList = arrayList;
@@ -87,6 +92,9 @@ public class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.ViewHold
 
         View collegeView = inflater.inflate(R.layout.card_row, viewGroup, false);
         ViewHolder viewHolder = new ViewHolder(collegeView);
+
+        mapsButton = (Button) collegeView.findViewById(R.id.mapsButton);
+
         return viewHolder;
     }
 
@@ -98,7 +106,6 @@ public class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.ViewHold
         mAuth = FirebaseAuth.getInstance();
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         myRef = mFirebaseDatabase.getReference();
-
 
         Glide.with(mContext)
                 .load(college.getParseFile(KEY_COLLEGE_IMAGE).getUrl())
@@ -121,6 +128,18 @@ public class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.ViewHold
                 removeUserDeadlinesRelation(college);
             }
         });
+
+        mapsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Send one college to map activity as arraylist object
+                Intent i = new Intent(mContext, MapActivity.class);
+                ArrayList<College> singleCollege = new ArrayList<>();
+                singleCollege.add(college);
+                i.putParcelableArrayListExtra("favoritedList", singleCollege);
+                mContext.startActivity(i);
+            }
+        });
     }
 
     @Override
@@ -133,6 +152,7 @@ public class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.ViewHold
         public TextView tvCollegeName;
         public ImageView ivCollegeImage;
         public LikeButton lbLikeButton;
+        public Button mapsButton;
 
 
         public ViewHolder(View itemView) {
@@ -141,6 +161,8 @@ public class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.ViewHold
             tvCollegeName = itemView.findViewById(R.id.tvCollegeName);
             ivCollegeImage = itemView.findViewById(R.id.ivCollegeImage);
             lbLikeButton = itemView.findViewById(R.id.lbLikeButton);
+            mapsButton = (Button) itemView.findViewById(R.id.mapsButton);
+
 
             itemView.setOnClickListener(this);
         }

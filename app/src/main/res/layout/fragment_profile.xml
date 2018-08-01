@@ -145,8 +145,8 @@
             android:layout_below="@+id/tvFavoritesLabel"
             android:layout_above="@+id/ivBack"
             android:layout_marginBottom="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
+            android:layout_marginLeft="0dp"
+            android:layout_marginRight="0dp"
             app:dsv_orientation="horizontal" />
 
         <ImageView
@@ -173,12 +173,24 @@
             android:id="@+id/ivRefresh"
             android:layout_width="32dp"
             android:layout_height="32dp"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:layout_margin="8dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignTop="@+id/mapFavorites"
+            android:layout_marginEnd="17dp"
             android:scaleType="fitXY"
             android:tint="@color/progress_green"
             app:srcCompat="@drawable/ic_cached_black_24dp" />
+
+        <ImageView
+            android:id="@+id/mapFavorites"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="17dp"
+            android:layout_marginTop="17dp"
+            android:scaleType="fitXY"
+            android:tint="@color/solid_white"
+            app:srcCompat="@drawable/baseline_public_white_48dp" />
 
     </RelativeLayout>
 

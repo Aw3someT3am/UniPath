@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -40,6 +41,7 @@ import java.util.List;
 
 import me.juliasson.unipath.R;
 import me.juliasson.unipath.activities.LoginActivity;
+import me.juliasson.unipath.activities.MapActivity;
 import me.juliasson.unipath.adapters.CollegeAdapter;
 import me.juliasson.unipath.model.College;
 import me.juliasson.unipath.model.UserCollegeRelation;
@@ -56,19 +58,30 @@ public class ProfileFragment extends Fragment {
     private TextView tvFirstName;
     private TextView tvEmail;
     private Button bvLogout;
+    private ImageView ivForward;
+    private ImageView ivBack;
+    private ImageView bvFavoritesMap;
     private DiscreteScrollView scrollView;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
 
     private CollegeAdapter collegeAdapter;
     private ArrayList<College> colleges;
-    //private RecyclerView rvColleges;
 
     private static final String TAG = "ProfileFragment";
     private final String KEY_FIRST_NAME = "firstName";
     private final String KEY_LAST_NAME = "lastName";
     private final String KEY_PROFILE_IMAGE = "profileImage";
     private final String KEY_RELATION_USER = "user";
+
+    private final Handler handler = new Handler();
+    private final Runnable autoRefresh = new Runnable() {
+        @Override
+        public void run() {
+            setPbProgress();
+            handler.postDelayed(autoRefresh, 3000);
+        }
+    };
 
     private final static int GALLERY_IMAGE_SELECTION_REQUEST_CODE = 2034;
     private String filePath;
@@ -97,9 +110,13 @@ public class ProfileFragment extends Fragment {
         tvFirstName = view.findViewById(R.id.tvFirstName);
         tvEmail = view.findViewById(R.id.tvEmail);
         bvLogout = view.findViewById(R.id.bvLogout);
+        bvFavoritesMap = view.findViewById(R.id.mapFavorites);
+        ivForward = view.findViewById(R.id.ivForward);
+        ivBack = view.findViewById(R.id.ivBack);
 
         scrollView = view.findViewById(R.id.picker);
         scrollView.setOrientation(DSVOrientation.HORIZONTAL);
+
 
         colleges = new ArrayList<>();
         collegeAdapter = new CollegeAdapter(colleges);
@@ -119,6 +136,41 @@ public class ProfileFragment extends Fragment {
             }
         });
 
+        bvFavoritesMap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // The list of 'liked' colleges is can simply be sent to map activity
+                Intent i = new Intent(mContext, MapActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putParcelableArrayList("favoritedList", colleges);
+                i.putExtras(bundle);
+                startActivity(i);
+            }
+        });
+
+        ivForward.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Boolean scroll = scrollView.fling(10, 0);
+                if (scrollView.getCurrentItem() < colleges.size() - 1) {
+                    scrollView.smoothScrollToPosition(scrollView.getCurrentItem() + 1);
+                }
+
+            }
+        });
+
+        ivBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Boolean scroll = scrollView.fling(10, 0);
+                if (scrollView.getCurrentItem() >= 1) {
+                    scrollView.smoothScrollToPosition(scrollView.getCurrentItem() - 1);
+//                  ObjectAnimator.ofInt(scrollView, "scrollX",  scrollView.getCurrentItem() - 1).setDuration(500).start();
+
+                }
+            }
+        });
+
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
@@ -135,12 +187,7 @@ public class ProfileFragment extends Fragment {
             }
         };
 
-        pbProgress.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                setPbProgress();
-            }
-        });
+        handler.post(autoRefresh);
     }
 
 

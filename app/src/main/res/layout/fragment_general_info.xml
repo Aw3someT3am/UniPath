@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -7,33 +7,61 @@
     android:layout_height="match_parent"
     tools:context=".fragments.GeneralInfoFragment">
 
+    <TextView
+        android:id="@+id/etDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:text="@string/description"
+        android:textAppearance="@android:style/TextAppearance.Medium"
+        android:textColor="@color/solid_white"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:fontFamily="@font/lato"
+        />
+
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_below="@+id/etDescription" >
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/lato"
+            >
 
-            <TextView
-                android:id="@+id/etDescription"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
-                android:text="@string/description"
-                android:textAppearance="@android:style/TextAppearance.Medium"
-                android:textColor="@color/solid_white"
+            <LinearLayout
+                android:id="@+id/llWebsite"
                 android:layout_alignParentTop="true"
-                android:layout_alignParentRight="true" />
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="8dp">
+                <TextView
+                    android:id="@+id/tvWebsiteLabel"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Website:"
+                    android:textAppearance="@android:style/TextAppearance.Medium"
+                    android:textColor="@color/solid_white" />
+                <TextView
+                    android:id="@+id/tvWebsite"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:layout_weight="2"
+                    android:gravity="end"
+                    android:text="Website"
+                    android:autoLink="web"
+                    android:textAppearance="@android:style/TextAppearance.Medium"
+                    android:textColor="@color/background_light_orange" />
+            </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/llAddress"
-                android:layout_below="@+id/etDescription"
+                android:layout_below="@+id/llWebsite"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -46,13 +74,12 @@
                     android:text="Address:"
                     android:textAppearance="@android:style/TextAppearance.Medium"
                     android:textColor="@color/solid_white" />
-
                 <TextView
                     android:id="@+id/tvAddress"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="8dp"
-                    android:layout_weight="1"
+                    android:layout_weight="2"
                     android:gravity="end"
                     android:text="Address"
                     android:textAppearance="@android:style/TextAppearance.Medium"
@@ -78,7 +105,7 @@
                     android:id="@+id/tvStudentPopulation"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_weight="2"
                     android:layout_marginLeft="8dp"
                     android:gravity="end"
                     android:text="Student Population"
@@ -105,7 +132,7 @@
                     android:id="@+id/tvCostInState"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_weight="2"
                     android:layout_marginLeft="8dp"
                     android:gravity="end"
                     android:text="Cost in State"
@@ -132,7 +159,7 @@
                     android:id="@+id/tvCostOutState"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_weight="2"
                     android:layout_marginLeft="8dp"
                     android:gravity="end"
                     android:text="Cost out of State"
@@ -170,4 +197,4 @@
 
     </ScrollView>
 
-</android.support.constraint.ConstraintLayout>
+</RelativeLayout>

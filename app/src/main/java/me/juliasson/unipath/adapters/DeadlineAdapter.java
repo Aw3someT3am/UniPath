@@ -6,7 +6,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,6 +43,12 @@ public class DeadlineAdapter extends RecyclerView.Adapter<DeadlineAdapter.ViewHo
         final Deadline deadline = deadlines.get(i);
         viewHolder.tvDeadlineDesc.setText(deadline.getDescription());
         viewHolder.tvDeadlineDate.setText(DateTimeUtils.parseDateTime(deadline.getDeadlineDate().toString(), DateTimeUtils.parseInputFormat, DateTimeUtils.parseOutputFormat));
+
+        if (deadline.getIsFinancial()) {
+            Glide.with(mContext)
+                    .load(R.drawable.ic_attach_money)
+                    .into(viewHolder.ivDeadlineIcon);
+        }
     }
 
     @Override
@@ -51,12 +60,14 @@ public class DeadlineAdapter extends RecyclerView.Adapter<DeadlineAdapter.ViewHo
 
         public TextView tvDeadlineDate;
         public TextView tvDeadlineDesc;
+        public ImageView ivDeadlineIcon;
 
         public ViewHolder(View itemView) {
             super(itemView);
 
             tvDeadlineDate = itemView.findViewById(R.id.tvDeadlineDate);
             tvDeadlineDesc = itemView.findViewById(R.id.tvDeadlineDesc);
+            ivDeadlineIcon = itemView.findViewById(R.id.ivDeadlineIcon);
 
             //itemView.setOnClickListener(this);
         }

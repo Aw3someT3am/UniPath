@@ -1,5 +1,7 @@
 package me.juliasson.unipath.fragments;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -13,7 +15,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -28,6 +29,7 @@ import java.util.HashSet;
 import java.util.List;
 
 import me.juliasson.unipath.R;
+import me.juliasson.unipath.activities.NewDeadlineDialog;
 import me.juliasson.unipath.adapters.TimeLineAdapter;
 import me.juliasson.unipath.model.Deadline;
 import me.juliasson.unipath.model.OrderStatus;
@@ -42,6 +44,7 @@ public class LinearTimelineFragment extends Fragment {
     private List<TimeLine> mDataList = new ArrayList<>();
     private HashSet<TimeLine> mDataSet = new HashSet<>();
     private HashMap<TimeLine, ArrayList<UserDeadlineRelation>> mRelationsInTimeLine = new HashMap<>();
+    private Context mContext;
 
     private static final String KEY_USER = "user";
 
@@ -49,6 +52,7 @@ public class LinearTimelineFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         // Defines the xml file for the fragment
         setHasOptionsMenu(true);
+        mContext = parent.getContext();
         return inflater.inflate(R.layout.fragment_linear_timeline, parent, false);
     }
 
@@ -102,6 +106,7 @@ public class LinearTimelineFragment extends Fragment {
                         addTimeLineToRelationMap(timeline, relation);
                     }
                     mDataList.addAll(mDataSet);
+                    displayTime();
                     mTimeLineAdapter = new TimeLineAdapter(mDataList, mRelationsInTimeLine);
                     mRecyclerView.setAdapter(mTimeLineAdapter);
                     sortData();
@@ -110,6 +115,13 @@ public class LinearTimelineFragment extends Fragment {
                 }
             }
         });
+    }
+
+    //TODO: REMOVE
+    public void displayTime() {
+        for (TimeLine timeline : mDataList) {
+            Log.d("LinearTimelineFragment", timeline.getDDate().toString());
+        }
     }
 
     public void addTimeLineToRelationMap(TimeLine timeline, UserDeadlineRelation relation) {
@@ -149,7 +161,8 @@ public class LinearTimelineFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.new_deadline:
-                Toast.makeText(getContext(), "New deadline selected", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(mContext, NewDeadlineDialog.class);
+                startActivity(intent);
                 break;
         }
         return true;

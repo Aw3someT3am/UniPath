@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.os.Bundle;
@@ -27,7 +28,6 @@ import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.SettingsClient;
-import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -39,9 +39,6 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.parse.FindCallback;
-import com.parse.ParseException;
-import com.parse.ParseUser;
 
 import org.parceler.Parcels;
 
@@ -50,8 +47,8 @@ import java.util.List;
 
 import me.juliasson.unipath.Manifest;
 import me.juliasson.unipath.R;
+import me.juliasson.unipath.adapters.CustomInfoWindowAdapter;
 import me.juliasson.unipath.model.College;
-import me.juliasson.unipath.model.UserCollegeRelation;
 import permissions.dispatcher.NeedsPermission;
 import permissions.dispatcher.RuntimePermissions;
 
@@ -79,6 +76,7 @@ public class MapActivity extends AppCompatActivity implements
     private static final LatLng center_us = new LatLng(39.809860, -98.555183);
 
     private List<LatLng> mLocationsList = new ArrayList<>();
+    private ArrayList<College> colleges;
 
     /*
      * Define a request code to send to Google Play services This code is
@@ -90,6 +88,8 @@ public class MapActivity extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
+
+        getSupportActionBar().hide();
 
         if (TextUtils.isEmpty(getResources().getString(R.string.google_maps_api_key))) {
             throw new IllegalStateException("You forgot to supply a Google Maps API key ya dummy");
@@ -137,7 +137,6 @@ public class MapActivity extends AppCompatActivity implements
         map.moveCamera(CameraUpdateFactory.newLatLng(center_us));
         map.animateCamera(CameraUpdateFactory.newLatLngZoom(center_us, 2));
 
-
         loadCollegeMarkers();
 
         map.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
@@ -147,8 +146,16 @@ public class MapActivity extends AppCompatActivity implements
             }
         });
 
-        // Set a listener for marker click.s
-        //  map.setOnMarkerClickListener(this);
+//        map.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
+//
+//            @Override
+//            public View getInfoContents(Marker marker) {
+//                View v = getLayoutInflater().inflate(
+//                        R.layout.info_window_layout, null);
+//                v.setBackgroundColor(Color.BLACK);
+//                return v;
+//            }
+//        });
 
     }
 
@@ -228,12 +235,9 @@ public class MapActivity extends AppCompatActivity implements
 
         // Display the connection status
         if (mCurrentLocation != null) {
-            Toast.makeText(this, "GPS location was found!", Toast.LENGTH_SHORT).show();
             LatLng latLng = new LatLng(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude());
-            CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 17);
-            map.animateCamera(cameraUpdate);
         } else {
-            Toast.makeText(this, "Current location unreachable, please enable GPS on your emulator.", Toast.LENGTH_SHORT).show();
+            Log.d( "GPS", "Current location unreachable, please enable GPS on your emulator.");
         }
         MapActivityPermissionsDispatcher.startLocationUpdatesWithPermissionCheck(this);
     }
@@ -289,9 +293,7 @@ public class MapActivity extends AppCompatActivity implements
 
     @Override
     public void onMapLongClick(LatLng latLng) {
-
         // CHANGE THIS to add the marker to favorites (when map isn't showing fragments!)
-
     }
 
 
@@ -303,16 +305,11 @@ public class MapActivity extends AppCompatActivity implements
         startActivity(intent);
     }
 
-    /** Called when the user clicks a marker. */
+    /**
+     * Called when the user clicks a marker.
+     */
     @Override
     public boolean onMarkerClick(final Marker marker) {
-
-        // Retrieve the data from the marker.
-        Integer clickCount = (Integer) marker.getTag();
-
-        // Return false to indicate that we have not consumed the event and that we wish
-        // for the default behavior to occur (which is for the camera to move such that the
-        // marker is centered and for the marker's info window to open, if it has one).
         return false;
     }
 
@@ -341,8 +338,6 @@ public class MapActivity extends AppCompatActivity implements
                 if (t > 0.0) {
                     // Post this event again 15ms from now.
                     handler.postDelayed(this, 15);
-                } else { // done elapsing, show window
-                    marker.showInfoWindow();
                 }
             }
         });
@@ -381,49 +376,42 @@ public class MapActivity extends AppCompatActivity implements
         }
     }
 
-    public void loadCollegeMarkers(){
-        //ParseQuery go through each of the current user's colleges and add them.
-        UserCollegeRelation.Query ucQuery = new UserCollegeRelation.Query();
-        ucQuery.getTop().withUser().withCollege();
-        ucQuery.whereEqualTo(KEY_USER, ParseUser.getCurrentUser());
+    public void loadCollegeMarkers() {
+        colleges = this.getIntent().getParcelableArrayListExtra("favoritedList");
+        if (colleges != null) {
+            for (int i = 0; i < colleges.size(); i++) {
+                College college = colleges.get(i);
 
-        ucQuery.findInBackground(new FindCallback<UserCollegeRelation>() {
-            @Override
-            public void done(List<UserCollegeRelation> objects, ParseException e) {
-                if (e == null) {
-                    for (int i = 0; i < objects.size(); i++) {
-                        // Access each deadline associated with current user
-                        UserCollegeRelation relation = objects.get(i);
-                        College college = relation.getCollege();
+                Log.d("college", college.getCollegeName());
 
-                        // Note coords must have 6 decimal places to appear in correct location
-                        Double lat = college.getLatitude();
-                        Double lng = college.getLongitude();
+                // Note coords must have 6 decimal places to appear in correct location
+                Double lat = college.getLatitude();
+                Double lng = college.getLongitude();
 
-                        String name = college.getCollegeName();
-                        String city = college.getAddress();
+                String name = college.getCollegeName();
+                String city = college.getAddress();
 
-                        // Create LatLng for each deadline and add to CompactCalendarView
-                        LatLng coords = new LatLng(lat, lng);
+                // Create LatLng for each deadline and add to CompactCalendarView
+                LatLng coords = new LatLng(lat, lng);
 
-                        Drawable circleDrawable = getResources().getDrawable(R.drawable.circle_shape);
-                        BitmapDescriptor markerIcon = getMarkerIconFromDrawable(circleDrawable);
+                Drawable circleDrawable = getResources().getDrawable(R.drawable.show_map);
+                circleDrawable.mutate().setColorFilter(getResources().getColor(R.color.background_orange), PorterDuff.Mode.MULTIPLY);
+                BitmapDescriptor markerIcon = getMarkerIconFromDrawable(circleDrawable);
 
-                        Marker mCollege = map.addMarker(new MarkerOptions()
-                                .position(coords)
-                                .title(name)
-                                .snippet(city)
-                                .icon(markerIcon));
-                        mCollege.setTag(college);
+                Marker mCollege = map.addMarker(new MarkerOptions()
+                        .position(coords)
+                        .title(name)
+                        .snippet(city)
+                        .icon(markerIcon));
 
-                        dropPinEffect(mCollege);
+                CustomInfoWindowAdapter customInfoWindow = new CustomInfoWindowAdapter(this);
+                map.setInfoWindowAdapter(customInfoWindow);
 
-                        mLocationsList.add(coords);
-                    }
-                } else {
-                    e.printStackTrace();
-                }
+                mCollege.setTag(college);
+                dropPinEffect(mCollege);
+
+                mLocationsList.add(coords);
             }
-        });
+        }
     }
 }
