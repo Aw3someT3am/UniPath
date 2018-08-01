@@ -130,4 +130,9 @@ public class TimelineActivity extends AppCompatActivity {
                 .setValue(ParseUser.getCurrentUser().getUsername());
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
 }

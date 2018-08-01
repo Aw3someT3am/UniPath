@@ -1,5 +1,6 @@
 package me.juliasson.unipath.adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -35,6 +36,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import me.juliasson.unipath.R;
+import me.juliasson.unipath.SearchInterface;
 import me.juliasson.unipath.activities.CollegeDetailsDialog;
 import me.juliasson.unipath.model.College;
 import me.juliasson.unipath.model.CollegeDeadlineRelation;
@@ -42,13 +44,16 @@ import me.juliasson.unipath.model.UserCollegeRelation;
 import me.juliasson.unipath.model.UserDeadlineRelation;
 import me.juliasson.unipath.utils.DateTimeUtils;
 
-public class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.ViewHolder> implements Filterable{
+import static android.app.Activity.RESULT_OK;
+
+public class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.ViewHolder> implements Filterable {
 
     private ArrayList<College> mColleges;
     private static Context mContext;
 
     private ArrayList<College> mFilteredList;
 
+    private final static int LIKED = 10;
     private final static String KEY_COLLEGE_IMAGE = "image";
     private final static String KEY_UD_COLLEGE = "college";
     private final static String KEY_UD_USER = "user";
@@ -59,6 +64,14 @@ public class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.ViewHold
     private static FirebaseAuth mAuth;
     private static FirebaseAuth.AuthStateListener mAuthListener;
     private static DatabaseReference myRef;
+
+    SearchInterface searchInterface;
+
+    public CollegeAdapter(ArrayList<College> arrayList, SearchInterface searchInterface) {
+        this.searchInterface = searchInterface;
+        mColleges = arrayList;
+        mFilteredList = arrayList;
+    }
 
     public CollegeAdapter(ArrayList<College> arrayList) {
         mColleges = arrayList;
@@ -140,7 +153,7 @@ public class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.ViewHold
                 College college = mFilteredList.get(position);
                 Intent intent = new Intent(mContext, CollegeDetailsDialog.class);
                 intent.putExtra(College.class.getSimpleName(), Parcels.wrap(college));
-                mContext.startActivity(intent);
+                ((Activity) mContext).startActivityForResult(intent, LIKED);
             }
         }
     }
@@ -164,12 +177,14 @@ public class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.ViewHold
                 }
                 FilterResults filterResults = new FilterResults();
                 filterResults.values = mFilteredList;
+                searchInterface.setValues(mFilteredList);
                 return filterResults;
             }
 
             @Override
             protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
                 mFilteredList = (ArrayList<College>) filterResults.values;
+                searchInterface.setValues(mFilteredList);
                 notifyDataSetChanged();
             }
         };
@@ -181,10 +196,19 @@ public class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.ViewHold
         notifyDataSetChanged();
     }
 
-    // Add a list of items -- change to type used
+    // Clean all elements of the recycler
+    public void clearWithFilter() {
+        mFilteredList.clear();
+    }
+
+        // Add a list of items -- change to type used
     public void addAll(List<College> list) {
         mColleges.addAll(list);
         notifyDataSetChanged();
+    }
+
+    public void addAllFiltered(List<College> list) {
+        mFilteredList.addAll(list);
     }
 
     /**
@@ -408,5 +432,15 @@ public class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.ViewHold
      */
     private static void toastMessage(String message){
         Toast.makeText(mContext,message,Toast.LENGTH_SHORT).show();
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // Check which request we're responding to
+        if (requestCode == LIKED) {
+            // Make sure the request was successful
+            if (resultCode == RESULT_OK) {
+
+            }
+        }
     }
 }

@@ -1,6 +1,7 @@
 package me.juliasson.unipath.activities;
 
 import android.app.ActionBar;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -45,6 +46,7 @@ public class CollegeDetailsDialog extends AppCompatActivity {
     CollegeAdapter collegeAdapter = new CollegeAdapter(new ArrayList<College>());
     LikeButton lbLikeButtonDetails;
 
+    private Boolean liked;
     College college;
 
     @Override
@@ -67,12 +69,14 @@ public class CollegeDetailsDialog extends AppCompatActivity {
         lbLikeButtonDetails.setOnLikeListener(new OnLikeListener() {
             @Override
             public void liked(LikeButton likeButton) {
+                liked = true;
                 CollegeAdapter.addUserCollegeRelation(college);
                 CollegeAdapter.addUserDeadlineRelations(college);
             }
 
             @Override
             public void unLiked(LikeButton likeButton) {
+                liked = false;
                 CollegeAdapter.removeUserCollegeRelation(college);
                 CollegeAdapter.removeUserDeadlinesRelation(college);
             }
@@ -118,6 +122,10 @@ public class CollegeDetailsDialog extends AppCompatActivity {
                 return true;
             }
         });
+
+        Intent data = new Intent();
+        data.putExtra("liked", liked);
+        setResult(RESULT_OK, data); // set result code and bundle data for response
     }
 
     private void setSize() {

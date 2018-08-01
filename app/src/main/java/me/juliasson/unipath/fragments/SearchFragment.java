@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
+import android.widget.Toast;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -26,12 +27,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import me.juliasson.unipath.R;
+import me.juliasson.unipath.SearchInterface;
 import me.juliasson.unipath.adapters.CollegeAdapter;
 import me.juliasson.unipath.adapters.MyExpandableListAdapter;
 import me.juliasson.unipath.model.College;
 import me.juliasson.unipath.rows.ParentRow;
 
-public class SearchFragment extends Fragment{
+public class SearchFragment extends Fragment implements SearchInterface {
     private SearchManager searchManager;
     private android.widget.SearchView searchView;
     private MyExpandableListAdapter listAdapter;
@@ -45,7 +47,12 @@ public class SearchFragment extends Fragment{
     private SwipeRefreshLayout swipeContainerSearch;
     private RecyclerView mRecyclerView;
     private ArrayList<College> colleges;
+    private ArrayList<College> everyCollege;
+    private ArrayList<College> filteredColleges;
+    private ArrayList<College> refreshList;
     private CollegeAdapter collegeAdapter;
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
@@ -62,6 +69,8 @@ public class SearchFragment extends Fragment{
         context = view.getContext();
         searchManager = (SearchManager) context.getSystemService(Context.SEARCH_SERVICE);
         colleges = new ArrayList<>();
+        everyCollege = new ArrayList<>();
+        refreshList = new ArrayList<>();
 
         initViews();
         loadTopColleges();
@@ -109,7 +118,7 @@ public class SearchFragment extends Fragment{
     private void loadTopColleges() {
         final College.Query postsQuery = new College.Query();
         postsQuery.limit20();
-        collegeAdapter = new CollegeAdapter(colleges);
+        collegeAdapter = new CollegeAdapter(colleges, this);
         mRecyclerView.setAdapter(collegeAdapter);
         postsQuery.orderByDescending("createdAt");
         postsQuery.findInBackground(new FindCallback<College>() {
@@ -121,6 +130,8 @@ public class SearchFragment extends Fragment{
                     for(int i = 0; i < objects.size(); i++) {
                         College college = objects.get(i);
                         colleges.add(college);
+                        refreshList.add(college);
+                        everyCollege.add(college);
                         collegeAdapter.notifyItemInserted(colleges.size() - 1);
                     }
                 } else {
@@ -131,7 +142,9 @@ public class SearchFragment extends Fragment{
         });
     }
 
+    private String temp = "";
     private void search(SearchView searchView) {
+        Toast.makeText(getContext(), "here it is:"+ temp, Toast.LENGTH_LONG).show();
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -142,19 +155,42 @@ public class SearchFragment extends Fragment{
 
             @Override
             public boolean onQueryTextChange(String newText) {
-
-                if (collegeAdapter != null) collegeAdapter.getFilter().filter(newText.toLowerCase());
+                searchRef(newText);
                 return false;
             }
         });
     }
 
     public void refresh() {
+        searchRef(temp);
+        collegeAdapter.clearWithFilter();
+        collegeAdapter.addAllFiltered(refreshList);
         collegeAdapter.clear();
-        initViews();
-        loadTopColleges();
-        collegeAdapter.addAll(colleges);
-        // Now we call setRefreshing(false) to signal refresh has finished
+        collegeAdapter.addAll(everyCollege);
         swipeContainerSearch.setRefreshing(false);
+    }
+
+    @Override
+    public void setValues(ArrayList<College> filtered) {
+        filteredColleges = filtered;
+    }
+
+    public void searchRef(String query) {
+        temp = query;
+        //Toast.makeText(getContext(), query, Toast.LENGTH_LONG).show();
+        if (collegeAdapter != null) {
+            collegeAdapter.getFilter().filter(query.toLowerCase());
+            Log.d("Search",query);
+            System.out.print(query);
+        }
+        if(query.isEmpty()) {
+            refreshList.clear();
+            refreshList.addAll(colleges);
+//            Toast.makeText(getContext(), "empty", Toast.LENGTH_LONG).show();
+        } else {
+            refreshList.clear();
+            refreshList.addAll(filteredColleges);
+//            Toast.makeText(getContext(), "Notempty"Notempty, Toast.LENGTH_LONG).show();
+        }
     }
 }
