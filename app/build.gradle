@@ -93,6 +93,8 @@ dependencies {
     implementation 'com.yarolegovich:discrete-scrollview:1.4.8'
 
     implementation 'com.google.firebase:firebase-messaging:11.4.0'
+
+    implementation 'com.google.firebase:firebase-auth:9.4.0'
 }
 
 apply plugin: 'com.google.gms.google-services'

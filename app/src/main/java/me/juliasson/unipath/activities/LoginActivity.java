@@ -36,6 +36,9 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_);
 
+//        ParseUser.logOut();
+//        mAuth.signOut();
+
         FirebaseApp.initializeApp(this);
         mAuth = FirebaseAuth.getInstance();
         ParseUser currentUser = ParseUser.getCurrentUser();

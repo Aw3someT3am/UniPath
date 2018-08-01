@@ -110,12 +110,19 @@ public class TimelineActivity extends AppCompatActivity {
     private void sendRegistrationToServer(String token) {
         Log.d(TAG, "sendRegistrationToServer: sending token to server: " + token);
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
+        String uid = "";
+        if (FirebaseAuth.getInstance().getCurrentUser() == null) {
+            //Go to login
+        }
+        else{
+            uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        }
         reference.child(getString(R.string.dbnode_users))
-                .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                .child(uid)
                 .child(getString(R.string.field_messaging_token))
                 .setValue(token);
         reference.child(getString(R.string.dbnode_users))
-                .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                .child(uid)
                 .child("username")
                 .setValue(ParseUser.getCurrentUser().getUsername());
     }

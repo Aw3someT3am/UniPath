@@ -5,7 +5,6 @@ import android.util.Log;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.FirebaseInstanceIdService;
 
 public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
@@ -19,11 +18,28 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
     @Override
     public void onTokenRefresh() {
         // Get updated InstanceID token.
-        String refreshedToken = FirebaseInstanceId.getInstance().getToken();
-        Log.d(TAG, "Refreshed token: " + refreshedToken);
-
-        sendRegistrationToServer(refreshedToken);
+        try {
+            String refreshedToken = FirebaseAuth.getInstance().getCurrentUser().getUid();
+            Log.d("Firbase id login", "Refreshed token: " + refreshedToken);
+            sendRegistrationToServer(refreshedToken);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
+
+//    FirebaseUser mUser = FirebaseAuth.getInstance().getCurrentUser();
+//    mUser.getIdToken(true)
+//        .addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
+//        public void onComplete(@NonNull Task<GetTokenResult> task) {
+//            if (task.isSuccessful()) {
+//                String idToken = task.getResult().getToken();
+//                // Send token to your backend via HTTPS
+//                // ...
+//            } else {
+//                // Handle error -> task.getException();
+//            }
+//        }
+//    });
 
 
     /**
