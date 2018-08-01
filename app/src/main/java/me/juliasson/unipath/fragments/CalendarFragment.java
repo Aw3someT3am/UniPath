@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -55,7 +56,12 @@ public class CalendarFragment extends Fragment {
     private boolean shouldShow = false;
     private CompactCalendarView compactCalendarView;
     private TextView monthYearTv;
+    private ImageView refreshBtn;
+    private Button btnToday;
+    private Button btnPrevious;
+    private Button btnNext;
     private Context mContext;
+
 
     ViewPager pager;
     TimelineActivity mTimelineActivity;
@@ -149,7 +155,7 @@ public class CalendarFragment extends Fragment {
             }
         });
 
-        ImageView refreshBtn = view.findViewById(R.id.refreshBtn);
+        refreshBtn = view.findViewById(R.id.refreshBtn);
         refreshBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
