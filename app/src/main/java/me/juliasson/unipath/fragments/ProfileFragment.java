@@ -114,10 +114,9 @@ public class ProfileFragment extends Fragment {
         ivForward = view.findViewById(R.id.ivForward);
         ivBack = view.findViewById(R.id.ivBack);
 
-        ivBack.setVisibility(View.INVISIBLE);
-
         scrollView = view.findViewById(R.id.picker);
         scrollView.setOrientation(DSVOrientation.HORIZONTAL);
+
 
         colleges = new ArrayList<>();
         collegeAdapter = new CollegeAdapter(colleges);
@@ -154,12 +153,9 @@ public class ProfileFragment extends Fragment {
             public void onClick(View view) {
                 Boolean scroll = scrollView.fling(10, 0);
                 if (scrollView.getCurrentItem() < colleges.size() - 1) {
-                    scrollView.scrollToPosition(scrollView.getCurrentItem() + 1);
-                    ivBack.setVisibility(View.VISIBLE);
+                    scrollView.smoothScrollToPosition(scrollView.getCurrentItem() + 1);
                 }
-                else {
-                    ivForward.setVisibility(View.INVISIBLE);
-                }
+
             }
         });
 
@@ -168,13 +164,9 @@ public class ProfileFragment extends Fragment {
             public void onClick(View view) {
                 Boolean scroll = scrollView.fling(10, 0);
                 if (scrollView.getCurrentItem() >= 1) {
-                    scrollView.scrollToPosition(scrollView.getCurrentItem() - 1);
-                    ivForward.setVisibility(View.VISIBLE);
+                    scrollView.smoothScrollToPosition(scrollView.getCurrentItem() - 1);
 //                  ObjectAnimator.ofInt(scrollView, "scrollX",  scrollView.getCurrentItem() - 1).setDuration(500).start();
 
-                }
-                else {
-                    ivBack.setVisibility(View.INVISIBLE);
                 }
             }
         });
