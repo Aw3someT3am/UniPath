@@ -31,6 +31,7 @@ import me.juliasson.unipath.adapters.MyExpandableListAdapter;
 import me.juliasson.unipath.model.College;
 import me.juliasson.unipath.rows.ParentRow;
 
+//TODO: Display "No colleges found" for searches with no results
 public class SearchFragment extends Fragment{
     private SearchManager searchManager;
     private android.widget.SearchView searchView;
