@@ -86,10 +86,13 @@ public class DDCollegeListAdapter extends RecyclerView.Adapter<DDCollegeListAdap
             @Override
             public void onClick(View view) {
                 //TODO: implement an alert dialog that reassures the user wants to remove a deadline
+                //ONLY REMOVE CUSTOM DEADLINES?
                 try {
                     mCollegeDeadlines.remove(relation);
                     notifyItemRemoved(position);
-                    relation.getDeadline().delete();
+                    if (relation.getDeadline().getIsCustom()) {
+                        relation.getDeadline().delete();
+                    }
                     relation.delete();
                     relation.saveInBackground(new SaveCallback() {
                         @Override
