@@ -3,9 +3,11 @@ package me.juliasson.unipath.fragments;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.PointF;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -22,8 +24,10 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.OverScroller;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.github.sundeepk.compactcalendarview.CompactCalendarView;
 import com.github.sundeepk.compactcalendarview.domain.Event;
@@ -62,6 +66,13 @@ public class CalendarFragment extends Fragment {
     private Button btnNext;
     private Context mContext;
 
+    private CompactCalendarView.CompactCalendarViewListener listener;
+    private PointF accumulatedScrollOffset = new PointF();
+    private boolean isRtl = false;
+    private int monthsScrolledSoFar = 0;
+
+    private OverScroller scroller;
+
 
     ViewPager pager;
     TimelineActivity mTimelineActivity;
@@ -71,7 +82,7 @@ public class CalendarFragment extends Fragment {
     private static final String KEY_USER = "user";
 
     @Override
-    public View onCreateView(LayoutInflater inflater, final ViewGroup parent, Bundle savedInstanceState) {
+    public View onCreateView(final LayoutInflater inflater, final ViewGroup parent, Bundle savedInstanceState) {
         ((AppCompatActivity) getActivity()).getSupportActionBar().show();
         // Defines the xml file for the fragment
         View view = inflater.inflate(R.layout.fragment_calendar, parent, false);
@@ -90,6 +101,7 @@ public class CalendarFragment extends Fragment {
 
         // Listview of details for selected date in calendar
         final ListView bookingsListView = view.findViewById(R.id.bookings_listview);
+//        bookingsListView.setEmptyView(view.findViewById(R.id.empty_listview));
 
         // This adapter will feed information into the listview depending on selected date
         final ArrayAdapter adapter = new ArrayAdapter(getContext(), android.R.layout.simple_list_item_1, mutableBookings){
@@ -153,7 +165,17 @@ public class CalendarFragment extends Fragment {
             @Override
             public void onMonthScroll(Date firstDayOfNewMonth) {
                 monthYearTv.setText(dateFormatForMonth.format(firstDayOfNewMonth));
+
+                Date nextDate = compactCalendarView.getFirstDayOfCurrentMonth();
+                Date currentDate = Calendar.getInstance().getTime();
+
+                if (nextDate.after(currentDate)) monthsScrolledSoFar += 1;
+                else monthsScrolledSoFar -= 1;
+
+                Toast.makeText(mContext, Integer.toString(monthsScrolledSoFar), Toast.LENGTH_SHORT).show();
+
             }
+
         });
 
         refreshBtn = view.findViewById(R.id.refreshBtn);
@@ -167,30 +189,60 @@ public class CalendarFragment extends Fragment {
             }
         });
 
+
+
         btnToday = view.findViewById(R.id.btnToday);
         btnToday.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Date firstDayOfMonth = currentCalender.getTime();
 
-                // Toast.makeText(mContext, firstDayOfMonth.toString(), Toast.LENGTH_SHORT).show();
-                Date currentDate = new Date();
-//                currentCalender.setTime(currentDate);
+                FragmentTransaction ft = getFragmentManager().beginTransaction();
+                ft.detach(CalendarFragment.this).attach(CalendarFragment.this).commit();
 
-//                compactCalendarView.scrollBy();
 
-//                compactCalendarView.set(Calendar.MONTH, Calendar.getInstance().get(Calendar.MONTH));
+//                onCreateView();
+//                compactCalendarView.removeAllEvents();
+//                loadEvents();
+//                setDataListItems();
 
-//                compactCalendarView.getFirstDayOfCurrentMonth();
+//                int screenWidth = compactCalendarView.getWidth();
 //
+//                if (monthsScrolledSoFar > 0) {
+//                    for (int i = 0; i < monthsScrolledSoFar; i ++) {
+//                        compactCalendarView.scrollLeft();
+//                    }
+//                }
+//                else {
+//                    for (int i = 0; i < monthsScrolledSoFar; i --) {
+//                        compactCalendarView.scrollRight();
+//                    }
+//                }
 //
-//                compactCalendarView.setCurrentDate(firstDayOfMonth);
-//                compactCalendarView.scrollBy();
+//                monthsScrolledSoFar = 0;
+//                compactCalendarView.scrollBy(-1 * 4 * compactCalendarView.getWidth(), 0);
+            }
+        });
+
+
+        btnNext = view.findViewById(R.id.btnNextDeadline);
+        btnNext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+            }
+        });
+
+
+        btnPrevious = view.findViewById(R.id.btnPreviousDeadine);
+        btnPrevious.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
             }
         });
 
         return view;
     }
+
 
     // This event is triggered soon after onCreateView().
     // Any view setup should occur here.  E.g., view lookups and attaching view listeners.
@@ -212,6 +264,14 @@ public class CalendarFragment extends Fragment {
         addEvents(Calendar.DECEMBER, -1);
         addEvents(Calendar.AUGUST, -1);
     }
+
+//    public float computeScroll() {
+//        if (scroller.computeScrollOffset()) {
+//            accumulatedScrollOffset.x = scroller.getCurrX();
+//            return accumulatedScrollOffset.x;
+//        }
+//        return 0;
+//    }
 
     private void loadEventsForYear(int year) {
         addEvents(Calendar.DECEMBER, year);

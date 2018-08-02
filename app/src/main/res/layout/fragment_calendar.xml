@@ -18,7 +18,7 @@
         android:layout_alignParentStart="true"
         android:layout_marginBottom="-74dp"
         android:textColor="@color/white"
-        android:textSize="22sp" />
+        android:textSize="18sp" />
 
 
     <com.github.sundeepk.compactcalendarview.CompactCalendarView
@@ -33,7 +33,7 @@
         android:hapticFeedbackEnabled="true"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
-        app:compactCalendarBackgroundColor="@color/white_20_transparent"
+        app:compactCalendarBackgroundColor="@color/transparent"
         app:compactCalendarCurrentDayBackgroundColor="#B71C1C"
         app:compactCalendarCurrentSelectedDayBackgroundColor="#E57373"
         app:compactCalendarMultiEventIndicatorColor="#fff"
@@ -98,14 +98,24 @@
         android:textSize="18sp" />
 
     <ListView
+
         android:id="@+id/bookings_listview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/compactcalendar_view"
-        android:focusableInTouchMode="true"
-        android:background="@color/white_20_transparent">
+        android:focusableInTouchMode="true">
+
+
+        <!--android:background="@color/white_20_transparent"-->
 
     </ListView>
+
+    <!--<ListView-->
+        <!--android:id="@+id/empty_listview"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:text="HELLOHELLOHELLO"/>-->
+
 
 
 </RelativeLayout>
