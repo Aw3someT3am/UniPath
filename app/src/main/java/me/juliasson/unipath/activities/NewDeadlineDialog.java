@@ -133,6 +133,7 @@ public class NewDeadlineDialog extends AppCompatActivity {
                     deadline.setDescription(etDescription.getText().toString());
                     deadline.setDeadlineDate(assignedDate);
                     deadline.setIsFinancial(isFinancial);
+                    deadline.setIsCustom(true);
                     UserDeadlineRelation relation = new UserDeadlineRelation();
                     relation.setCompleted(false);
                     relation.setUser(ParseUser.getCurrentUser());
