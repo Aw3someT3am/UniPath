@@ -10,6 +10,7 @@ public class Deadline extends ParseObject {
     public final static String KEY_DESCRIPTION = "description";
     public final static String KEY_DEADLINE_DATE = "deadlineDate";
     public final static String KEY_FINANCIAL = "isFinancial";
+    public final static String KEY_CUSTOM = "isCustom";
 
     public String getDescription() {
         return getString(KEY_DESCRIPTION);
@@ -22,6 +23,8 @@ public class Deadline extends ParseObject {
     public boolean getIsFinancial() {
         return getBoolean(KEY_FINANCIAL);
     }
+
+
 
     public void setDescription(String description) {
         put(KEY_DESCRIPTION, description);
