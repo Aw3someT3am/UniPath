@@ -24,7 +24,9 @@ public class Deadline extends ParseObject {
         return getBoolean(KEY_FINANCIAL);
     }
 
-
+    public boolean getIsCustom() {
+        return getBoolean(KEY_CUSTOM);
+    }
 
     public void setDescription(String description) {
         put(KEY_DESCRIPTION, description);
@@ -36,5 +38,9 @@ public class Deadline extends ParseObject {
 
     public void setIsFinancial(boolean isFinancial) {
         put(KEY_FINANCIAL, isFinancial);
+    }
+
+    public void setIsCustom(boolean isCustom) {
+        put(KEY_CUSTOM, isCustom);
     }
 }

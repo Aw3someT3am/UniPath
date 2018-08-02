@@ -4,11 +4,11 @@ let admin = require('firebase-admin');
 
 admin.initializeApp(functions.config().firebase);
 
-exports.sendNotification = functions.database.ref('/users').onWrite(event => {
+exports.sendNotification = functions.database.ref('/users/{userId}').onWrite(event => {
 
-	// ///get the userId of the person receiving the notification because we need to get their token
-	// const receiverId = event.params.userId;
-	// console.log("receiverId: ", receiverId);
+	///get the userId of the person receiving the notification because we need to get their token
+	const receiverId = event.params.userId;
+	console.log("receiverId: ", receiverId);
   // const receiverId = event.data.child('user_id').val();
 	// console.log("receiverId: ", receiverId);
   //
@@ -31,10 +31,10 @@ exports.sendNotification = functions.database.ref('/users').onWrite(event => {
 	// 	const senderName = snap.child("name").val();
 	// 	console.log("senderName: ", senderName);
   //
-	// 	///get the token of the user receiving the message
-	// 	return admin.database().ref("/users/" + receiverId).once('value').then(snap => {
-	// 		const token = snap.child("messaging_token").val();
-	// 		console.log("token: ", token);
+		///get the token of the user receiving the message
+		return admin.database().ref("/users/" + receiverId).once('value').then(snap => {
+			const token = snap.child("messaging_token").val();
+			console.log("token: ", token);
   //
 	// 		///we have everything we need
 	// 		///Build the message payload and send the message
@@ -79,7 +79,7 @@ const payload = {
   // .catch((error) => {
   //   console.log('Error sending message:', error);
   // });
-  return admin.messaging().sendToDevice(registrationToken, payload);
+  return admin.messaging().sendToDevice(token, payload);
 });
 
 // // Create and Deploy Your First Cloud Functions

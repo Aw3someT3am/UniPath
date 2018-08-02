@@ -90,6 +90,9 @@ public class DDCollegeListAdapter extends RecyclerView.Adapter<DDCollegeListAdap
                 try {
                     mCollegeDeadlines.remove(relation);
                     notifyItemRemoved(position);
+                    if (relation.getDeadline().getIsCustom()) {
+                        relation.getDeadline().delete();
+                    }
                     relation.delete();
                     relation.saveInBackground(new SaveCallback() {
                         @Override

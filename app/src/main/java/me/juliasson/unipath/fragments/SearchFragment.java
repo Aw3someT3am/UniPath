@@ -18,7 +18,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
-import android.widget.Toast;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -145,7 +144,6 @@ public class SearchFragment extends Fragment implements SearchInterface {
 
     private String temp = "";
     private void search(SearchView searchView) {
-        Toast.makeText(getContext(), "here it is:"+ temp, Toast.LENGTH_LONG).show();
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
