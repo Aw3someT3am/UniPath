@@ -98,7 +98,7 @@ public class CalendarFragment extends Fragment {
                 View view =super.getView(position, convertView, parent);
                 TextView textView=(TextView) view.findViewById(android.R.id.text1);
                 textView.setTextColor(Color.WHITE);
-                textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18f);
+                textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16f);
                 return view;
             }
         };
@@ -111,10 +111,10 @@ public class CalendarFragment extends Fragment {
         // below allows you to configure colors for the current day the user has selected
         // compactCalendarView.setCurrentSelectedDayBackgroundColor(getResources().getColor(R.color.dark_red));
         compactCalendarView.setUseThreeLetterAbbreviation(false);
-        compactCalendarView.setFirstDayOfWeek(Calendar.MONDAY);
+        compactCalendarView.setFirstDayOfWeek(Calendar.SUNDAY);
         compactCalendarView.setIsRtl(false);
         compactCalendarView.displayOtherMonthDays(false);
-        //compactCalendarView.setIsRtl(true);
+        compactCalendarView.shouldSelectFirstDayOfMonthOnScroll(false);
         loadEvents();
         loadEventsForYear(Calendar.getInstance().get(Calendar.YEAR));
         compactCalendarView.invalidate();
