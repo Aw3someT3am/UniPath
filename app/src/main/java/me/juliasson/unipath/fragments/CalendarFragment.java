@@ -172,6 +172,8 @@ public class CalendarFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Date firstDayOfMonth = currentCalender.getTime();
+
+                // Toast.makeText(mContext, firstDayOfMonth.toString(), Toast.LENGTH_SHORT).show();
                 Date currentDate = new Date();
 //                currentCalender.setTime(currentDate);
 
@@ -232,10 +234,10 @@ public class CalendarFragment extends Fragment {
 
     private void addEvents(int month, int year) {
         currentCalender.setTime(new Date());
-        currentCalender.set(Calendar.DAY_OF_MONTH, 1);
+//        currentCalender.set(Calendar.DAY_OF_MONTH, 1);
         Date firstDayOfMonth = currentCalender.getTime();
         for (int i = 0; i < 6; i++) {
-            currentCalender.setTime(firstDayOfMonth);
+//            currentCalender.setTime(firstDayOfMonth);
             if (month > -1) {
                 currentCalender.set(Calendar.MONTH, month);
             }
@@ -280,6 +282,8 @@ public class CalendarFragment extends Fragment {
         udQuery.findInBackground(new FindCallback<UserDeadlineRelation>() {
             @Override
             public void done(List<UserDeadlineRelation> objects, ParseException e) {
+
+                Log.d("I'm in here", "asdkfjals");
                 if (e == null) {
                     for (int i = 0; i < objects.size(); i++) {
                         // Access each deadline associated with current user
