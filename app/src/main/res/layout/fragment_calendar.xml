@@ -49,7 +49,7 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_marginStart="91dp"
-        android:layout_marginTop="33dp"
+        android:layout_marginTop="28dp"
         android:clickable="true"
         android:tint="@color/progress_green"
         app:srcCompat="@drawable/ic_cached_black_24dp" />
@@ -62,8 +62,8 @@
         android:layout_alignBottom="@+id/compactcalendar_view"
         android:layout_alignParentEnd="true"
         android:background="@drawable/calendarbuttonstyle"
-        android:text="Next deadline"
-        android:fontFamily="Open Sans"
+        android:text="Next &#10;deadline"
+        android:fontFamily="@font/lato"
         android:textAllCaps="false"
         android:textColor="#FFFFFF"
         android:drawableRight="@drawable/next"
@@ -73,12 +73,12 @@
         android:id="@+id/btnPreviousDeadine"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="Open Sans"
+        android:fontFamily="@font/lato"
         android:layout_alignBottom="@+id/compactcalendar_view"
         android:layout_alignParentStart="true"
         android:background="@drawable/calendarbuttonstyle"
         android:shadowRadius="5"
-        android:text="Previous deadline"
+        android:text="Previous &#10;deadline"
         android:drawableLeft="@drawable/previous"
         android:textAllCaps="false"
         android:textColor="#FFFFFF"
@@ -86,7 +86,7 @@
 
     <Button
         android:id="@+id/btnToday"
-        android:fontFamily="Open Sans"
+        android:fontFamily="@font/lato"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/compactcalendar_view"
@@ -101,15 +101,25 @@
         android:textColor="#FFFFFF"
         android:textSize="16sp" />
 
-    <ListView
-
-        android:id="@+id/bookings_listview"
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/compactcalendar_view"
-        android:focusableInTouchMode="true">
+        android:scrollbars="vertical"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/compactcalendar_view">
 
-    </ListView>
+        <ListView
+
+            android:id="@+id/bookings_listview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/compactcalendar_view"
+            android:focusableInTouchMode="true"
+            android:nestedScrollingEnabled="true">
+
+        </ListView>
+
+    </android.support.v4.widget.NestedScrollView>
 
     <!--<ListView-->
         <!--android:id="@+id/empty_listview"-->

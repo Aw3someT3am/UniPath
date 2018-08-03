@@ -84,7 +84,7 @@ public class CalendarFragment extends Fragment {
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup parent, Bundle savedInstanceState) {
         ((AppCompatActivity) getActivity()).getSupportActionBar().show();
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Calendar");
+//        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Calendar");
         // Defines the xml file for the fragment
         View view = inflater.inflate(R.layout.fragment_calendar, parent, false);
         setHasOptionsMenu(true);
@@ -150,11 +150,12 @@ public class CalendarFragment extends Fragment {
             public void onDayClick(Date dateClicked) {
                 selectDay(dateClicked);
                 currentCalendarDate = dateClicked;
+                calendarAdapter.notifyDataSetChanged();
             }
             @Override
             public void onMonthScroll(Date firstDayOfNewMonth) {
                 monthYearTv.setText(dateFormatForMonth.format(firstDayOfNewMonth));
-                currentCalendarDate = firstDayOfNewMonth;
+//                currentCalendarDate = firstDayOfNewMonth;
             }
 
         });
@@ -189,7 +190,15 @@ public class CalendarFragment extends Fragment {
             public void onClick(View view) {
 
                 // get the list of deadlines, compare each deadline date to today's date
-                Date nextClosestDeadline = mDataList.get(0).getDeadline().getDeadlineDate();
+                Date nextClosestDeadline = Calendar.getInstance().getTime();
+                nextClosestDeadline.setYear(nextClosestDeadline.getYear() + 1);
+
+//                Date nextClosestDeadline =  mDataList.get(0).getDeadline().getDeadlineDate();
+
+//                int counter = 0;
+//                while (nextClosestDeadline == currentCalendarDate) {
+//                    nextClosestDeadline = mDataList.get(counter + 1).getDeadline().getDeadlineDate();
+//                }
 
                 // Get the next closest deadline
                 for (int i = 0; i < mDataList.size(); i ++) {
@@ -210,7 +219,6 @@ public class CalendarFragment extends Fragment {
                 }
                 compactCalendarView.setCurrentDate(nextClosestDeadline);
                 selectDay(nextClosestDeadline);
-
             }
         });
 
