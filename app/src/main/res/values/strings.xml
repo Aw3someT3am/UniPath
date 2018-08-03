@@ -24,7 +24,6 @@
     <string name="deadline_description">Deadline Description</string>
     <string name="msg_token_fmt">Token</string>
 
-
     <string name="google_maps_api_key">AIzaSyCZ3E-xEQqcWccJqAQaAR2zo_4DZshOCT0</string>
 
     <!-- Strings related to login -->
@@ -44,8 +43,6 @@
     <string name="save">Save</string>
     <string name="change_password">Change Password</string>
 
-
-
     <!-- FCM Related Strings -->
     <string name="default_notification_channel_id" translatable="false">cme.juliasson.unipath.default_notification_channel_id</string>
     <string name="data_type">data_type</string>
@@ -60,7 +57,6 @@
     <!-- Dialog Names -->
     <string name="dialog_message">dialog_message</string>
 
-
     <!-- Firebase Database Nodes -->
     <string name="dbnode_users">users</string>
     <string name="dbnode_messages">messages</string>
@@ -72,4 +68,107 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- Spinner options for Search Filtering -->
+    <string-array name="size_options" >
+        <item>Any</item>
+        <item>Small (&lt;5k students)</item>
+        <item>Medium (5k-15k students)</item>
+        <item>Large (&gt;15k students)</item>
+    </string-array>
+
+    <string-array name="cost_options">
+        <item>Any</item>
+        <item>&lt;$20k</item>
+        <item>$20k-$40k</item>
+        <item>&gt;$40k</item>
+    </string-array>
+
+    <string-array name="acceptance_options">
+        <item>Any</item>
+        <item>%5</item>
+        <item>%10</item>
+        <item>%15</item>
+        <item>%20</item>
+        <item>%25</item>
+        <item>%30</item>
+        <item>%35</item>
+        <item>%40</item>
+        <item>%45</item>
+        <item>%50</item>
+        <item>%55</item>
+        <item>%60</item>
+        <item>%65</item>
+        <item>%70</item>
+        <item>%75</item>
+        <item>%80</item>
+        <item>%85</item>
+        <item>%90</item>
+        <item>%95</item>
+    </string-array>
+
+    <string-array name="state_options">
+        <item>Any</item>
+        <item>Outside US</item>
+
+        <item>AL</item>
+        <item>AK</item>
+        <item>AZ</item>
+        <item>AR</item>
+        <item>CA</item>
+
+        <item>CO</item>
+        <item>CT</item>
+        <item>DE</item>
+        <item>FL</item>
+        <item>GA</item>
+
+        <item>HI</item>
+        <item>ID</item>
+        <item>IL</item>
+        <item>IN</item>
+        <item>IA</item>
+
+        <item>KS</item>
+        <item>KY</item>
+        <item>LA</item>
+        <item>ME</item>
+        <item>MD</item>
+
+        <item>MA</item>
+        <item>MI</item>
+        <item>MN</item>
+        <item>MS</item>
+        <item>MO</item>
+
+        <item>MT</item>
+        <item>NE</item>
+        <item>NV</item>
+        <item>NH</item>
+        <item>NJ</item>
+
+        <item>NM</item>
+        <item>NY</item>
+        <item>NC</item>
+        <item>ND</item>
+        <item>OH</item>
+
+        <item>OK</item>
+        <item>OR</item>
+        <item>PA</item>
+        <item>RI</item>
+        <item>SC</item>
+
+        <item>SD</item>
+        <item>TN</item>
+        <item>TX</item>
+        <item>UT</item>
+        <item>VT</item>
+
+        <item>VA</item>
+        <item>WA</item>
+        <item>WV</item>
+        <item>WI</item>
+        <item>WY</item>
+    </string-array>
 </resources>
