@@ -3,9 +3,11 @@ package me.juliasson.unipath.fragments;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.PointF;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -61,7 +63,16 @@ public class CalendarFragment extends Fragment {
     private Button btnPrevious;
     private Button btnNext;
     private Context mContext;
+    private ArrayAdapter calendarAdapter;
 
+    private CompactCalendarView.CompactCalendarViewListener listener;
+    private PointF accumulatedScrollOffset = new PointF();
+    private int monthsScrolledSoFar = 0;
+
+    private Date currentCalendarDate;
+
+    // A list of strings of format "description, college" to display for each specific date when clicked
+    final List<String> mutableBookings = new ArrayList<>();
 
     ViewPager pager;
     TimelineActivity mTimelineActivity;
@@ -71,7 +82,7 @@ public class CalendarFragment extends Fragment {
     private static final String KEY_USER = "user";
 
     @Override
-    public View onCreateView(LayoutInflater inflater, final ViewGroup parent, Bundle savedInstanceState) {
+    public View onCreateView(final LayoutInflater inflater, final ViewGroup parent, Bundle savedInstanceState) {
         ((AppCompatActivity) getActivity()).getSupportActionBar().show();
         // Defines the xml file for the fragment
         View view = inflater.inflate(R.layout.fragment_calendar, parent, false);
@@ -82,28 +93,28 @@ public class CalendarFragment extends Fragment {
         pager = (ViewPager) parent;
         mTimelineActivity=(TimelineActivity) getActivity();
 
-        // A list of strings of format "description, college" to display for each specific date when clicked
-        final List<String> mutableBookings = new ArrayList<>();
-
         //Title textview shows in form "Mmm YYYY"
         monthYearTv = view.findViewById(R.id.monthYearBtn);
 
+        currentCalendarDate = Calendar.getInstance().getTime();
+
         // Listview of details for selected date in calendar
         final ListView bookingsListView = view.findViewById(R.id.bookings_listview);
+//        bookingsListView.setEmptyView(view.findViewById(R.id.empty_listview));
 
         // This adapter will feed information into the listview depending on selected date
-        final ArrayAdapter adapter = new ArrayAdapter(getContext(), android.R.layout.simple_list_item_1, mutableBookings){
+        calendarAdapter = new ArrayAdapter(getContext(), android.R.layout.simple_list_item_1, mutableBookings){
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
                 View view =super.getView(position, convertView, parent);
                 TextView textView=(TextView) view.findViewById(android.R.id.text1);
                 textView.setTextColor(Color.WHITE);
-                textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18f);
+                textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16f);
                 return view;
             }
         };
 
-        bookingsListView.setAdapter(adapter);
+        bookingsListView.setAdapter(calendarAdapter);
         compactCalendarView = view.findViewById(R.id.compactcalendar_view);
 
         // below allows you to configure color for the current day in the month
@@ -111,10 +122,10 @@ public class CalendarFragment extends Fragment {
         // below allows you to configure colors for the current day the user has selected
         // compactCalendarView.setCurrentSelectedDayBackgroundColor(getResources().getColor(R.color.dark_red));
         compactCalendarView.setUseThreeLetterAbbreviation(false);
-        compactCalendarView.setFirstDayOfWeek(Calendar.MONDAY);
+        compactCalendarView.setFirstDayOfWeek(Calendar.SUNDAY);
         compactCalendarView.setIsRtl(false);
         compactCalendarView.displayOtherMonthDays(false);
-        //compactCalendarView.setIsRtl(true);
+        compactCalendarView.shouldSelectFirstDayOfMonthOnScroll(false);
         loadEvents();
         loadEventsForYear(Calendar.getInstance().get(Calendar.YEAR));
         compactCalendarView.invalidate();
@@ -136,24 +147,15 @@ public class CalendarFragment extends Fragment {
         compactCalendarView.setListener(new CompactCalendarView.CompactCalendarViewListener() {
             @Override
             public void onDayClick(Date dateClicked) {
-                monthYearTv.setText(dateFormatForMonth.format(dateClicked));
-                List<Event> bookingsFromMap = compactCalendarView.getEvents(dateClicked);
-                Log.d(TAG, "inside onclick " + dateFormatForDisplaying.format(dateClicked));
-                if (bookingsFromMap != null) {
-                    Log.d(TAG, bookingsFromMap.toString());
-                    mutableBookings.clear();
-                    for (Event booking : bookingsFromMap) {
-                        // Query through Parse to find additional info for each event for given date
-                        booking.getTimeInMillis();
-                        mutableBookings.add((String) booking.getData());
-                    }
-                    adapter.notifyDataSetChanged();
-                }
+                selectDay(dateClicked);
+                currentCalendarDate = dateClicked;
             }
             @Override
             public void onMonthScroll(Date firstDayOfNewMonth) {
                 monthYearTv.setText(dateFormatForMonth.format(firstDayOfNewMonth));
+                currentCalendarDate = firstDayOfNewMonth;
             }
+
         });
 
         refreshBtn = view.findViewById(R.id.refreshBtn);
@@ -171,19 +173,76 @@ public class CalendarFragment extends Fragment {
         btnToday.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Date firstDayOfMonth = currentCalender.getTime();
-                Date currentDate = new Date();
-//                currentCalender.setTime(currentDate);
 
-//                compactCalendarView.scrollBy();
+                FragmentTransaction ft = getFragmentManager().beginTransaction();
+                ft.detach(CalendarFragment.this).attach(CalendarFragment.this).commit();
+                selectDay(Calendar.getInstance().getTime());
+            }
+        });
 
-//                compactCalendarView.set(Calendar.MONTH, Calendar.getInstance().get(Calendar.MONTH));
 
-//                compactCalendarView.getFirstDayOfCurrentMonth();
-//
-//
-//                compactCalendarView.setCurrentDate(firstDayOfMonth);
-//                compactCalendarView.scrollBy();
+        btnNext = view.findViewById(R.id.btnNextDeadline);
+        btnNext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                // get the list of deadlines, compare each deadline date to today's date
+                Date nextClosestDeadline = mDataList.get(0).getDeadline().getDeadlineDate();
+
+                // Get the next closest deadline
+                for (int i = 0; i < mDataList.size(); i ++) {
+                    Date date = mDataList.get(i).getDeadline().getDeadlineDate();
+
+                    if (date.after(currentCalendarDate) && date.before(nextClosestDeadline)) {
+                        nextClosestDeadline = date;
+                    }
+                }
+
+                int nextMonth = nextClosestDeadline.getMonth();
+                int currentMonth = Calendar.getInstance().getTime().getMonth();
+
+                int difference = nextMonth - currentMonth;
+
+                for (int j = 0; j < difference; j ++) {
+                    compactCalendarView.scrollRight();
+                }
+                compactCalendarView.setCurrentDate(nextClosestDeadline);
+                selectDay(nextClosestDeadline);
+
+            }
+        });
+
+
+        btnPrevious = view.findViewById(R.id.btnPreviousDeadine);
+        btnPrevious.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // get the list of deadlines, compare each deadline date to today's date
+                Date nextClosestDeadline = Calendar.getInstance().getTime();
+
+                // Get the next closest deadline
+                for (int i = 0; i < mDataList.size(); i ++) {
+                    Date date = mDataList.get(i).getDeadline().getDeadlineDate();
+
+                    if (date.before(currentCalendarDate) && date.after(nextClosestDeadline)) {
+                        nextClosestDeadline = date;
+                    }
+                }
+
+
+                int yearDifference = currentCalendarDate.getYear() - nextClosestDeadline.getYear() ;
+                int difference = yearDifference * 12 + currentCalendarDate.getMonth() - nextClosestDeadline.getMonth();
+
+//                int previousMonth = nextClosestDeadline.getMonth();
+//                int currentMonth = Calendar.getInstance().getTime().getMonth();
+
+               //  int difference = currentMonth - previousMonth;
+
+                for (int j = 0; j < difference; j ++) {
+                    compactCalendarView.scrollLeft();
+                }
+                compactCalendarView.setCurrentDate(nextClosestDeadline);
+                selectDay(nextClosestDeadline);
             }
         });
 
@@ -209,6 +268,23 @@ public class CalendarFragment extends Fragment {
         addEvents(-1, -1);
         addEvents(Calendar.DECEMBER, -1);
         addEvents(Calendar.AUGUST, -1);
+    }
+
+    public void selectDay(Date dateClicked) {
+        currentCalendarDate = dateClicked;
+        monthYearTv.setText(dateFormatForMonth.format(dateClicked));
+        List<Event> bookingsFromMap = compactCalendarView.getEvents(dateClicked);
+        Log.d(TAG, "inside onclick " + dateFormatForDisplaying.format(dateClicked));
+        if (bookingsFromMap != null) {
+            Log.d(TAG, bookingsFromMap.toString());
+            mutableBookings.clear();
+            for (Event booking : bookingsFromMap) {
+                // Query through Parse to find additional info for each event for given date
+                booking.getTimeInMillis();
+                mutableBookings.add((String) booking.getData());
+            }
+            calendarAdapter.notifyDataSetChanged();
+        }
     }
 
     private void loadEventsForYear(int year) {
@@ -280,6 +356,8 @@ public class CalendarFragment extends Fragment {
         udQuery.findInBackground(new FindCallback<UserDeadlineRelation>() {
             @Override
             public void done(List<UserDeadlineRelation> objects, ParseException e) {
+
+                Log.d("I'm in here", "asdkfjals");
                 if (e == null) {
                     for (int i = 0; i < objects.size(); i++) {
                         // Access each deadline associated with current user

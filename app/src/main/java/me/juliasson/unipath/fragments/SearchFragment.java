@@ -3,6 +3,7 @@ package me.juliasson.unipath.fragments;
 import android.app.Activity;
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
@@ -32,13 +33,19 @@ import java.util.List;
 
 import me.juliasson.unipath.R;
 import me.juliasson.unipath.SearchInterface;
+import me.juliasson.unipath.activities.SearchFilteringDialog;
 import me.juliasson.unipath.adapters.CollegeAdapter;
 import me.juliasson.unipath.adapters.MyExpandableListAdapter;
 import me.juliasson.unipath.model.College;
 import me.juliasson.unipath.rows.ParentRow;
+import me.juliasson.unipath.utils.Constants;
+
+import static android.app.Activity.RESULT_OK;
 
 public class SearchFragment extends Fragment implements SearchInterface {
 //TODO: Display "No colleges found" for searches with no results
+
+    private Context mContext;
     private SearchManager searchManager;
     private android.widget.SearchView searchView;
     private MyExpandableListAdapter listAdapter;
@@ -57,11 +64,20 @@ public class SearchFragment extends Fragment implements SearchInterface {
     private ArrayList<College> refreshList;
     private CollegeAdapter collegeAdapter;
 
+    private int sizeIndex = -1;
+    private int inStateCostIndex = -1;
+    private int outStateCostIndex = -1;
+    private int acceptanceRateIndex = -1;
+    private String stateValue;
 
+    private final String DEFAULT_MAX_VAL = "2147483647";
+    private final String DEFAULT_MIN_VAL = "0";
+    private static final int REQUEST_FILTER_CODE = 1034;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         // Defines the xml file for the fragment
+        mContext = parent.getContext();
         View v = inflater.inflate(R.layout.fragment_search, parent, false);
         //initFCM();
         return v;
@@ -71,6 +87,7 @@ public class SearchFragment extends Fragment implements SearchInterface {
     // Any view setup should occur here.  E.g., view lookups and attaching view listeners.
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
+
         activity = getActivity();
         context = view.getContext();
         searchManager = (SearchManager) context.getSystemService(Context.SEARCH_SERVICE);
@@ -108,11 +125,22 @@ public class SearchFragment extends Fragment implements SearchInterface {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_search, menu);
-        MenuItem search = menu.findItem(R.id.search);
-        SearchView searchView = (SearchView) MenuItemCompat.getActionView(search);
-        search(searchView);
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.search:
+                SearchView searchView = (SearchView) MenuItemCompat.getActionView(item);
+                search(searchView);
+                break;
+            case R.id.search_filter:
+                Intent intent = new Intent(mContext, SearchFilteringDialog.class);
+                startActivityForResult(intent, REQUEST_FILTER_CODE);
+                break;
+        }
+        return true;
+    }
 
     private void initViews(){
         mRecyclerView = (RecyclerView) activity.findViewById(R.id.card_recycler_view);
@@ -198,39 +226,112 @@ public class SearchFragment extends Fragment implements SearchInterface {
 //            Toast.makeText(getContext(), "Notempty"Notempty, Toast.LENGTH_LONG).show();
         }
     }
+    
 
-    private void initFCM(){
-        String token = FirebaseInstanceId.getInstance().getToken();
-        Log.d("SearchAuth", "initFCM: token: " + token);
-        sendRegistrationToServer(token);
+    //----------------------------Filter Dialog Responses-------------------------------
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_FILTER_CODE && resultCode == RESULT_OK) {
+            //assign filter values
+            sizeIndex = data.getIntExtra(Constants.SIZE, 0);
+            String sizeValue = assignSizeValue(sizeIndex);
+
+            inStateCostIndex = data.getIntExtra(Constants.IN_STATE_COST, 0);
+            String isCostValue = assignCostValue(inStateCostIndex);
+
+            outStateCostIndex = data.getIntExtra(Constants.OUT_STATE_COST, 0);
+            String osCostValue = assignCostValue(outStateCostIndex);
+
+            acceptanceRateIndex = data.getIntExtra(Constants.ACCEPTANCE_RATE, 0);
+            String acceptanceRateValue = assignAcceptanceRateValue(acceptanceRateIndex);
+
+            stateValue = data.getStringExtra(Constants.STATE);
+
+            //use new values to filter college list
+            if (collegeAdapter != null) {
+                /*
+                CORRECT FORMAT TO PASS IN DATA FOR FILTERING:
+                "lower_bound_pop upper_bound_pop, lower_bound_iscost upper_bound_iscost, lower_bound_oscost upper_bound_oscost, acceptance_rate, address"
+                 */
+                String filter_string = String.format("%s, %s, %s, %s, %s", sizeValue, isCostValue, osCostValue, acceptanceRateValue, stateValue);
+                collegeAdapter.getSelectionFilter().filter(filter_string);
+            }
+        }
     }
 
-    /**
-     * Persist token to third-party servers.
-     *
-     * Modify this method to associate the user's FCM InstanceID token with any server-side account
-     * maintained by your application.
-     *
-     * @param token The new token.
-     */
-    private void sendRegistrationToServer(String token) {
-        Log.d("SearchAuth", "sendRegistrationToServer: sending token to server: " + token);
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
-        String uid = "";
-        if (FirebaseAuth.getInstance().getCurrentUser() == null) {
+    public String assignSizeValue(int sizeIndex) {
+        switch (sizeIndex) {
+            case 0:     //Any
+                return String.format("%s %s", DEFAULT_MIN_VAL, DEFAULT_MAX_VAL);
+            case 1:     //Small
+                return String.format("%s %s", DEFAULT_MIN_VAL, "5000");
+            case 2:     //Medium
+                return String.format("%s %s", "5000", "15000");
+            case 3:     //Large
+                return String.format("%s %s", "15000", DEFAULT_MAX_VAL);
         }
-        else{
-            uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        return null;
+    }
+
+    public String assignCostValue(int costIndex) {
+        switch (costIndex) {
+            case 0:     //Any
+                return String.format("%s %s", DEFAULT_MIN_VAL, DEFAULT_MAX_VAL);
+            case 1:     //<$20k
+                return String.format("%s %s", DEFAULT_MIN_VAL, "20000");
+            case 2:     //$20k-$40k
+                return String.format("%s %s", "20000", "40000");
+            case 3:     //>$40k
+                return String.format("%s %s", "40000", DEFAULT_MAX_VAL);
         }
-        //uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        reference.child(getString(R.string.dbnode_users))
-                .child(uid)
-                .child(getString(R.string.field_messaging_token))
-                .setValue(token);
-        reference.child(getString(R.string.dbnode_users))
-                .child(uid)
-                .child("username")
-                .setValue(ParseUser.getCurrentUser().getUsername());
+        return null;
+    }
+
+    public String assignAcceptanceRateValue(int acceptanceRateIndex) {
+        switch(acceptanceRateIndex) {
+            case 0:
+                return DEFAULT_MIN_VAL;
+            case 1:
+                return "5";
+            case 2:
+                return "10";
+            case 3:
+                return "15";
+            case 4:
+                return "20";
+            case 5:
+                return "25";
+            case 6:
+                return "30";
+            case 7:
+                return "35";
+            case 8:
+                return "40";
+            case 9:
+                return "45";
+            case 10:
+                return "50";
+            case 11:
+                return "55";
+            case 12:
+                return "60";
+            case 13:
+                return "65";
+            case 14:
+                return "70";
+            case 15:
+                return "75";
+            case 16:
+                return "80";
+            case 17:
+                return "85";
+            case 18:
+                return "90";
+            case 19:
+                return "95";
+        }
+        return null;
     }
 }

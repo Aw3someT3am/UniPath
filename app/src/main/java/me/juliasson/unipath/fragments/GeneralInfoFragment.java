@@ -63,6 +63,6 @@ public class GeneralInfoFragment extends Fragment{
         tvStudentPopulation.setText(String.format("%s students", Integer.toString(college.getStudentPopulation())));
         tvInStateCost.setText(String.format("$%s", Integer.toString(college.getInStateCost())));
         tvOutOfSateCost.setText(String.format("$%s", Integer.toString(college.getOutOfStateCost())));
-        tvAcceptanceRate.setText(String.format("%s%%", Double.toString(college.getAccepatnceRate())));
+        tvAcceptanceRate.setText(String.format("%s%%", Double.toString(college.getAcceptanceRate())));
     }
 }
