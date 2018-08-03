@@ -18,13 +18,11 @@ The purpose of this app is to assist students and parents with finding and apply
   - [ ] default settings
 - Search/Filtering:
   - [X] name of college
-  - [ ] cost of college
-  - [ ] size of college you're looking for
-  - [ ] location
-  - [ ] acceptance rate
-  - [ ] major
+  - [X] cost of college
+  - [X] size of college you're looking for
+  - [X] location
+  - [X] acceptance rate
   - [ ] average GPA/SAT
-  - [ ] happiness of students
 - [X] Map of saved colleges
 - [ ] notify if finished applications
 
@@ -41,9 +39,9 @@ The purpose of this app is to assist students and parents with finding and apply
 
 ## Goals for this week
 - Search/Filtering:
-  - [ ] Cost, Size (# of students), Acceptance Rate, average GPA/SAT
-  - [ ] Location, looking on a map
-  - [ ] Majors and maybe happiness?
+  - [X] Cost, Size (# of students), Acceptance Rate
+  - [ ] GPA/SAT
+  - [X] Location, looking on a map
 - [ ] Get notifications done
 - Deadlines:
   - [X] Implement financial aid deadlines? (give special icons $)

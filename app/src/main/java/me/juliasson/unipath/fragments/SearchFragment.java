@@ -20,8 +20,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.parse.FindCallback;
 import com.parse.ParseException;
+import com.parse.ParseUser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,6 +70,8 @@ public class SearchFragment extends Fragment implements SearchInterface {
     private int acceptanceRateIndex = -1;
     private String stateValue;
 
+    private final String DEFAULT_MAX_VAL = "2147483647";
+    private final String DEFAULT_MIN_VAL = "0";
     private static final int REQUEST_FILTER_CODE = 1034;
 
     @Override
@@ -72,6 +79,7 @@ public class SearchFragment extends Fragment implements SearchInterface {
         // Defines the xml file for the fragment
         mContext = parent.getContext();
         View v = inflater.inflate(R.layout.fragment_search, parent, false);
+        //initFCM();
         return v;
     }
 
@@ -218,6 +226,7 @@ public class SearchFragment extends Fragment implements SearchInterface {
 //            Toast.makeText(getContext(), "Notempty"Notempty, Toast.LENGTH_LONG).show();
         }
     }
+    
 
     //----------------------------Filter Dialog Responses-------------------------------
 
@@ -226,13 +235,18 @@ public class SearchFragment extends Fragment implements SearchInterface {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_FILTER_CODE && resultCode == RESULT_OK) {
             //assign filter values
-            //TODO: for each category, check index and change value accordingly!
             sizeIndex = data.getIntExtra(Constants.SIZE, 0);
-            int size_low_bound;
-            int size_up_bound;
+            String sizeValue = assignSizeValue(sizeIndex);
+
             inStateCostIndex = data.getIntExtra(Constants.IN_STATE_COST, 0);
+            String isCostValue = assignCostValue(inStateCostIndex);
+
             outStateCostIndex = data.getIntExtra(Constants.OUT_STATE_COST, 0);
+            String osCostValue = assignCostValue(outStateCostIndex);
+
             acceptanceRateIndex = data.getIntExtra(Constants.ACCEPTANCE_RATE, 0);
+            String acceptanceRateValue = assignAcceptanceRateValue(acceptanceRateIndex);
+
             stateValue = data.getStringExtra(Constants.STATE);
 
             //use new values to filter college list
@@ -241,11 +255,83 @@ public class SearchFragment extends Fragment implements SearchInterface {
                 CORRECT FORMAT TO PASS IN DATA FOR FILTERING:
                 "lower_bound_pop upper_bound_pop, lower_bound_iscost upper_bound_iscost, lower_bound_oscost upper_bound_oscost, acceptance_rate, address"
                  */
-                //String filter_string = String.format("%s %s, %s %s, %s %s, %s, %s", );
-                //collegeAdapter.getSelectionFilter().filter(filter_string);
+                String filter_string = String.format("%s, %s, %s, %s, %s", sizeValue, isCostValue, osCostValue, acceptanceRateValue, stateValue);
+                collegeAdapter.getSelectionFilter().filter(filter_string);
             }
         }
     }
 
+    public String assignSizeValue(int sizeIndex) {
+        switch (sizeIndex) {
+            case 0:     //Any
+                return String.format("%s %s", DEFAULT_MIN_VAL, DEFAULT_MAX_VAL);
+            case 1:     //Small
+                return String.format("%s %s", DEFAULT_MIN_VAL, "5000");
+            case 2:     //Medium
+                return String.format("%s %s", "5000", "15000");
+            case 3:     //Large
+                return String.format("%s %s", "15000", DEFAULT_MAX_VAL);
+        }
+        return null;
+    }
 
+    public String assignCostValue(int costIndex) {
+        switch (costIndex) {
+            case 0:     //Any
+                return String.format("%s %s", DEFAULT_MIN_VAL, DEFAULT_MAX_VAL);
+            case 1:     //<$20k
+                return String.format("%s %s", DEFAULT_MIN_VAL, "20000");
+            case 2:     //$20k-$40k
+                return String.format("%s %s", "20000", "40000");
+            case 3:     //>$40k
+                return String.format("%s %s", "40000", DEFAULT_MAX_VAL);
+        }
+        return null;
+    }
+
+    public String assignAcceptanceRateValue(int acceptanceRateIndex) {
+        switch(acceptanceRateIndex) {
+            case 0:
+                return DEFAULT_MIN_VAL;
+            case 1:
+                return "5";
+            case 2:
+                return "10";
+            case 3:
+                return "15";
+            case 4:
+                return "20";
+            case 5:
+                return "25";
+            case 6:
+                return "30";
+            case 7:
+                return "35";
+            case 8:
+                return "40";
+            case 9:
+                return "45";
+            case 10:
+                return "50";
+            case 11:
+                return "55";
+            case 12:
+                return "60";
+            case 13:
+                return "65";
+            case 14:
+                return "70";
+            case 15:
+                return "75";
+            case 16:
+                return "80";
+            case 17:
+                return "85";
+            case 18:
+                return "90";
+            case 19:
+                return "95";
+        }
+        return null;
+    }
 }

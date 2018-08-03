@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.Spinner;
 
 import me.juliasson.unipath.R;
+import me.juliasson.unipath.fragments.SearchFragment;
 import me.juliasson.unipath.utils.Constants;
 import me.juliasson.unipath.utils.GetFilterChoicesInterface;
 
@@ -75,6 +76,12 @@ public class SearchFilteringDialog extends AppCompatActivity implements AdapterV
         bvSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                size = spSize.getSelectedItemPosition();
+                inStateCost = spInStateCost.getSelectedItemPosition();
+                outStateCost = spOutStateCost.getSelectedItemPosition();
+                acceptanceRate = spAcceptanceRate.getSelectedItemPosition();
+                int stateIndex = spState.getSelectedItemPosition();
+                state = spState.getItemAtPosition(stateIndex).toString();
                 getFilters(size, inStateCost, outStateCost, acceptanceRate, state);
             }
         });
@@ -92,16 +99,16 @@ public class SearchFilteringDialog extends AppCompatActivity implements AdapterV
         //you can retrieve item selected using parent.getItemAtPosition(position)
         switch(parent.getId()) {
             case R.id.spCollegeSize:
-                size = position;
+                size = spSize.getSelectedItemPosition();
                 break;
             case R.id.spInStateCost:
-                inStateCost = position;
+                inStateCost = spInStateCost.getSelectedItemPosition();
                 break;
             case R.id.spOutStateCost:
-                outStateCost = position;
+                outStateCost = spOutStateCost.getSelectedItemPosition();
                 break;
             case R.id.spAcceptanceRate:
-                acceptanceRate = position;
+                acceptanceRate = spAcceptanceRate.getSelectedItemPosition();
                 break;
             case R.id.spState:
                 state = parent.getItemAtPosition(position).toString();
@@ -116,13 +123,13 @@ public class SearchFilteringDialog extends AppCompatActivity implements AdapterV
 
     @Override
     public void getFilters(int size, int inStateCost, int outStateCost, int acceptanceRate, String state) {
-        Intent intent = new Intent();
+        Intent intent = new Intent(this, SearchFragment.class);
         intent.putExtra(Constants.SIZE, size);
         intent.putExtra(Constants.IN_STATE_COST, inStateCost);
         intent.putExtra(Constants.OUT_STATE_COST, outStateCost);
         intent.putExtra(Constants.ACCEPTANCE_RATE, acceptanceRate);
         intent.putExtra(Constants.STATE, state);
-        setResult(RESULT_OK);
+        setResult(RESULT_OK, intent);
         finish();
     }
 }

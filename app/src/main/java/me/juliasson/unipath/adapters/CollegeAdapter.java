@@ -253,8 +253,8 @@ public class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.ViewHold
                     if ((population >= filter_pop_low && population <= filter_pop_high) &&
                             (isCost >= filter_isCost_low && isCost <= filter_isCost_high) &&
                             (osCost >= filter_osCost_low && osCost <= filter_osCost_high) &&
-                            acceptanceRate >= filter_acceptanceRate &&
-                            address.toLowerCase().contains(String.format("%s,", filter_address))) {
+                            acceptanceRate >= filter_acceptanceRate) {
+                        if (filter_address.equals("Any") || address.contains(String.format(", %s", filter_address)))
                         filteredList.add(college);
                     }
                     mFilteredList = filteredList;
