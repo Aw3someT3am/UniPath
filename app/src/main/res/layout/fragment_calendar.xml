@@ -62,7 +62,7 @@
         android:layout_alignBottom="@+id/compactcalendar_view"
         android:layout_alignParentEnd="true"
         android:background="@drawable/calendarbuttonstyle"
-        android:text="Next deadline"
+        android:text="Next &#10;deadline"
         android:fontFamily="@font/lato"
         android:textAllCaps="false"
         android:textColor="#FFFFFF"
@@ -78,7 +78,7 @@
         android:layout_alignParentStart="true"
         android:background="@drawable/calendarbuttonstyle"
         android:shadowRadius="5"
-        android:text="Previous deadline"
+        android:text="Previous &#10;deadline"
         android:drawableLeft="@drawable/previous"
         android:textAllCaps="false"
         android:textColor="#FFFFFF"
@@ -101,15 +101,25 @@
         android:textColor="#FFFFFF"
         android:textSize="16sp" />
 
-    <ListView
-
-        android:id="@+id/bookings_listview"
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/compactcalendar_view"
-        android:focusableInTouchMode="true">
+        android:scrollbars="vertical"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/compactcalendar_view">
 
-    </ListView>
+        <ListView
+
+            android:id="@+id/bookings_listview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/compactcalendar_view"
+            android:focusableInTouchMode="true"
+            android:nestedScrollingEnabled="true">
+
+        </ListView>
+
+    </android.support.v4.widget.NestedScrollView>
 
     <!--<ListView-->
         <!--android:id="@+id/empty_listview"-->
