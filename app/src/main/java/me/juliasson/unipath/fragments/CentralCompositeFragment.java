@@ -65,9 +65,9 @@ public class CentralCompositeFragment extends Fragment {
 	private void populateHozizontalPager() {
 		ArrayList<Class<? extends Fragment>> pages = new ArrayList<Class<? extends Fragment>>();
 		pages.add(LinearTimelineFragment.class);
-		pages.add(CalendarFragment.class);
+		pages.add(ProfileFragment.class); //Central fragment
 		pages.add(SearchFragment.class);
-		mCentralPageIndex = pages.indexOf(CalendarFragment.class);
+		mCentralPageIndex = pages.indexOf(ProfileFragment.class);
 		mHorizontalPager.setAdapter(new FragmentsAdapter(getChildFragmentManager(), getActivity(), pages));
 
 

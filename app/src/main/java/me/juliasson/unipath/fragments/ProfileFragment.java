@@ -11,6 +11,7 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -42,6 +43,7 @@ import java.util.List;
 import me.juliasson.unipath.R;
 import me.juliasson.unipath.activities.LoginActivity;
 import me.juliasson.unipath.activities.MapActivity;
+import me.juliasson.unipath.activities.TimelineActivity;
 import me.juliasson.unipath.adapters.CollegeAdapter;
 import me.juliasson.unipath.model.College;
 import me.juliasson.unipath.model.UserCollegeRelation;
@@ -64,6 +66,9 @@ public class ProfileFragment extends Fragment {
     private DiscreteScrollView scrollView;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
+
+    ViewPager pager;
+    TimelineActivity mTimelineActivity;
 
     private CollegeAdapter collegeAdapter;
     private ArrayList<College> colleges;
@@ -91,6 +96,9 @@ public class ProfileFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         // Defines the xml file for the fragment
+        pager = (ViewPager) parent;
+        mTimelineActivity=(TimelineActivity) getActivity();
+
         return inflater.inflate(R.layout.fragment_profile, parent, false);
     }
 

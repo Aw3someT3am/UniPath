@@ -1,14 +1,12 @@
 package me.juliasson.unipath.fragments;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PointF;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.util.TypedValue;
@@ -43,8 +41,6 @@ import java.util.List;
 import java.util.Locale;
 
 import me.juliasson.unipath.R;
-import me.juliasson.unipath.activities.NewDeadlineDialog;
-import me.juliasson.unipath.activities.TimelineActivity;
 import me.juliasson.unipath.model.College;
 import me.juliasson.unipath.model.Deadline;
 import me.juliasson.unipath.model.UserDeadlineRelation;
@@ -74,9 +70,6 @@ public class CalendarFragment extends Fragment {
     // A list of strings of format "description, college" to display for each specific date when clicked
     final List<String> mutableBookings = new ArrayList<>();
 
-    ViewPager pager;
-    TimelineActivity mTimelineActivity;
-
     private List<UserDeadlineRelation> mDataList = new ArrayList<>();
 
     private static final String KEY_USER = "user";
@@ -89,10 +82,7 @@ public class CalendarFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_calendar, parent, false);
         setHasOptionsMenu(true);
 
-        mContext = parent.getContext();
-
-        pager = (ViewPager) parent;
-        mTimelineActivity=(TimelineActivity) getActivity();
+//        mContext = parent.getContext();
 
         //Title textview shows in form "Mmm YYYY"
         monthYearTv = view.findViewById(R.id.monthYearBtn);
@@ -400,8 +390,8 @@ public class CalendarFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.new_deadline:
-                Intent intent = new Intent(mContext, NewDeadlineDialog.class);
-                startActivity(intent);
+//                Intent intent = new Intent(mContext, NewDeadlineDialog.class);
+//                startActivity(intent);
                 break;
         }
         return true;

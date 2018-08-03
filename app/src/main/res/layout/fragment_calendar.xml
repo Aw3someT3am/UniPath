@@ -21,23 +21,24 @@
         android:textSize="18sp" />
 
 
-    <com.github.sundeepk.compactcalendarview.CompactCalendarView
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    <com.github.sundeepk.compactcalendarview.CompactCalendarView xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/compactcalendar_view"
         android:layout_width="fill_parent"
-        android:layout_height="317dp"
+        android:layout_height="270dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_marginTop="74dp"
-        android:fadingEdge="vertical"
+        android:fadingEdge="horizontal"
         android:hapticFeedbackEnabled="true"
+        android:paddingBottom="10dp"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
+        android:paddingTop="10dp"
         app:compactCalendarBackgroundColor="@color/transparent"
         app:compactCalendarCurrentDayBackgroundColor="#B71C1C"
         app:compactCalendarCurrentSelectedDayBackgroundColor="#E57373"
         app:compactCalendarMultiEventIndicatorColor="#fff"
-        app:compactCalendarTargetHeight="250dp"
+        app:compactCalendarTargetHeight="285dp"
         app:compactCalendarTextColor="#fff"
         app:compactCalendarTextSize="16sp" />
 
@@ -50,7 +51,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginStart="91dp"
         android:layout_marginTop="28dp"
-        android:clickable="true"
+        android:focusableInTouchMode="true"
         android:tint="@color/progress_green"
         app:srcCompat="@drawable/ic_cached_black_24dp" />
 
@@ -59,39 +60,43 @@
         android:id="@+id/btnNextDeadline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/compactcalendar_view"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         android:background="@drawable/calendarbuttonstyle"
-        android:text="Next &#10;deadline"
+        android:drawableRight="@drawable/next"
+        android:elevation="9dp"
+        android:focusableInTouchMode="true"
         android:fontFamily="@font/lato"
+        android:text="Next &#10;deadline"
         android:textAllCaps="false"
         android:textColor="#FFFFFF"
-        android:drawableRight="@drawable/next"
         android:textSize="14sp" />
 
     <Button
         android:id="@+id/btnPreviousDeadine"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/lato"
-        android:layout_alignBottom="@+id/compactcalendar_view"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
         android:background="@drawable/calendarbuttonstyle"
+        android:drawableLeft="@drawable/previous"
+        android:focusableInTouchMode="true"
+        android:fontFamily="@font/lato"
         android:shadowRadius="5"
         android:text="Previous &#10;deadline"
-        android:drawableLeft="@drawable/previous"
         android:textAllCaps="false"
         android:textColor="#FFFFFF"
         android:textSize="14sp" />
 
     <Button
         android:id="@+id/btnToday"
-        android:fontFamily="@font/lato"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/compactcalendar_view"
+        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:background="@drawable/todaybuttonstyle"
+        android:focusableInTouchMode="true"
+        android:fontFamily="@font/lato"
         android:shadowColor="#A8A8A8"
         android:shadowDx="0"
         android:shadowDy="0"
@@ -101,25 +106,27 @@
         android:textColor="#FFFFFF"
         android:textSize="16sp" />
 
-    <android.support.v4.widget.NestedScrollView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:scrollbars="vertical"
+    <!--<android.support.v4.widget.NestedScrollView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:scrollbars="vertical"-->
+        <!--android:layout_alignParentStart="true"-->
+        <!--android:layout_below="@+id/compactcalendar_view">-->
+
+    <ListView
+
+        android:id="@+id/bookings_listview"
+        android:layout_width="match_parent"
+        android:layout_height="151dp"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/compactcalendar_view">
+        android:layout_marginBottom="52dp"
+        android:focusableInTouchMode="true"
+        android:nestedScrollingEnabled="true">
 
-        <ListView
+    </ListView>
 
-            android:id="@+id/bookings_listview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/compactcalendar_view"
-            android:focusableInTouchMode="true"
-            android:nestedScrollingEnabled="true">
-
-        </ListView>
-
-    </android.support.v4.widget.NestedScrollView>
+    <!--</android.support.v4.widget.NestedScrollView>-->
 
     <!--<ListView-->
         <!--android:id="@+id/empty_listview"-->
