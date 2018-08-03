@@ -16,7 +16,7 @@ import java.util.ArrayList;
 
 import me.juliasson.unipath.R;
 import me.juliasson.unipath.model.College;
-import me.juliasson.unipath.utils.GetCollegeInterface;
+import me.juliasson.unipath.internal.GetCollegeInterface;
 
 public class NDCollegeListAdapter extends RecyclerView.Adapter<NDCollegeListAdapter.ViewHolder> {
 

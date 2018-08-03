@@ -16,7 +16,7 @@ import android.widget.Spinner;
 import me.juliasson.unipath.R;
 import me.juliasson.unipath.fragments.SearchFragment;
 import me.juliasson.unipath.utils.Constants;
-import me.juliasson.unipath.utils.GetFilterChoicesInterface;
+import me.juliasson.unipath.internal.GetFilterChoicesInterface;
 
 public class SearchFilteringDialog extends AppCompatActivity implements AdapterView.OnItemSelectedListener, GetFilterChoicesInterface {
 

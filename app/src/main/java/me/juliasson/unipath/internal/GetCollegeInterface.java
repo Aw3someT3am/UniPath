@@ -1,4 +1,4 @@
-package me.juliasson.unipath.utils;
+package me.juliasson.unipath.internal;
 
 import me.juliasson.unipath.model.College;
 

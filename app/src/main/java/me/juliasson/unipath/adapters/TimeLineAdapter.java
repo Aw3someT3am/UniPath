@@ -25,23 +25,28 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.juliasson.unipath.R;
 import me.juliasson.unipath.activities.DeadlineDetailsDialog;
+import me.juliasson.unipath.internal.UpdateLinearTimelineInterface;
+import me.juliasson.unipath.internal.UpdateTimelineAdapterInterface;
 import me.juliasson.unipath.model.OrderStatus;
 import me.juliasson.unipath.model.TimeLine;
 import me.juliasson.unipath.model.UserDeadlineRelation;
 import me.juliasson.unipath.utils.DateTimeUtils;
 import me.juliasson.unipath.utils.VectorDrawableUtils;
 
-public class TimeLineAdapter extends RecyclerView.Adapter<TimeLineAdapter.ViewHolder> {
+public class TimeLineAdapter extends RecyclerView.Adapter<TimeLineAdapter.ViewHolder> implements UpdateTimelineAdapterInterface {
 
     private List<TimeLine> mFeedList;
     private Context mContext;
     private LayoutInflater mLayoutInflater;
     private HashMap<TimeLine, ArrayList<UserDeadlineRelation>> numEvents;
     private Date currentDate;
+    private UpdateLinearTimelineInterface ultInterface;
+    private UpdateTimelineAdapterInterface utaInterface;
 
-    public TimeLineAdapter(List<TimeLine> list, HashMap<TimeLine, ArrayList<UserDeadlineRelation>> events) {
-        mFeedList = list;
-        numEvents = events;
+    public TimeLineAdapter(List<TimeLine> list, HashMap<TimeLine, ArrayList<UserDeadlineRelation>> events, UpdateLinearTimelineInterface ultInterface) {
+        this.mFeedList = list;
+        this.numEvents = events;
+        this.ultInterface = ultInterface;
     }
 
     @NonNull
@@ -51,6 +56,7 @@ public class TimeLineAdapter extends RecyclerView.Adapter<TimeLineAdapter.ViewHo
         mLayoutInflater = LayoutInflater.from(mContext);
         View view;
         view = mLayoutInflater.inflate(R.layout.item_timeline, viewGroup, false);
+        utaInterface = this;
         return new ViewHolder(view, viewType);
     }
 
@@ -145,6 +151,7 @@ public class TimeLineAdapter extends RecyclerView.Adapter<TimeLineAdapter.ViewHo
                 TimeLine timeline = mFeedList.get(position);
 
                 Intent intent = new Intent (mContext, DeadlineDetailsDialog.class);
+                DeadlineDetailsDialog.setUtaInterface(utaInterface);
                 intent.putExtra(TimeLine.class.getSimpleName(), Parcels.wrap(timeline));
                 intent.putExtra(HashMap.class.getSimpleName(), Parcels.wrap(numEvents));
                 mContext.startActivity(intent);
@@ -169,4 +176,19 @@ public class TimeLineAdapter extends RecyclerView.Adapter<TimeLineAdapter.ViewHo
         notifyDataSetChanged();
     }
 
+    //-------------------Implementing interface-------------------
+
+    @Override
+    public void updateItemRemoval(boolean status) {
+        if (status) {
+            ultInterface.updateItemRemoval(true);
+        }
+    }
+
+    @Override
+    public void updateItemStatus(boolean status) {
+        if (status) {
+            ultInterface.updateItemComplete(true);
+        }
+    }
 }

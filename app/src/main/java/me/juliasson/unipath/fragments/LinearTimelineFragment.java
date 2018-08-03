@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -31,20 +30,22 @@ import java.util.List;
 import me.juliasson.unipath.R;
 import me.juliasson.unipath.activities.NewDeadlineDialog;
 import me.juliasson.unipath.adapters.TimeLineAdapter;
+import me.juliasson.unipath.internal.UpdateLinearTimelineInterface;
 import me.juliasson.unipath.model.Deadline;
 import me.juliasson.unipath.model.OrderStatus;
 import me.juliasson.unipath.model.TimeLine;
 import me.juliasson.unipath.model.UserDeadlineRelation;
 
-public class LinearTimelineFragment extends Fragment {
+public class LinearTimelineFragment extends Fragment implements UpdateLinearTimelineInterface {
 
-    private SwipeRefreshLayout swipeContainer;
     private RecyclerView mRecyclerView;
     private TimeLineAdapter mTimeLineAdapter;
     private List<TimeLine> mDataList = new ArrayList<>();
     private HashSet<TimeLine> mDataSet = new HashSet<>();
     private HashMap<TimeLine, ArrayList<UserDeadlineRelation>> mRelationsInTimeLine = new HashMap<>();
     private Context mContext;
+
+    private UpdateLinearTimelineInterface ultInterface;
 
     private static final String KEY_USER = "user";
 
@@ -58,27 +59,10 @@ public class LinearTimelineFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
+        ultInterface = this;
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.setHasFixedSize(true);
-
-        //find the swipe container
-        swipeContainer = view.findViewById(R.id.swipeContainer);
-        // Setup refresh listener which triggers new data loading
-        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                // Your code to refresh the list here.
-                // Make sure you call swipeContainer.setRefreshing(false)
-                refresh();
-            }
-        });
-        // Configure the refreshing colors
-        swipeContainer.setColorSchemeResources(
-                android.R.color.holo_blue_bright,
-                android.R.color.holo_green_light,
-                android.R.color.holo_orange_light,
-                android.R.color.holo_red_light);
 
         setDataListItems();
     }
@@ -106,7 +90,7 @@ public class LinearTimelineFragment extends Fragment {
                         addTimeLineToRelationMap(timeline, relation);
                     }
                     mDataList.addAll(mDataSet);
-                    mTimeLineAdapter = new TimeLineAdapter(mDataList, mRelationsInTimeLine);
+                    mTimeLineAdapter = new TimeLineAdapter(mDataList, mRelationsInTimeLine, ultInterface);
                     mRecyclerView.setAdapter(mTimeLineAdapter);
                     sortData();
                 } else {
@@ -140,8 +124,6 @@ public class LinearTimelineFragment extends Fragment {
         mTimeLineAdapter.clear();
         setDataListItems();
         mTimeLineAdapter.addAll(mDataList);
-        // Now we call setRefreshing(false) to signal refresh has finished
-        swipeContainer.setRefreshing(false);
     }
 
     @Override
@@ -158,5 +140,21 @@ public class LinearTimelineFragment extends Fragment {
                 break;
         }
         return true;
+    }
+
+    //---------------------implementing interface-------------------------
+
+    @Override
+    public void updateItemRemoval(boolean remove) {
+        if (remove) {
+            refresh();
+        }
+    }
+
+    @Override
+    public void updateItemComplete(boolean isComplete) {
+        if (isComplete) {
+            refresh();
+        }
     }
 }

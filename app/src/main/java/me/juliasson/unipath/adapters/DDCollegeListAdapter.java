@@ -21,15 +21,22 @@ import com.parse.SaveCallback;
 import java.util.List;
 
 import me.juliasson.unipath.R;
+import me.juliasson.unipath.internal.GetDeadlineDialogStatusInterface;
 import me.juliasson.unipath.model.UserDeadlineRelation;
 
 public class DDCollegeListAdapter extends RecyclerView.Adapter<DDCollegeListAdapter.ViewHolder> {
 
     private List<UserDeadlineRelation> mCollegeDeadlines;
     private Context mContext;
+    private GetDeadlineDialogStatusInterface ddStatusInterface;
 
-    public DDCollegeListAdapter (List<UserDeadlineRelation> deadlines) {
+    private final String ALERT_MESSAGE = "Delete this deadline?";
+    private final String ALERT_POSITIVE = "Delete";
+    private final String ALERT_NEGATIVE = "Cancel";
+
+    public DDCollegeListAdapter (List<UserDeadlineRelation> deadlines, GetDeadlineDialogStatusInterface updateInterface) {
         mCollegeDeadlines = deadlines;
+        ddStatusInterface = updateInterface;
     }
 
     @NonNull
@@ -59,6 +66,7 @@ public class DDCollegeListAdapter extends RecyclerView.Adapter<DDCollegeListAdap
                     public void done(ParseException e) {
                         if (e == null) {
                             Log.d("DDCLAdapter", "Deadline completion saved");
+                            ddStatusInterface.isDialogChanged(true);
                         } else {
                             e.printStackTrace();
                             Log.d("DDCLAdapter", "Deadline completion failed to save");
@@ -75,6 +83,7 @@ public class DDCollegeListAdapter extends RecyclerView.Adapter<DDCollegeListAdap
                     public void done(ParseException e) {
                         if (e == null) {
                             Log.d("DDCLAdapter", "Deadline incompletion saved");
+                            ddStatusInterface.isDialogChanged(true);
                         } else {
                             e.printStackTrace();
                             Log.d("DDCLAdapter", "Deadline incompletion failed to save");
@@ -88,14 +97,18 @@ public class DDCollegeListAdapter extends RecyclerView.Adapter<DDCollegeListAdap
             @Override
             public void onClick(View view) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-                builder.setMessage("Delete this deadline?")
-                        .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                builder.setMessage(ALERT_MESSAGE)
+                        .setPositiveButton(ALERT_POSITIVE, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 deleteDeadline(relation, position);
+                                //updating the main linear timeline
+                                if (mCollegeDeadlines.isEmpty()) {
+                                    ddStatusInterface.isDialogEmpty(true);
+                                }
                             }
                         })
-                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        .setNegativeButton(ALERT_NEGATIVE, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 //User cancelled the dialog
@@ -154,17 +167,5 @@ public class DDCollegeListAdapter extends RecyclerView.Adapter<DDCollegeListAdap
             ivRemoveDeadline = itemView.findViewById(R.id.ivRemoveDeadline);
             ivIsFinancial = itemView.findViewById(R.id.ivIsFinancial);
         }
-    }
-
-    // Clean all elements of the recycler
-    public void clear() {
-        mCollegeDeadlines.clear();
-        notifyDataSetChanged();
-    }
-
-    // Add a list of items -- change to type used
-    public void addAll(List<UserDeadlineRelation> list) {
-        mCollegeDeadlines.addAll(list);
-        notifyDataSetChanged();
     }
 }

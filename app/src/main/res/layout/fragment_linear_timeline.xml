@@ -11,17 +11,10 @@
     tools:showIn="@layout/fragment_linear_timeline"
     android:background="@drawable/greygradient">
 
-    <android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/swipeContainer"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:listitem="@layout/item_timeline" />
 
-    </android.support.v4.widget.SwipeRefreshLayout>
 </RelativeLayout>
