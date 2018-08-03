@@ -59,30 +59,32 @@
         android:id="@+id/btnNextDeadline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/calendarbuttonstyle"
         android:layout_alignBottom="@+id/compactcalendar_view"
         android:layout_alignParentEnd="true"
+        android:background="@drawable/calendarbuttonstyle"
+        android:text="Next deadline"
+        android:fontFamily="Open Sans"
         android:textAllCaps="false"
         android:textColor="#FFFFFF"
-        android:textSize="18sp"
-        android:text="Next" />
+        android:textSize="14sp" />
 
     <Button
         android:id="@+id/btnPreviousDeadine"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:shadowRadius="5"
-        android:background="@drawable/calendarbuttonstyle"
+        android:fontFamily="Open Sans"
         android:layout_alignBottom="@+id/compactcalendar_view"
         android:layout_alignParentStart="true"
+        android:background="@drawable/calendarbuttonstyle"
+        android:shadowRadius="5"
+        android:text="Previous deadline"
         android:textAllCaps="false"
         android:textColor="#FFFFFF"
-        android:textSize="18sp"
-        android:text="Previous" />
+        android:textSize="14sp" />
 
     <Button
         android:id="@+id/btnToday"
-
+        android:fontFamily="Open Sans"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/compactcalendar_view"
@@ -95,7 +97,7 @@
         android:text="Today"
         android:textAllCaps="false"
         android:textColor="#FFFFFF"
-        android:textSize="18sp" />
+        android:textSize="16sp" />
 
     <ListView
 
@@ -104,9 +106,6 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/compactcalendar_view"
         android:focusableInTouchMode="true">
-
-
-        <!--android:background="@color/white_20_transparent"-->
 
     </ListView>
 
