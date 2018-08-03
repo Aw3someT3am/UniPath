@@ -4,24 +4,20 @@ let admin = require('firebase-admin');
 
 admin.initializeApp(functions.config().firebase);
 
-exports.sendNotification = functions.database.ref('/users/{userId}').onWrite((snap, context) => {
+exports.sendNotification = functions.database.ref('/users/{userId}').onWrite((snapshot, context) => {
 
 	// ///get the userId of the person receiving the notification because we need to get their token
 	const receiverId = context.params.userId;
 	console.log("receiverId: ", receiverId);
   // const receiverId = event.data.child('user_id').val();
 	// console.log("receiverId: ", receiverId);
-  //
-	// ///get the user id of the person who sent the message
-	// const senderId = event.data.child('user_id').val();
-	// console.log("senderId: ", senderId);
-  //
+
 	// ///get the message
 	// // const message = event.data.child('message').val();
 	// // console.log("message: ", message);
-  const username = snap.ref.parent.child('username').val();
-  console.log("username: ", username);
-  //
+  const date = snapshot.parent.child('dates').child('custom_deadline').val();
+  console.log("dare: ", date);
+
 	// ///get the message id. We'll be sending this in the payload
 	// const messageId = event.params.messageId;
 	// console.log("messageId: ", messageId);
@@ -60,12 +56,12 @@ exports.sendNotification = functions.database.ref('/users/{userId}').onWrite((sn
 const payload = {
   data: {
     data_type: 'reminder',
-    title: "Reminder that you have added this deadline(username test) ",
-    message: username,
+    title: "Reminder",
+    message: "Deadline coming up",
   },
   notification: {
-    title: "Reminder that you have added this deadline(username test) ",
-    body: username
+    title: "Reminder",
+    body: "Deadline coming up"
   },
 };
 

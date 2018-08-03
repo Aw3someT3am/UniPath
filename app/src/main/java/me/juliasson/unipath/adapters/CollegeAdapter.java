@@ -19,11 +19,8 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.like.LikeButton;
 import com.like.OnLikeListener;
 import com.parse.FindCallback;
@@ -105,8 +102,6 @@ public class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.ViewHold
         viewHolder.tvCollegeName.setText(college.getCollegeName());
 
         mAuth = FirebaseAuth.getInstance();
-        mFirebaseDatabase = FirebaseDatabase.getInstance();
-        myRef = mFirebaseDatabase.getReference();
 
         Glide.with(mContext)
                 .load(college.getParseFile(KEY_COLLEGE_IMAGE).getUrl())
@@ -459,31 +454,6 @@ public class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.ViewHold
                                     // ...
                                 }
                             };
-
-                            myRef.addValueEventListener(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(DataSnapshot dataSnapshot) {
-                                    // This method is called once with the initial value and again
-                                    // whenever data at this location is updated.
-                                    Object value = dataSnapshot.getValue();
-                                    Log.d(TAG, "Value is: " + value);
-                                }
-
-                                @Override
-                                public void onCancelled(DatabaseError error) {
-                                    // Failed to read value
-                                    Log.w(TAG, "Failed to read value.", error.toException());
-                                }
-                            });
-
-                            Log.d(TAG, "onClick: Attempting to add object to database.");
-                            String date = DateTimeUtils.parseDateTime(relation.getDeadline().getDeadlineDate().toString(), DateTimeUtils.parseInputFormat, DateTimeUtils.parseOutputFormat);
-                            if(!date.equals("")){
-                                FirebaseUser user = mAuth.getCurrentUser();
-                                String userID = user.getUid();
-                                myRef.child(mContext.getString(R.string.dbnode_users)).child(userID).child("dates").child(date).setValue("true");
-                                //toastMessage("Adding " + date + " to database...");
-                            }
 
                             userDeadlineRelation.setCompleted(false);
                             userDeadlineRelation.setCollege(college);
