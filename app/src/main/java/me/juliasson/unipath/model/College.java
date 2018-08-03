@@ -13,7 +13,7 @@ public class College extends ParseObject {
     private static final String KEY_STUDENT_POPULATION = "studentPopulation";
     private static final String KEY_OUT_OF_STATE_COST = "outOfStateCost";
     private static final String KEY_IN_STATE_COST = "inStateCost";
-    private static final String KEY_ACCEPATNCE_RATE = "acceptanceRate";
+    private static final String KEY_ACCEPTANCE_RATE = "acceptanceRate";
     private static final String KEY_WEBSITE = "website";
 
     private static final String KEY_LONGITUDE = "longitude";
@@ -46,8 +46,8 @@ public class College extends ParseObject {
         return getNumber(KEY_IN_STATE_COST).intValue();
     }
 
-    public Double getAccepatnceRate() {
-        return getNumber(KEY_ACCEPATNCE_RATE).doubleValue();
+    public Double getAcceptanceRate() {
+        return getNumber(KEY_ACCEPTANCE_RATE).doubleValue();
     }
 
     public Double getLongitude() {
@@ -60,6 +60,27 @@ public class College extends ParseObject {
 
     public String getWebsite() {
         return getString(KEY_WEBSITE);
+    }
+
+    //GETTING KEYS
+    public static String getKeyAddress() {
+        return KEY_ADDRESS;
+    }
+
+    public static  String getKeyStudentPopulation() {
+        return KEY_STUDENT_POPULATION;
+    }
+
+    public static  String getKeyOutOfStateCost() {
+        return KEY_OUT_OF_STATE_COST;
+    }
+
+    public static String getKeyInStateCost() {
+        return KEY_IN_STATE_COST;
+    }
+
+    public static String getKeyAccepatnceRate() {
+        return KEY_ACCEPTANCE_RATE;
     }
 
     public static Query query() {

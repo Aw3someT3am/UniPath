@@ -125,6 +125,11 @@
             android:theme="@style/AppTheme.Dialog" />
 
         <activity
+            android:name=".activities.SearchFilteringDialog"
+            android:excludeFromRecents="true"
+            android:theme="@style/AppTheme.Dialog" />
+
+        <activity
             android:name=".activities.MapActivity"
             android:screenOrientation="portrait" />
 

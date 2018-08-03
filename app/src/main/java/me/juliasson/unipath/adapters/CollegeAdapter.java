@@ -34,6 +34,7 @@ import com.parse.SaveCallback;
 import org.parceler.Parcels;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import me.juliasson.unipath.R;
@@ -194,6 +195,67 @@ public class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.ViewHold
                         if (college.getCollegeName().toLowerCase().contains(charString)) {
                             filteredList.add(college);
                         }
+                    }
+                    mFilteredList = filteredList;
+                }
+                FilterResults filterResults = new FilterResults();
+                filterResults.values = mFilteredList;
+                searchInterface.setValues(mFilteredList);
+                return filterResults;
+            }
+
+            @Override
+            protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+                mFilteredList = (ArrayList<College>) filterResults.values;
+                searchInterface.setValues(mFilteredList);
+                notifyDataSetChanged();
+            }
+        };
+    }
+
+    public Filter getSelectionFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence charSequence) {
+                String charString = charSequence.toString();
+                final int SIZE_INDEX = 0;
+                final int ISCOST_INDEX = 1;
+                final int OSCOST_INDEX = 2;
+                final int ACCEPTANCE_INDEX = 3;
+                final int STATE_INDEX = 4;
+                List<String> items = Arrays.asList(charString.split("\\s*,\\s*"));
+
+                //Each of the filtered items will have SIZE: 2 objects separated by space: 2 objects, 2 objects, one object, one string
+                String[] size_bounds = items.get(SIZE_INDEX).split(" ");
+                int filter_pop_low = Integer.parseInt(size_bounds[0]);
+                int filter_pop_high = Integer.parseInt(size_bounds[1]);
+
+                String[] isCost_bounds = items.get(ISCOST_INDEX).split(" ");
+                int filter_isCost_low = Integer.parseInt(isCost_bounds[0]);
+                int filter_isCost_high = Integer.parseInt(isCost_bounds[1]);
+
+                String[] osCost_bounds = items.get(OSCOST_INDEX).split(" ");
+                int filter_osCost_low = Integer.parseInt(osCost_bounds[0]);
+                int filter_osCost_high = Integer.parseInt(osCost_bounds[1]);
+
+                double filter_acceptanceRate = Double.parseDouble(items.get(ACCEPTANCE_INDEX));
+                String filter_address = items.get(STATE_INDEX);
+
+                mFilteredList = mColleges;
+                ArrayList<College> filteredList = new ArrayList<>();
+                for (College college: mFilteredList) {
+                    int population = college.getStudentPopulation();
+                    int isCost = college.getInStateCost();
+                    int osCost = college.getOutOfStateCost();
+                    double acceptanceRate = college.getAcceptanceRate();
+                    String address = college.getAddress();
+
+                    if ((population >= filter_pop_low && population <= filter_pop_high) &&
+                            (isCost >= filter_isCost_low && isCost <= filter_isCost_high) &&
+                            (osCost >= filter_osCost_low && osCost <= filter_osCost_high) &&
+                            acceptanceRate >= filter_acceptanceRate &&
+                            address.toLowerCase().contains(String.format("%s,", filter_address))) {
+                        filteredList.add(college);
                     }
                     mFilteredList = filteredList;
                 }
