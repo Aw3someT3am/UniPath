@@ -20,13 +20,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.iid.FirebaseInstanceId;
 import com.parse.FindCallback;
 import com.parse.ParseException;
-import com.parse.ParseUser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -226,7 +221,7 @@ public class SearchFragment extends Fragment implements SearchInterface {
 //            Toast.makeText(getContext(), "Notempty"Notempty, Toast.LENGTH_LONG).show();
         }
     }
-    
+
 
     //----------------------------Filter Dialog Responses-------------------------------
 
