@@ -26,7 +26,6 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.github.sundeepk.compactcalendarview.CompactCalendarView;
 import com.github.sundeepk.compactcalendarview.domain.Event;
@@ -220,7 +219,6 @@ public class CalendarFragment extends Fragment {
                 }
                 compactCalendarView.setCurrentDate(nextClosestDeadline);
                 selectDay(nextClosestDeadline);
-                Toast.makeText(mContext, nextClosestDeadline.toString(), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -297,7 +295,6 @@ public class CalendarFragment extends Fragment {
             }
             calendarAdapter.notifyDataSetChanged();
         }
-        Toast.makeText(mContext, currentCalendarDate.toString(), Toast.LENGTH_SHORT).show();
     }
 
     private void loadEventsForYear(int year) {
