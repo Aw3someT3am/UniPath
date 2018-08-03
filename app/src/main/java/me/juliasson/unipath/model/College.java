@@ -62,27 +62,6 @@ public class College extends ParseObject {
         return getString(KEY_WEBSITE);
     }
 
-    //GETTING KEYS
-    public static String getKeyAddress() {
-        return KEY_ADDRESS;
-    }
-
-    public static  String getKeyStudentPopulation() {
-        return KEY_STUDENT_POPULATION;
-    }
-
-    public static  String getKeyOutOfStateCost() {
-        return KEY_OUT_OF_STATE_COST;
-    }
-
-    public static String getKeyInStateCost() {
-        return KEY_IN_STATE_COST;
-    }
-
-    public static String getKeyAccepatnceRate() {
-        return KEY_ACCEPTANCE_RATE;
-    }
-
     public static Query query() {
         return new Query();
     }

@@ -1,6 +1,8 @@
 package me.juliasson.unipath.adapters;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -85,24 +87,22 @@ public class DDCollegeListAdapter extends RecyclerView.Adapter<DDCollegeListAdap
         viewHolder.ivRemoveDeadline.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO: implement an alert dialog that reassures the user wants to remove a deadline
-                //ONLY REMOVE CUSTOM DEADLINES?
-                try {
-                    mCollegeDeadlines.remove(relation);
-                    notifyItemRemoved(position);
-                    if (relation.getDeadline().getIsCustom()) {
-                        relation.getDeadline().delete();
-                    }
-                    relation.delete();
-                    relation.saveInBackground(new SaveCallback() {
-                        @Override
-                        public void done(ParseException e) {
-                            Log.d("DDCollegeListAdapter", "Deadline removed.");
-                        }
-                    });
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
+                AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+                builder.setMessage("Delete this deadline?")
+                        .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                deleteDeadline(relation, position);
+                            }
+                        })
+                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                //User cancelled the dialog
+                            }
+                        });
+                AlertDialog dialog = builder.create();
+                dialog.show();
             }
         });
 
@@ -110,6 +110,25 @@ public class DDCollegeListAdapter extends RecyclerView.Adapter<DDCollegeListAdap
             Glide.with(mContext)
                     .load(R.drawable.ic_attach_money)
                     .into(viewHolder.ivIsFinancial);
+        }
+    }
+
+    public void deleteDeadline(UserDeadlineRelation relation, int position) {
+        try {
+            mCollegeDeadlines.remove(relation);
+            notifyItemRemoved(position);
+            if (relation.getDeadline().getIsCustom()) {
+                relation.getDeadline().delete();
+            }
+            relation.delete();
+            relation.saveInBackground(new SaveCallback() {
+                @Override
+                public void done(ParseException e) {
+                    Log.d("DDCollegeListAdapter", "Deadline removed.");
+                }
+            });
+        } catch (ParseException e) {
+            e.printStackTrace();
         }
     }
 
