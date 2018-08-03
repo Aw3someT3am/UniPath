@@ -149,7 +149,7 @@ public class SearchFragment extends Fragment implements SearchInterface {
         postsQuery.limit20();
         collegeAdapter = new CollegeAdapter(colleges, this);
         mRecyclerView.setAdapter(collegeAdapter);
-        postsQuery.orderByDescending("createdAt");
+        postsQuery.orderByAscending("name");
         postsQuery.findInBackground(new FindCallback<College>() {
             @Override
             public void done(List<College> objects, ParseException e) {
