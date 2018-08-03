@@ -170,7 +170,6 @@ public class SearchFragment extends Fragment implements SearchInterface {
 
     private String temp = "";
     private void search(SearchView searchView) {
-        //Toast.makeText(getContext(), "here it is:"+ temp, Toast.LENGTH_LONG).show();
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override

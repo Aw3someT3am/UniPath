@@ -17,5 +17,6 @@
     <color name="red">#f44e42</color>
     <color name="progress_green">#00E600</color>
     <color name="holo_blue_bright">#00DDFF</color>
+    <color name="transparent">#00000000</color>
 
 </resources>
