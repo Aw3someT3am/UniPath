@@ -26,7 +26,6 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.github.sundeepk.compactcalendarview.CompactCalendarView;
 import com.github.sundeepk.compactcalendarview.domain.Event;
@@ -195,7 +194,6 @@ public class CalendarFragment extends Fragment {
                     Date date = mDataList.get(i).getDeadline().getDeadlineDate();
 
                     if (date.after(currentCalendarDate) && date.before(nextClosestDeadline)) {
-                        Toast.makeText(mContext, date.toString(), Toast.LENGTH_SHORT).show();
                         nextClosestDeadline = date;
                     }
                 }
@@ -227,7 +225,6 @@ public class CalendarFragment extends Fragment {
                     Date date = mDataList.get(i).getDeadline().getDeadlineDate();
 
                     if (date.before(currentCalendarDate) && date.after(nextClosestDeadline)) {
-                        Toast.makeText(mContext, date.toString(), Toast.LENGTH_SHORT).show();
                         nextClosestDeadline = date;
                     }
                 }
