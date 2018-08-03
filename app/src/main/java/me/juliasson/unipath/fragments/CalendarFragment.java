@@ -226,10 +226,13 @@ public class CalendarFragment extends Fragment {
 
                 // get the list of deadlines, compare each deadline date to today's date
 
-                Date nextDate = Calendar.getInstance().getTime();
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(cal.getTime());
+                cal.add(Calendar.DAY_OF_MONTH, 1);
                 for (int i = 0; i < mDataList.size(); i ++) {
-                    Date currentDate = mDataList.get(i).getDeadline().getDeadlineDate();
+                    Date date = mDataList.get(i).getDeadline().getDeadlineDate();
 
+//                    if (date)
 
                 }
 
