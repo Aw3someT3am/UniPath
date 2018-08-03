@@ -24,10 +24,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.OverScroller;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.github.sundeepk.compactcalendarview.CompactCalendarView;
 import com.github.sundeepk.compactcalendarview.domain.Event;
@@ -68,10 +66,9 @@ public class CalendarFragment extends Fragment {
 
     private CompactCalendarView.CompactCalendarViewListener listener;
     private PointF accumulatedScrollOffset = new PointF();
-    private boolean isRtl = false;
     private int monthsScrolledSoFar = 0;
 
-    private OverScroller scroller;
+    private Date currentCalendarDate;
 
 
     ViewPager pager;
@@ -165,14 +162,13 @@ public class CalendarFragment extends Fragment {
             @Override
             public void onMonthScroll(Date firstDayOfNewMonth) {
                 monthYearTv.setText(dateFormatForMonth.format(firstDayOfNewMonth));
+                currentCalendarDate = firstDayOfNewMonth;
 
-                Date nextDate = compactCalendarView.getFirstDayOfCurrentMonth();
-                Date currentDate = Calendar.getInstance().getTime();
-
-                if (nextDate.after(currentDate)) monthsScrolledSoFar += 1;
-                else monthsScrolledSoFar -= 1;
-
-                Toast.makeText(mContext, Integer.toString(monthsScrolledSoFar), Toast.LENGTH_SHORT).show();
+//                Date nextDate = compactCalendarView.getFirstDayOfCurrentMonth();
+//                Date currentDate = Calendar.getInstance().getTime();
+//
+//                if (nextDate.after(currentDate)) monthsScrolledSoFar += 1;
+//                else monthsScrolledSoFar -= 1;
 
             }
 
@@ -198,7 +194,6 @@ public class CalendarFragment extends Fragment {
 
                 FragmentTransaction ft = getFragmentManager().beginTransaction();
                 ft.detach(CalendarFragment.this).attach(CalendarFragment.this).commit();
-
 
 //                onCreateView();
 //                compactCalendarView.removeAllEvents();
@@ -228,6 +223,22 @@ public class CalendarFragment extends Fragment {
         btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                // get the list of deadlines, compare each deadline date to today's date
+
+                Date nextDate = Calendar.getInstance().getTime();
+                for (int i = 0; i < mDataList.size(); i ++) {
+                    Date currentDate = mDataList.get(i).getDeadline().getDeadlineDate();
+
+
+                }
+
+
+
+//                mDataList.sort();
+
+                dateFormatForMonth.format(currentCalendarDate);
+
             }
         });
 
