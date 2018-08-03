@@ -84,6 +84,7 @@ public class CalendarFragment extends Fragment {
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup parent, Bundle savedInstanceState) {
         ((AppCompatActivity) getActivity()).getSupportActionBar().show();
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Calendar");
         // Defines the xml file for the fragment
         View view = inflater.inflate(R.layout.fragment_calendar, parent, false);
         setHasOptionsMenu(true);
@@ -177,6 +178,7 @@ public class CalendarFragment extends Fragment {
                 FragmentTransaction ft = getFragmentManager().beginTransaction();
                 ft.detach(CalendarFragment.this).attach(CalendarFragment.this).commit();
                 selectDay(Calendar.getInstance().getTime());
+                currentCalendarDate = Calendar.getInstance().getTime();
             }
         });
 

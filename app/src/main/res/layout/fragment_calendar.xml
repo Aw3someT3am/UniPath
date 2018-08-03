@@ -66,6 +66,7 @@
         android:fontFamily="Open Sans"
         android:textAllCaps="false"
         android:textColor="#FFFFFF"
+        android:drawableRight="@drawable/next"
         android:textSize="14sp" />
 
     <Button
@@ -78,6 +79,7 @@
         android:background="@drawable/calendarbuttonstyle"
         android:shadowRadius="5"
         android:text="Previous deadline"
+        android:drawableLeft="@drawable/previous"
         android:textAllCaps="false"
         android:textColor="#FFFFFF"
         android:textSize="14sp" />
