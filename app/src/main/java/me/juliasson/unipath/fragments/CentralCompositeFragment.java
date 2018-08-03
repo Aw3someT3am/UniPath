@@ -47,7 +47,6 @@ public class CentralCompositeFragment extends Fragment {
 		View fragmentView = inflater.inflate(R.layout.fragment_composite_central, container, false);
 		findViews(fragmentView);
 
-
 		return fragmentView;
 	}
 
@@ -65,7 +64,7 @@ public class CentralCompositeFragment extends Fragment {
 	private void populateHozizontalPager() {
 		ArrayList<Class<? extends Fragment>> pages = new ArrayList<Class<? extends Fragment>>();
 		pages.add(LinearTimelineFragment.class);
-		pages.add(ProfileFragment.class); //Central fragment
+		pages.add(ProfileFragment.class);
 		pages.add(SearchFragment.class);
 		mCentralPageIndex = pages.indexOf(ProfileFragment.class);
 		mHorizontalPager.setAdapter(new FragmentsAdapter(getChildFragmentManager(), getActivity(), pages));

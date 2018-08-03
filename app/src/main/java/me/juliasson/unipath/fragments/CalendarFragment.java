@@ -41,6 +41,8 @@ import java.util.List;
 import java.util.Locale;
 
 import me.juliasson.unipath.R;
+
+import me.juliasson.unipath.activities.NewDeadlineDialog;
 import me.juliasson.unipath.model.College;
 import me.juliasson.unipath.model.Deadline;
 import me.juliasson.unipath.model.UserDeadlineRelation;
@@ -81,8 +83,6 @@ public class CalendarFragment extends Fragment {
         // Defines the xml file for the fragment
         View view = inflater.inflate(R.layout.fragment_calendar, parent, false);
         setHasOptionsMenu(true);
-
-//        mContext = parent.getContext();
 
         //Title textview shows in form "Mmm YYYY"
         monthYearTv = view.findViewById(R.id.monthYearBtn);
@@ -253,7 +253,7 @@ public class CalendarFragment extends Fragment {
     // Any view setup should occur here.  E.g., view lookups and attaching view listeners.
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
-
+        mContext = view.getContext();
     }
 
     @Override

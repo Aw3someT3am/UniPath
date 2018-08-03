@@ -92,6 +92,8 @@ public class ProfileFragment extends Fragment {
     private String filePath;
 
     private Context mContext;
+    ViewPager pager;
+    TimelineActivity mTimelineActivity;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
