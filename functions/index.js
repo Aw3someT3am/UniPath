@@ -4,10 +4,10 @@ let admin = require('firebase-admin');
 
 admin.initializeApp(functions.config().firebase);
 
-exports.sendNotification = functions.database.ref('/users/{userId}').onWrite(event => {
+exports.sendNotification = functions.database.ref('/users/{userId}').onWrite((snap, context) => {
 
-	///get the userId of the person receiving the notification because we need to get their token
-	const receiverId = event.params.userId;
+	// ///get the userId of the person receiving the notification because we need to get their token
+	const receiverId = context.params.userId;
 	console.log("receiverId: ", receiverId);
   // const receiverId = event.data.child('user_id').val();
 	// console.log("receiverId: ", receiverId);
@@ -19,8 +19,8 @@ exports.sendNotification = functions.database.ref('/users/{userId}').onWrite(eve
 	// ///get the message
 	// // const message = event.data.child('message').val();
 	// // console.log("message: ", message);
-  // const text = event.data.child(username).val();
-  // console.log("text: ", text);
+  const username = snap.ref.parent.child('username').val();
+  console.log("username: ", username);
   //
 	// ///get the message id. We'll be sending this in the payload
 	// const messageId = event.params.messageId;
@@ -31,7 +31,7 @@ exports.sendNotification = functions.database.ref('/users/{userId}').onWrite(eve
 	// 	const senderName = snap.child("name").val();
 	// 	console.log("senderName: ", senderName);
   //
-		///get the token of the user receiving the message
+	// 	///get the token of the user receiving the message
 		return admin.database().ref("/users/" + receiverId).once('value').then(snap => {
 			const token = snap.child("messaging_token").val();
 			console.log("token: ", token);
@@ -61,11 +61,11 @@ const payload = {
   data: {
     data_type: 'reminder',
     title: "Reminder that you have added this deadline(username test) ",
-    message: 'hi',
+    message: username,
   },
   notification: {
     title: "Reminder that you have added this deadline(username test) ",
-    body: 'hi'
+    body: username
   },
 };
 
@@ -80,6 +80,8 @@ const payload = {
   //   console.log('Error sending message:', error);
   // });
   return admin.messaging().sendToDevice(token, payload);
+});
+
 });
 
 // // Create and Deploy Your First Cloud Functions

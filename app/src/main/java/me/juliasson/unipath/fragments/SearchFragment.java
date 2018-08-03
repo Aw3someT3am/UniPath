@@ -19,8 +19,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.parse.FindCallback;
 import com.parse.ParseException;
+import com.parse.ParseUser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,6 +63,7 @@ public class SearchFragment extends Fragment implements SearchInterface {
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         // Defines the xml file for the fragment
         View v = inflater.inflate(R.layout.fragment_search, parent, false);
+        //initFCM();
         return v;
     }
 
@@ -191,5 +197,40 @@ public class SearchFragment extends Fragment implements SearchInterface {
             refreshList.addAll(filteredColleges);
 //            Toast.makeText(getContext(), "Notempty"Notempty, Toast.LENGTH_LONG).show();
         }
+    }
+
+    private void initFCM(){
+        String token = FirebaseInstanceId.getInstance().getToken();
+        Log.d("SearchAuth", "initFCM: token: " + token);
+        sendRegistrationToServer(token);
+
+    }
+
+    /**
+     * Persist token to third-party servers.
+     *
+     * Modify this method to associate the user's FCM InstanceID token with any server-side account
+     * maintained by your application.
+     *
+     * @param token The new token.
+     */
+    private void sendRegistrationToServer(String token) {
+        Log.d("SearchAuth", "sendRegistrationToServer: sending token to server: " + token);
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
+        String uid = "";
+        if (FirebaseAuth.getInstance().getCurrentUser() == null) {
+        }
+        else{
+            uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        }
+        //uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        reference.child(getString(R.string.dbnode_users))
+                .child(uid)
+                .child(getString(R.string.field_messaging_token))
+                .setValue(token);
+        reference.child(getString(R.string.dbnode_users))
+                .child(uid)
+                .child("username")
+                .setValue(ParseUser.getCurrentUser().getUsername());
     }
 }
