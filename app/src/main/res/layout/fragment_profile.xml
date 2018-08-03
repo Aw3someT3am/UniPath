@@ -50,6 +50,7 @@
             android:background="@android:color/transparent"
             android:gravity="center"
             android:text="SOME NUMBER/SOME NUMBER"
+            android:fontFamily="@font/lato"
             android:textColor="@color/solid_white"
             android:textStyle="bold" />
 
@@ -75,13 +76,17 @@
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:text="User Info"
+            android:textSize="16sp"
+            android:fontFamily="@font/lato"
             android:textColor="@color/solid_white" />
 
         <ImageView
             android:id="@+id/ivProfileImage"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:layout_below="@id/tvUserInfoLabel"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="15dp"
             android:background="@drawable/button_border_orange"
             app:srcCompat="@color/solid_black" />
 
@@ -97,6 +102,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/first_name"
+                android:fontFamily="@font/lato"
                 android:textAppearance="@android:style/TextAppearance.Medium"
                 android:textColor="@color/white_80_transparent"
                 android:layout_alignParentRight="true"/>
@@ -107,6 +113,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tvFirstName"
                 android:layout_alignParentRight="true"
+                android:fontFamily="@font/lato"
                 android:layout_marginTop="8dp"
                 android:textAppearance="@android:style/TextAppearance.Medium"
                 android:textColor="@color/white_80_transparent"
@@ -121,6 +128,7 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/bvLogout"
         android:layout_below="@id/rlUserInfo"
+        android:fontFamily="@font/lato"
         android:background="@drawable/button_border_orange"
         android:layout_margin="8dp">
 
@@ -136,6 +144,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:text="Favorite Colleges"
+            android:textSize="16sp"
             android:textColor="@color/solid_white" />
 
         <com.yarolegovich.discretescrollview.DiscreteScrollView
@@ -175,19 +184,19 @@
             android:layout_height="32dp"
             android:layout_alignParentEnd="true"
             android:layout_alignTop="@+id/mapFavorites"
-            android:layout_marginEnd="17dp"
+            android:layout_marginEnd="47dp"
             android:scaleType="fitXY"
             android:tint="@color/progress_green"
             app:srcCompat="@drawable/ic_cached_black_24dp" />
 
         <ImageView
             android:id="@+id/mapFavorites"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_alignParentStart="true"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
             android:layout_alignParentTop="true"
-            android:layout_marginStart="17dp"
-            android:layout_marginTop="17dp"
+            android:layout_marginStart="-8dp"
+            android:layout_marginTop="19dp"
+            android:layout_toEndOf="@+id/ivBack"
             android:scaleType="fitXY"
             android:tint="@color/solid_white"
             app:srcCompat="@drawable/baseline_public_white_48dp" />
@@ -203,6 +212,7 @@
         android:layout_marginRight="8dp"
         android:background="@color/background_orange"
         android:text="@string/log_out"
+        android:fontFamily="@font/lato"
         android:textColor="@color/solid_white"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"/>
