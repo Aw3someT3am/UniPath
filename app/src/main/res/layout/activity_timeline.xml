@@ -13,7 +13,7 @@
 
         <fragment
             android:id="@+id/main_top_fragment"
-            class="me.juliasson.unipath.fragments.ProfileFragment"
+            class="me.juliasson.unipath.fragments.CalendarFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
