@@ -97,6 +97,8 @@ public class CalendarFragment extends Fragment {
         //Title textview shows in form "Mmm YYYY"
         monthYearTv = view.findViewById(R.id.monthYearBtn);
 
+        currentCalendarDate = Calendar.getInstance().getTime();
+
         // Listview of details for selected date in calendar
         final ListView bookingsListView = view.findViewById(R.id.bookings_listview);
 //        bookingsListView.setEmptyView(view.findViewById(R.id.empty_listview));
@@ -147,18 +149,12 @@ public class CalendarFragment extends Fragment {
             @Override
             public void onDayClick(Date dateClicked) {
                 selectDay(dateClicked);
+                currentCalendarDate = dateClicked;
             }
             @Override
             public void onMonthScroll(Date firstDayOfNewMonth) {
                 monthYearTv.setText(dateFormatForMonth.format(firstDayOfNewMonth));
                 currentCalendarDate = firstDayOfNewMonth;
-
-//                Date nextDate = compactCalendarView.getFirstDayOfCurrentMonth();
-//                Date currentDate = Calendar.getInstance().getTime();
-//
-//                if (nextDate.after(currentDate)) monthsScrolledSoFar += 1;
-//                else monthsScrolledSoFar -= 1;
-
             }
 
         });
@@ -174,8 +170,6 @@ public class CalendarFragment extends Fragment {
             }
         });
 
-
-
         btnToday = view.findViewById(R.id.btnToday);
         btnToday.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -183,7 +177,7 @@ public class CalendarFragment extends Fragment {
 
                 FragmentTransaction ft = getFragmentManager().beginTransaction();
                 ft.detach(CalendarFragment.this).attach(CalendarFragment.this).commit();
-
+                selectDay(Calendar.getInstance().getTime());
             }
         });
 
@@ -194,24 +188,17 @@ public class CalendarFragment extends Fragment {
             public void onClick(View view) {
 
                 // get the list of deadlines, compare each deadline date to today's date
-
-                Calendar cal = Calendar.getInstance();
-                cal.setTime(cal.getTime());
-                cal.add(Calendar.DAY_OF_MONTH, 1);
-                Date tomorrow = cal.getTime();
                 Date nextClosestDeadline = mDataList.get(0).getDeadline().getDeadlineDate();
 
                 // Get the next closest deadline
                 for (int i = 0; i < mDataList.size(); i ++) {
                     Date date = mDataList.get(i).getDeadline().getDeadlineDate();
 
-                    if (date.after(Calendar.getInstance().getTime()) && date.before(nextClosestDeadline)) {
+                    if (date.after(currentCalendarDate) && date.before(nextClosestDeadline)) {
                         Toast.makeText(mContext, date.toString(), Toast.LENGTH_SHORT).show();
                         nextClosestDeadline = date;
                     }
                 }
-
-//                Toast.makeText(mContext, nextClosestDeadline.toString(), Toast.LENGTH_SHORT).show();
 
                 int nextMonth = nextClosestDeadline.getMonth();
                 int currentMonth = Calendar.getInstance().getTime().getMonth();
@@ -224,9 +211,6 @@ public class CalendarFragment extends Fragment {
                 compactCalendarView.setCurrentDate(nextClosestDeadline);
                 selectDay(nextClosestDeadline);
 
-
-//                dateFormatForMonth.format(currentCalendarDate);
-
             }
         });
 
@@ -235,13 +219,38 @@ public class CalendarFragment extends Fragment {
         btnPrevious.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // get the list of deadlines, compare each deadline date to today's date
+                Date nextClosestDeadline = mDataList.get(0).getDeadline().getDeadlineDate();
 
+                // Get the next closest deadline
+                for (int i = 0; i < mDataList.size(); i ++) {
+                    Date date = mDataList.get(i).getDeadline().getDeadlineDate();
+
+                    if (date.before(currentCalendarDate) && date.after(nextClosestDeadline)) {
+                        Toast.makeText(mContext, date.toString(), Toast.LENGTH_SHORT).show();
+                        nextClosestDeadline = date;
+                    }
+                }
+
+
+                int yearDifference = nextClosestDeadline.getYear() - currentCalendarDate.getYear();
+                int difference = yearDifference * 12 + currentCalendarDate.getMonth() - nextClosestDeadline.getMonth();
+
+//                int previousMonth = nextClosestDeadline.getMonth();
+//                int currentMonth = Calendar.getInstance().getTime().getMonth();
+
+               //  int difference = currentMonth - previousMonth;
+
+                for (int j = 0; j < difference; j ++) {
+                    compactCalendarView.scrollLeft();
+                }
+                compactCalendarView.setCurrentDate(nextClosestDeadline);
+                selectDay(nextClosestDeadline);
             }
         });
 
         return view;
     }
-
 
     // This event is triggered soon after onCreateView().
     // Any view setup should occur here.  E.g., view lookups and attaching view listeners.
@@ -265,6 +274,7 @@ public class CalendarFragment extends Fragment {
     }
 
     public void selectDay(Date dateClicked) {
+        currentCalendarDate = dateClicked;
         monthYearTv.setText(dateFormatForMonth.format(dateClicked));
         List<Event> bookingsFromMap = compactCalendarView.getEvents(dateClicked);
         Log.d(TAG, "inside onclick " + dateFormatForDisplaying.format(dateClicked));
