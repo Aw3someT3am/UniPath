@@ -220,7 +220,7 @@ public class CalendarFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 // get the list of deadlines, compare each deadline date to today's date
-                Date nextClosestDeadline = mDataList.get(0).getDeadline().getDeadlineDate();
+                Date nextClosestDeadline = Calendar.getInstance().getTime();
 
                 // Get the next closest deadline
                 for (int i = 0; i < mDataList.size(); i ++) {
@@ -233,7 +233,7 @@ public class CalendarFragment extends Fragment {
                 }
 
 
-                int yearDifference = nextClosestDeadline.getYear() - currentCalendarDate.getYear();
+                int yearDifference = currentCalendarDate.getYear() - nextClosestDeadline.getYear() ;
                 int difference = yearDifference * 12 + currentCalendarDate.getMonth() - nextClosestDeadline.getMonth();
 
 //                int previousMonth = nextClosestDeadline.getMonth();
