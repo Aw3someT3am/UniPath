@@ -26,6 +26,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.github.sundeepk.compactcalendarview.CompactCalendarView;
 import com.github.sundeepk.compactcalendarview.domain.Event;
@@ -150,11 +151,12 @@ public class CalendarFragment extends Fragment {
             public void onDayClick(Date dateClicked) {
                 selectDay(dateClicked);
                 currentCalendarDate = dateClicked;
+                calendarAdapter.notifyDataSetChanged();
             }
             @Override
             public void onMonthScroll(Date firstDayOfNewMonth) {
                 monthYearTv.setText(dateFormatForMonth.format(firstDayOfNewMonth));
-                currentCalendarDate = firstDayOfNewMonth;
+//                currentCalendarDate = firstDayOfNewMonth;
             }
 
         });
@@ -189,7 +191,15 @@ public class CalendarFragment extends Fragment {
             public void onClick(View view) {
 
                 // get the list of deadlines, compare each deadline date to today's date
-                Date nextClosestDeadline = mDataList.get(0).getDeadline().getDeadlineDate();
+                Date nextClosestDeadline = Calendar.getInstance().getTime();
+                nextClosestDeadline.setYear(nextClosestDeadline.getYear() + 1);
+
+//                Date nextClosestDeadline =  mDataList.get(0).getDeadline().getDeadlineDate();
+
+//                int counter = 0;
+//                while (nextClosestDeadline == currentCalendarDate) {
+//                    nextClosestDeadline = mDataList.get(counter + 1).getDeadline().getDeadlineDate();
+//                }
 
                 // Get the next closest deadline
                 for (int i = 0; i < mDataList.size(); i ++) {
@@ -210,7 +220,7 @@ public class CalendarFragment extends Fragment {
                 }
                 compactCalendarView.setCurrentDate(nextClosestDeadline);
                 selectDay(nextClosestDeadline);
-
+                Toast.makeText(mContext, nextClosestDeadline.toString(), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -287,6 +297,7 @@ public class CalendarFragment extends Fragment {
             }
             calendarAdapter.notifyDataSetChanged();
         }
+        Toast.makeText(mContext, currentCalendarDate.toString(), Toast.LENGTH_SHORT).show();
     }
 
     private void loadEventsForYear(int year) {
