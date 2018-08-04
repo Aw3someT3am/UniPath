@@ -25,9 +25,9 @@ import com.parse.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
-import me.juliasson.unipath.LikedRefreshInterface;
+import me.juliasson.unipath.internal.LikedRefreshInterface;
 import me.juliasson.unipath.R;
-import me.juliasson.unipath.SearchInterface;
+import me.juliasson.unipath.internal.SearchInterface;
 import me.juliasson.unipath.activities.SearchFilteringDialog;
 import me.juliasson.unipath.adapters.CollegeAdapter;
 import me.juliasson.unipath.adapters.MyExpandableListAdapter;

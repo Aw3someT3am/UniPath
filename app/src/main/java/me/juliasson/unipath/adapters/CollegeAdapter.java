@@ -37,10 +37,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import me.juliasson.unipath.LikedRefreshInterface;
-import me.juliasson.unipath.LikesInterface;
+import me.juliasson.unipath.internal.LikedRefreshInterface;
+import me.juliasson.unipath.internal.LikesInterface;
 import me.juliasson.unipath.R;
-import me.juliasson.unipath.SearchInterface;
+import me.juliasson.unipath.internal.SearchInterface;
 import me.juliasson.unipath.activities.CollegeDetailsDialog;
 import me.juliasson.unipath.activities.MapActivity;
 import me.juliasson.unipath.model.College;
@@ -298,7 +298,9 @@ public class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.ViewHold
     }
 
     public void addAllFiltered(List<College> list) {
-        mFilteredList.addAll(list);
+        if(list != null) {
+            mFilteredList.addAll(list);
+        }
     }
 
     /**

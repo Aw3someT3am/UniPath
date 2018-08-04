@@ -1,4 +1,4 @@
-package me.juliasson.unipath;
+package me.juliasson.unipath.internal;
 
 import java.util.ArrayList;
 
