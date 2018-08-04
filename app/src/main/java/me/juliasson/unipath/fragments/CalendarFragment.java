@@ -2,7 +2,6 @@ package me.juliasson.unipath.fragments;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.graphics.PointF;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -62,8 +61,6 @@ public class CalendarFragment extends Fragment {
     private ArrayAdapter calendarAdapter;
 
     private CompactCalendarView.CompactCalendarViewListener listener;
-    private PointF accumulatedScrollOffset = new PointF();
-    private int monthsScrolledSoFar = 0;
 
     private Date currentCalendarDate;
 

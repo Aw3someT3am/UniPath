@@ -13,8 +13,8 @@
         android:id="@+id/btnPreviousDeadine"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_above="@+id/compactcalendar_view"
         android:layout_alignParentStart="true"
-        android:layout_alignTop="@+id/btnNextDeadline"
         android:background="@drawable/calendarbuttonstyle"
         android:drawableLeft="@drawable/previous"
         android:focusableInTouchMode="true"
@@ -23,7 +23,6 @@
         android:text="Previous &#10;deadline"
         android:textAllCaps="false"
         android:textColor="#FFFFFF"
-        android:layout_below="@id/monthYearBtn"
         android:textSize="14sp" />
 
     <Button
@@ -31,8 +30,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="101dp"
+        android:layout_below="@+id/monthYearBtn"
         android:background="@drawable/calendarbuttonstyle"
         android:drawableRight="@drawable/next"
         android:elevation="9dp"
@@ -41,14 +39,13 @@
         android:text="Next &#10;deadline"
         android:textAllCaps="false"
         android:textColor="#FFFFFF"
-        android:layout_below="@id/monthYearBtn"
         android:textSize="14sp" />
 
     <Button
         android:id="@+id/btnToday"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/btnNextDeadline"
+        android:layout_below="@+id/monthYearBtn"
         android:layout_centerHorizontal="true"
         android:background="@drawable/todaybuttonstyle"
         android:focusableInTouchMode="true"
@@ -58,7 +55,6 @@
         android:shadowDy="0"
         android:shadowRadius="5"
         android:text="Today"
-        android:layout_below="@id/monthYearBtn"
         android:textAllCaps="false"
         android:textColor="#FFFFFF"
         android:textSize="16sp" />
@@ -68,9 +64,10 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
         android:gravity="center"
         android:textColor="@color/white"
-        android:textSize="18sp" />
+        android:textSize="20sp" />
 
     <!--android:layout_below="@+id/btnNextDeadline"-->
 
