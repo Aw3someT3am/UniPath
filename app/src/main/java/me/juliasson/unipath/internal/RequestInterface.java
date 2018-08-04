@@ -1,5 +1,6 @@
-package me.juliasson.unipath;
+package me.juliasson.unipath.internal;
 
+import me.juliasson.unipath.JSONResponse;
 import retrofit2.Call;
 import retrofit2.http.GET;
 

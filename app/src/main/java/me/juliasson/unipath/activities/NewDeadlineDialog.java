@@ -22,6 +22,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.like.LikeButton;
 import com.like.OnLikeListener;
 import com.parse.ParseUser;
@@ -69,6 +76,13 @@ public class NewDeadlineDialog extends AppCompatActivity {
     private final String KEY_COLLEGE_IMAGE = "image";
     private final int RESULT_COLLEGE_PICKER = 1012;
 
+    private static final String TAG = "AddToDatabase";
+
+    private static FirebaseDatabase mFirebaseDatabase;
+    private static FirebaseAuth mAuth;
+    private static FirebaseAuth.AuthStateListener mAuthListener;
+    private static DatabaseReference myRef;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,6 +91,10 @@ public class NewDeadlineDialog extends AppCompatActivity {
         this.setFinishOnTouchOutside(true);
 
         setSize();
+
+        mAuth = FirebaseAuth.getInstance();
+        mFirebaseDatabase = FirebaseDatabase.getInstance();
+        myRef = mFirebaseDatabase.getReference();
 
         mContext = this;
         mActivity = this;
@@ -129,6 +147,30 @@ public class NewDeadlineDialog extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (!(chosenCollege == null) && !(assignedDate == null)) {
+
+                    myRef.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            // This method is called once with the initial value and again
+                            // whenever data at this location is updated.
+                            Object value = dataSnapshot.getValue();
+                            Log.d(TAG, "Value is: " + value);
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError error) {
+                            // Failed to read value
+                            Log.w(TAG, "Failed to read value.", error.toException());
+                        }
+                    });
+
+                    Log.d(TAG, "onClick: Attempting to add object to database.");
+                    String date = DateTimeUtils.parseDateTime(assignedDate.toString(), DateTimeUtils.parseInputFormat, DateTimeUtils.parseOutputFormat);
+                    FirebaseUser user = mAuth.getCurrentUser();
+                    String userID = user.getUid();
+                    myRef.child(mContext.getString(R.string.dbnode_users)).child(userID).child("dates").child("custom_deadline").setValue(date);
+                    //toastMessage("Adding " + date + " to database...");
+
                     Deadline deadline = new Deadline();
                     deadline.setDescription(etDescription.getText().toString());
                     deadline.setDeadlineDate(assignedDate);
@@ -202,4 +244,5 @@ public class NewDeadlineDialog extends AppCompatActivity {
                     .into(ivCollegeImage);
         }
     }
+
 }

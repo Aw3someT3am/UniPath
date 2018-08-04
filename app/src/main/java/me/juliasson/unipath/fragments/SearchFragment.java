@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
@@ -26,8 +25,9 @@ import com.parse.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
+import me.juliasson.unipath.internal.LikedRefreshInterface;
 import me.juliasson.unipath.R;
-import me.juliasson.unipath.SearchInterface;
+import me.juliasson.unipath.internal.SearchInterface;
 import me.juliasson.unipath.activities.SearchFilteringDialog;
 import me.juliasson.unipath.adapters.CollegeAdapter;
 import me.juliasson.unipath.adapters.MyExpandableListAdapter;
@@ -37,7 +37,7 @@ import me.juliasson.unipath.utils.Constants;
 
 import static android.app.Activity.RESULT_OK;
 
-public class SearchFragment extends Fragment implements SearchInterface {
+public class SearchFragment extends Fragment implements SearchInterface, LikedRefreshInterface {
 //TODO: Display "No colleges found" for searches with no results
 
     private Context mContext;
@@ -51,7 +51,6 @@ public class SearchFragment extends Fragment implements SearchInterface {
     private Activity activity;
     private Context context;
 
-    private SwipeRefreshLayout swipeContainerSearch;
     private RecyclerView mRecyclerView;
     private ArrayList<College> colleges;
     private ArrayList<College> everyCollege;
@@ -68,6 +67,8 @@ public class SearchFragment extends Fragment implements SearchInterface {
     private final String DEFAULT_MAX_VAL = "2147483647";
     private final String DEFAULT_MIN_VAL = "0";
     private static final int REQUEST_FILTER_CODE = 1034;
+
+    private String query = "";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
@@ -92,23 +93,6 @@ public class SearchFragment extends Fragment implements SearchInterface {
 
         initViews();
         loadTopColleges();
-
-        swipeContainerSearch = (SwipeRefreshLayout) view.findViewById(R.id.swipeContainerSearch);
-        // Setup refresh listener which triggers new data loading
-        swipeContainerSearch.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                // Your code to refresh the list here.
-                // Make sure you call swipeContainer.setRefreshing(false)
-                // once the network request has completed successfully.
-                refresh();
-            }
-        });
-        // Configure the refreshing colors
-        swipeContainerSearch.setColorSchemeResources(android.R.color.holo_blue_bright,
-                android.R.color.holo_green_light,
-                android.R.color.holo_orange_light,
-                android.R.color.holo_red_light);
     }
 
     @Override
@@ -147,7 +131,9 @@ public class SearchFragment extends Fragment implements SearchInterface {
     private void loadTopColleges() {
         final College.Query postsQuery = new College.Query();
         postsQuery.limit20();
-        collegeAdapter = new CollegeAdapter(colleges, this);
+        LikedRefreshInterface lrInterface = this;
+        SearchInterface sInterface = this;
+        collegeAdapter = new CollegeAdapter(colleges, sInterface, lrInterface);
         mRecyclerView.setAdapter(collegeAdapter);
         postsQuery.orderByAscending("name");
         postsQuery.findInBackground(new FindCallback<College>() {
@@ -171,7 +157,6 @@ public class SearchFragment extends Fragment implements SearchInterface {
         });
     }
 
-    private String temp = "";
     private void search(SearchView searchView) {
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -190,12 +175,11 @@ public class SearchFragment extends Fragment implements SearchInterface {
     }
 
     public void refresh() {
-        searchRef(temp);
         collegeAdapter.clearWithFilter();
-        collegeAdapter.addAllFiltered(refreshList);
+        collegeAdapter.addAllFiltered(filteredColleges);
         collegeAdapter.clear();
         collegeAdapter.addAll(everyCollege);
-        swipeContainerSearch.setRefreshing(false);
+        searchRef(query);
     }
 
     @Override
@@ -204,7 +188,7 @@ public class SearchFragment extends Fragment implements SearchInterface {
     }
 
     public void searchRef(String query) {
-        temp = query;
+        this.query = query;
         //Toast.makeText(getContext(), query, Toast.LENGTH_LONG).show();
         if (collegeAdapter != null) {
             collegeAdapter.getFilter().filter(query.toLowerCase());
@@ -221,7 +205,7 @@ public class SearchFragment extends Fragment implements SearchInterface {
 //            Toast.makeText(getContext(), "Notempty"Notempty, Toast.LENGTH_LONG).show();
         }
     }
-    
+
 
     //----------------------------Filter Dialog Responses-------------------------------
 
@@ -328,5 +312,12 @@ public class SearchFragment extends Fragment implements SearchInterface {
                 return "95";
         }
         return null;
+    }
+
+    @Override
+    public void setValues(boolean isChanged) {
+        if (isChanged) {
+            refresh();
+        }
     }
 }
