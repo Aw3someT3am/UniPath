@@ -15,8 +15,11 @@ exports.sendNotification = functions.database.ref('/users/{userId}').onWrite((sn
 	// ///get the message
 	// // const message = event.data.child('message').val();
 	// // console.log("message: ", message);
-  const date = snapshot.parent.child('dates').child('custom_deadline').val();
-  console.log("dare: ", date);
+  // const date = snapshot.parent.child('dates').child('custom_deadline').val();
+  // console.log("dare: ", date);
+
+  const username = snapshot.ref.parent.child('username').val();
+  console.log("username: ", username);
 
 	// ///get the message id. We'll be sending this in the payload
 	// const messageId = event.params.messageId;

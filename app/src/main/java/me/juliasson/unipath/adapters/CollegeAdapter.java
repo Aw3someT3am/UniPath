@@ -19,8 +19,11 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.like.LikeButton;
 import com.like.OnLikeListener;
 import com.parse.FindCallback;
@@ -34,6 +37,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import me.juliasson.unipath.LikedRefreshInterface;
+import me.juliasson.unipath.LikesInterface;
 import me.juliasson.unipath.R;
 import me.juliasson.unipath.SearchInterface;
 import me.juliasson.unipath.activities.CollegeDetailsDialog;
@@ -44,9 +49,7 @@ import me.juliasson.unipath.model.UserCollegeRelation;
 import me.juliasson.unipath.model.UserDeadlineRelation;
 import me.juliasson.unipath.utils.DateTimeUtils;
 
-import static android.app.Activity.RESULT_OK;
-
-public class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.ViewHolder> implements Filterable {
+public class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.ViewHolder> implements Filterable, LikesInterface {
 
     private ArrayList<College> mColleges;
     private static Context mContext;
@@ -65,10 +68,13 @@ public class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.ViewHold
     private static FirebaseAuth.AuthStateListener mAuthListener;
     private static DatabaseReference myRef;
 
-    SearchInterface searchInterface;
+    private static SearchInterface searchInterface;
+    private static LikesInterface likesInterface;
+    private static LikedRefreshInterface likedRefreshInterface;
 
-    public CollegeAdapter(ArrayList<College> arrayList, SearchInterface searchInterface) {
-        this.searchInterface = searchInterface;
+    public CollegeAdapter(ArrayList<College> arrayList, SearchInterface searchInterface, LikedRefreshInterface likedRefreshInterface) {
+        CollegeAdapter.searchInterface = searchInterface;
+        CollegeAdapter.likedRefreshInterface = likedRefreshInterface;
         mColleges = arrayList;
         mFilteredList = arrayList;
     }
@@ -88,11 +94,17 @@ public class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.ViewHold
         mContext = viewGroup.getContext();
         LayoutInflater inflater = LayoutInflater.from(mContext);
 
+        mAuth = FirebaseAuth.getInstance();
+        mFirebaseDatabase = FirebaseDatabase.getInstance();
+        myRef = mFirebaseDatabase.getReference();
+
         View collegeView = inflater.inflate(R.layout.card_row, viewGroup, false);
         ViewHolder viewHolder = new ViewHolder(collegeView);
 
         mapsButton = (Button) collegeView.findViewById(R.id.mapsButton);
 
+        likesInterface = this;
+        CollegeDetailsDialog.setLiked(likesInterface);
         return viewHolder;
     }
 
@@ -108,7 +120,6 @@ public class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.ViewHold
                 .into(viewHolder.ivCollegeImage);
 
         viewHolder.lbLikeButton.setLiked(false);
-
         loadFavoriteColleges(viewHolder, college);
 
         viewHolder.lbLikeButton.setOnLikeListener(new OnLikeListener() {
@@ -298,17 +309,15 @@ public class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.ViewHold
     private void loadFavoriteColleges(@NonNull final CollegeAdapter.ViewHolder viewHolder, final College college) {
         UserCollegeRelation.Query ucQuery = new UserCollegeRelation.Query();
         ucQuery.getTop().withUser().withCollege();
+        ucQuery.whereEqualTo("college", college);
+        ucQuery.whereEqualTo("user", ParseUser.getCurrentUser());
 
         ucQuery.findInBackground(new FindCallback<UserCollegeRelation>() {
             @Override
             public void done(List<UserCollegeRelation> objects, ParseException e) {
                 if (e == null) {
                     for (int i = 0; i < objects.size(); i++) {
-                        UserCollegeRelation relation = objects.get(i);
-                        if(relation.getCollege().getObjectId().equals(college.getObjectId()) &&
-                                relation.getUser().getObjectId().equals(ParseUser.getCurrentUser().getObjectId())) {
-                            viewHolder.lbLikeButton.setLiked(true);
-                        }
+                        viewHolder.lbLikeButton.setLiked(true);
                     }
                 } else {
                     e.printStackTrace();
@@ -455,6 +464,28 @@ public class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.ViewHold
                                 }
                             };
 
+                            myRef.addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                    // This method is called once with the initial value and again
+                                    // whenever data at this location is updated.
+                                    Object value = dataSnapshot.getValue();
+                                    Log.d(TAG, "Value is: " + value);
+                                }
+
+                                @Override
+                                public void onCancelled(DatabaseError error) {
+                                    // Failed to read value
+                                    Log.w(TAG, "Failed to read value.", error.toException());
+                                }
+                            });
+
+                            Log.d(TAG, "onClick: Attempting to add object to database.");
+                            String date = DateTimeUtils.parseDateTime(relation.getDeadline().toString(), DateTimeUtils.parseInputFormat, DateTimeUtils.parseOutputFormat);
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            String userID = user.getUid();
+                            myRef.child(mContext.getString(R.string.dbnode_users)).child(userID).child("dates").child(date).setValue(true);
+
                             userDeadlineRelation.setCompleted(false);
                             userDeadlineRelation.setCollege(college);
                             userDeadlineRelation.saveInBackground(new SaveCallback() {
@@ -488,13 +519,10 @@ public class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.ViewHold
         Toast.makeText(mContext,message,Toast.LENGTH_SHORT).show();
     }
 
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        // Check which request we're responding to
-        if (requestCode == LIKED) {
-            // Make sure the request was successful
-            if (resultCode == RESULT_OK) {
-
-            }
+    @Override
+    public void setValues(boolean isChanged) {
+        if (isChanged) {
+            likedRefreshInterface.setValues(true);
         }
     }
 }
