@@ -95,6 +95,8 @@ dependencies {
     implementation 'com.google.firebase:firebase-messaging:11.4.0'
 
     implementation 'com.google.firebase:firebase-auth:9.4.0'
+//    implementation 'org.lucasr.twowayview:core:1.0.0-SNAPSHOT@aar'
+//    implementation 'org.lucasr.twowayview:layouts:1.0.0-SNAPSHOT@aar'
 }
 
 apply plugin: 'com.google.gms.google-services'

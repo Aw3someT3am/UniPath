@@ -1,21 +1,15 @@
 package me.juliasson.unipath.fragments;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.PointF;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -43,8 +37,6 @@ import java.util.List;
 import java.util.Locale;
 
 import me.juliasson.unipath.R;
-import me.juliasson.unipath.activities.NewDeadlineDialog;
-import me.juliasson.unipath.activities.TimelineActivity;
 import me.juliasson.unipath.model.College;
 import me.juliasson.unipath.model.Deadline;
 import me.juliasson.unipath.model.UserDeadlineRelation;
@@ -66,16 +58,11 @@ public class CalendarFragment extends Fragment {
     private ArrayAdapter calendarAdapter;
 
     private CompactCalendarView.CompactCalendarViewListener listener;
-    private PointF accumulatedScrollOffset = new PointF();
-    private int monthsScrolledSoFar = 0;
 
     private Date currentCalendarDate;
 
     // A list of strings of format "description, college" to display for each specific date when clicked
     final List<String> mutableBookings = new ArrayList<>();
-
-    ViewPager pager;
-    TimelineActivity mTimelineActivity;
 
     private List<UserDeadlineRelation> mDataList = new ArrayList<>();
 
@@ -88,11 +75,6 @@ public class CalendarFragment extends Fragment {
         // Defines the xml file for the fragment
         View view = inflater.inflate(R.layout.fragment_calendar, parent, false);
         setHasOptionsMenu(true);
-
-        mContext = parent.getContext();
-
-        pager = (ViewPager) parent;
-        mTimelineActivity=(TimelineActivity) getActivity();
 
         //Title textview shows in form "Mmm YYYY"
         monthYearTv = view.findViewById(R.id.monthYearBtn);
@@ -179,7 +161,7 @@ public class CalendarFragment extends Fragment {
                 FragmentTransaction ft = getFragmentManager().beginTransaction();
                 ft.detach(CalendarFragment.this).attach(CalendarFragment.this).commit();
                 selectDay(Calendar.getInstance().getTime());
-                currentCalendarDate = Calendar.getInstance().getTime();
+                compactCalendarView.setCurrentDate(Calendar.getInstance().getTime());
             }
         });
 
@@ -192,13 +174,6 @@ public class CalendarFragment extends Fragment {
                 // get the list of deadlines, compare each deadline date to today's date
                 Date nextClosestDeadline = Calendar.getInstance().getTime();
                 nextClosestDeadline.setYear(nextClosestDeadline.getYear() + 1);
-
-//                Date nextClosestDeadline =  mDataList.get(0).getDeadline().getDeadlineDate();
-
-//                int counter = 0;
-//                while (nextClosestDeadline == currentCalendarDate) {
-//                    nextClosestDeadline = mDataList.get(counter + 1).getDeadline().getDeadlineDate();
-//                }
 
                 // Get the next closest deadline
                 for (int i = 0; i < mDataList.size(); i ++) {
@@ -239,13 +214,11 @@ public class CalendarFragment extends Fragment {
                     }
                 }
 
-
                 int yearDifference = currentCalendarDate.getYear() - nextClosestDeadline.getYear() ;
                 int difference = yearDifference * 12 + currentCalendarDate.getMonth() - nextClosestDeadline.getMonth();
 
 //                int previousMonth = nextClosestDeadline.getMonth();
 //                int currentMonth = Calendar.getInstance().getTime().getMonth();
-
                //  int difference = currentMonth - previousMonth;
 
                 for (int j = 0; j < difference; j ++) {
@@ -263,7 +236,7 @@ public class CalendarFragment extends Fragment {
     // Any view setup should occur here.  E.g., view lookups and attaching view listeners.
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
-
+        mContext = view.getContext();
     }
 
     @Override
@@ -391,19 +364,11 @@ public class CalendarFragment extends Fragment {
         });
     }
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_new_deadline, menu);
-    }
+//    @Override
+//    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+//        inflater.inflate(R.menu.profile_toolbar, menu);
+//
+//    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.new_deadline:
-                Intent intent = new Intent(mContext, NewDeadlineDialog.class);
-                startActivity(intent);
-                break;
-        }
-        return true;
-    }
+
 }

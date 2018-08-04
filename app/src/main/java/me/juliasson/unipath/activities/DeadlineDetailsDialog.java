@@ -6,7 +6,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
+import android.view.MotionEvent;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.TextView;
 
 import org.parceler.Parcels;
@@ -16,18 +18,22 @@ import java.util.HashMap;
 
 import me.juliasson.unipath.R;
 import me.juliasson.unipath.adapters.DDCollegeListAdapter;
+import me.juliasson.unipath.internal.GetDeadlineDialogStatusInterface;
+import me.juliasson.unipath.internal.UpdateTimelineAdapterInterface;
 import me.juliasson.unipath.model.TimeLine;
 import me.juliasson.unipath.model.UserDeadlineRelation;
 import me.juliasson.unipath.utils.DateTimeUtils;
 
 
-public class DeadlineDetailsDialog extends AppCompatActivity {
+public class DeadlineDetailsDialog extends AppCompatActivity implements GetDeadlineDialogStatusInterface{
 
     private DDCollegeListAdapter ddcAdapter;
     private ArrayList<UserDeadlineRelation> relations;
     private RecyclerView rvRelations;
     private TimeLine timeline;
     private HashMap<TimeLine, ArrayList<UserDeadlineRelation>> mHashRelations;
+    private boolean isChanged = false;
+    private static UpdateTimelineAdapterInterface utaInterface;
 
     TextView tvDate;
 
@@ -38,6 +44,10 @@ public class DeadlineDetailsDialog extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.dialog_deadline_details);
+        Window window = this.getWindow();
+        window.setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL, WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL);
+        window.addFlags(WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH);
+
         this.setFinishOnTouchOutside(true);
 
         setSize();
@@ -50,7 +60,7 @@ public class DeadlineDetailsDialog extends AppCompatActivity {
 
         rvRelations = findViewById(R.id.rvCollegeList);
         relations = new ArrayList<>();
-        ddcAdapter = new DDCollegeListAdapter(relations);
+        ddcAdapter = new DDCollegeListAdapter(relations, this);
         rvRelations.setLayoutManager(new LinearLayoutManager(this));
         rvRelations.setAdapter(ddcAdapter);
 
@@ -71,6 +81,40 @@ public class DeadlineDetailsDialog extends AppCompatActivity {
         int height = metrics.heightPixels;
 
         getWindow().setLayout(ActionBar.LayoutParams.MATCH_PARENT, (3 * height)/4);
+    }
+
+    //-------------------------implementing interface----------------------------
+
+    @Override
+    public void isDialogEmpty(boolean isEmpty) {
+        if (isEmpty) {
+            utaInterface.updateItemRemoval(true);
+            finish();
+        }
+    }
+
+    @Override
+    public void isDialogChanged(boolean isChanged) {
+        if (isChanged) {
+            this.isChanged = true;
+        }
+    }
+
+    public static void setUtaInterface(UpdateTimelineAdapterInterface utaInterface0) {
+        utaInterface = utaInterface0;
+    }
+
+    //------------------------listen for clicking outside of dialog-------------
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_OUTSIDE) {
+            if (isChanged) {
+                utaInterface.updateItemStatus(true);
+            }
+            finish();
+        }
+        return false;
     }
 }
 

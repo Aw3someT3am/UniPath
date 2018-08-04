@@ -24,7 +24,7 @@ import me.juliasson.unipath.R;
 import me.juliasson.unipath.adapters.NDCollegeListAdapter;
 import me.juliasson.unipath.model.College;
 import me.juliasson.unipath.model.UserCollegeRelation;
-import me.juliasson.unipath.utils.GetCollegeInterface;
+import me.juliasson.unipath.internal.GetCollegeInterface;
 
 public class NDCollegeListDialog extends AppCompatActivity implements GetCollegeInterface {
 
