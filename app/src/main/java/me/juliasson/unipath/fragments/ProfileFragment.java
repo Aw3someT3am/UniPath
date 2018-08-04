@@ -14,10 +14,12 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -59,7 +61,6 @@ public class ProfileFragment extends Fragment {
     private TextView tvProgressText;
     private TextView tvFirstName;
     private TextView tvEmail;
-    private Button bvLogout;
     private ImageView ivForward;
     private ImageView ivBack;
     private ImageView bvFavoritesMap;
@@ -90,7 +91,6 @@ public class ProfileFragment extends Fragment {
 
     private final static int GALLERY_IMAGE_SELECTION_REQUEST_CODE = 2034;
     private String filePath;
-
     private Context mContext;
 
 
@@ -98,6 +98,7 @@ public class ProfileFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         // Defines the xml file for the fragment
         pager = (ViewPager) parent;
+        setHasOptionsMenu(true);
         mTimelineActivity=(TimelineActivity) getActivity();
 
         return inflater.inflate(R.layout.fragment_profile, parent, false);
@@ -118,7 +119,6 @@ public class ProfileFragment extends Fragment {
         tvProgressText = view.findViewById(R.id.tvProgressText);
         tvFirstName = view.findViewById(R.id.tvFirstName);
         tvEmail = view.findViewById(R.id.tvEmail);
-        bvLogout = view.findViewById(R.id.bvLogout);
         bvFavoritesMap = view.findViewById(R.id.mapFavorites);
         ivForward = view.findViewById(R.id.ivForward);
         ivBack = view.findViewById(R.id.ivBack);
@@ -199,6 +199,28 @@ public class ProfileFragment extends Fragment {
         handler.post(autoRefresh);
     }
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.profile_toolbar, menu);
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.actionbar_logout:
+                ParseUser.logOut();
+                mAuth.signOut();
+                Log.d("ProfileActivity", "Logged out successfully");
+                Toast.makeText(mContext, "Logout successful", Toast.LENGTH_SHORT).show();
+                Intent i = new Intent(mContext, LoginActivity.class);
+                startActivity(i);
+                getActivity().getSupportFragmentManager().popBackStack();
+                break;
+        }
+        return true;
+    }
+
 
 
     //-------------------Handling assignment/prep for profile general info----------------------------
@@ -213,19 +235,6 @@ public class ProfileFragment extends Fragment {
                 .load(ParseUser.getCurrentUser().getParseFile(KEY_PROFILE_IMAGE).getUrl())
                 .apply(RequestOptions.circleCropTransform())
                 .into(ivProfileImage);
-
-        bvLogout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ParseUser.logOut();
-                mAuth.signOut();
-                Log.d("ProfileActivity", "Logged out successfully");
-                Toast.makeText(mContext, "Logout successful", Toast.LENGTH_SHORT).show();
-                Intent i = new Intent(mContext, LoginActivity.class);
-                startActivity(i);
-                getActivity().getSupportFragmentManager().popBackStack();
-            }
-        });
 
         ivProfileImage.setOnClickListener(new View.OnClickListener() {
             @Override
