@@ -41,8 +41,6 @@ import java.util.List;
 import java.util.Locale;
 
 import me.juliasson.unipath.R;
-
-import me.juliasson.unipath.activities.NewDeadlineDialog;
 import me.juliasson.unipath.model.College;
 import me.juliasson.unipath.model.Deadline;
 import me.juliasson.unipath.model.UserDeadlineRelation;
@@ -169,7 +167,7 @@ public class CalendarFragment extends Fragment {
                 FragmentTransaction ft = getFragmentManager().beginTransaction();
                 ft.detach(CalendarFragment.this).attach(CalendarFragment.this).commit();
                 selectDay(Calendar.getInstance().getTime());
-                currentCalendarDate = Calendar.getInstance().getTime();
+                compactCalendarView.setCurrentDate(Calendar.getInstance().getTime());
             }
         });
 
@@ -182,13 +180,6 @@ public class CalendarFragment extends Fragment {
                 // get the list of deadlines, compare each deadline date to today's date
                 Date nextClosestDeadline = Calendar.getInstance().getTime();
                 nextClosestDeadline.setYear(nextClosestDeadline.getYear() + 1);
-
-//                Date nextClosestDeadline =  mDataList.get(0).getDeadline().getDeadlineDate();
-
-//                int counter = 0;
-//                while (nextClosestDeadline == currentCalendarDate) {
-//                    nextClosestDeadline = mDataList.get(counter + 1).getDeadline().getDeadlineDate();
-//                }
 
                 // Get the next closest deadline
                 for (int i = 0; i < mDataList.size(); i ++) {
@@ -229,13 +220,11 @@ public class CalendarFragment extends Fragment {
                     }
                 }
 
-
                 int yearDifference = currentCalendarDate.getYear() - nextClosestDeadline.getYear() ;
                 int difference = yearDifference * 12 + currentCalendarDate.getMonth() - nextClosestDeadline.getMonth();
 
 //                int previousMonth = nextClosestDeadline.getMonth();
 //                int currentMonth = Calendar.getInstance().getTime().getMonth();
-
                //  int difference = currentMonth - previousMonth;
 
                 for (int j = 0; j < difference; j ++) {
