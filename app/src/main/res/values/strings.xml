@@ -15,10 +15,10 @@
     <string name="email">email</string>
     <string name="create_account">Create Account</string>
     <string name="cancel">Cancel</string>
-    <string name="progress_label">Hi, first name! Here\'s your progress.</string>
+    <string name="progress_label">Hi! Here\'s your progress.</string>
     <string name="log_out">Log out</string>
     <string name="early_decision">Early Decision</string>
-    <string name="regular_desicion">Regular Desicion</string>
+    <string name="regular_decision">Regular Decision</string>
     <string name="description">Description</string>
     <string name="date">date</string>
     <string name="deadline_description">Deadline Description</string>

@@ -8,17 +8,31 @@
     tools:context=".activities.SignUpActivity">
 
     <ImageView
-        android:id="@+id/ivProfileImage"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:id="@+id/ivCircleView"
+        android:layout_width="110dp"
+        android:layout_height="110dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        android:cropToPadding="false"
-        android:padding="4dp"
+        android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/border_circle_orange" />
+
+    <ImageView
+        android:id="@+id/ivProfileImage"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:cropToPadding="false"
+        android:padding="4dp"
+        app:layout_constraintBottom_toBottomOf="@+id/ivCircleView"
+        app:layout_constraintEnd_toEndOf="@+id/ivCircleView"
+        app:layout_constraintStart_toStartOf="@+id/ivCircleView"
+        app:layout_constraintTop_toTopOf="@+id/ivCircleView"
         app:srcCompat="@drawable/rounded_transparent_bg" />
 
     <LinearLayout
@@ -26,14 +40,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ivProfileImage">
+        app:layout_constraintTop_toBottomOf="@+id/ivCircleView">
 
         <EditText
             android:id="@+id/etFirstName"
