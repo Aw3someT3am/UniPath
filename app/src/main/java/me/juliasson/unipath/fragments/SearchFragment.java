@@ -30,6 +30,8 @@ import me.juliasson.unipath.activities.MapActivity;
 import me.juliasson.unipath.activities.SearchFilteringDialog;
 import me.juliasson.unipath.adapters.CollegeAdapter;
 import me.juliasson.unipath.adapters.MyExpandableListAdapter;
+import me.juliasson.unipath.internal.GetCollegeAddedToFavList;
+import me.juliasson.unipath.internal.GetCollegeLikedOnSearchListView;
 import me.juliasson.unipath.internal.LikedRefreshInterface;
 import me.juliasson.unipath.internal.SearchInterface;
 import me.juliasson.unipath.model.College;
@@ -38,7 +40,7 @@ import me.juliasson.unipath.utils.Constants;
 
 import static android.app.Activity.RESULT_OK;
 
-public class SearchFragment extends Fragment implements SearchInterface, LikedRefreshInterface {
+public class SearchFragment extends Fragment implements SearchInterface, LikedRefreshInterface, GetCollegeLikedOnSearchListView {
 //TODO: Display "No colleges found" for searches with no results
 
     private Context mContext;
@@ -64,6 +66,8 @@ public class SearchFragment extends Fragment implements SearchInterface, LikedRe
     private int outStateCostIndex = -1;
     private int acceptanceRateIndex = -1;
     private String stateValue;
+
+    private static GetCollegeAddedToFavList collegeListChangedInterface;
 
     private final String DEFAULT_MAX_VAL = "2147483647";
     private final String DEFAULT_MIN_VAL = "0";
@@ -142,7 +146,8 @@ public class SearchFragment extends Fragment implements SearchInterface, LikedRe
         postsQuery.limit20();
         LikedRefreshInterface lrInterface = this;
         SearchInterface sInterface = this;
-        collegeAdapter = new CollegeAdapter(colleges, sInterface, lrInterface);
+        GetCollegeLikedOnSearchListView closlInterface = this;
+        collegeAdapter = new CollegeAdapter(colleges, sInterface, lrInterface, closlInterface);
         mRecyclerView.setAdapter(collegeAdapter);
         postsQuery.orderByAscending("name");
         postsQuery.findInBackground(new FindCallback<College>() {
@@ -213,6 +218,10 @@ public class SearchFragment extends Fragment implements SearchInterface, LikedRe
             refreshList.addAll(filteredColleges);
 //            Toast.makeText(getContext(), "Notempty"Notempty, Toast.LENGTH_LONG).show();
         }
+    }
+
+    public static void setCollegeListChangedInterface(GetCollegeAddedToFavList collegeListChanged) {
+        collegeListChangedInterface = collegeListChanged;
     }
 
 
@@ -326,7 +335,15 @@ public class SearchFragment extends Fragment implements SearchInterface, LikedRe
     @Override
     public void setValues(boolean isChanged) {
         if (isChanged) {
+            collegeListChangedInterface.getCollegeListChanged(true);
             refresh();
+        }
+    }
+
+    @Override
+    public void getCollegeLikedOnSearchListView(boolean isChanged) {
+        if (isChanged) {
+            collegeListChangedInterface.getCollegeListChanged(true);
         }
     }
 }

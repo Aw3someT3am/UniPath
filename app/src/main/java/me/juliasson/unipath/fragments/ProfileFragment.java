@@ -48,17 +48,17 @@ import me.juliasson.unipath.activities.MapActivity;
 import me.juliasson.unipath.activities.NewDeadlineDialog;
 import me.juliasson.unipath.activities.TimelineActivity;
 import me.juliasson.unipath.adapters.CollegeAdapter;
+import me.juliasson.unipath.internal.UpdateFavCollegeList;
 import me.juliasson.unipath.model.College;
 import me.juliasson.unipath.model.UserCollegeRelation;
 import me.juliasson.unipath.model.UserDeadlineRelation;
 import me.juliasson.unipath.utils.GalleryUtils;
 
-public class ProfileFragment extends Fragment {
+public class ProfileFragment extends Fragment implements UpdateFavCollegeList {
 
     private TextView tvProgressLabel;
     private ProgressBar pbProgress;
     private ImageView ivProfileImage;
-    private ImageView ivRefresh;
     private TextView tvProgressText;
     private TextView tvFirstName;
     private TextView tvEmail;
@@ -73,7 +73,7 @@ public class ProfileFragment extends Fragment {
     TimelineActivity mTimelineActivity;
 
     private CollegeAdapter collegeAdapter;
-    private ArrayList<College> colleges;
+    private static ArrayList<College> colleges;
 
     private static final String TAG = "ProfileFragment";
     private final String KEY_FIRST_NAME = "firstName";
@@ -101,6 +101,7 @@ public class ProfileFragment extends Fragment {
         pager = (ViewPager) parent;
         setHasOptionsMenu(true);
         mTimelineActivity=(TimelineActivity) getActivity();
+        TimelineActivity.updateFavCollegeListInterface(this);
 
         return inflater.inflate(R.layout.fragment_profile, parent, false);
     }
@@ -116,7 +117,6 @@ public class ProfileFragment extends Fragment {
         tvProgressLabel = view.findViewById(R.id.tvProgressLabel);
         pbProgress = view.findViewById(R.id.pbProgress);
         ivProfileImage = view.findViewById(R.id.ivProfileImage);
-        ivRefresh = view.findViewById(R.id.ivRefresh);
         tvProgressText = view.findViewById(R.id.tvProgressText);
         tvFirstName = view.findViewById(R.id.tvFirstName);
         tvEmail = view.findViewById(R.id.tvEmail);
@@ -137,14 +137,6 @@ public class ProfileFragment extends Fragment {
 
         //set up of favorite colleges list
         loadFavoriteColleges();
-
-        ivRefresh.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                view.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.image_view_click));
-                refresh();
-            }
-        });
 
         bvFavoritesMap.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -341,6 +333,8 @@ public class ProfileFragment extends Fragment {
             @Override
             public void done(List<UserCollegeRelation> objects, ParseException e) {
                 if (e == null) {
+                    colleges.clear();
+                    collegeAdapter.notifyDataSetChanged();
                     for(int i = 0; i < objects.size(); i++) {
                         UserCollegeRelation relation = objects.get(i);
                         College college = relation.getCollege();
@@ -358,8 +352,9 @@ public class ProfileFragment extends Fragment {
 
     public void refresh() {
         collegeAdapter.clear();
+        collegeAdapter.clearWithFilter();
         loadFavoriteColleges();
-        collegeAdapter.addAll(colleges);
+        collegeAdapter.addAllFiltered(colleges);
     }
 
     @Override
@@ -373,6 +368,13 @@ public class ProfileFragment extends Fragment {
         super.onStop();
         if (mAuthListener != null) {
             mAuth.removeAuthStateListener(mAuthListener);
+        }
+    }
+
+    @Override
+    public void updateList(boolean update) {
+        if (update) {
+            refresh();
         }
     }
 }

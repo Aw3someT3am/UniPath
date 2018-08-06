@@ -37,6 +37,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import me.juliasson.unipath.internal.GetCollegeLikedOnSearchListView;
 import me.juliasson.unipath.internal.LikedRefreshInterface;
 import me.juliasson.unipath.internal.LikesInterface;
 import me.juliasson.unipath.R;
@@ -71,10 +72,12 @@ public class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.ViewHold
     private static SearchInterface searchInterface;
     private static LikesInterface likesInterface;
     private static LikedRefreshInterface likedRefreshInterface;
+    private static GetCollegeLikedOnSearchListView likedOnSearchListView;
 
-    public CollegeAdapter(ArrayList<College> arrayList, SearchInterface searchInterface, LikedRefreshInterface likedRefreshInterface) {
+    public CollegeAdapter(ArrayList<College> arrayList, SearchInterface searchInterface, LikedRefreshInterface likedRefreshInterface, GetCollegeLikedOnSearchListView likedOnSearchListView) {
         CollegeAdapter.searchInterface = searchInterface;
         CollegeAdapter.likedRefreshInterface = likedRefreshInterface;
+        CollegeAdapter.likedOnSearchListView = likedOnSearchListView;
         mColleges = arrayList;
         mFilteredList = arrayList;
     }
@@ -133,6 +136,7 @@ public class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.ViewHold
             public void unLiked(LikeButton likeButton) {
                 removeUserCollegeRelation(college);
                 removeUserDeadlinesRelation(college);
+                likedOnSearchListView.getCollegeLikedOnSearchListView(true);
             }
         });
 
@@ -289,6 +293,7 @@ public class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.ViewHold
     // Clean all elements of the recycler
     public void clearWithFilter() {
         mFilteredList.clear();
+        notifyDataSetChanged();
     }
 
         // Add a list of items -- change to type used
@@ -300,6 +305,7 @@ public class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.ViewHold
     public void addAllFiltered(List<College> list) {
         if(list != null) {
             mFilteredList.addAll(list);
+            notifyDataSetChanged();
         }
     }
 
@@ -403,6 +409,7 @@ public class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.ViewHold
                         }
 
                     }
+                    likedOnSearchListView.getCollegeLikedOnSearchListView(true);
                 } else {
                     e.printStackTrace();
                 }
@@ -483,7 +490,7 @@ public class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.ViewHold
                             });
 
                             Log.d(TAG, "onClick: Attempting to add object to database.");
-                            String date = DateTimeUtils.parseDateTime(relation.getDeadline().toString(), DateTimeUtils.parseInputFormat, DateTimeUtils.parseOutputFormat);
+                            String date = DateTimeUtils.parseDateTime(relation.getDeadline().getDeadlineDate().toString(), DateTimeUtils.parseInputFormat, DateTimeUtils.parseOutputFormat);
                             FirebaseUser user = mAuth.getCurrentUser();
                             String userID = user.getUid();
                             myRef.child(mContext.getString(R.string.dbnode_users)).child(userID).child("dates").child(date).setValue(true);
@@ -504,6 +511,7 @@ public class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.ViewHold
                             });
                         }
                     }
+                    likedOnSearchListView.getCollegeLikedOnSearchListView(true);
                 } else {
                     e.printStackTrace();
                 }
