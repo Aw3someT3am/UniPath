@@ -32,8 +32,8 @@
         />
     <item
         android:id="@+id/toggle_map"
-        app:srcCompat="@drawable/baseline_public_white_48dp"
         android:title="MAP"
-        app:showAsAction="always"
-        />
+        android:visible="true"
+        app:icon="@drawable/world"
+        app:showAsAction="always" />
 </menu>
