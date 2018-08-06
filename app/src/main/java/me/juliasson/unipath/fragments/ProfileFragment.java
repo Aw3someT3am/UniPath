@@ -150,6 +150,7 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 // The list of 'liked' colleges is can simply be sent to map activity
+                view.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.image_view_click));
                 Intent i = new Intent(mContext, MapActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putParcelableArrayList("favoritedList", colleges);
@@ -161,6 +162,7 @@ public class ProfileFragment extends Fragment {
         ivForward.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                view.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.image_view_click));
                 Boolean scroll = scrollView.fling(10, 0);
                 if (scrollView.getCurrentItem() < colleges.size() - 1) {
                     scrollView.smoothScrollToPosition(scrollView.getCurrentItem() + 1);
@@ -172,6 +174,7 @@ public class ProfileFragment extends Fragment {
         ivBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                view.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.image_view_click));
                 Boolean scroll = scrollView.fling(10, 0);
                 if (scrollView.getCurrentItem() >= 1) {
                     scrollView.smoothScrollToPosition(scrollView.getCurrentItem() - 1);
