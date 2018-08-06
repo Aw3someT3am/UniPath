@@ -5,7 +5,8 @@
     android:id="@+id/main_content"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_grey" >
+    android:background="@color/background_grey"
+    android:padding="8dp">
 
 
     <android.support.constraint.ConstraintLayout
@@ -14,25 +15,25 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true">
 
-            <ListView
-                android:id="@+id/bookings_listview"
-                android:layout_width="wrap_content"
-                android:layout_height="195dp"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentStart="true"
-                android:layout_marginBottom="4dp"
-                android:layout_marginEnd="8dp"
-                android:focusableInTouchMode="true"
-                android:headerDividersEnabled="true"
-                android:nestedScrollingEnabled="true"
-                android:paddingTop="0dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+        <ListView
+            android:id="@+id/bookings_listview"
+            android:layout_width="wrap_content"
+            android:layout_height="195dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginBottom="4dp"
+            android:layout_marginEnd="8dp"
+            android:focusableInTouchMode="true"
+            android:headerDividersEnabled="true"
+            android:nestedScrollingEnabled="true"
+            android:paddingTop="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-            </ListView>
+        </ListView>
 
     </android.support.constraint.ConstraintLayout>
 
@@ -42,9 +43,8 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/compactcalendar_view"
         android:layout_alignParentStart="true"
-        android:background="@color/transparent"
+        android:background="@drawable/rounded_transparent_bg"
         android:drawableLeft="@drawable/previous"
-        android:focusableInTouchMode="true"
         android:fontFamily="@font/lato"
         android:shadowRadius="5"
         android:text="Previous &#10;deadline"
@@ -58,10 +58,9 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_below="@+id/monthYearBtn"
-        android:background="@color/transparent"
+        android:background="@drawable/rounded_transparent_bg"
         android:drawableRight="@drawable/next"
         android:elevation="9dp"
-        android:focusableInTouchMode="true"
         android:fontFamily="@font/lato"
         android:text="Next &#10;deadline"
         android:textAllCaps="false"
@@ -74,8 +73,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/monthYearBtn"
         android:layout_centerHorizontal="true"
-        android:background="@drawable/todaybuttonstyle"
-        android:focusableInTouchMode="true"
+        android:background="@drawable/rounded_transparent_bg"
         android:fontFamily="@font/lato"
         android:shadowColor="#A8A8A8"
         android:shadowDx="0"
@@ -92,13 +90,14 @@
         android:layout_height="60dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
+        android:textStyle="bold"
+        android:textFontWeight=""
         android:gravity="center"
         android:textColor="@color/white"
         android:textSize="24sp" />
 
 
-    <com.github.sundeepk.compactcalendarview.CompactCalendarView
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    <com.github.sundeepk.compactcalendarview.CompactCalendarView xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/compactcalendar_view"
         android:layout_width="fill_parent"
         android:layout_height="302dp"

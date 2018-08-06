@@ -169,15 +169,15 @@
 
         <ImageView
             android:id="@+id/mapFavorites"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
-            android:layout_margin="4dp"
+            android:layout_margin="16dp"
             android:layout_toEndOf="@+id/ivBack"
             android:scaleType="fitXY"
             android:tint="@color/solid_white"
-            app:srcCompat="@drawable/baseline_public_white_48dp" />
+            app:srcCompat="@drawable/world" />
 
     </RelativeLayout>
 

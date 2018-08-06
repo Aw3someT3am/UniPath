@@ -52,8 +52,8 @@
 
         <ImageView
             android:id="@+id/ivDatePicker"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_margin="8dp"
@@ -166,8 +166,10 @@
         android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:background="@color/background_orange"
+        android:background="@drawable/todaybuttonstyle"
+        android:backgroundTint="@color/background_orange"
         android:padding="8dp"
+        android:textAllCaps="false"
         android:text="Add Deadline"
         android:textColor="@color/solid_white"
         app:layout_constraintEnd_toEndOf="parent"
@@ -175,3 +177,5 @@
         app:layout_constraintTop_toBottomOf="@+id/rlPickCollege" />
 
 </android.support.constraint.ConstraintLayout>
+
+    <!--android:background="@color/background_orange"-->
