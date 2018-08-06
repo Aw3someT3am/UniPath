@@ -67,43 +67,20 @@
         android:layout_marginStart="8dp"
         android:padding="8dp">
 
-        <android.support.constraint.ConstraintLayout
-            android:id="@+id/clProfileImage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <ImageView
+            android:id="@+id/ivProfileImage"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:layout_alignParentStart="true"
-            android:layout_centerVertical="true">
-
-            <ImageView
-                android:id="@+id/ivProfileImage"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_marginBottom="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <ImageView
-                android:id="@+id/ivBorder"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
-                android:src="@drawable/border_circle_orange"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-        </android.support.constraint.ConstraintLayout>
+            android:layout_centerVertical="true"
+            android:layout_margin="4dp" />
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
-            android:layout_toRightOf="@+id/clProfileImage">
+            android:layout_marginTop="4dp"
+            android:layout_toRightOf="@+id/ivProfileImage">
 
             <TextView
                 android:id="@+id/tvFirstName"

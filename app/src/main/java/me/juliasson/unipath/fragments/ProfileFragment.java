@@ -206,7 +206,6 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.profile_toolbar, menu);
-
     }
 
     @Override
