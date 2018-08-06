@@ -29,6 +29,7 @@ import org.parceler.Parcels;
 import java.util.ArrayList;
 import java.util.List;
 
+import me.juliasson.unipath.fragments.CalculatorFragment;
 import me.juliasson.unipath.internal.LikesInterface;
 import me.juliasson.unipath.R;
 import me.juliasson.unipath.adapters.CollegeAdapter;
@@ -43,6 +44,7 @@ public class CollegeDetailsDialog extends AppCompatActivity {
 
     Fragment generalInfoFragmnet;
     Fragment deadlinesFragmnet;
+    Fragment netCalculatorFragmnet;
 
     TextView tvcollegeName;
     ImageView ivCollegeImage;
@@ -99,14 +101,15 @@ public class CollegeDetailsDialog extends AppCompatActivity {
         args.putParcelable(College.class.getSimpleName(), college);
 
         final FragmentManager fragmentManager = getSupportFragmentManager();
-
         fragmentTransaction = fragmentManager.beginTransaction();
 
         generalInfoFragmnet = new GeneralInfoFragment();
         deadlinesFragmnet = new DeadlineFragment();
+        netCalculatorFragmnet = new CalculatorFragment();
 
         generalInfoFragmnet.setArguments(args);
         deadlinesFragmnet.setArguments(args);
+        netCalculatorFragmnet.setArguments(args);
 
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
 
@@ -125,6 +128,8 @@ public class CollegeDetailsDialog extends AppCompatActivity {
                     case R.id.fragment_deadline:
                         fragmentTransaction.replace(R.id.flContainer, deadlinesFragmnet).commit();
                         return true;
+                    case R.id.fragment_calculator:
+                        fragmentTransaction.replace(R.id.flContainer, netCalculatorFragmnet).commit();
                 }
                 return true;
             }

@@ -5,10 +5,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.GeneralInfoFragment">
+    tools:context=".fragments.CalculatorFragment">
 
     <TextView
-        android:id="@+id/etDescription"
+        android:id="@+id/etNetCalculator"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
@@ -17,47 +17,19 @@
         android:layout_marginBottom="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
-        android:text="@string/description"
+        android:text="@string/net_calculator"
         android:textAppearance="@android:style/TextAppearance.Medium"
         android:textColor="@color/solid_white" />
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/etDescription" >
+        android:layout_below="@+id/etNetCalculator" >
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/lato">
-
-            <LinearLayout
-                android:id="@+id/llWebsite"
-                android:layout_alignParentTop="true"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="8dp">
-                <TextView
-                    android:id="@+id/tvWebsiteLabel"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Website:"
-                    android:textAppearance="@android:style/TextAppearance.Medium"
-                    android:textColor="@color/solid_white" />
-                <TextView
-                    android:id="@+id/tvWebsite"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="8dp"
-                    android:layout_weight="2"
-                    android:gravity="end"
-                    android:text="Website"
-                    android:autoLink="web"
-                    android:textAppearance="@android:style/TextAppearance.Medium"
-                    android:textColor="@color/background_light_orange" />
-            </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/llCitizenship"
@@ -66,24 +38,22 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:padding="8dp">
+
                 <TextView
-                    android:id="@+id/tvAddressLabel"
+                    android:id="@+id/tvCitizenshipLabel"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Address:"
+                    android:text="Citizenship:"
                     android:textAppearance="@android:style/TextAppearance.Medium"
                     android:textColor="@color/solid_white" />
-                <TextView
-                    android:id="@+id/tvAddress"
+
+                <Spinner
+                    android:id="@+id/spCitizenship"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="8dp"
-                    android:layout_weight="2"
-                    android:gravity="end"
-                    android:text="Address"
-                    android:textAppearance="@android:style/TextAppearance.Medium"
-                    android:textColor="@color/white_80_transparent" />
+                    android:layout_weight="2" />
             </LinearLayout>
 
             <LinearLayout
@@ -93,103 +63,169 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:padding="8dp">
+
                 <TextView
-                    android:id="@+id/tvPopulationLabel"
+                    android:id="@+id/tvStateResidenceLabel"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Population:"
+                    android:text="State of Residence:"
                     android:textAppearance="@android:style/TextAppearance.Medium"
                     android:textColor="@color/solid_white" />
-                <TextView
-                    android:id="@+id/tvStudentPopulation"
+                <Spinner
+                    android:id="@+id/spStateResidence"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="2"
                     android:layout_marginLeft="8dp"
-                    android:gravity="end"
-                    android:text="Student Population"
-                    android:textAppearance="@android:style/TextAppearance.Medium"
-                    android:textColor="@color/white_80_transparent" />
+                    android:layout_weight="2" />
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/llCostInState"
+                android:id="@+id/llParentIncome"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_below="@+id/llStateResidence"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:padding="8dp">
+
                 <TextView
-                    android:id="@+id/tvCostInStateLabel"
+                    android:id="@+id/tvParentIncomeLabel"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="6dp"
                     android:layout_weight="1"
-                    android:text="Cost In-State:"
+                    android:text="Parent Income:"
                     android:textAppearance="@android:style/TextAppearance.Medium"
                     android:textColor="@color/solid_white" />
-                <TextView
-                    android:id="@+id/tvCostInState"
+
+                <EditText
+                    android:id="@+id/etParentIncome"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="2"
                     android:layout_marginLeft="8dp"
+                    android:layout_weight="2"
                     android:gravity="end"
-                    android:text="Cost in State"
                     android:textAppearance="@android:style/TextAppearance.Medium"
                     android:textColor="@color/white_80_transparent" />
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/llCostOutState"
-                android:layout_below="@+id/llCostInState"
+                android:id="@+id/llStudentAssets"
+                android:layout_below="@+id/llParentIncome"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:padding="8dp">
+
                 <TextView
-                    android:id="@+id/tvCostOutStateLabel"
+                    android:id="@+id/tvStudentAssetsLabel"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="6dp"
                     android:layout_weight="1"
-                    android:text="Cost Out-State:"
+                    android:text="Student Assets:"
                     android:textAppearance="@android:style/TextAppearance.Medium"
                     android:textColor="@color/solid_white" />
-                <TextView
-                    android:id="@+id/tvCostOutState"
+                <EditText
+                    android:id="@+id/etStudentAsset"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
                     android:layout_marginLeft="8dp"
                     android:gravity="end"
-                    android:text="Cost out of State"
                     android:textAppearance="@android:style/TextAppearance.Medium"
-                    android:textColor="@color/white_80_transparent" />
+                    android:textColor="@color/white_80_transparent"/>
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/llAcceptanceRate"
-                android:layout_below="@+id/llCostOutState"
+                android:id="@+id/llParentAssets"
+                android:layout_below="@+id/llStudentAssets"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:padding="8dp">
+
                 <TextView
-                    android:id="@+id/tvAcceptanceRateLabel"
+                    android:id="@+id/tvParentAssetsLabel"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="6dp"
+                    android:layout_weight="1"
+                    android:text="Parent Assets:"
+                    android:textAppearance="@android:style/TextAppearance.Medium"
+                    android:textColor="@color/solid_white" />
+                <EditText
+                    android:id="@+id/etParentAsset"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:layout_marginLeft="8dp"
+                    android:gravity="end"
+                    android:textAppearance="@android:style/TextAppearance.Medium"
+                    android:textColor="@color/white_80_transparent"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llEFC"
+                android:layout_below="@+id/llParentAssets"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="8dp">
+
+                <TextView
+                    android:id="@+id/tvEFCLabel"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="6dp"
+                    android:layout_weight="1"
+                    android:text="Expected Family Contribution:"
+                    android:textAppearance="@android:style/TextAppearance.Medium"
+                    android:textColor="@color/solid_white" />
+                <EditText
+                    android:id="@+id/etEFC"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:layout_marginLeft="8dp"
+                    android:gravity="end"
+                    android:textAppearance="@android:style/TextAppearance.Medium"
+                    android:textColor="@color/white_80_transparent"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llTotalNet"
+                android:layout_below="@+id/llEFC"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="8dp">
+
+                <Button
+                    android:id="@+id/btnTotalNet"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Acceptance Rate:"
+                    android:text="Calculate" />
+
+                <TextView
+                    android:id="@+id/tvTotalNetLabel"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Net Cost:"
+                    android:layout_marginLeft="8dp"
                     android:textAppearance="@android:style/TextAppearance.Medium"
                     android:textColor="@color/solid_white" />
+
                 <TextView
-                    android:id="@+id/tvAcceptanceRate"
+                    android:id="@+id/tvTotalNetCost"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:layout_marginLeft="8dp"
                     android:gravity="end"
-                    android:text="Acceptance Rate"
+                    android:text=""
                     android:textAppearance="@android:style/TextAppearance.Medium"
                     android:textColor="@color/white_80_transparent" />
             </LinearLayout>

@@ -30,9 +30,7 @@ public class GeneralInfoFragment extends Fragment{
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        final View rootView = inflater.inflate(R.layout.fragment_general_info, container, false);
-
-        return rootView;
+        return inflater.inflate(R.layout.fragment_general_info, container, false);
     }
 
     @Override
