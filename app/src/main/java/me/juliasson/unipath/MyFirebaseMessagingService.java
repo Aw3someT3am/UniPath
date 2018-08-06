@@ -1,18 +1,18 @@
 package me.juliasson.unipath;
 
-import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.media.RingtoneManager;
+import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.NotificationManagerCompat;
 import android.util.Log;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
+import com.parse.ParseUser;
 
 import me.juliasson.unipath.activities.TimelineActivity;
 
@@ -20,6 +20,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     private static final String TAG = "MyFirebaseMsgService";
     private static final int BROADCAST_NOTIFICATION_ID = 1;
+
+    private ParseUser user;
 
     @Override
     public void onDeletedMessages() {
@@ -34,14 +36,20 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
 
-        super.onMessageReceived(remoteMessage);
-        Notification notification = new NotificationCompat.Builder(this)
-                .setContentTitle(remoteMessage.getNotification().getTitle())
-                .setContentText(remoteMessage.getNotification().getBody())
-                .setSmallIcon(R.drawable.ic_insert_emoticon_black_24dp)
-                .build();
-        NotificationManagerCompat manager = NotificationManagerCompat.from(getApplicationContext());
-        manager.notify(123, notification);
+//        if (remoteMessage.getNotification().getBody() != null) {
+//            Log.e("FIREBASE", "Message Notification Body: " + remoteMessage.getNotification().getBody());
+//            sendNotification(remoteMessage);
+//        }
+
+//        super.onMessageReceived(remoteMessage);
+//        Notification notification = new NotificationCompat.Builder(this)
+//                .setContentTitle(remoteMessage.getNotification().getTitle())
+//                .setContentText(remoteMessage.getNotification().getBody())
+//                .setSmallIcon(R.drawable.ic_insert_emoticon_black_24dp)
+//                .build();
+//        NotificationManagerCompat manager = NotificationManagerCompat.from(getApplicationContext());
+//        manager.notify(123, notification);
+        user = ParseUser.getCurrentUser();
 
         String notificationBody = "";
         String notificationTitle = "";
@@ -107,7 +115,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 .setColor(getColor(R.color.background_dark_orange))
                 .setAutoCancel(true)
                 //.setSubText(message)
-                .setStyle(new NotificationCompat.BigTextStyle().bigText(message))
+                .setStyle(new NotificationCompat.BigTextStyle().bigText(user.getUsername()))
                 .setOnlyAlertOnce(true);
 
         builder.setContentIntent(notifyPendingIntent);
@@ -133,6 +141,30 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 //        NotificationManager notificationManager =
 //                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
     }
+
+    private void sendNotification(RemoteMessage remoteMessage) {
+        RemoteMessage.Notification notification = remoteMessage.getNotification();
+        Intent intent = new Intent(this, TimelineActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent,
+                PendingIntent.FLAG_ONE_SHOT);
+
+        Uri defaultSoundUri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
+                .setLargeIcon(BitmapFactory.decodeResource(getResources(),R.drawable.ic_insert_emoticon_black_24dp))
+                .setSmallIcon(R.drawable.ic_insert_emoticon_black_24dp)
+                .setContentTitle(notification.getTitle())
+                .setContentText(notification.getBody())
+                .setAutoCancel(true)
+                .setSound(defaultSoundUri)
+                .setContentIntent(pendingIntent);
+
+        NotificationManager notificationManager =
+                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+        notificationManager.notify(0, notificationBuilder.build());
+    }
+
 
 
     private int buildNotificationId(String id){

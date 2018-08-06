@@ -384,10 +384,11 @@ public class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.ViewHold
                             UserDeadlineRelation relation = objects.get(i);
                             Log.d(TAG, "onClick: Attempting to add object to database.");
                             String date = DateTimeUtils.parseDateTime(relation.getDeadline().getDeadlineDate().toString(), DateTimeUtils.parseInputFormat, DateTimeUtils.parseOutputFormat);
+                            String collegeName = relation.getCollege().getCollegeName();
                             if(!date.equals("")){
                                 FirebaseUser user = mAuth.getCurrentUser();
                                 String userID = user.getUid();
-                                myRef.child(mContext.getString(R.string.dbnode_users)).child(userID).child("dates").child(date).removeValue();
+                                myRef.child(mContext.getString(R.string.dbnode_users)).child(userID).child("dates").child(collegeName).child(date).removeValue();
                                 //toastMessage("Removing " + date + " to database...");
                             }
                             relation.delete();
@@ -483,10 +484,11 @@ public class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.ViewHold
                             });
 
                             Log.d(TAG, "onClick: Attempting to add object to database.");
-                            String date = DateTimeUtils.parseDateTime(relation.getDeadline().toString(), DateTimeUtils.parseInputFormat, DateTimeUtils.parseOutputFormat);
+                            String date = DateTimeUtils.parseDateTime(relation.getDeadline().getDeadlineDate().toString(), DateTimeUtils.parseInputFormat, DateTimeUtils.parseOutputFormat);
+                            String collegeName = relation.getCollege().getCollegeName();
                             FirebaseUser user = mAuth.getCurrentUser();
                             String userID = user.getUid();
-                            myRef.child(mContext.getString(R.string.dbnode_users)).child(userID).child("dates").child(date).setValue(true);
+                            myRef.child(mContext.getString(R.string.dbnode_users)).child(userID).child("dates").child(collegeName).child(date).setValue(true);
 
                             userDeadlineRelation.setCompleted(false);
                             userDeadlineRelation.setCollege(college);

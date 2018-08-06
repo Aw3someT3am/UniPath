@@ -76,10 +76,10 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
         btnCalculate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                parentIncome = (Integer.parseInt((etParentIncome.getText().toString().equals("") ? "0" : etParentIncome.getText().toString())));
-                studentAssets = Integer.parseInt((etStudentAssets.getText().toString().equals("") ? "0" : etStudentAssets.getText().toString()));
-                parentAssets = Integer.parseInt((etParentAssets.getText().toString().equals("") ? "0" : etParentAssets.getText().toString()));
-                efc = Integer.parseInt((etEFC.getText().toString().equals("") ? "0" : etEFC.getText().toString()));
+                parentIncome = (Integer.parseInt((etParentIncome.getText().toString().equals("") || !etParentIncome.getText().toString().matches("^[0-9]+$") ? "0" : etParentIncome.getText().toString())));
+                studentAssets = Integer.parseInt((etStudentAssets.getText().toString().equals("") || !etStudentAssets.getText().toString().matches("^[0-9]+$") ? "0" : etStudentAssets.getText().toString()));
+                parentAssets = Integer.parseInt((etParentAssets.getText().toString().equals("") || !etParentAssets.getText().toString().matches("^[0-9]+$") ? "0" : etParentAssets.getText().toString()));
+                efc = Integer.parseInt((etEFC.getText().toString().equals("") || !etEFC.getText().toString().matches("^[0-9]+$") ? "0" : etEFC.getText().toString()));
                 int netCost = parentIncome + studentAssets + parentAssets + efc;
                 tvTotal.setText(Integer.toString(netCost));
             }

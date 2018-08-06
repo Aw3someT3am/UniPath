@@ -18,8 +18,8 @@ exports.sendNotification = functions.database.ref('/users/{userId}').onWrite((sn
   // const date = snapshot.parent.child('dates').child('custom_deadline').val();
   // console.log("dare: ", date);
 
-  const username = snapshot.ref.parent.child('username').val();
-  console.log("username: ", username);
+  // const username = snapshot.ref.parent.child('username').val();
+  // console.log("username: ", username);
 
 	// ///get the message id. We'll be sending this in the payload
 	// const messageId = event.params.messageId;
@@ -32,56 +32,44 @@ exports.sendNotification = functions.database.ref('/users/{userId}').onWrite((sn
   //
 	// 	///get the token of the user receiving the message
 		return admin.database().ref("/users/" + receiverId).once('value').then(snap => {
-			const token = snap.child("messaging_token").val();
-			console.log("token: ", token);
-  //
-	// 		///we have everything we need
-	// 		///Build the message payload and send the message
-	// 		console.log("Construction the notification message.");
-	// 		const payload = {
-	// 			data: {
-	// 				data_type: "direct_message",
-	// 				title: "New Message from " + senderName,
-	// 				message: text,
-	// 			}
-	// 		};
-  //
-	// 		return admin.messaging().sendToDevice(token, payload);
-	// 	});
-	// });
-// This registration token comes from the client FCM SDKs.
-//const registrationToken = 'c_DV0-f7imo:APA91bGGLfzuFXtEZWP35qd1Orw73EBE1D61r2JnUhGaCe4r0_YXXZvFueS30y8iO1wUXMhY3uH0GhanjX1gT86E_MGDVLXQLm1tWWpgiTr1fYpEgt8C1_sdtVPIQ918xJW9CHLdy-5Mu3veAyrNqFYIFSTWNCRA1Q';
+      const username = snap.child("username").val();
+			//console.log("token: ", token);
+      console.log("user: ", username);
 
-// const text = event.data.child(username).val();
-// console.log("text: ", text);
+      return admin.database().ref("/users/" + receiverId).once('value').then(snap1 => {
+        const token = snap1.child("messaging_token").val();
+      // This registration token comes from the client FCM SDKs.
+      //const registrationToken = 'c_DV0-f7imo:APA91bGGLfzuFXtEZWP35qd1Orw73EBE1D61r2JnUhGaCe4r0_YXXZvFueS30y8iO1wUXMhY3uH0GhanjX1gT86E_MGDVLXQLm1tWWpgiTr1fYpEgt8C1_sdtVPIQ918xJW9CHLdy-5Mu3veAyrNqFYIFSTWNCRA1Q';
 
-// See documentation on defining a message payload.
-const payload = {
-  data: {
-    data_type: 'reminder',
-    title: "Reminder",
-    message: "Deadline coming up",
-  },
-  notification: {
-    title: "Reminder",
-    body: "Deadline coming up"
-  },
-};
+        // See documentation on defining a message payload.
+        const payload = {
+          data: {
+            data_type: 'reminder',
+            title: "Hey " + username + "!",
+            message: "Deadline coming up",
+          },
+          notification: {
+            title: "Hey " + username + "! you have a deadline comming up",
+            body: "Deadline coming up"
+          },
+        };
 
-// Send a message to the device corresponding to the provided
-// registration token.
-//admin.messaging().send(message)
-  // .then((response) => {
-  //   // Response is a message ID string.
-  //   console.log('Successfully sent message:', response);
-  // })
-  // .catch((error) => {
-  //   console.log('Error sending message:', error);
-  // });
-  return admin.messaging().sendToDevice(token, payload);
-});
+        // Send a message to the device corresponding to the provided
+        // registration token.
+        //admin.messaging().send(message)
+          // .then((response) => {
+          //   // Response is a message ID string.
+          //   console.log('Successfully sent message:', response);
+          // })
+          // .catch((error) => {
+          //   console.log('Error sending message:', error);
+          // });
+          return admin.messaging().sendToDevice(token, payload);
+        });
 
-});
+      });
+
+    });
 
 // // Create and Deploy Your First Cloud Functions
 // // https://firebase.google.com/docs/functions/write-firebase-functions
