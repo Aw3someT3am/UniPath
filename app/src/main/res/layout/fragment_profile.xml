@@ -126,11 +126,16 @@
     <RelativeLayout
         android:id="@+id/rlCollegeList"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="253dp"
         android:layout_below="@id/rlUserInfo"
-        android:fontFamily="@font/lato"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:background="@drawable/calendarbuttonstyle"
-        android:layout_margin="8dp">
+        android:fontFamily="@font/lato">
 
         <TextView
             android:id="@+id/tvFavoritesLabel"
@@ -144,15 +149,15 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:text="Favorite Colleges"
-            android:textSize="16sp"
-            android:textColor="@color/solid_white" />
+            android:textColor="@color/solid_white"
+            android:textSize="16sp" />
 
         <com.yarolegovich.discretescrollview.DiscreteScrollView
             android:id="@+id/picker"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/tvFavoritesLabel"
             android:layout_above="@+id/ivBack"
+            android:layout_below="@+id/tvFavoritesLabel"
             android:layout_marginBottom="8dp"
             android:layout_marginLeft="0dp"
             android:layout_marginRight="0dp"
@@ -162,8 +167,8 @@
             android:id="@+id/ivBack"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
             android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
             android:layout_margin="8dp"
             android:tint="@color/background_light_orange"
             app:srcCompat="@drawable/ic_arrow_back_black_24dp" />
@@ -172,8 +177,8 @@
             android:id="@+id/ivForward"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
             android:layout_margin="8dp"
             android:tint="@color/background_light_orange"
             app:srcCompat="@drawable/ic_arrow_forward_black_24dp" />
