@@ -2,6 +2,7 @@ package me.juliasson.unipath.activities;
 
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -198,7 +199,7 @@ public class NewDeadlineDialog extends AppCompatActivity {
 
     @SuppressLint("NewApi")
     public void showDatePicker(View view) {
-        datePickerDialog = new DatePickerDialog(mContext, new DatePickerDialog.OnDateSetListener() {
+        datePickerDialog = new DatePickerDialog(mContext, AlertDialog.THEME_DEVICE_DEFAULT_DARK, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker datePicker, int year, int monthOfYear, int dayOfMonth) {
                 tvDate.setText(String.format("%s %s %s", dayOfMonth, getMonth(monthOfYear).substring(0, 3), year));

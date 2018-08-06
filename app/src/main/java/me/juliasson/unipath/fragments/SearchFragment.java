@@ -25,13 +25,13 @@ import com.parse.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
-import me.juliasson.unipath.activities.MapActivity;
-import me.juliasson.unipath.internal.LikedRefreshInterface;
 import me.juliasson.unipath.R;
-import me.juliasson.unipath.internal.SearchInterface;
+import me.juliasson.unipath.activities.MapActivity;
 import me.juliasson.unipath.activities.SearchFilteringDialog;
 import me.juliasson.unipath.adapters.CollegeAdapter;
 import me.juliasson.unipath.adapters.MyExpandableListAdapter;
+import me.juliasson.unipath.internal.LikedRefreshInterface;
+import me.juliasson.unipath.internal.SearchInterface;
 import me.juliasson.unipath.model.College;
 import me.juliasson.unipath.rows.ParentRow;
 import me.juliasson.unipath.utils.Constants;
@@ -119,8 +119,12 @@ public class SearchFragment extends Fragment implements SearchInterface, LikedRe
                 startActivityForResult(intent, REQUEST_FILTER_CODE);
                 break;
             case R.id.toggle_map:
+                // The list of 'liked' colleges is can simply be sent to map activity
                 Intent i = new Intent(mContext, MapActivity.class);
-                startActivityForResult(i, REQUEST_FILTER_CODE);
+                Bundle bundle = new Bundle();
+                bundle.putParcelableArrayList("favoritedList", refreshList);
+                i.putExtras(bundle);
+                startActivity(i);
                 break;
         }
         return true;

@@ -21,8 +21,6 @@ import me.juliasson.unipath.event.PageChangedEvent;
  */
 public class CentralCompositeFragment extends Fragment {
 
-
-
 	public ViewPager mHorizontalPager;
 	private int mCentralPageIndex = 0;
 	private OnPageChangeListener mPagerChangeListener = new OnPageChangeListener() {
@@ -68,7 +66,5 @@ public class CentralCompositeFragment extends Fragment {
 		pages.add(SearchFragment.class);
 		mCentralPageIndex = pages.indexOf(ProfileFragment.class);
 		mHorizontalPager.setAdapter(new FragmentsAdapter(getChildFragmentManager(), getActivity(), pages));
-
-
 	}
 }

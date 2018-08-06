@@ -22,9 +22,9 @@ import java.util.List;
 
 import me.juliasson.unipath.R;
 import me.juliasson.unipath.adapters.NDCollegeListAdapter;
+import me.juliasson.unipath.internal.GetCollegeInterface;
 import me.juliasson.unipath.model.College;
 import me.juliasson.unipath.model.UserCollegeRelation;
-import me.juliasson.unipath.internal.GetCollegeInterface;
 
 public class NDCollegeListDialog extends AppCompatActivity implements GetCollegeInterface {
 
@@ -53,6 +53,7 @@ public class NDCollegeListDialog extends AppCompatActivity implements GetCollege
     public void loadFavoriteColleges() {
         final UserCollegeRelation.Query ucRelationQuery = new UserCollegeRelation.Query();
         ucRelationQuery.getTop().withCollege().withUser();
+        ucRelationQuery.whereEqualTo("user", ParseUser.getCurrentUser());
 
         ucRelationQuery.findInBackground(new FindCallback<UserCollegeRelation>() {
             @Override
@@ -60,11 +61,9 @@ public class NDCollegeListDialog extends AppCompatActivity implements GetCollege
                 if (e == null) {
                     for(int i = 0; i < objects.size(); i++) {
                         UserCollegeRelation relation = objects.get(i);
-                        if (ParseUser.getCurrentUser().getObjectId().equals(relation.getUser().getObjectId())) {
-                            College college = relation.getCollege();
-                            colleges.add(college);
-                            collegeAdapter.notifyItemInserted(colleges.size()-1);
-                        }
+                        College college = relation.getCollege();
+                        colleges.add(college);
+                        collegeAdapter.notifyItemInserted(colleges.size()-1);
                     }
                 } else {
                     e.printStackTrace();

@@ -8,7 +8,8 @@
     android:fitsSystemWindows="true"
     android:id="@+id/detailsContainer"
     tools:context="me.juliasson.unipath.activities.TimelineActivity"
-    android:background="@drawable/greygradient" >
+    android:background="@color/background_grey" >
+
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/card_recycler_view"

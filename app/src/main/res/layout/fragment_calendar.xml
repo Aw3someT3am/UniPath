@@ -5,7 +5,7 @@
     android:id="@+id/main_content"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/greygradient">
+    android:background="@color/background_grey" >
 
 
     <android.support.constraint.ConstraintLayout
@@ -14,9 +14,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true">
 
-
             <ListView
-
                 android:id="@+id/bookings_listview"
                 android:layout_width="wrap_content"
                 android:layout_height="195dp"
@@ -36,18 +34,16 @@
 
             </ListView>
 
-
     </android.support.constraint.ConstraintLayout>
 
     <Button
         android:id="@+id/btnPreviousDeadine"
-        android:layout_width="wrap_content"
+        android:layout_width="110dp"
         android:layout_height="wrap_content"
         android:layout_above="@+id/compactcalendar_view"
         android:layout_alignParentStart="true"
-        android:background="@drawable/calendarbuttonstyle"
+        android:background="@color/transparent"
         android:drawableLeft="@drawable/previous"
-        android:focusableInTouchMode="true"
         android:fontFamily="@font/lato"
         android:shadowRadius="5"
         android:text="Previous &#10;deadline"
@@ -57,14 +53,13 @@
 
     <Button
         android:id="@+id/btnNextDeadline"
-        android:layout_width="wrap_content"
+        android:layout_width="110dp"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_below="@+id/monthYearBtn"
-        android:background="@drawable/calendarbuttonstyle"
+        android:background="@color/transparent"
         android:drawableRight="@drawable/next"
         android:elevation="9dp"
-        android:focusableInTouchMode="true"
         android:fontFamily="@font/lato"
         android:text="Next &#10;deadline"
         android:textAllCaps="false"
@@ -78,7 +73,6 @@
         android:layout_below="@+id/monthYearBtn"
         android:layout_centerHorizontal="true"
         android:background="@drawable/todaybuttonstyle"
-        android:focusableInTouchMode="true"
         android:fontFamily="@font/lato"
         android:shadowColor="#A8A8A8"
         android:shadowDx="0"
@@ -97,12 +91,11 @@
         android:layout_alignParentTop="true"
         android:gravity="center"
         android:textColor="@color/white"
-        android:textSize="20sp" />
-
-    <!--android:layout_below="@+id/btnNextDeadline"-->
+        android:textSize="24sp" />
 
 
-    <com.github.sundeepk.compactcalendarview.CompactCalendarView xmlns:app="http://schemas.android.com/apk/res-auto"
+    <com.github.sundeepk.compactcalendarview.CompactCalendarView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/compactcalendar_view"
         android:layout_width="fill_parent"
         android:layout_height="302dp"

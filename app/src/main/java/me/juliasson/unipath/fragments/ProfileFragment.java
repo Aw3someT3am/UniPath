@@ -45,6 +45,7 @@ import java.util.List;
 import me.juliasson.unipath.R;
 import me.juliasson.unipath.activities.LoginActivity;
 import me.juliasson.unipath.activities.MapActivity;
+import me.juliasson.unipath.activities.NewDeadlineDialog;
 import me.juliasson.unipath.activities.TimelineActivity;
 import me.juliasson.unipath.adapters.CollegeAdapter;
 import me.juliasson.unipath.model.College;
@@ -149,6 +150,7 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 // The list of 'liked' colleges is can simply be sent to map activity
+                view.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.image_view_click));
                 Intent i = new Intent(mContext, MapActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putParcelableArrayList("favoritedList", colleges);
@@ -160,6 +162,7 @@ public class ProfileFragment extends Fragment {
         ivForward.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                view.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.image_view_click));
                 Boolean scroll = scrollView.fling(10, 0);
                 if (scrollView.getCurrentItem() < colleges.size() - 1) {
                     scrollView.smoothScrollToPosition(scrollView.getCurrentItem() + 1);
@@ -171,6 +174,7 @@ public class ProfileFragment extends Fragment {
         ivBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                view.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.image_view_click));
                 Boolean scroll = scrollView.fling(10, 0);
                 if (scrollView.getCurrentItem() >= 1) {
                     scrollView.smoothScrollToPosition(scrollView.getCurrentItem() - 1);
@@ -202,7 +206,6 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.profile_toolbar, menu);
-
     }
 
     @Override
@@ -216,6 +219,10 @@ public class ProfileFragment extends Fragment {
                 Intent i = new Intent(mContext, LoginActivity.class);
                 startActivity(i);
                 getActivity().getSupportFragmentManager().popBackStack();
+                break;
+            case R.id.new_deadline:
+                Intent intent = new Intent(mContext, NewDeadlineDialog.class);
+                startActivity(intent);
                 break;
         }
         return true;
@@ -328,6 +335,7 @@ public class ProfileFragment extends Fragment {
     public void loadFavoriteColleges() {
         final UserCollegeRelation.Query ucRelationQuery = new UserCollegeRelation.Query();
         ucRelationQuery.getTop().withCollege().withUser();
+        ucRelationQuery.whereEqualTo("user", ParseUser.getCurrentUser());
 
         ucRelationQuery.findInBackground(new FindCallback<UserCollegeRelation>() {
             @Override
@@ -335,11 +343,9 @@ public class ProfileFragment extends Fragment {
                 if (e == null) {
                     for(int i = 0; i < objects.size(); i++) {
                         UserCollegeRelation relation = objects.get(i);
-                        if (ParseUser.getCurrentUser().getObjectId().equals(relation.getUser().getObjectId())) {
-                            College college = relation.getCollege();
-                            colleges.add(college);
-                            collegeAdapter.notifyItemInserted(colleges.size()-1);
-                        }
+                        College college = relation.getCollege();
+                        colleges.add(college);
+                        collegeAdapter.notifyItemInserted(colleges.size()-1);
                     }
                 } else {
                     e.printStackTrace();
