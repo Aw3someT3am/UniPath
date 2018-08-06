@@ -135,7 +135,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_above="@+id/ivBack"
-            android:layout_below="@+id/ivRefresh"
+            android:layout_below="@+id/mapFavorites"
             android:layout_margin="4dp"
             app:dsv_orientation="horizontal" />
 
@@ -168,25 +168,12 @@
             app:srcCompat="@drawable/ic_arrow_forward_black_24dp" />
 
         <ImageView
-            android:id="@+id/ivRefresh"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:layout_alignTop="@+id/mapFavorites"
-            android:layout_margin="16dp"
-            android:scaleType="fitXY"
-            android:tint="@color/progress_green"
-            app:srcCompat="@drawable/ic_cached_black_24dp" />
-
-        <ImageView
             android:id="@+id/mapFavorites"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
-            android:layout_margin="16dp"
+            android:layout_margin="8dp"
             android:layout_toEndOf="@+id/ivBack"
             android:scaleType="fitXY"
             android:tint="@color/solid_white"
