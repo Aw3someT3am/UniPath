@@ -94,7 +94,7 @@
         android:layout_alignParentTop="true"
         android:gravity="center"
         android:textColor="@color/white"
-        android:textSize="22sp" />
+        android:textSize="24sp" />
 
     <!--android:layout_below="@+id/btnNextDeadline"-->
 

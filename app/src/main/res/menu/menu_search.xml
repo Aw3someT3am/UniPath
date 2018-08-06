@@ -34,6 +34,6 @@
         android:id="@+id/toggle_map"
         android:title="MAP"
         android:visible="true"
-        app:icon="@drawable/world"
+        android:icon="@drawable/world"
         app:showAsAction="always" />
 </menu>
