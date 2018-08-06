@@ -83,6 +83,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:background="@drawable/show_map_opaque"
+        android:backgroundTint="@color/background_orange"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -92,7 +93,5 @@
         app:layout_constraintVertical_bias="0.95" />
 
     <!--android:backgroundTint="@color/background_orange"-->
-
-
 
 </android.support.constraint.ConstraintLayout>

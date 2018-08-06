@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/signup_gradient"
+    android:background="@color/background_grey"
     tools:context=".activities.SignUpActivity">
 
     <ImageView
@@ -12,16 +12,14 @@
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
-        android:background="@drawable/button_border_orange"
+        android:cropToPadding="false"
         android:padding="4dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/add_image" />
+        app:srcCompat="@drawable/rounded_transparent_bg" />
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -43,14 +41,14 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="8dp"
             android:layout_weight="1"
+            android:background="@drawable/rounded_transparent_bg"
             android:hint="@string/first_name"
             android:inputType="text"
-            android:maxLines="1"
             android:lines="1"
-            android:textColorHint="@color/background_light_orange"
-            android:textColor="@color/background_light_orange"
+            android:maxLines="1"
             android:padding="8dp"
-            android:background="@drawable/button_border_orange" />
+            android:textColor="@color/solid_white"
+            android:textColorHint="@color/white_80_transparent" />
 
         <EditText
             android:id="@+id/etLastName"
@@ -58,14 +56,14 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
             android:layout_weight="1"
-            android:textColorHint="@color/background_light_orange"
-            android:textColor="@color/background_light_orange"
+            android:background="@drawable/rounded_transparent_bg"
             android:hint="@string/last_name"
             android:inputType="text"
-            android:maxLines="1"
             android:lines="1"
+            android:maxLines="1"
             android:padding="8dp"
-            android:background="@drawable/button_border_orange" />
+            android:textColor="@color/solid_white"
+            android:textColorHint="@color/white_80_transparent" />
     </LinearLayout>
 
     <EditText
@@ -73,75 +71,67 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:textColorHint="@color/background_light_orange"
-        android:textColor="@color/background_light_orange"
+        android:background="@drawable/rounded_transparent_bg"
         android:hint="@string/username"
         android:inputType="text"
-        android:maxLines="1"
         android:lines="1"
+        android:maxLines="1"
         android:padding="8dp"
+        android:textColor="@color/solid_white"
+        android:textColorHint="@color/white_80_transparent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
-        android:background="@drawable/button_border_orange" />
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
     <EditText
         android:id="@+id/etPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:textColorHint="@color/background_light_orange"
-        android:textColor="@color/background_light_orange"
+        android:background="@drawable/rounded_transparent_bg"
         android:hint="@string/password"
         android:inputType="textPassword"
-        android:maxLines="1"
         android:lines="1"
+        android:maxLines="1"
         android:padding="8dp"
+        android:textColor="@color/solid_white"
+        android:textColorHint="@color/white_80_transparent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etUsername"
-        android:background="@drawable/button_border_orange" />
+        app:layout_constraintTop_toBottomOf="@+id/etUsername" />
 
     <EditText
         android:id="@+id/etEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:textColorHint="@color/background_light_orange"
-        android:textColor="@color/background_light_orange"
+        android:background="@drawable/rounded_transparent_bg"
         android:hint="@string/email"
         android:inputType="textEmailAddress"
-        android:maxLines="1"
         android:lines="1"
+        android:maxLines="1"
         android:padding="8dp"
+        android:textColor="@color/solid_white"
+        android:textColorHint="@color/white_80_transparent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etPassword"
-        android:background="@drawable/button_border_orange" />
+        app:layout_constraintTop_toBottomOf="@+id/etPassword" />
 
     <Button
         android:id="@+id/bvCreateAccount"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:background="@color/background_light_orange"
+        android:background="@color/background_orange"
         android:text="@string/create_account"
         android:textColor="@color/solid_white"
         app:layout_constraintEnd_toEndOf="parent"
@@ -154,11 +144,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:background="@color/background_light_orange"
+        android:background="@color/background_orange"
         android:text="@string/cancel"
         android:textColor="@color/solid_white"
         app:layout_constraintEnd_toEndOf="parent"

@@ -9,7 +9,7 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".fragments.LinearTimelineFragment"
     tools:showIn="@layout/fragment_linear_timeline"
-    android:background="@drawable/greygradient">
+    android:background="@color/background_grey" >
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView"
