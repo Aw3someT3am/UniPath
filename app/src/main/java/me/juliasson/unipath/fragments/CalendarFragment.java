@@ -20,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.github.sundeepk.compactcalendarview.CompactCalendarView;
 import com.github.sundeepk.compactcalendarview.domain.Event;
@@ -31,6 +32,8 @@ import java.text.DateFormatSymbols;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -65,6 +68,7 @@ public class CalendarFragment extends Fragment {
     final List<String> mutableBookings = new ArrayList<>();
 
     private List<UserDeadlineRelation> mDataList = new ArrayList<>();
+    private List<Date> mDates = new ArrayList<>();
 
     private static final String KEY_USER = "user";
 
@@ -125,6 +129,9 @@ public class CalendarFragment extends Fragment {
 //        compactCalendarView.addEvents(mDataList);
         setDataListItems();
 
+        sortData();
+        getDates();
+
         //TODO: Display "No events for this day" on days where there are no deadlines.
         //set title on calendar scroll
         compactCalendarView.setListener(new CompactCalendarView.CompactCalendarViewListener() {
@@ -149,6 +156,8 @@ public class CalendarFragment extends Fragment {
                 view.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.image_view_click));
                 compactCalendarView.removeAllEvents();
                 loadEvents();
+                sortData();
+                getDates();
                 setDataListItems();
             }
         });
@@ -170,10 +179,19 @@ public class CalendarFragment extends Fragment {
         btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                view.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.image_view_click));
+//                view.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.image_view_click));
                 // get the list of deadlines, compare each deadline date to today's date
-                Date nextClosestDeadline = Calendar.getInstance().getTime();
-                nextClosestDeadline.setYear(nextClosestDeadline.getYear() + 1);
+
+//                Date nextClosestDeadline = mDates.get(currentIndex);
+//                if (currentIndex != mDataList.size()) {
+//                    nextClosestDeadline = mDates.get(currentIndex + 1);
+//                    currentIndex += 1;
+//                }
+
+                Date nextClosestDeadline = mDates.get(mDates.size() - 1);
+
+//                Date nextClosestDeadline = Calendar.getInstance().getTime();
+//                nextClosestDeadline.setYear(nextClosestDeadline.getYear() + 1);
 
                 // Get the next closest deadline
                 for (int i = 0; i < mDataList.size(); i ++) {
@@ -183,6 +201,9 @@ public class CalendarFragment extends Fragment {
                         nextClosestDeadline = date;
                     }
                 }
+
+                Toast.makeText(mContext, nextClosestDeadline.toString(), Toast.LENGTH_SHORT).show();
+
 
                 int nextMonth = nextClosestDeadline.getMonth();
                 int currentMonth = Calendar.getInstance().getTime().getMonth();
@@ -202,7 +223,7 @@ public class CalendarFragment extends Fragment {
         btnPrevious.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                view.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.image_view_click));
+//                view.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.image_view_click));
                 // get the list of deadlines, compare each deadline date to today's date
                 Date nextClosestDeadline = Calendar.getInstance().getTime();
 
@@ -252,6 +273,30 @@ public class CalendarFragment extends Fragment {
         addEvents(-1, -1);
         addEvents(Calendar.DECEMBER, -1);
         addEvents(Calendar.AUGUST, -1);
+    }
+
+    private void getDates() {
+        for (int i = 0; i < mDataList.size(); i ++) {
+            mDates.add(mDataList.get(i).getDeadline().getDeadlineDate());
+        }
+    }
+
+
+    public void sortData() {
+        Collections.sort(mDataList, new Comparator<UserDeadlineRelation>() {
+            @Override
+            public int compare(UserDeadlineRelation relation1, UserDeadlineRelation relation2) {
+                Date date1 = relation1.getDeadline().getDeadlineDate();
+                Date date2 = relation2.getDeadline().getDeadlineDate();
+                return date1.compareTo(date2);
+            }
+        });
+
+        for (int i = 0; i < mDataList.size() ; i ++) {
+            Log.d("college", mDataList.get(i).getDeadline().getDeadlineDate().toString());
+        }
+
+        calendarAdapter.notifyDataSetChanged();
     }
 
     public void selectDay(Date dateClicked) {
