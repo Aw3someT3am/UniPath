@@ -171,7 +171,7 @@ public class CalendarFragment extends Fragment {
         btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                view.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.image_view_click));
+                 view.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.image_view_click));
                 // get the list of deadlines, compare each deadline date to today's date
 
                 Date nextClosestDeadline = Calendar.getInstance().getTime();
@@ -186,9 +186,11 @@ public class CalendarFragment extends Fragment {
                     }
                 }
 
+                // Be sure not to select default future date that likely doesn't contain deadlines
                 getDates();
                 if (! mDates.contains(nextClosestDeadline)) { nextClosestDeadline = currentCalendarDate; }
 
+                // Calculate scrolls to show date in custom calendar view
                 int nextMonth = nextClosestDeadline.getMonth();
                 int currentMonth = Calendar.getInstance().getTime().getMonth();
 
@@ -207,7 +209,7 @@ public class CalendarFragment extends Fragment {
         btnPrevious.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                view.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.image_view_click));
+                view.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.image_view_click));
                 // get the list of deadlines, compare each deadline date to today's date
                 Date nextClosestDeadline = Calendar.getInstance().getTime();
 
@@ -220,16 +222,15 @@ public class CalendarFragment extends Fragment {
                     }
                 }
 
+                // Calculate how many times to scroll custom calendar view
                 int yearDifference = currentCalendarDate.getYear() - nextClosestDeadline.getYear() ;
                 int difference = yearDifference * 12 + currentCalendarDate.getMonth() - nextClosestDeadline.getMonth();
-
-//                int previousMonth = nextClosestDeadline.getMonth();
-//                int currentMonth = Calendar.getInstance().getTime().getMonth();
-               //  int difference = currentMonth - previousMonth;
 
                 for (int j = 0; j < difference; j ++) {
                     compactCalendarView.scrollLeft();
                 }
+
+                // Show circle on selected date
                 compactCalendarView.setCurrentDate(nextClosestDeadline);
                 selectDay(nextClosestDeadline);
             }
