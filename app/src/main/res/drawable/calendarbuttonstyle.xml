@@ -9,8 +9,8 @@
         android:angle="90"
         android:centerX="35%"
         android:centerColor="@color/white_10_transparent"
-        android:startColor="@color/white_20_transparent"
-        android:endColor="@color/white_10_transparent"
+        android:startColor="@color/white_10_transparent"
+        android:endColor="@color/white_20_transparent"
         android:type="linear"
         />
     <padding
@@ -20,7 +20,7 @@
         android:bottom="0dp"
         />
     <size
-        android:width="90dp"
+        android:width="100dp"
         android:height="40dp"
         />
     <stroke

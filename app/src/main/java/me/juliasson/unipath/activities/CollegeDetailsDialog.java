@@ -1,7 +1,6 @@
 package me.juliasson.unipath.activities;
 
 import android.app.ActionBar;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -11,6 +10,9 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.view.MenuItem;
+import android.view.MotionEvent;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -27,6 +29,7 @@ import org.parceler.Parcels;
 import java.util.ArrayList;
 import java.util.List;
 
+import me.juliasson.unipath.internal.LikesInterface;
 import me.juliasson.unipath.R;
 import me.juliasson.unipath.adapters.CollegeAdapter;
 import me.juliasson.unipath.fragments.DeadlineFragment;
@@ -46,7 +49,9 @@ public class CollegeDetailsDialog extends AppCompatActivity {
     CollegeAdapter collegeAdapter = new CollegeAdapter(new ArrayList<College>());
     LikeButton lbLikeButtonDetails;
 
-    private Boolean liked;
+    private static LikesInterface likesInterface;
+
+    private boolean isChanged = false;
     College college;
 
     @Override
@@ -54,7 +59,10 @@ public class CollegeDetailsDialog extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dialog_college_details);
         this.setFinishOnTouchOutside(true);
-        
+        Window window = this.getWindow();
+        window.setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL, WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL);
+        window.addFlags(WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH);
+
         setSize();
 
         tvcollegeName = (TextView) findViewById(R.id.tvCollege);
@@ -63,20 +71,19 @@ public class CollegeDetailsDialog extends AppCompatActivity {
         lbLikeButtonDetails = (LikeButton) findViewById(R.id.lbLikeButtonDetails);
 
         lbLikeButtonDetails.setLiked(false);
-
         loadCollege(college);
 
         lbLikeButtonDetails.setOnLikeListener(new OnLikeListener() {
             @Override
             public void liked(LikeButton likeButton) {
-                liked = true;
+                isChanged = true;
                 CollegeAdapter.addUserCollegeRelation(college);
                 CollegeAdapter.addUserDeadlineRelations(college);
             }
 
             @Override
             public void unLiked(LikeButton likeButton) {
-                liked = false;
+                isChanged = true;
                 CollegeAdapter.removeUserCollegeRelation(college);
                 CollegeAdapter.removeUserDeadlinesRelation(college);
             }
@@ -123,9 +130,6 @@ public class CollegeDetailsDialog extends AppCompatActivity {
             }
         });
 
-        Intent data = new Intent();
-        data.putExtra("liked", liked);
-        setResult(RESULT_OK, data); // set result code and bundle data for response
     }
 
     private void setSize() {
@@ -142,22 +146,33 @@ public class CollegeDetailsDialog extends AppCompatActivity {
     private void loadCollege(final College college) {
         UserCollegeRelation.Query ucQuery = new UserCollegeRelation.Query();
         ucQuery.getTop().withUser().withCollege();
+        ucQuery.whereEqualTo("college", college);
+        ucQuery.whereEqualTo("user", ParseUser.getCurrentUser());
 
         ucQuery.findInBackground(new FindCallback<UserCollegeRelation>() {
             @Override
             public void done(List<UserCollegeRelation> objects, ParseException e) {
                 if (e == null) {
                     for (int i = 0; i < objects.size(); i++) {
-                        UserCollegeRelation relation = objects.get(i);
-                        if(relation.getCollege().getObjectId().equals(college.getObjectId()) &&
-                                relation.getUser().getObjectId().equals(ParseUser.getCurrentUser().getObjectId())) {
-                            lbLikeButtonDetails.setLiked(true);
-                        }
+                        lbLikeButtonDetails.setLiked(true);
                     }
                 } else {
                     e.printStackTrace();
                 }
             }
         });
+    }
+
+    public static void setLiked(LikesInterface inter) {
+        likesInterface = inter;
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        if(event.getAction() == MotionEvent.ACTION_OUTSIDE) {
+            likesInterface.setValues(isChanged);
+            finish();
+        }
+        return super.onTouchEvent(event);
     }
 }
