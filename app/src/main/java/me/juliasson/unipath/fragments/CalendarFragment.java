@@ -20,7 +20,6 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.github.sundeepk.compactcalendarview.CompactCalendarView;
 import com.github.sundeepk.compactcalendarview.domain.Event;
@@ -190,9 +189,6 @@ public class CalendarFragment extends Fragment {
                 getDates();
                 if (! mDates.contains(nextClosestDeadline)) { nextClosestDeadline = currentCalendarDate; }
 
-                Toast.makeText(mContext, nextClosestDeadline.toString(), Toast.LENGTH_SHORT).show();
-
-
                 int nextMonth = nextClosestDeadline.getMonth();
                 int currentMonth = Calendar.getInstance().getTime().getMonth();
 
@@ -268,23 +264,6 @@ public class CalendarFragment extends Fragment {
             mDates.add(mDataList.get(i).getDeadline().getDeadlineDate());
         }
     }
-
-//    public void sortData() {
-//        Collections.sort(mDataList, new Comparator<UserDeadlineRelation>() {
-//            @Override
-//            public int compare(UserDeadlineRelation relation1, UserDeadlineRelation relation2) {
-//                Date date1 = relation1.getDeadline().getDeadlineDate();
-//                Date date2 = relation2.getDeadline().getDeadlineDate();
-//                return date1.compareTo(date2);
-//            }
-//        });
-//
-//        for (int i = 0; i < mDataList.size() ; i ++) {
-//            Log.d("college", mDataList.get(i).getDeadline().getDeadlineDate().toString());
-//        }
-//
-//        calendarAdapter.notifyDataSetChanged();
-//    }
 
     public void selectDay(Date dateClicked) {
         currentCalendarDate = dateClicked;
