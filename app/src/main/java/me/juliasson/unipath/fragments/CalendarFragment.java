@@ -146,7 +146,7 @@ public class CalendarFragment extends Fragment {
         refreshBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                view.startAnimation(AnimationUtils.loadAnimation(parent.getContext(), R.anim.image_view_click));
+                view.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.image_view_click));
                 compactCalendarView.removeAllEvents();
                 loadEvents();
                 setDataListItems();
