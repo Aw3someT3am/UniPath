@@ -73,9 +73,8 @@ public class SignUpActivity extends AppCompatActivity {
         bvCreateAccount = findViewById(R.id.bvCreateAccount);
         bvCancel = findViewById(R.id.bvCancel);
 
-        //TODO: CHECK TO SEE IF THIS IS WORKING
         Glide.with(this)
-                .load("@drawable/instagram_user_filled_24.png")
+                .load(R.drawable.ic_person_100dp)
                 .apply(RequestOptions.circleCropTransform())
                 .into(ivProfileImage);
 
