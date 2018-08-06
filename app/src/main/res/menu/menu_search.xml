@@ -32,8 +32,8 @@
         />
     <item
         android:id="@+id/toggle_map"
-        android:title="MAP"
+        android:icon="@drawable/world"
+        android:title="Map"
         android:visible="true"
-        app:icon="@drawable/world"
         app:showAsAction="always" />
 </menu>

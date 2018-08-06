@@ -336,6 +336,7 @@ public class ProfileFragment extends Fragment {
     public void loadFavoriteColleges() {
         final UserCollegeRelation.Query ucRelationQuery = new UserCollegeRelation.Query();
         ucRelationQuery.getTop().withCollege().withUser();
+        ucRelationQuery.whereEqualTo("user", ParseUser.getCurrentUser());
 
         ucRelationQuery.findInBackground(new FindCallback<UserCollegeRelation>() {
             @Override
@@ -343,11 +344,9 @@ public class ProfileFragment extends Fragment {
                 if (e == null) {
                     for(int i = 0; i < objects.size(); i++) {
                         UserCollegeRelation relation = objects.get(i);
-                        if (ParseUser.getCurrentUser().getObjectId().equals(relation.getUser().getObjectId())) {
-                            College college = relation.getCollege();
-                            colleges.add(college);
-                            collegeAdapter.notifyItemInserted(colleges.size()-1);
-                        }
+                        College college = relation.getCollege();
+                        colleges.add(college);
+                        collegeAdapter.notifyItemInserted(colleges.size()-1);
                     }
                 } else {
                     e.printStackTrace();
