@@ -157,7 +157,7 @@ public class CalendarFragment extends Fragment {
         btnToday.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                view.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.image_view_click));
                 FragmentTransaction ft = getFragmentManager().beginTransaction();
                 ft.detach(CalendarFragment.this).attach(CalendarFragment.this).commit();
                 selectDay(Calendar.getInstance().getTime());
@@ -170,7 +170,7 @@ public class CalendarFragment extends Fragment {
         btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                view.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.image_view_click));
                 // get the list of deadlines, compare each deadline date to today's date
                 Date nextClosestDeadline = Calendar.getInstance().getTime();
                 nextClosestDeadline.setYear(nextClosestDeadline.getYear() + 1);
@@ -202,6 +202,7 @@ public class CalendarFragment extends Fragment {
         btnPrevious.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                view.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.image_view_click));
                 // get the list of deadlines, compare each deadline date to today's date
                 Date nextClosestDeadline = Calendar.getInstance().getTime();
 
