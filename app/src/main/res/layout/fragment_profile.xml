@@ -173,7 +173,7 @@
             android:layout_height="24dp"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
-            android:layout_margin="16dp"
+            android:layout_margin="8dp"
             android:layout_toEndOf="@+id/ivBack"
             android:scaleType="fitXY"
             android:tint="@color/solid_white"
