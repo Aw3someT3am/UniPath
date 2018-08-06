@@ -38,7 +38,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         Notification notification = new NotificationCompat.Builder(this)
                 .setContentTitle(remoteMessage.getNotification().getTitle())
                 .setContentText(remoteMessage.getNotification().getBody())
-                .setSmallIcon(R.mipmap.ic_launcher)
+                .setSmallIcon(R.drawable.ic_insert_emoticon_black_24dp)
                 .build();
         NotificationManagerCompat manager = NotificationManagerCompat.from(getApplicationContext());
         manager.notify(123, notification);
@@ -58,14 +58,17 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         Log.d(TAG, "onMessageReceived: notification title: " + notificationTitle);
 
 
-        String dataType = remoteMessage.getData().get(getString(R.string.data_type));
-        if(dataType.equals(getString(R.string.reminder))){
-            Log.d(TAG, "onMessageReceived: new incoming message.");
-            String title = remoteMessage.getData().get(getString(R.string.data_title));
-            String message = remoteMessage.getData().get(getString(R.string.data_message));
+//        String dataType = remoteMessage.getData().get(getString(R.string.data_type));
+//        if(dataType.equals(getString(R.string.reminder))){
+//            Log.d(TAG, "onMessageReceived: new incoming message.");
+//            String title = remoteMessage.getData().get(getString(R.string.data_title));
+//            String message = remoteMessage.getData().get(getString(R.string.data_message));
 //            String messageId = remoteMessage.getData().get(getString(R.string.data_message_id));
-            sendMessageNotification(title, message);
-        }
+//            sendMessageNotification(title, message);
+//        }
+        String title = "String";
+        String message = notificationBody;
+        sendMessageNotification(title, message);
     }
 
     /**

@@ -68,24 +68,25 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="net_calculator">Net Calculator</string>
 
     <!-- Spinner options for Search Filtering -->
     <string-array name="size_options" >
-        <item>Any</item>
+        <item>--Select--</item>
         <item>Small (&lt;5k students)</item>
         <item>Medium (5k-15k students)</item>
         <item>Large (&gt;15k students)</item>
     </string-array>
 
     <string-array name="cost_options">
-        <item>Any</item>
+        <item>--Select--</item>
         <item>&lt;$20k</item>
         <item>$20k-$40k</item>
         <item>&gt;$40k</item>
     </string-array>
 
     <string-array name="acceptance_options">
-        <item>Any</item>
+        <item>--Select--</item>
         <item>%5</item>
         <item>%10</item>
         <item>%15</item>
@@ -108,7 +109,7 @@
     </string-array>
 
     <string-array name="state_options">
-        <item>Any</item>
+        <item>--Select--</item>
         <item>Outside US</item>
 
         <item>AL</item>
@@ -170,5 +171,11 @@
         <item>WV</item>
         <item>WI</item>
         <item>WY</item>
+    </string-array>
+
+    <string-array name="citizenship_status">
+        <item>--Select--</item>
+        <item>USA</item>
+        <item>non-USA</item>
     </string-array>
 </resources>
