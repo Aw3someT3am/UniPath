@@ -16,6 +16,8 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.animation.BounceInterpolator;
 import android.widget.Toast;
 
@@ -48,6 +50,7 @@ import java.util.List;
 import me.juliasson.unipath.Manifest;
 import me.juliasson.unipath.R;
 import me.juliasson.unipath.adapters.CustomInfoWindowAdapter;
+import me.juliasson.unipath.fragments.SearchFragment;
 import me.juliasson.unipath.model.College;
 import permissions.dispatcher.NeedsPermission;
 import permissions.dispatcher.RuntimePermissions;
@@ -89,8 +92,6 @@ public class MapActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
 
-        getSupportActionBar().hide();
-
         if (TextUtils.isEmpty(getResources().getString(R.string.google_maps_api_key))) {
             throw new IllegalStateException("You forgot to supply a Google Maps API key ya dummy");
         }
@@ -113,6 +114,32 @@ public class MapActivity extends AppCompatActivity implements
         } else {
             Toast.makeText(this, "Error - Map Fragment was null!!", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        //Inflate the menu. this adds items to the action bar if it is present
+        getMenuInflater().inflate(R.menu.menu_search,menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.search:
+//                SearchView searchView = (SearchView) MenuItemCompat.getActionView(item);
+//                search(searchView);
+                break;
+            case R.id.search_filter:
+//                Intent intent = new Intent(mContext, SearchFilteringDialog.class);
+//                startActivityForResult(intent, REQUEST_FILTER_CODE);
+                break;
+            case R.id.toggle_map:
+                Intent i = new Intent(MapActivity.this, SearchFragment.class);
+                break;
+        }
+        return true;
     }
 
     protected void loadMap(GoogleMap googleMap) {

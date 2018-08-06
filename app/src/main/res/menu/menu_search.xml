@@ -28,6 +28,12 @@
         android:id="@+id/search_filter"
         android:icon="@drawable/ic_format_list_bulleted"
         android:title="Filter"
-        app:showAsAction="ifRoom"
+        app:showAsAction="always"
+        />
+    <item
+        android:id="@+id/toggle_map"
+        app:srcCompat="@drawable/baseline_public_white_48dp"
+        android:title="MAP"
+        app:showAsAction="always"
         />
 </menu>

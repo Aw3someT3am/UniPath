@@ -25,6 +25,7 @@ import com.parse.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
+import me.juliasson.unipath.activities.MapActivity;
 import me.juliasson.unipath.internal.LikedRefreshInterface;
 import me.juliasson.unipath.R;
 import me.juliasson.unipath.internal.SearchInterface;
@@ -116,6 +117,10 @@ public class SearchFragment extends Fragment implements SearchInterface, LikedRe
             case R.id.search_filter:
                 Intent intent = new Intent(mContext, SearchFilteringDialog.class);
                 startActivityForResult(intent, REQUEST_FILTER_CODE);
+                break;
+            case R.id.toggle_map:
+                Intent i = new Intent(mContext, MapActivity.class);
+                startActivityForResult(i, REQUEST_FILTER_CODE);
                 break;
         }
         return true;

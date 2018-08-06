@@ -1,13 +1,43 @@
 <!--<?xml version="1.0" encoding="utf-8"?>-->
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_content"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/greygradient"
-    android:id="@+id/main_content">
+    android:background="@drawable/greygradient">
 
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true">
+
+
+            <ListView
+
+                android:id="@+id/bookings_listview"
+                android:layout_width="wrap_content"
+                android:layout_height="195dp"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginBottom="4dp"
+                android:layout_marginEnd="8dp"
+                android:focusableInTouchMode="true"
+                android:headerDividersEnabled="true"
+                android:nestedScrollingEnabled="true"
+                android:paddingTop="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+            </ListView>
+
+
+    </android.support.constraint.ConstraintLayout>
 
     <Button
         android:id="@+id/btnPreviousDeadine"
@@ -72,24 +102,23 @@
     <!--android:layout_below="@+id/btnNextDeadline"-->
 
 
-
     <com.github.sundeepk.compactcalendarview.CompactCalendarView xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/compactcalendar_view"
         android:layout_width="fill_parent"
-        android:layout_height="260dp"
+        android:layout_height="302dp"
         android:layout_alignParentStart="true"
+        android:layout_below="@id/btnNextDeadline"
         android:fadingEdge="horizontal"
         android:hapticFeedbackEnabled="true"
         android:paddingBottom="10dp"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:paddingTop="10dp"
-        android:layout_below="@id/btnNextDeadline"
         app:compactCalendarBackgroundColor="@color/transparent"
         app:compactCalendarCurrentDayBackgroundColor="#B71C1C"
         app:compactCalendarCurrentSelectedDayBackgroundColor="#E57373"
         app:compactCalendarMultiEventIndicatorColor="#fff"
-        app:compactCalendarTargetHeight="285dp"
+        app:compactCalendarTargetHeight="305dp"
         app:compactCalendarTextColor="#fff"
         app:compactCalendarTextSize="16sp" />
 
@@ -100,41 +129,28 @@
         android:layout_height="31dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="91dp"
-        android:layout_marginTop="28dp"
+        android:layout_marginStart="78dp"
+        android:layout_marginTop="19dp"
         android:focusableInTouchMode="true"
         android:tint="@color/progress_green"
         app:srcCompat="@drawable/ic_cached_black_24dp" />
 
 
     <!--<android.support.v4.widget.NestedScrollView-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:scrollbars="vertical"-->
-        <!--android:layout_alignParentStart="true"-->
-        <!--android:layout_below="@+id/compactcalendar_view">-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:scrollbars="vertical"-->
+    <!--android:layout_alignParentStart="true"-->
+    <!--android:layout_below="@+id/compactcalendar_view">-->
 
-    <ListView
-
-        android:id="@+id/bookings_listview"
-        android:layout_width="match_parent"
-        android:layout_height="151dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="23dp"
-        android:focusableInTouchMode="true"
-        android:nestedScrollingEnabled="true">
-
-    </ListView>
 
     <!--</android.support.v4.widget.NestedScrollView>-->
 
     <!--<ListView-->
-        <!--android:id="@+id/empty_listview"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:text="HELLOHELLOHELLO"/>-->
-
+    <!--android:id="@+id/empty_listview"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:text="HELLOHELLOHELLO"/>-->
 
 
 </RelativeLayout>
