@@ -369,6 +369,7 @@ public class CalendarFragment extends Fragment {
                         Event event = new Event(Color.argb(255, 0 ,221, 255), date.getTime(), String.format("%s: %s", college, description.toUpperCase()));
                         compactCalendarView.addEvent(event);
                         mDataList.add(relation);
+
                     }
                 } else {
                     e.printStackTrace();
