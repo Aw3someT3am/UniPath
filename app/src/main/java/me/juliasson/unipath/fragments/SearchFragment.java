@@ -187,11 +187,6 @@ public class SearchFragment extends Fragment implements SearchInterface, LikedRe
             @Override
             public boolean onQueryTextChange(String newText) {
                 searchRef(newText);
-//                if (filteredColleges != null) {
-//                    if (filteredColleges.size() == 0) {
-//                        notFound.setVisibility(View.VISIBLE);
-//                    }
-//                }
                 return false;
             }
         });
@@ -208,6 +203,11 @@ public class SearchFragment extends Fragment implements SearchInterface, LikedRe
     @Override
     public void setValues(ArrayList<College> filtered) {
         filteredColleges = filtered;
+        if (filtered.isEmpty()) {
+            displayNotFound();
+        } else {
+            hideNotFound();
+        }
     }
 
     public void searchRef(String query) {
@@ -352,5 +352,13 @@ public class SearchFragment extends Fragment implements SearchInterface, LikedRe
         if (isChanged) {
             collegeListChangedInterface.getCollegeListChanged(true);
         }
+    }
+
+    public void displayNotFound() {
+        notFound.setVisibility(View.VISIBLE);
+    }
+
+    private void hideNotFound() {
+        notFound.setVisibility(View.INVISIBLE);
     }
 }
