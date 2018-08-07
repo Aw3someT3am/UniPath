@@ -54,6 +54,7 @@ public class CalendarFragment extends Fragment implements UpdateFavCollegeListCa
     private Button btnToday;
     private Button btnPrevious;
     private Button btnNext;
+    private TextView tvNoDeadlines;
     private Context mContext;
     private ArrayAdapter calendarAdapter;
 
@@ -77,6 +78,9 @@ public class CalendarFragment extends Fragment implements UpdateFavCollegeListCa
 
         //Title textview shows in form "Mmm YYYY"
         monthYearTv = view.findViewById(R.id.monthYearBtn);
+
+        // Default message over list view when a date contains no deadlines
+        tvNoDeadlines = (TextView) view.findViewById(R.id.tvNoDeadlines);
 
         currentCalendarDate = Calendar.getInstance().getTime();
 
@@ -105,6 +109,7 @@ public class CalendarFragment extends Fragment implements UpdateFavCollegeListCa
 
         loadEvents();
         loadEventsForYear(Calendar.getInstance().get(Calendar.YEAR));
+        selectDay(Calendar.getInstance().getTime());
         compactCalendarView.invalidate();
         logEventsByMonth(compactCalendarView);
 
@@ -219,6 +224,14 @@ public class CalendarFragment extends Fragment implements UpdateFavCollegeListCa
         return view;
     }
 
+    public void showNoDeadlines() {
+        tvNoDeadlines.setVisibility(View.VISIBLE);
+    }
+
+    public void hideNoDeadlines() {
+        tvNoDeadlines.setVisibility(View.INVISIBLE);
+    }
+
     // This event is triggered soon after onCreateView().
     // Any view setup should occur here.  E.g., view lookups and attaching view listeners.
     @Override
@@ -260,6 +273,11 @@ public class CalendarFragment extends Fragment implements UpdateFavCollegeListCa
                 mutableBookings.add((String) booking.getData());
             }
             calendarAdapter.notifyDataSetChanged();
+        }
+        if (!mutableBookings.isEmpty()) {
+            hideNoDeadlines();
+        } else {
+            showNoDeadlines();
         }
     }
 

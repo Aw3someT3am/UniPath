@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
+import android.widget.FrameLayout;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -32,6 +33,7 @@ import me.juliasson.unipath.activities.SearchFilteringDialog;
 import me.juliasson.unipath.adapters.CollegeAdapter;
 import me.juliasson.unipath.adapters.MyExpandableListAdapter;
 import me.juliasson.unipath.internal.GetCollegeAddedToFavList;
+import me.juliasson.unipath.internal.GetItemDetailOpenedInterface;
 import me.juliasson.unipath.internal.GetCollegeLikedOnSearchListView;
 import me.juliasson.unipath.internal.LikedRefreshInterface;
 import me.juliasson.unipath.internal.SearchInterface;
@@ -41,8 +43,9 @@ import me.juliasson.unipath.utils.Constants;
 
 import static android.app.Activity.RESULT_OK;
 
-public class SearchFragment extends Fragment implements SearchInterface, LikedRefreshInterface, GetCollegeLikedOnSearchListView {
-//TODO: Display "No colleges found" for searches with no results
+public class SearchFragment extends Fragment implements SearchInterface, LikedRefreshInterface, GetCollegeLikedOnSearchListView, GetItemDetailOpenedInterface {
+
+    private FrameLayout touchInterceptor;
 
     private Context mContext;
     private SearchManager searchManager;
@@ -54,6 +57,7 @@ public class SearchFragment extends Fragment implements SearchInterface, LikedRe
     private MenuItem searchItem;
     private Activity activity;
     private Context context;
+    private View mView;
 
     private RecyclerView mRecyclerView;
     private ArrayList<College> colleges;
@@ -68,6 +72,7 @@ public class SearchFragment extends Fragment implements SearchInterface, LikedRe
     private int outStateCostIndex = -1;
     private int acceptanceRateIndex = -1;
     private String stateValue;
+    private boolean isDetailsOpened = false;
 
     private static GetCollegeAddedToFavList collegeListChangedInterface;
 
@@ -81,7 +86,10 @@ public class SearchFragment extends Fragment implements SearchInterface, LikedRe
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         // Defines the xml file for the fragment
         mContext = parent.getContext();
+        touchInterceptor = new FrameLayout(mContext);
+        touchInterceptor.setClickable(true);
         View v = inflater.inflate(R.layout.fragment_search, parent, false);
+        mView = v;
         //initFCM();
         return v;
     }
@@ -138,7 +146,21 @@ public class SearchFragment extends Fragment implements SearchInterface, LikedRe
         return true;
     }
 
-    private void initViews() {
+    @Override
+    public void onPause() {
+        if (touchInterceptor.getParent() == null && isDetailsOpened) {
+            ((ViewGroup) mView.getRootView()).addView(touchInterceptor);
+        }
+        super.onPause();
+    }
+
+    @Override
+    public void onResume() {
+        ((ViewGroup) mView.getRootView()).removeView(touchInterceptor);
+        super.onResume();
+    }
+
+    private void initViews(){
         mRecyclerView = (RecyclerView) activity.findViewById(R.id.card_recycler_view);
         mRecyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context);
@@ -151,7 +173,8 @@ public class SearchFragment extends Fragment implements SearchInterface, LikedRe
         LikedRefreshInterface lrInterface = this;
         SearchInterface sInterface = this;
         GetCollegeLikedOnSearchListView closlInterface = this;
-        collegeAdapter = new CollegeAdapter(colleges, sInterface, lrInterface, closlInterface);
+        GetItemDetailOpenedInterface cdoInterface = this;
+        collegeAdapter = new CollegeAdapter(colleges, sInterface, lrInterface, closlInterface, cdoInterface);
         mRecyclerView.setAdapter(collegeAdapter);
         postsQuery.orderByAscending(Constants.KEY_COLLEGE_NAME);
 
@@ -180,7 +203,6 @@ public class SearchFragment extends Fragment implements SearchInterface, LikedRe
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-
                 return false;
             }
 
@@ -361,4 +383,10 @@ public class SearchFragment extends Fragment implements SearchInterface, LikedRe
     private void hideNotFound() {
         notFound.setVisibility(View.INVISIBLE);
     }
+
+    @Override
+    public void getItemDetailOpened(boolean isOpened) {
+        isDetailsOpened = isOpened;
+    }
+
 }
