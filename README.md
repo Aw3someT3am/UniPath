@@ -47,8 +47,8 @@ The purpose of this app is to assist students and parents with finding and apply
 - [ ] Pass in updated filtered list to map in search fragment
 - Minor goals:
   - Code: 
-  - [ ] Remove excess Toasts and Logs
-  - [ ] Replace hardcoded values in xml files
+  - [X] Remove excess Toasts and Logs
+  - [X] Replace hardcoded values in xml files
   - [ ] Get launcher icon to show on s9
   - [ ] Prevent bleeding click in linear timeline and search
   - Calendar: 
