@@ -48,13 +48,15 @@ import me.juliasson.unipath.activities.MapActivity;
 import me.juliasson.unipath.activities.NewDeadlineDialog;
 import me.juliasson.unipath.activities.TimelineActivity;
 import me.juliasson.unipath.adapters.CollegeAdapter;
+import me.juliasson.unipath.internal.GetCollegeUnlikedFromProfile;
+import me.juliasson.unipath.internal.GetCollegeUnlikedFromProfileAdapter;
 import me.juliasson.unipath.internal.UpdateFavCollegeListProfile;
 import me.juliasson.unipath.model.College;
 import me.juliasson.unipath.model.UserCollegeRelation;
 import me.juliasson.unipath.model.UserDeadlineRelation;
 import me.juliasson.unipath.utils.GalleryUtils;
 
-public class ProfileFragment extends Fragment implements UpdateFavCollegeListProfile {
+public class ProfileFragment extends Fragment implements UpdateFavCollegeListProfile, GetCollegeUnlikedFromProfileAdapter {
 
     private TextView tvProgressLabel;
     private ProgressBar pbProgress;
@@ -68,6 +70,7 @@ public class ProfileFragment extends Fragment implements UpdateFavCollegeListPro
     private DiscreteScrollView scrollView;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
+    private static GetCollegeUnlikedFromProfile unlikedFromProfileInterface;
 
     ViewPager pager;
     TimelineActivity mTimelineActivity;
@@ -129,7 +132,7 @@ public class ProfileFragment extends Fragment implements UpdateFavCollegeListPro
 
 
         colleges = new ArrayList<>();
-        collegeAdapter = new CollegeAdapter(colleges);
+        collegeAdapter = new CollegeAdapter(colleges, this);
         //InfiniteScrollAdapter wrapper = InfiniteScrollAdapter.wrap(collegeAdapter);
         scrollView.setAdapter(collegeAdapter);
 
@@ -376,5 +379,16 @@ public class ProfileFragment extends Fragment implements UpdateFavCollegeListPro
         if (update) {
             refresh();
         }
+    }
+
+    @Override
+    public void getCollegeUnliked(boolean unliked) {
+        if (unliked) {
+            unlikedFromProfileInterface.getCollegeUnliked(true);
+        }
+    }
+
+    public static void setUnlikedFromProfileInterface(GetCollegeUnlikedFromProfile unlikedInterface) {
+        unlikedFromProfileInterface = unlikedInterface;
     }
 }

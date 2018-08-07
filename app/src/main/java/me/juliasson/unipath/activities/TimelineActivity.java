@@ -19,8 +19,10 @@ import me.juliasson.unipath.R;
 import me.juliasson.unipath.adapters.DDCollegeListAdapter;
 import me.juliasson.unipath.event.EventBus;
 import me.juliasson.unipath.event.PageChangedEvent;
+import me.juliasson.unipath.fragments.ProfileFragment;
 import me.juliasson.unipath.fragments.SearchFragment;
 import me.juliasson.unipath.internal.GetCollegeAddedToFavList;
+import me.juliasson.unipath.internal.GetCollegeUnlikedFromProfile;
 import me.juliasson.unipath.internal.GetCustomDeadlineAdded;
 import me.juliasson.unipath.internal.GetDeadlineDeletedInterface;
 import me.juliasson.unipath.internal.UpdateFavCollegeListCalendar;
@@ -29,7 +31,7 @@ import me.juliasson.unipath.internal.UpdateFavCollegeListProfile;
 import me.juliasson.unipath.view.VerticalPager;
 
 
-public class TimelineActivity extends AppCompatActivity implements GetCollegeAddedToFavList, GetCustomDeadlineAdded, GetDeadlineDeletedInterface {
+public class TimelineActivity extends AppCompatActivity implements GetCollegeAddedToFavList, GetCustomDeadlineAdded, GetDeadlineDeletedInterface, GetCollegeUnlikedFromProfile {
 
     /**
      * Start page index. 0 - top page, 1 - central page, 2 - bottom page.
@@ -48,6 +50,7 @@ public class TimelineActivity extends AppCompatActivity implements GetCollegeAdd
         SearchFragment.setCollegeListChangedInterface(this);
         NewDeadlineDialog.setCustomDeadlineInterface(this);
         DDCollegeListAdapter.setDeadlineDeletedInterface(this);
+        ProfileFragment.setUnlikedFromProfileInterface(this);
         setContentView(R.layout.activity_timeline);
         findViews();
 
@@ -170,6 +173,14 @@ public class TimelineActivity extends AppCompatActivity implements GetCollegeAdd
     public void getDeadlineDeleted(boolean deleted) {
         if (deleted) {
             updateFavCollegeListInterfaceCalendar.updateList(true);
+        }
+    }
+
+    @Override
+    public void getCollegeUnliked(boolean unliked) {
+        if (unliked) {
+            updateFavCollegeListInterfaceCalendar.updateList(true);
+            updateFavCollegeListInterfaceLinearTimeline.updateList(true);
         }
     }
 

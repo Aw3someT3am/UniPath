@@ -37,13 +37,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import me.juliasson.unipath.internal.GetCollegeLikedOnSearchListView;
-import me.juliasson.unipath.internal.LikedRefreshInterface;
-import me.juliasson.unipath.internal.LikesInterface;
 import me.juliasson.unipath.R;
-import me.juliasson.unipath.internal.SearchInterface;
 import me.juliasson.unipath.activities.CollegeDetailsDialog;
 import me.juliasson.unipath.activities.MapActivity;
+import me.juliasson.unipath.internal.GetCollegeLikedOnSearchListView;
+import me.juliasson.unipath.internal.GetCollegeUnlikedFromProfileAdapter;
+import me.juliasson.unipath.internal.LikedRefreshInterface;
+import me.juliasson.unipath.internal.LikesInterface;
+import me.juliasson.unipath.internal.SearchInterface;
 import me.juliasson.unipath.model.College;
 import me.juliasson.unipath.model.CollegeDeadlineRelation;
 import me.juliasson.unipath.model.UserCollegeRelation;
@@ -73,6 +74,7 @@ public class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.ViewHold
     private static LikesInterface likesInterface;
     private static LikedRefreshInterface likedRefreshInterface;
     private static GetCollegeLikedOnSearchListView likedOnSearchListView;
+    private static GetCollegeUnlikedFromProfileAdapter unlikedFromProfileAdapterInterface;
 
     public CollegeAdapter(ArrayList<College> arrayList, SearchInterface searchInterface, LikedRefreshInterface likedRefreshInterface, GetCollegeLikedOnSearchListView likedOnSearchListView) {
         CollegeAdapter.searchInterface = searchInterface;
@@ -84,6 +86,11 @@ public class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.ViewHold
 
     Button mapsButton;
 
+    public CollegeAdapter(ArrayList<College> arrayList, GetCollegeUnlikedFromProfileAdapter unlikedFromProfileadapterInterface) {
+        mColleges = arrayList;
+        mFilteredList = arrayList;
+        CollegeAdapter.unlikedFromProfileAdapterInterface = unlikedFromProfileadapterInterface;
+    }
 
     public CollegeAdapter(ArrayList<College> arrayList) {
         mColleges = arrayList;
@@ -411,6 +418,7 @@ public class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.ViewHold
 
                     }
                     likedOnSearchListView.getCollegeLikedOnSearchListView(true);
+                    unlikedFromProfileAdapterInterface.getCollegeUnliked(true);
                 } else {
                     e.printStackTrace();
                 }
