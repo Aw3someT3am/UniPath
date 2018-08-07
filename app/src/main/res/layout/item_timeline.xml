@@ -12,9 +12,9 @@
         android:id="@+id/time_marker"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        app:markerSize="20dp"
+        app:line="@color/background_light_orange"
         app:lineSize="3dp"
-        app:line="@color/colorPrimary"/>
+        app:markerSize="20dp" />
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"

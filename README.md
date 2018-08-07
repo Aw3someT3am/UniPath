@@ -38,44 +38,33 @@ The purpose of this app is to assist students and parents with finding and apply
 - [ ] after accepted what to do
 
 ## Goals for this week
-- Search/Filtering:
-  - [X] Cost, Size (# of students), Acceptance Rate
-  - [ ] GPA/SAT
-  - [X] Location, looking on a map
-- [ ] Get notifications done
-- Deadlines:
-  - [X] Implement financial aid deadlines? (give special icons $)
-  - [X] Implement custom deadlines
-  - [X] Remove deadlines from linear timeline
-- Map:
-  - [ ] Long click on pin favorites college (add animation to let user know)
-  - [X] Short click on pin opens a detailed activity about college
-  - [X] pin decoration/message over pin should be image of college? (Maybe: first click = name, second click = image)
-  - [X] adjust activity such that it takes in a list of colleges from respective fragments/activities map is used in
-  - [X] hide/remove actionbar
-- College Details:
-  - [ ] Research implementing a financial aid calculator (add a tab for it?)
-  - [X] Add maps pin/button to allow user to see where on map college is
-  - [X] Change icon colors in bottom navigation to be more visible. Inactive is black, change to white or transparent white.
-- Calendar:
-  - [ ] Make calendar look prettier?
-  - [ ] Add buttons on action bar or on view that takes you to current day and takes you to closest deadline.
-  - [ ] Upon refresh, calendar should load deadlines user's date is currently on without having to click the date again.
-  - [ ] OPTIONAL: change colors of events when they are "completed", "incomplete", or "active".
-- Minor Improvements:
-  - [ ] Search refresh should refresh the filtered list, not the entire list.
-  - [X] Add more colleges/more data to database
-  - [X] Time based refreshing for progress bar 
-  - [X] Arrow images in profile should scroll favorite colleges
-  - [X] Link to Website in details
-  - [ ] If there are no search results, then add a message "No colleges" or something similar on view.
-  - [ ] If there are no deadlines for a day in calendar fragment, add message "no deadlines today" or something similar in view.
-  - [ ] Change action bar such that it either displays an icon, or displays words in the middle. Or have search icon be clickable over entire action bar.
-  - [X] LOCK PORTRAIT MODE
-  - [X] Remove unnecessary toasts. (e.g map location changes, firebase database additions and removals, etc.)
-  - [X] Add actual launcher icon
-  - [ ] OPTIONAL: begin adding pretty animations
-  - [ ] OPTIONAL: begin researching optional features
+- [ ] Push notifications
+- Refreshing: 
+  - [X] based on liking and unliking colleges
+  - [ ] based on checking and unchecking deadlines
+  - [X] based on adding and removing deadlines
+- [ ] Financial Aid Calculator mock up
+- [ ] Pass in updated filtered list to map in search fragment
+- Minor goals:
+  - Code: 
+  - [ ] Remove excess Toasts and Logs
+  - [ ] Replace hardcoded values in xml files
+  - [ ] Get launcher icon to show on s9
+  - [ ] Prevent bleeding click in linear timeline and search
+  - Calendar: 
+  - [ ] Change text color on events in calendar based on status (completed, missed, ongoing)
+  - [ ] Upon refreshing, calendar should update shown events for date cursor is currently on
+  - User friendly:
+  - [ ] If no search results, tell user "no college found"
+  - [ ] If no deadlines in calendar, tell user "no deadlines this day"
+  - [X] If no deadlines in linear timeline, tell user "no deadlines"
+  - [X] Title linear timeline fragment
+  - [ ] Make search icon clickable from entire left side of icon on action bar
+  - [ ] Adjust action bar title to either display in center/replace with icon
+  - Animation: 
+  - [ ] Party animation for completing all deadlines
+  - [ ] clicking on a college item from search/profile should open details nicely
+  - [ ] Speed up scrolling animation in favorites list in profile
 
-## Walkthrough week 2 progress
-- click on walkthrough_week_2.mp4 file
+## Walkthrough week 3 progress
+- click on walkthrough_week_3.mp4 file
