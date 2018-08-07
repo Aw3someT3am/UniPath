@@ -13,6 +13,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.parse.FindCallback;
@@ -33,6 +34,7 @@ import me.juliasson.unipath.R;
 import me.juliasson.unipath.activities.NewDeadlineDialog;
 import me.juliasson.unipath.activities.TimelineActivity;
 import me.juliasson.unipath.adapters.TimeLineAdapter;
+import me.juliasson.unipath.internal.GetItemDetailOpenedInterface;
 import me.juliasson.unipath.internal.UpdateFavCollegeListLinearTimeline;
 import me.juliasson.unipath.internal.UpdateLinearTimelineInterface;
 import me.juliasson.unipath.model.Deadline;
@@ -42,7 +44,9 @@ import me.juliasson.unipath.model.UserDeadlineRelation;
 import me.juliasson.unipath.utils.Constants;
 import me.juliasson.unipath.utils.DateTimeUtils;
 
-public class LinearTimelineFragment extends Fragment implements UpdateLinearTimelineInterface, UpdateFavCollegeListLinearTimeline {
+public class LinearTimelineFragment extends Fragment implements UpdateLinearTimelineInterface, UpdateFavCollegeListLinearTimeline, GetItemDetailOpenedInterface {
+
+    private FrameLayout touchInterceptor;
 
     private RecyclerView mRecyclerView;
     private TextView tvNoDeadlines;
@@ -51,21 +55,29 @@ public class LinearTimelineFragment extends Fragment implements UpdateLinearTime
     private HashSet<TimeLine> mDataSet = new HashSet<>();
     private HashMap<TimeLine, ArrayList<UserDeadlineRelation>> mRelationsInTimeLine = new HashMap<>();
     private Context mContext;
+    private View mView;
+    private boolean isTimelineOpened = false;
 
     private UpdateLinearTimelineInterface ultInterface;
+    private GetItemDetailOpenedInterface gidInterface;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         // Defines the xml file for the fragment
         setHasOptionsMenu(true);
         mContext = parent.getContext();
+        touchInterceptor = new FrameLayout(mContext);
+        touchInterceptor.setClickable(true);
         TimelineActivity.updateFavCollegeListInterfaceLinearTimeline(this);
-        return inflater.inflate(R.layout.fragment_linear_timeline, parent, false);
+        View v = inflater.inflate(R.layout.fragment_linear_timeline, parent, false);
+        mView = v;
+        return v;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         ultInterface = this;
+        gidInterface = this;
         tvNoDeadlines = (TextView) view.findViewById(R.id.tvNoDeadlines);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -100,7 +112,7 @@ public class LinearTimelineFragment extends Fragment implements UpdateLinearTime
                         addTimeLineToRelationMap(timeline, relation);
                     }
                     mDataList.addAll(mDataSet);
-                    mTimeLineAdapter = new TimeLineAdapter(mDataList, mRelationsInTimeLine, ultInterface);
+                    mTimeLineAdapter = new TimeLineAdapter(mDataList, mRelationsInTimeLine, ultInterface, gidInterface);
                     mRecyclerView.setAdapter(mTimeLineAdapter);
                     sortData();
                     if (!mDataList.isEmpty()) {
@@ -148,6 +160,20 @@ public class LinearTimelineFragment extends Fragment implements UpdateLinearTime
         tvNoDeadlines.setVisibility(View.INVISIBLE);
     }
 
+    @Override
+    public void onPause() {
+        if (touchInterceptor.getParent() == null && isTimelineOpened) {
+            ((ViewGroup) mView.getRootView()).addView(touchInterceptor);
+        }
+        super.onPause();
+    }
+
+    @Override
+    public void onResume() {
+        ((ViewGroup) mView.getRootView()).removeView(touchInterceptor);
+        super.onResume();
+    }
+
     //---------------------Action bar icons------------------------------
 
     @Override
@@ -187,5 +213,10 @@ public class LinearTimelineFragment extends Fragment implements UpdateLinearTime
         if (update) {
             refresh();
         }
+    }
+
+    @Override
+    public void getItemDetailOpened(boolean isOpened) {
+        isTimelineOpened = isOpened;
     }
 }

@@ -25,6 +25,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.juliasson.unipath.R;
 import me.juliasson.unipath.activities.DeadlineDetailsDialog;
+import me.juliasson.unipath.internal.GetItemDetailOpenedInterface;
 import me.juliasson.unipath.internal.UpdateLinearTimelineInterface;
 import me.juliasson.unipath.internal.UpdateTimelineAdapterInterface;
 import me.juliasson.unipath.model.OrderStatus;
@@ -41,11 +42,16 @@ public class TimeLineAdapter extends RecyclerView.Adapter<TimeLineAdapter.ViewHo
     private Date currentDate;
     private UpdateLinearTimelineInterface ultInterface;
     private UpdateTimelineAdapterInterface utaInterface;
+    private GetItemDetailOpenedInterface gidInterface;
 
-    public TimeLineAdapter(List<TimeLine> list, HashMap<TimeLine, ArrayList<UserDeadlineRelation>> events, UpdateLinearTimelineInterface ultInterface) {
+    public TimeLineAdapter(List<TimeLine> list,
+                           HashMap<TimeLine, ArrayList<UserDeadlineRelation>> events,
+                           UpdateLinearTimelineInterface ultInterface,
+                           GetItemDetailOpenedInterface gidInterface) {
         this.mFeedList = list;
         this.numEvents = events;
         this.ultInterface = ultInterface;
+        this.gidInterface = gidInterface;
     }
 
     @NonNull
@@ -147,6 +153,7 @@ public class TimeLineAdapter extends RecyclerView.Adapter<TimeLineAdapter.ViewHo
             int position = getAdapterPosition();
 
             if (position != RecyclerView.NO_POSITION) {
+                gidInterface.getItemDetailOpened(true);
                 TimeLine timeline = mFeedList.get(position);
 
                 Intent intent = new Intent (mContext, DeadlineDetailsDialog.class);
@@ -186,6 +193,7 @@ public class TimeLineAdapter extends RecyclerView.Adapter<TimeLineAdapter.ViewHo
 
     @Override
     public void updateItemStatus(boolean status) {
+        gidInterface.getItemDetailOpened(false);
         if (status) {
             ultInterface.updateItemComplete(true);
         }
