@@ -39,7 +39,6 @@ public class CustomInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
 
         tvCollegeName = view.findViewById(R.id.tvCollegeName);
         tvAddress = view.findViewById(R.id.tvAddress);
-        smallImage = view.findViewById(R.id.smallImage);
 
         college = (College) marker.getTag();
 

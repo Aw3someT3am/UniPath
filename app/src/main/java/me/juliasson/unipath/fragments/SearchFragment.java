@@ -126,7 +126,8 @@ public class SearchFragment extends Fragment implements SearchInterface, LikedRe
                 // The list of 'liked' colleges is can simply be sent to map activity
                 Intent i = new Intent(mContext, MapActivity.class);
                 Bundle bundle = new Bundle();
-                bundle.putParcelableArrayList("favoritedList", refreshList);
+                if (filteredColleges == null) { filteredColleges = colleges; }
+                bundle.putParcelableArrayList("favoritedList", filteredColleges);
                 i.putExtras(bundle);
                 startActivity(i);
                 break;
