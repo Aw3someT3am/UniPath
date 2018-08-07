@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.like.LikeButton;
@@ -21,6 +22,7 @@ import com.parse.SaveCallback;
 import java.util.List;
 
 import me.juliasson.unipath.R;
+import me.juliasson.unipath.internal.GetDeadlineDeletedInterface;
 import me.juliasson.unipath.internal.GetDeadlineDialogStatusInterface;
 import me.juliasson.unipath.model.UserDeadlineRelation;
 
@@ -28,7 +30,8 @@ public class DDCollegeListAdapter extends RecyclerView.Adapter<DDCollegeListAdap
 
     private List<UserDeadlineRelation> mCollegeDeadlines;
     private Context mContext;
-    private GetDeadlineDialogStatusInterface ddStatusInterface;
+    private static GetDeadlineDialogStatusInterface ddStatusInterface;
+    private static GetDeadlineDeletedInterface getDeadlineDeletedInterface;
 
     private final String ALERT_MESSAGE = "Delete this deadline?";
     private final String ALERT_POSITIVE = "Delete";
@@ -102,10 +105,12 @@ public class DDCollegeListAdapter extends RecyclerView.Adapter<DDCollegeListAdap
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 deleteDeadline(relation, position);
+                                getDeadlineDeletedInterface.getDeadlineDeleted(true);
                                 //updating the main linear timeline
                                 if (mCollegeDeadlines.isEmpty()) {
                                     ddStatusInterface.isDialogEmpty(true);
                                 }
+                                Toast.makeText(mContext, "Deadline deleted!", Toast.LENGTH_SHORT).show();
                             }
                         })
                         .setNegativeButton(ALERT_NEGATIVE, new DialogInterface.OnClickListener() {
@@ -167,5 +172,9 @@ public class DDCollegeListAdapter extends RecyclerView.Adapter<DDCollegeListAdap
             ivRemoveDeadline = itemView.findViewById(R.id.ivRemoveDeadline);
             ivIsFinancial = itemView.findViewById(R.id.ivIsFinancial);
         }
+    }
+
+    public static void setDeadlineDeletedInterface(GetDeadlineDeletedInterface deletedInterface) {
+        getDeadlineDeletedInterface = deletedInterface;
     }
 }

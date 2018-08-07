@@ -46,6 +46,7 @@ import java.util.Date;
 import java.util.Locale;
 
 import me.juliasson.unipath.R;
+import me.juliasson.unipath.internal.GetCustomDeadlineAdded;
 import me.juliasson.unipath.model.College;
 import me.juliasson.unipath.model.Deadline;
 import me.juliasson.unipath.model.UserDeadlineRelation;
@@ -83,6 +84,8 @@ public class NewDeadlineDialog extends AppCompatActivity {
     private static FirebaseAuth mAuth;
     private static FirebaseAuth.AuthStateListener mAuthListener;
     private static DatabaseReference myRef;
+
+    private static GetCustomDeadlineAdded customDeadlineInterface;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -187,9 +190,10 @@ public class NewDeadlineDialog extends AppCompatActivity {
                         public void done(com.parse.ParseException e) {
                             Log.d("NewDeadlineDialog", "New custom deadline saved and created.");
                             Toast.makeText(mContext, "Custom deadline added!", Toast.LENGTH_SHORT).show();
+                            customDeadlineInterface.getCustomDeadlineAdded(true);
+                            mActivity.finish();
                         }
                     });
-                    mActivity.finish();
                 } else {
                     Toast.makeText(mContext, "Please fill all fields", Toast.LENGTH_SHORT).show();
                 }
@@ -244,6 +248,12 @@ public class NewDeadlineDialog extends AppCompatActivity {
                     .load(chosenCollege.getParseFile(KEY_COLLEGE_IMAGE).getUrl())
                     .into(ivCollegeImage);
         }
+    }
+
+    //-------------------------implementing interface--------------------------
+
+    public static void setCustomDeadlineInterface(GetCustomDeadlineAdded addedInterface) {
+        customDeadlineInterface = addedInterface;
     }
 
 }

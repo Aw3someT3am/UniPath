@@ -16,24 +16,38 @@ import com.parse.ParseUser;
 import com.squareup.otto.Subscribe;
 
 import me.juliasson.unipath.R;
+import me.juliasson.unipath.adapters.DDCollegeListAdapter;
 import me.juliasson.unipath.event.EventBus;
 import me.juliasson.unipath.event.PageChangedEvent;
+import me.juliasson.unipath.fragments.SearchFragment;
+import me.juliasson.unipath.internal.GetCollegeAddedToFavList;
+import me.juliasson.unipath.internal.GetCustomDeadlineAdded;
+import me.juliasson.unipath.internal.GetDeadlineDeletedInterface;
+import me.juliasson.unipath.internal.UpdateFavCollegeListCalendar;
+import me.juliasson.unipath.internal.UpdateFavCollegeListLinearTimeline;
+import me.juliasson.unipath.internal.UpdateFavCollegeListProfile;
 import me.juliasson.unipath.view.VerticalPager;
 
 
-public class TimelineActivity extends AppCompatActivity {
+public class TimelineActivity extends AppCompatActivity implements GetCollegeAddedToFavList, GetCustomDeadlineAdded, GetDeadlineDeletedInterface {
 
     /**
      * Start page index. 0 - top page, 1 - central page, 2 - bottom page.
      */
     private static final int CENTRAL_PAGE_INDEX = 1;
     public VerticalPager mVerticalPager;
+    private static UpdateFavCollegeListProfile updateFavCollegeListInterfaceProfile;
+    private static UpdateFavCollegeListCalendar updateFavCollegeListInterfaceCalendar;
+    private static UpdateFavCollegeListLinearTimeline updateFavCollegeListInterfaceLinearTimeline;
 
     private static final String TAG = "TimelineActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        SearchFragment.setCollegeListChangedInterface(this);
+        NewDeadlineDialog.setCustomDeadlineInterface(this);
+        DDCollegeListAdapter.setDeadlineDeletedInterface(this);
         setContentView(R.layout.activity_timeline);
         findViews();
 
@@ -132,4 +146,42 @@ public class TimelineActivity extends AppCompatActivity {
                 .setValue(ParseUser.getCurrentUser().getUsername());
     }
 
+    //-----------------------Implementing interface-----------------------
+
+    @Override
+    public void getCollegeListChanged(boolean isChanged) {
+        if (isChanged) {
+            //tell calendar and profile fragments to refresh please
+            updateFavCollegeListInterfaceProfile.updateList(true);
+            updateFavCollegeListInterfaceCalendar.updateList(true);
+        }
+    }
+
+    @Override
+    public void getCustomDeadlineAdded(boolean added) {
+        if (added) {
+            //update linear timeline fragment and calendar
+            updateFavCollegeListInterfaceCalendar.updateList(true);
+            updateFavCollegeListInterfaceLinearTimeline.updateList(true);
+        }
+    }
+
+    @Override
+    public void getDeadlineDeleted(boolean deleted) {
+        if (deleted) {
+            updateFavCollegeListInterfaceCalendar.updateList(true);
+        }
+    }
+
+    public static void updateFavCollegeListInterfaceProfile(UpdateFavCollegeListProfile listInterface) {
+        updateFavCollegeListInterfaceProfile = listInterface;
+    }
+
+    public static void updateFavCollegeListInterfaceCalendar(UpdateFavCollegeListCalendar listInterface) {
+        updateFavCollegeListInterfaceCalendar = listInterface;
+    }
+
+    public static void updateFavCollegeListInterfaceLinearTimeline(UpdateFavCollegeListLinearTimeline listInterface) {
+        updateFavCollegeListInterfaceLinearTimeline = listInterface;
+    }
 }

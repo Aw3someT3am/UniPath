@@ -19,6 +19,7 @@ import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -26,17 +27,21 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 
 import me.juliasson.unipath.R;
 import me.juliasson.unipath.activities.NewDeadlineDialog;
+import me.juliasson.unipath.activities.TimelineActivity;
 import me.juliasson.unipath.adapters.TimeLineAdapter;
+import me.juliasson.unipath.internal.UpdateFavCollegeListLinearTimeline;
 import me.juliasson.unipath.internal.UpdateLinearTimelineInterface;
 import me.juliasson.unipath.model.Deadline;
 import me.juliasson.unipath.model.OrderStatus;
 import me.juliasson.unipath.model.TimeLine;
 import me.juliasson.unipath.model.UserDeadlineRelation;
+import me.juliasson.unipath.utils.DateTimeUtils;
 
-public class LinearTimelineFragment extends Fragment implements UpdateLinearTimelineInterface {
+public class LinearTimelineFragment extends Fragment implements UpdateLinearTimelineInterface, UpdateFavCollegeListLinearTimeline {
 
     private RecyclerView mRecyclerView;
     private TimeLineAdapter mTimeLineAdapter;
@@ -54,6 +59,7 @@ public class LinearTimelineFragment extends Fragment implements UpdateLinearTime
         // Defines the xml file for the fragment
         setHasOptionsMenu(true);
         mContext = parent.getContext();
+        TimelineActivity.updateFavCollegeListInterfaceLinearTimeline(this);
         return inflater.inflate(R.layout.fragment_linear_timeline, parent, false);
     }
 
@@ -85,7 +91,9 @@ public class LinearTimelineFragment extends Fragment implements UpdateLinearTime
                         UserDeadlineRelation relation = objects.get(i);
                         Deadline deadline = relation.getDeadline();
                         Date date = deadline.getDeadlineDate();
-                        TimeLine timeline = new TimeLine(date.toString(), date, OrderStatus.INACTIVE); //default OrderStatus will be inactive.
+                        SimpleDateFormat format = new SimpleDateFormat(DateTimeUtils.parseOutputFormat, Locale.ENGLISH);
+                        String dateString = format.format(date);
+                        TimeLine timeline = new TimeLine(dateString, date, OrderStatus.INACTIVE); //default OrderStatus will be inactive.
                         mDataSet.add(timeline);
                         addTimeLineToRelationMap(timeline, relation);
                     }
@@ -154,6 +162,13 @@ public class LinearTimelineFragment extends Fragment implements UpdateLinearTime
     @Override
     public void updateItemComplete(boolean isComplete) {
         if (isComplete) {
+            refresh();
+        }
+    }
+
+    @Override
+    public void updateList(boolean update) {
+        if (update) {
             refresh();
         }
     }
