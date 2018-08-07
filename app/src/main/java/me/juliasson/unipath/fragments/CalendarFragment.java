@@ -41,6 +41,7 @@ import me.juliasson.unipath.internal.UpdateFavCollegeListCalendar;
 import me.juliasson.unipath.model.College;
 import me.juliasson.unipath.model.Deadline;
 import me.juliasson.unipath.model.UserDeadlineRelation;
+import me.juliasson.unipath.utils.Constants;
 
 public class CalendarFragment extends Fragment implements UpdateFavCollegeListCalendar {
 
@@ -48,7 +49,6 @@ public class CalendarFragment extends Fragment implements UpdateFavCollegeListCa
     private Calendar currentCalender = Calendar.getInstance(Locale.getDefault());
     private SimpleDateFormat dateFormatForDisplaying = new SimpleDateFormat("dd-M-yyyy a", Locale.getDefault());
     private SimpleDateFormat dateFormatForMonth = new SimpleDateFormat("MMM - yyyy", Locale.getDefault());
-    private boolean shouldShow = false;
     private CompactCalendarView compactCalendarView;
     private TextView monthYearTv;
     private Button btnToday;
@@ -68,13 +68,9 @@ public class CalendarFragment extends Fragment implements UpdateFavCollegeListCa
     private List<UserDeadlineRelation> mDataList = new ArrayList<>();
     private List<Date> mDates = new ArrayList<>();
 
-    private static final String KEY_USER = "user";
-
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup parent, Bundle savedInstanceState) {
         ((AppCompatActivity) getActivity()).getSupportActionBar().show();
-//        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Calendar");
-        // Defines the xml file for the fragment
         View view = inflater.inflate(R.layout.fragment_calendar, parent, false);
         setHasOptionsMenu(true);
 
@@ -90,7 +86,6 @@ public class CalendarFragment extends Fragment implements UpdateFavCollegeListCa
 
         // Listview of details for selected date in calendar
         final ListView bookingsListView = view.findViewById(R.id.bookings_listview);
-//        bookingsListView.setEmptyView(view.findViewById(R.id.empty_listview));
 
         // This adapter will feed information into the listview depending on selected date
         calendarAdapter = new ArrayAdapter(getContext(), android.R.layout.simple_list_item_1, mutableBookings){
@@ -106,21 +101,16 @@ public class CalendarFragment extends Fragment implements UpdateFavCollegeListCa
 
         bookingsListView.setAdapter(calendarAdapter);
         compactCalendarView = view.findViewById(R.id.compactcalendar_view);
-
-        // below allows you to configure color for the current day in the month
-        // compactCalendarView.setCurrentDayBackgroundColor(getResources().getColor(R.color.black));
-        // below allows you to configure colors for the current day the user has selected
-        // compactCalendarView.setCurrentSelectedDayBackgroundColor(getResources().getColor(R.color.dark_red));
         compactCalendarView.setUseThreeLetterAbbreviation(false);
         compactCalendarView.setFirstDayOfWeek(Calendar.SUNDAY);
         compactCalendarView.setIsRtl(false);
         compactCalendarView.displayOtherMonthDays(false);
         compactCalendarView.shouldSelectFirstDayOfMonthOnScroll(false);
+
         loadEvents();
         loadEventsForYear(Calendar.getInstance().get(Calendar.YEAR));
         selectDay(Calendar.getInstance().getTime());
         compactCalendarView.invalidate();
-
         logEventsByMonth(compactCalendarView);
 
         //set initial title
@@ -199,7 +189,6 @@ public class CalendarFragment extends Fragment implements UpdateFavCollegeListCa
                 selectDay(nextClosestDeadline);
             }
         });
-
 
         btnPrevious = view.findViewById(R.id.btnPreviousDeadine);
         btnPrevious.setOnClickListener(new View.OnClickListener() {
@@ -356,7 +345,7 @@ public class CalendarFragment extends Fragment implements UpdateFavCollegeListCa
         //ParseQuery go through each of the current user's deadlines and add them.
         UserDeadlineRelation.Query udQuery = new UserDeadlineRelation.Query();
         udQuery.getTop().withUser().withDeadline().withCollege();
-        udQuery.whereEqualTo(KEY_USER, ParseUser.getCurrentUser());
+        udQuery.whereEqualTo(Constants.KEY_USER, ParseUser.getCurrentUser());
 
         udQuery.findInBackground(new FindCallback<UserDeadlineRelation>() {
             @Override

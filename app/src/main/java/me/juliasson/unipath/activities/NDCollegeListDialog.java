@@ -25,6 +25,7 @@ import me.juliasson.unipath.adapters.NDCollegeListAdapter;
 import me.juliasson.unipath.internal.GetCollegeInterface;
 import me.juliasson.unipath.model.College;
 import me.juliasson.unipath.model.UserCollegeRelation;
+import me.juliasson.unipath.utils.Constants;
 
 public class NDCollegeListDialog extends AppCompatActivity implements GetCollegeInterface {
 
@@ -53,7 +54,7 @@ public class NDCollegeListDialog extends AppCompatActivity implements GetCollege
     public void loadFavoriteColleges() {
         final UserCollegeRelation.Query ucRelationQuery = new UserCollegeRelation.Query();
         ucRelationQuery.getTop().withCollege().withUser();
-        ucRelationQuery.whereEqualTo("user", ParseUser.getCurrentUser());
+        ucRelationQuery.whereEqualTo(Constants.KEY_USER, ParseUser.getCurrentUser());
 
         ucRelationQuery.findInBackground(new FindCallback<UserCollegeRelation>() {
             @Override

@@ -13,7 +13,6 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -26,35 +25,34 @@ import com.parse.ParseUser;
 
 import org.parceler.Parcels;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import me.juliasson.unipath.fragments.CalculatorFragment;
-import me.juliasson.unipath.internal.LikesInterface;
 import me.juliasson.unipath.R;
 import me.juliasson.unipath.adapters.CollegeAdapter;
+import me.juliasson.unipath.fragments.CalculatorFragment;
 import me.juliasson.unipath.fragments.DeadlineFragment;
 import me.juliasson.unipath.fragments.GeneralInfoFragment;
+import me.juliasson.unipath.internal.LikesInterface;
 import me.juliasson.unipath.model.College;
 import me.juliasson.unipath.model.UserCollegeRelation;
+import me.juliasson.unipath.utils.Constants;
 
 public class CollegeDetailsDialog extends AppCompatActivity {
-    FrameLayout flContainer;
-    FragmentTransaction fragmentTransaction;
 
-    Fragment generalInfoFragmnet;
-    Fragment deadlinesFragmnet;
-    Fragment netCalculatorFragmnet;
+    private FragmentTransaction fragmentTransaction;
 
-    TextView tvcollegeName;
-    ImageView ivCollegeImage;
-    CollegeAdapter collegeAdapter = new CollegeAdapter(new ArrayList<College>());
-    LikeButton lbLikeButtonDetails;
+    private Fragment generalInfoFragment;
+    private Fragment deadlinesFragment;
+    private Fragment netCalculatorFragment;
+
+    private TextView tvCollegeName;
+    private ImageView ivCollegeImage;
+    private LikeButton lbLikeButtonDetails;
 
     private static LikesInterface likesInterface;
 
     private boolean isChanged = false;
-    College college;
+    private College college;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +65,7 @@ public class CollegeDetailsDialog extends AppCompatActivity {
 
         setSize();
 
-        tvcollegeName = (TextView) findViewById(R.id.tvCollege);
+        tvCollegeName = (TextView) findViewById(R.id.tvCollege);
         ivCollegeImage = (ImageView) findViewById(R.id.ivCollegeImage);
         college = (College) Parcels.unwrap(getIntent().getParcelableExtra(College.class.getSimpleName()));
         lbLikeButtonDetails = (LikeButton) findViewById(R.id.lbLikeButtonDetails);
@@ -91,7 +89,7 @@ public class CollegeDetailsDialog extends AppCompatActivity {
             }
         });
 
-        tvcollegeName.setText(college.getCollegeName());
+        tvCollegeName.setText(college.getCollegeName());
 
         Glide.with(this)
                 .load(college.getCollegeImage().getUrl())
@@ -103,18 +101,18 @@ public class CollegeDetailsDialog extends AppCompatActivity {
         final FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
 
-        generalInfoFragmnet = new GeneralInfoFragment();
-        deadlinesFragmnet = new DeadlineFragment();
-        netCalculatorFragmnet = new CalculatorFragment();
+        generalInfoFragment = new GeneralInfoFragment();
+        deadlinesFragment = new DeadlineFragment();
+        netCalculatorFragment = new CalculatorFragment();
 
-        generalInfoFragmnet.setArguments(args);
-        deadlinesFragmnet.setArguments(args);
-        netCalculatorFragmnet.setArguments(args);
+        generalInfoFragment.setArguments(args);
+        deadlinesFragment.setArguments(args);
+        netCalculatorFragment.setArguments(args);
 
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
 
         fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.flContainer, generalInfoFragmnet).commit();
+        fragmentTransaction.replace(R.id.flContainer, generalInfoFragment).commit();
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -123,13 +121,13 @@ public class CollegeDetailsDialog extends AppCompatActivity {
 
                 switch (item.getItemId()) {
                     case R.id.fragment_info:
-                        fragmentTransaction.replace(R.id.flContainer, generalInfoFragmnet).commit();
+                        fragmentTransaction.replace(R.id.flContainer, generalInfoFragment).commit();
                         return true;
                     case R.id.fragment_deadline:
-                        fragmentTransaction.replace(R.id.flContainer, deadlinesFragmnet).commit();
+                        fragmentTransaction.replace(R.id.flContainer, deadlinesFragment).commit();
                         return true;
                     case R.id.fragment_calculator:
-                        fragmentTransaction.replace(R.id.flContainer, netCalculatorFragmnet).commit();
+                        fragmentTransaction.replace(R.id.flContainer, netCalculatorFragment).commit();
                 }
                 return true;
             }
@@ -151,8 +149,8 @@ public class CollegeDetailsDialog extends AppCompatActivity {
     private void loadCollege(final College college) {
         UserCollegeRelation.Query ucQuery = new UserCollegeRelation.Query();
         ucQuery.getTop().withUser().withCollege();
-        ucQuery.whereEqualTo("college", college);
-        ucQuery.whereEqualTo("user", ParseUser.getCurrentUser());
+        ucQuery.whereEqualTo(Constants.KEY_COLLEGE, college);
+        ucQuery.whereEqualTo(Constants.KEY_USER, ParseUser.getCurrentUser());
 
         ucQuery.findInBackground(new FindCallback<UserCollegeRelation>() {
             @Override

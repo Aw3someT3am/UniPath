@@ -7,7 +7,6 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -40,6 +39,7 @@ import me.juliasson.unipath.model.Deadline;
 import me.juliasson.unipath.model.OrderStatus;
 import me.juliasson.unipath.model.TimeLine;
 import me.juliasson.unipath.model.UserDeadlineRelation;
+import me.juliasson.unipath.utils.Constants;
 import me.juliasson.unipath.utils.DateTimeUtils;
 
 public class LinearTimelineFragment extends Fragment implements UpdateLinearTimelineInterface, UpdateFavCollegeListLinearTimeline {
@@ -53,8 +53,6 @@ public class LinearTimelineFragment extends Fragment implements UpdateLinearTime
     private Context mContext;
 
     private UpdateLinearTimelineInterface ultInterface;
-
-    private static final String KEY_USER = "user";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
@@ -80,7 +78,7 @@ public class LinearTimelineFragment extends Fragment implements UpdateLinearTime
         //ParseQuery go through each of the current user's deadlines and add them.
         UserDeadlineRelation.Query udQuery = new UserDeadlineRelation.Query();
         udQuery.getTop().withUser().withDeadline().withCollege();
-        udQuery.whereEqualTo(KEY_USER, ParseUser.getCurrentUser());
+        udQuery.whereEqualTo(Constants.KEY_USER, ParseUser.getCurrentUser());
 
         mDataSet.clear();
         mDataList.clear();
@@ -124,7 +122,6 @@ public class LinearTimelineFragment extends Fragment implements UpdateLinearTime
         }
         relationList.add(relation);
         mRelationsInTimeLine.put(timeline, relationList);
-        Log.d("LTFragment", String.format("%s has %s colleges", timeline.getDate(), mRelationsInTimeLine.get(timeline).size()));
     }
 
     public void sortData() {

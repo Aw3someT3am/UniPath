@@ -61,17 +61,12 @@ public class MapActivity extends AppCompatActivity implements
 
     private SupportMapFragment mapFragment;
     private GoogleMap map;
-    private Boolean mLocationPermissionGranted;
     private LocationRequest mLocationRequest;
-    Location mCurrentLocation;
+    private Location mCurrentLocation;
     private long UPDATE_INTERVAL = 60000;  /* 60 secs */
     private long FASTEST_INTERVAL = 5000; /* 5 secs */
 
-    private static final String KEY_CAMERA_POSITION = "camera_position";
     private final static String KEY_LOCATION = "location";
-    private static final String KEY_USER = "user";
-    private static final String KEY_LONGITUDE = "longitude";
-    private static final String KEY_LATITUDE = "latitude";
 
     private static final LatLng center_us = new LatLng(39.809860, -98.555183);
 
@@ -114,32 +109,6 @@ public class MapActivity extends AppCompatActivity implements
         }
     }
 
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu)
-//    {
-//        //Inflate the menu. this adds items to the action bar if it is present
-//        getMenuInflater().inflate(R.menu.menu_search,menu);
-//        return super.onCreateOptionsMenu(menu);
-//    }
-
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        switch (item.getItemId()) {
-//            case R.id.search:
-////                SearchView searchView = (SearchView) MenuItemCompat.getActionView(item);
-////                search(searchView);
-//                break;
-//            case R.id.search_filter:
-////                Intent intent = new Intent(mContext, SearchFilteringDialog.class);
-////                startActivityForResult(intent, REQUEST_FILTER_CODE);
-//                break;
-//            case R.id.toggle_map:
-//                Intent i = new Intent(MapActivity.this, SearchFragment.class);
-//                break;
-//        }
-//        return true;
-//    }
-
     protected void loadMap(GoogleMap googleMap) {
 
         // Add '+' and '-' icons for zooming
@@ -170,18 +139,6 @@ public class MapActivity extends AppCompatActivity implements
                 showDialogForCollege(marker);
             }
         });
-
-//        map.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
-//
-//            @Override
-//            public View getInfoContents(Marker marker) {
-//                View v = getLayoutInflater().inflate(
-//                        R.layout.info_window_layout, null);
-//                v.setBackgroundColor(Color.BLACK);
-//                return v;
-//            }
-//        });
-
     }
 
     @Override
@@ -282,13 +239,6 @@ public class MapActivity extends AppCompatActivity implements
         settingsClient.checkLocationSettings(locationSettingsRequest);
         //noinspection MissingPermission
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
             return;
         }
         getFusedLocationProviderClient(this).requestLocationUpdates(mLocationRequest, new LocationCallback() {
@@ -307,7 +257,6 @@ public class MapActivity extends AppCompatActivity implements
         }
 
         // Report to the UI that the location was updated
-
         mCurrentLocation = location;
     }
 
@@ -318,7 +267,7 @@ public class MapActivity extends AppCompatActivity implements
 
     @Override
     public void onMapLongClick(LatLng latLng) {
-        // CHANGE THIS to add the marker to favorites (when map isn't showing fragments!)
+
     }
 
 

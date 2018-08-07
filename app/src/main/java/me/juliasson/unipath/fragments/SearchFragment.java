@@ -150,7 +150,8 @@ public class SearchFragment extends Fragment implements SearchInterface, LikedRe
         GetCollegeLikedOnSearchListView closlInterface = this;
         collegeAdapter = new CollegeAdapter(colleges, sInterface, lrInterface, closlInterface);
         mRecyclerView.setAdapter(collegeAdapter);
-        postsQuery.orderByAscending("name");
+        postsQuery.orderByAscending(Constants.KEY_COLLEGE_NAME);
+
         postsQuery.findInBackground(new FindCallback<College>() {
             @Override
             public void done(List<College> objects, ParseException e) {
@@ -165,7 +166,6 @@ public class SearchFragment extends Fragment implements SearchInterface, LikedRe
                         collegeAdapter.notifyItemInserted(colleges.size() - 1);
                     }
                 } else {
-                    //Toast.makeText(getActivity(), "null?", Toast.LENGTH_SHORT).show();
                     e.printStackTrace();
                 }
             }
@@ -204,7 +204,7 @@ public class SearchFragment extends Fragment implements SearchInterface, LikedRe
 
     public void searchRef(String query) {
         this.query = query;
-        //Toast.makeText(getContext(), query, Toast.LENGTH_LONG).show();
+
         if (collegeAdapter != null) {
             collegeAdapter.getFilter().filter(query.toLowerCase());
             Log.d("Search",query);
@@ -213,11 +213,9 @@ public class SearchFragment extends Fragment implements SearchInterface, LikedRe
         if(query.isEmpty()) {
             refreshList.clear();
             refreshList.addAll(colleges);
-//            Toast.makeText(getContext(), "empty", Toast.LENGTH_LONG).show();
         } else {
             refreshList.clear();
             refreshList.addAll(filteredColleges);
-//            Toast.makeText(getContext(), "Notempty"Notempty, Toast.LENGTH_LONG).show();
         }
     }
 

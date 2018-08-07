@@ -1,6 +1,5 @@
 package me.juliasson.unipath.fragments;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -21,13 +20,13 @@ import me.juliasson.unipath.adapters.DeadlineAdapter;
 import me.juliasson.unipath.model.College;
 import me.juliasson.unipath.model.CollegeDeadlineRelation;
 import me.juliasson.unipath.model.Deadline;
+import me.juliasson.unipath.utils.Constants;
 
 public class DeadlineFragment extends Fragment{
 
     private RecyclerView mRecyclerView;
     private DeadlineAdapter mDeadlineAdapter;
     private ArrayList<Deadline> mDeadlineList = new ArrayList<>();
-    private Context mContext;
 
     College college;
     //CollegeDeadlineRelation collegeDeadlineRelation;
@@ -40,8 +39,6 @@ public class DeadlineFragment extends Fragment{
 
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
-        mContext = view.getContext();
-
         college = getArguments().getParcelable(College.class.getSimpleName());
 
         mRecyclerView = (RecyclerView) view.findViewById(R.id.rvDeadlines);
@@ -62,7 +59,7 @@ public class DeadlineFragment extends Fragment{
         //ParseQuery go through each of the current user's deadlines and add them.
         CollegeDeadlineRelation.Query cdQuery = new CollegeDeadlineRelation.Query();
         cdQuery.getTop().withCollege().withDeadline();
-        cdQuery.whereEqualTo("college", college);
+        cdQuery.whereEqualTo(Constants.KEY_COLLEGE, college);
 
         cdQuery.findInBackground(new FindCallback<CollegeDeadlineRelation>() {
             @Override
