@@ -56,7 +56,7 @@ The purpose of this app is to assist students and parents with finding and apply
   - [ ] Upon refreshing, calendar should update shown events for date cursor is currently on
   - User friendly:
   - [ ] If no search results, tell user "no college found"
-  - [ ] If no deadlines in calendar, tell user "no deadlines this day"
+  - [X] If no deadlines in calendar, tell user "no deadlines this day"
   - [X] If no deadlines in linear timeline, tell user "no deadlines"
   - [X] Title linear timeline fragment
   - [ ] Make search icon clickable from entire left side of icon on action bar
