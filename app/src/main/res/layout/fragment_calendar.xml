@@ -11,9 +11,40 @@
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="180dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true">
+
+        <View
+            android:id="@+id/dividerLine"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginBottom="4dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:background="@color/background_light_orange" />
+
+        <TextView
+            android:id="@+id/tvNoDeadlines"
+            android:layout_width="match_parent"
+            android:layout_height="17dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginBottom="156dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginTop="8dp"
+            android:gravity="center_horizontal"
+            android:text="No deadlines"
+            android:textAppearance="@android:style/TextAppearance.Small"
+            android:textColor="@color/white_80_transparent"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ListView
             android:id="@+id/bookings_listview"
@@ -21,17 +52,13 @@
             android:layout_height="195dp"
             android:layout_alignParentBottom="true"
             android:layout_alignParentStart="true"
+            android:layout_below="@+id/dividerLine"
             android:layout_marginBottom="4dp"
             android:layout_marginEnd="8dp"
             android:focusableInTouchMode="true"
             android:headerDividersEnabled="true"
             android:nestedScrollingEnabled="true"
-            android:paddingTop="0dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            android:paddingTop="0dp">
 
         </ListView>
 
@@ -49,7 +76,7 @@
         android:shadowRadius="5"
         android:text="Previous &#10;deadline"
         android:textAllCaps="false"
-        android:textColor="#FFFFFF"
+        android:textColor="@color/white"
         android:textSize="14sp" />
 
     <Button
@@ -64,7 +91,7 @@
         android:fontFamily="@font/lato"
         android:text="Next &#10;deadline"
         android:textAllCaps="false"
-        android:textColor="#FFFFFF"
+        android:textColor="@color/white"
         android:textSize="14sp" />
 
     <Button
@@ -81,7 +108,7 @@
         android:shadowRadius="5"
         android:text="Today"
         android:textAllCaps="false"
-        android:textColor="#FFFFFF"
+        android:textColor="@color/white"
         android:textSize="16sp" />
 
     <TextView
@@ -100,7 +127,7 @@
     <com.github.sundeepk.compactcalendarview.CompactCalendarView xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/compactcalendar_view"
         android:layout_width="fill_parent"
-        android:layout_height="302dp"
+        android:layout_height="300dp"
         android:layout_alignParentStart="true"
         android:layout_below="@id/btnNextDeadline"
         android:fadingEdge="horizontal"

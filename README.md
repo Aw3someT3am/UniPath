@@ -47,8 +47,8 @@ The purpose of this app is to assist students and parents with finding and apply
 - [ ] Pass in updated filtered list to map in search fragment
 - Minor goals:
   - Code: 
-  - [ ] Remove excess Toasts and Logs
-  - [ ] Replace hardcoded values in xml files
+  - [X] Remove excess Toasts and Logs
+  - [X] Replace hardcoded values in xml files
   - [ ] Get launcher icon to show on s9
   - [ ] Prevent bleeding click in linear timeline and search
   - Calendar: 
@@ -56,7 +56,7 @@ The purpose of this app is to assist students and parents with finding and apply
   - [ ] Upon refreshing, calendar should update shown events for date cursor is currently on
   - User friendly:
   - [ ] If no search results, tell user "no college found"
-  - [ ] If no deadlines in calendar, tell user "no deadlines this day"
+  - [X] If no deadlines in calendar, tell user "no deadlines this day"
   - [X] If no deadlines in linear timeline, tell user "no deadlines"
   - [X] Title linear timeline fragment
   - [ ] Make search icon clickable from entire left side of icon on action bar
