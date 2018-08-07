@@ -86,18 +86,6 @@ public class CalendarFragment extends Fragment implements UpdateFavCollegeListCa
         // Listview of details for selected date in calendar
         final DiscreteScrollView bookingsListView = view.findViewById(R.id.bookings_listview);
 
-        // This adapter will feed information into the listview depending on selected date
-//        calendarAdapter = new ArrayAdapter(getContext(), android.R.layout.simple_list_item_1, mutableBookings){
-//            @Override
-//            public View getView(int position, View convertView, ViewGroup parent) {
-//                View view =super.getView(position, convertView, parent);
-//                TextView textView=(TextView) view.findViewById(android.R.id.text1);
-//                textView.setTextColor(Color.WHITE);
-//                textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16f);
-//                return view;
-//            }
-//        };
-
         calendarAdapter = new CalendarDeadlineAdapter(mutableBookings);
 
         bookingsListView.setAdapter(calendarAdapter);
