@@ -1,5 +1,5 @@
 package me.juliasson.unipath.internal;
 
-public interface GetCollegeUnlikedFromProfileAdapter {
+public interface GetCollegeUnlikedFromProfileAdapterInterface {
     void getCollegeUnliked(boolean unliked);
 }

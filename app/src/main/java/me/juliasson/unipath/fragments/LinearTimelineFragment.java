@@ -44,7 +44,10 @@ import me.juliasson.unipath.model.UserDeadlineRelation;
 import me.juliasson.unipath.utils.Constants;
 import me.juliasson.unipath.utils.DateTimeUtils;
 
-public class LinearTimelineFragment extends Fragment implements UpdateLinearTimelineInterface, UpdateFavCollegeListLinearTimeline, GetItemDetailOpenedInterface {
+public class LinearTimelineFragment extends Fragment implements
+        UpdateLinearTimelineInterface,
+        UpdateFavCollegeListLinearTimeline,
+        GetItemDetailOpenedInterface {
 
     private FrameLayout touchInterceptor;
 

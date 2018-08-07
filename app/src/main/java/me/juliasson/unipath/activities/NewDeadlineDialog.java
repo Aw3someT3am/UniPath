@@ -46,7 +46,7 @@ import java.util.Date;
 import java.util.Locale;
 
 import me.juliasson.unipath.R;
-import me.juliasson.unipath.internal.GetCustomDeadlineAdded;
+import me.juliasson.unipath.internal.GetCustomDeadlineAddedInterface;
 import me.juliasson.unipath.model.College;
 import me.juliasson.unipath.model.Deadline;
 import me.juliasson.unipath.model.UserDeadlineRelation;
@@ -84,7 +84,7 @@ public class NewDeadlineDialog extends AppCompatActivity {
     private static FirebaseAuth.AuthStateListener mAuthListener;
     private static DatabaseReference myRef;
 
-    private static GetCustomDeadlineAdded customDeadlineInterface;
+    private static GetCustomDeadlineAddedInterface customDeadlineInterface;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -249,7 +249,7 @@ public class NewDeadlineDialog extends AppCompatActivity {
 
     //-------------------------implementing interface--------------------------
 
-    public static void setCustomDeadlineInterface(GetCustomDeadlineAdded addedInterface) {
+    public static void setCustomDeadlineInterface(GetCustomDeadlineAddedInterface addedInterface) {
         customDeadlineInterface = addedInterface;
     }
 

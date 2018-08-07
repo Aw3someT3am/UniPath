@@ -18,13 +18,16 @@ import java.util.HashMap;
 
 import me.juliasson.unipath.R;
 import me.juliasson.unipath.adapters.DDCollegeListAdapter;
+import me.juliasson.unipath.internal.GetDeadlineCheckedInterface;
 import me.juliasson.unipath.internal.GetDeadlineDialogStatusInterface;
 import me.juliasson.unipath.internal.UpdateTimelineAdapterInterface;
 import me.juliasson.unipath.model.TimeLine;
 import me.juliasson.unipath.model.UserDeadlineRelation;
 
 
-public class DeadlineDetailsDialog extends AppCompatActivity implements GetDeadlineDialogStatusInterface{
+public class DeadlineDetailsDialog extends AppCompatActivity implements
+        GetDeadlineDialogStatusInterface,
+        GetDeadlineCheckedInterface {
 
     private DDCollegeListAdapter ddcAdapter;
     private ArrayList<UserDeadlineRelation> relations;
@@ -96,6 +99,13 @@ public class DeadlineDetailsDialog extends AppCompatActivity implements GetDeadl
     public void isDialogChanged(boolean isChanged) {
         if (isChanged) {
             this.isChanged = true;
+        }
+    }
+
+    @Override
+    public void getDeadlineChecked(boolean isChanged) {
+        if (isChanged) {
+            //Tell Timeline Adapter
         }
     }
 

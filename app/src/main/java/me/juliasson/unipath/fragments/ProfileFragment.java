@@ -48,16 +48,20 @@ import me.juliasson.unipath.activities.MapActivity;
 import me.juliasson.unipath.activities.NewDeadlineDialog;
 import me.juliasson.unipath.activities.TimelineActivity;
 import me.juliasson.unipath.adapters.CollegeAdapter;
-import me.juliasson.unipath.internal.GetCollegeUnlikedFromProfile;
-import me.juliasson.unipath.internal.GetCollegeUnlikedFromProfileAdapter;
+import me.juliasson.unipath.internal.GetCollegeUnlikedFromProfileInterface;
+import me.juliasson.unipath.internal.GetCollegeUnlikedFromProfileAdapterInterface;
 import me.juliasson.unipath.internal.UpdateFavCollegeListProfile;
+import me.juliasson.unipath.internal.UpdateProfileProgressBarInterface;
 import me.juliasson.unipath.model.College;
 import me.juliasson.unipath.model.UserCollegeRelation;
 import me.juliasson.unipath.model.UserDeadlineRelation;
 import me.juliasson.unipath.utils.Constants;
 import me.juliasson.unipath.utils.GalleryUtils;
 
-public class ProfileFragment extends Fragment implements UpdateFavCollegeListProfile, GetCollegeUnlikedFromProfileAdapter {
+public class ProfileFragment extends Fragment implements
+        UpdateFavCollegeListProfile,
+        GetCollegeUnlikedFromProfileAdapterInterface,
+        UpdateProfileProgressBarInterface {
 
     private TextView tvProgressLabel;
     private ProgressBar pbProgress;
@@ -71,7 +75,8 @@ public class ProfileFragment extends Fragment implements UpdateFavCollegeListPro
     private DiscreteScrollView scrollView;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
-    private static GetCollegeUnlikedFromProfile unlikedFromProfileInterface;
+
+    private static GetCollegeUnlikedFromProfileInterface unlikedFromProfileInterface;
 
     ViewPager pager;
     TimelineActivity mTimelineActivity;
@@ -102,6 +107,7 @@ public class ProfileFragment extends Fragment implements UpdateFavCollegeListPro
         setHasOptionsMenu(true);
         mTimelineActivity=(TimelineActivity) getActivity();
         TimelineActivity.updateFavCollegeListInterfaceProfile(this);
+        TimelineActivity.updateProfileProgressBarInterface(this);
 
         return inflater.inflate(R.layout.fragment_profile, parent, false);
     }
@@ -387,7 +393,14 @@ public class ProfileFragment extends Fragment implements UpdateFavCollegeListPro
         }
     }
 
-    public static void setUnlikedFromProfileInterface(GetCollegeUnlikedFromProfile unlikedInterface) {
+    @Override
+    public void updateProgressBar(boolean update) {
+        if (update) {
+            setPbProgress();
+        }
+    }
+
+    public static void setUnlikedFromProfileInterface(GetCollegeUnlikedFromProfileInterface unlikedInterface) {
         unlikedFromProfileInterface = unlikedInterface;
     }
 }
