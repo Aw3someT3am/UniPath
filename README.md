@@ -57,8 +57,8 @@ The purpose of this app is to assist students and parents with finding and apply
   - User friendly:
   - [ ] If no search results, tell user "no college found"
   - [ ] If no deadlines in calendar, tell user "no deadlines this day"
-  - [ ] If no deadlines in linear timeline, tell user "no deadlines"
-  - [ ] Title linear timeline fragment
+  - [X] If no deadlines in linear timeline, tell user "no deadlines"
+  - [X] Title linear timeline fragment
   - [ ] Make search icon clickable from entire left side of icon on action bar
   - [ ] Adjust action bar title to either display in center/replace with icon
   - Animation: 
