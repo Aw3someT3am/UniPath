@@ -218,7 +218,6 @@ public class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.ViewHold
                 }
                 FilterResults filterResults = new FilterResults();
                 filterResults.values = mFilteredList;
-                searchInterface.setValues(mFilteredList);
                 return filterResults;
             }
 
@@ -279,7 +278,6 @@ public class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.ViewHold
                 }
                 FilterResults filterResults = new FilterResults();
                 filterResults.values = mFilteredList;
-                searchInterface.setValues(mFilteredList);
                 return filterResults;
             }
 

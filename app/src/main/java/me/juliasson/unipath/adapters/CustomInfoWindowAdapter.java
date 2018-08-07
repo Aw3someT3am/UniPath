@@ -6,7 +6,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.Marker;
 
@@ -39,12 +38,6 @@ public class CustomInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
 
         tvCollegeName = view.findViewById(R.id.tvCollegeName);
         tvAddress = view.findViewById(R.id.tvAddress);
-
-        college = (College) marker.getTag();
-
-        Glide.with(mContext)
-                .load(college.getParseFile(KEY_COLLEGE_IMAGE).getUrl())
-                .into(smallImage);
 
         tvCollegeName.setText(marker.getTitle());
         tvAddress.setText(marker.getSnippet());

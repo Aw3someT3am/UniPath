@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
+import android.widget.TextView;
 import android.widget.FrameLayout;
 
 import com.parse.FindCallback;
@@ -64,6 +65,7 @@ public class SearchFragment extends Fragment implements SearchInterface, LikedRe
     private ArrayList<College> filteredColleges;
     private ArrayList<College> refreshList;
     private CollegeAdapter collegeAdapter;
+    private TextView notFound;
 
     private int sizeIndex = -1;
     private int inStateCostIndex = -1;
@@ -103,6 +105,7 @@ public class SearchFragment extends Fragment implements SearchInterface, LikedRe
         colleges = new ArrayList<>();
         everyCollege = new ArrayList<>();
         refreshList = new ArrayList<>();
+        notFound = (TextView) view.findViewById(R.id.tvNotFound);
 
         initViews();
         loadTopColleges();
@@ -178,8 +181,10 @@ public class SearchFragment extends Fragment implements SearchInterface, LikedRe
         postsQuery.findInBackground(new FindCallback<College>() {
             @Override
             public void done(List<College> objects, ParseException e) {
-                if (e == null){
-                    for(int i = 0; i < objects.size(); i++) {
+                if (e == null) {
+                    //Toast.makeText(getActivity(), "Add Posts", Toast.LENGTH_SHORT).show();
+                    Log.d("Search", Integer.toString(objects.size()));
+                    for (int i = 0; i < objects.size(); i++) {
                         College college = objects.get(i);
                         colleges.add(college);
                         refreshList.add(college);
@@ -220,6 +225,11 @@ public class SearchFragment extends Fragment implements SearchInterface, LikedRe
     @Override
     public void setValues(ArrayList<College> filtered) {
         filteredColleges = filtered;
+        if (filtered.isEmpty()) {
+            displayNotFound();
+        } else {
+            hideNotFound();
+        }
     }
 
     public void searchRef(String query) {
@@ -227,10 +237,10 @@ public class SearchFragment extends Fragment implements SearchInterface, LikedRe
 
         if (collegeAdapter != null) {
             collegeAdapter.getFilter().filter(query.toLowerCase());
-            Log.d("Search",query);
+            Log.d("Search", query);
             System.out.print(query);
         }
-        if(query.isEmpty()) {
+        if (query.isEmpty()) {
             refreshList.clear();
             refreshList.addAll(colleges);
         } else {
@@ -306,7 +316,7 @@ public class SearchFragment extends Fragment implements SearchInterface, LikedRe
     }
 
     public String assignAcceptanceRateValue(int acceptanceRateIndex) {
-        switch(acceptanceRateIndex) {
+        switch (acceptanceRateIndex) {
             case 0:
                 return DEFAULT_MIN_VAL;
             case 1:
@@ -366,8 +376,17 @@ public class SearchFragment extends Fragment implements SearchInterface, LikedRe
         }
     }
 
+    public void displayNotFound() {
+        notFound.setVisibility(View.VISIBLE);
+    }
+
+    private void hideNotFound() {
+        notFound.setVisibility(View.INVISIBLE);
+    }
+
     @Override
     public void getItemDetailOpened(boolean isOpened) {
         isDetailsOpened = isOpened;
     }
+
 }
