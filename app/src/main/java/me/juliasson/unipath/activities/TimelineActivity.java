@@ -19,6 +19,7 @@ import me.juliasson.unipath.R;
 import me.juliasson.unipath.adapters.DDCollegeListAdapter;
 import me.juliasson.unipath.event.EventBus;
 import me.juliasson.unipath.event.PageChangedEvent;
+import me.juliasson.unipath.fragments.LinearTimelineFragment;
 import me.juliasson.unipath.fragments.ProfileFragment;
 import me.juliasson.unipath.fragments.SearchFragment;
 import me.juliasson.unipath.internal.GetCollegeAddedToFavListInterface;
@@ -59,6 +60,7 @@ public class TimelineActivity extends AppCompatActivity implements
         NewDeadlineDialog.setCustomDeadlineInterface(this);
         DDCollegeListAdapter.setDeadlineDeletedInterface(this);
         ProfileFragment.setUnlikedFromProfileInterface(this);
+        LinearTimelineFragment.setDcInterfaceFromTimelineActivity(this);
         setContentView(R.layout.activity_timeline);
         findViews();
 

@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -48,8 +47,8 @@ import me.juliasson.unipath.activities.MapActivity;
 import me.juliasson.unipath.activities.NewDeadlineDialog;
 import me.juliasson.unipath.activities.TimelineActivity;
 import me.juliasson.unipath.adapters.CollegeAdapter;
-import me.juliasson.unipath.internal.GetCollegeUnlikedFromProfileInterface;
 import me.juliasson.unipath.internal.GetCollegeUnlikedFromProfileAdapterInterface;
+import me.juliasson.unipath.internal.GetCollegeUnlikedFromProfileInterface;
 import me.juliasson.unipath.internal.UpdateFavCollegeListProfile;
 import me.juliasson.unipath.internal.UpdateProfileProgressBarInterface;
 import me.juliasson.unipath.model.College;
@@ -85,15 +84,6 @@ public class ProfileFragment extends Fragment implements
     private static ArrayList<College> colleges;
 
     private static final String TAG = "ProfileFragment";
-
-    private final Handler handler = new Handler();
-    private final Runnable autoRefresh = new Runnable() {
-        @Override
-        public void run() {
-            setPbProgress();
-            handler.postDelayed(autoRefresh, 3000);
-        }
-    };
 
     private final static int GALLERY_IMAGE_SELECTION_REQUEST_CODE = 2034;
     private String filePath;
@@ -198,7 +188,6 @@ public class ProfileFragment extends Fragment implements
             }
         };
 
-        handler.post(autoRefresh);
     }
 
     @Override
@@ -383,6 +372,7 @@ public class ProfileFragment extends Fragment implements
     public void updateList(boolean update) {
         if (update) {
             refresh();
+            setPbProgress();
         }
     }
 

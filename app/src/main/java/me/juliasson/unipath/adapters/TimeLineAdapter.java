@@ -25,15 +25,19 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.juliasson.unipath.R;
 import me.juliasson.unipath.activities.DeadlineDetailsDialog;
+import me.juliasson.unipath.internal.GetDeadlineCheckedInterface;
 import me.juliasson.unipath.internal.GetItemDetailOpenedInterface;
 import me.juliasson.unipath.internal.UpdateLinearTimelineInterface;
+import me.juliasson.unipath.internal.UpdateProfileProgressBarInterface;
 import me.juliasson.unipath.internal.UpdateTimelineAdapterInterface;
 import me.juliasson.unipath.model.OrderStatus;
 import me.juliasson.unipath.model.TimeLine;
 import me.juliasson.unipath.model.UserDeadlineRelation;
 import me.juliasson.unipath.utils.VectorDrawableUtils;
 
-public class TimeLineAdapter extends RecyclerView.Adapter<TimeLineAdapter.ViewHolder> implements UpdateTimelineAdapterInterface {
+public class TimeLineAdapter extends RecyclerView.Adapter<TimeLineAdapter.ViewHolder> implements
+        UpdateTimelineAdapterInterface,
+        UpdateProfileProgressBarInterface {
 
     private List<TimeLine> mFeedList;
     private Context mContext;
@@ -43,15 +47,18 @@ public class TimeLineAdapter extends RecyclerView.Adapter<TimeLineAdapter.ViewHo
     private UpdateLinearTimelineInterface ultInterface;
     private UpdateTimelineAdapterInterface utaInterface;
     private GetItemDetailOpenedInterface gidInterface;
+    private GetDeadlineCheckedInterface dcInterface;
 
     public TimeLineAdapter(List<TimeLine> list,
                            HashMap<TimeLine, ArrayList<UserDeadlineRelation>> events,
                            UpdateLinearTimelineInterface ultInterface,
-                           GetItemDetailOpenedInterface gidInterface) {
+                           GetItemDetailOpenedInterface gidInterface,
+                           GetDeadlineCheckedInterface dcInterface) {
         this.mFeedList = list;
         this.numEvents = events;
         this.ultInterface = ultInterface;
         this.gidInterface = gidInterface;
+        this.dcInterface = dcInterface;
     }
 
     @NonNull
@@ -62,6 +69,7 @@ public class TimeLineAdapter extends RecyclerView.Adapter<TimeLineAdapter.ViewHo
         View view;
         view = mLayoutInflater.inflate(R.layout.item_timeline, viewGroup, false);
         utaInterface = this;
+        DeadlineDetailsDialog.setPpbInterface(this);
         return new ViewHolder(view, viewType);
     }
 
@@ -196,6 +204,13 @@ public class TimeLineAdapter extends RecyclerView.Adapter<TimeLineAdapter.ViewHo
         gidInterface.getItemDetailOpened(false);
         if (status) {
             ultInterface.updateItemComplete(true);
+        }
+    }
+
+    @Override
+    public void updateProgressBar(boolean update) {
+        if (update) {
+            dcInterface.getDeadlineChecked(true);
         }
     }
 }
