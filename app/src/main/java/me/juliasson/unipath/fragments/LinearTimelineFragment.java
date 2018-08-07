@@ -14,6 +14,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -44,6 +45,7 @@ import me.juliasson.unipath.utils.DateTimeUtils;
 public class LinearTimelineFragment extends Fragment implements UpdateLinearTimelineInterface, UpdateFavCollegeListLinearTimeline {
 
     private RecyclerView mRecyclerView;
+    private TextView tvNoDeadlines;
     private TimeLineAdapter mTimeLineAdapter;
     private List<TimeLine> mDataList = new ArrayList<>();
     private HashSet<TimeLine> mDataSet = new HashSet<>();
@@ -66,6 +68,7 @@ public class LinearTimelineFragment extends Fragment implements UpdateLinearTime
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         ultInterface = this;
+        tvNoDeadlines = (TextView) view.findViewById(R.id.tvNoDeadlines);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.setHasFixedSize(true);
@@ -82,6 +85,7 @@ public class LinearTimelineFragment extends Fragment implements UpdateLinearTime
         mDataSet.clear();
         mDataList.clear();
         mRelationsInTimeLine.clear();
+        hideNoDeadlines();
 
         udQuery.findInBackground(new FindCallback<UserDeadlineRelation>() {
             @Override
@@ -101,6 +105,11 @@ public class LinearTimelineFragment extends Fragment implements UpdateLinearTime
                     mTimeLineAdapter = new TimeLineAdapter(mDataList, mRelationsInTimeLine, ultInterface);
                     mRecyclerView.setAdapter(mTimeLineAdapter);
                     sortData();
+                    if (!mDataList.isEmpty()) {
+                        hideNoDeadlines();
+                    } else {
+                        showNoDeadlines();
+                    }
                 } else {
                     e.printStackTrace();
                 }
@@ -133,6 +142,16 @@ public class LinearTimelineFragment extends Fragment implements UpdateLinearTime
         setDataListItems();
         mTimeLineAdapter.addAll(mDataList);
     }
+
+    public void showNoDeadlines() {
+        tvNoDeadlines.setVisibility(View.VISIBLE);
+    }
+
+    public void hideNoDeadlines() {
+        tvNoDeadlines.setVisibility(View.INVISIBLE);
+    }
+
+    //---------------------Action bar icons------------------------------
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
