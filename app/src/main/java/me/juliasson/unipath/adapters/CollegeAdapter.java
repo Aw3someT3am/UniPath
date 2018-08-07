@@ -49,6 +49,7 @@ import me.juliasson.unipath.model.College;
 import me.juliasson.unipath.model.CollegeDeadlineRelation;
 import me.juliasson.unipath.model.UserCollegeRelation;
 import me.juliasson.unipath.model.UserDeadlineRelation;
+import me.juliasson.unipath.utils.Constants;
 import me.juliasson.unipath.utils.DateTimeUtils;
 
 public class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.ViewHolder> implements Filterable, LikesInterface {
@@ -59,9 +60,6 @@ public class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.ViewHold
     private ArrayList<College> mFilteredList;
 
     private final static int LIKED = 10;
-    private final static String KEY_COLLEGE_IMAGE = "image";
-    private final static String KEY_UD_COLLEGE = "college";
-    private final static String KEY_UD_USER = "user";
 
     private static final String TAG = "AddToDatabase";
 
@@ -126,7 +124,7 @@ public class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.ViewHold
         mAuth = FirebaseAuth.getInstance();
 
         Glide.with(mContext)
-                .load(college.getParseFile(KEY_COLLEGE_IMAGE).getUrl())
+                .load(college.getParseFile(Constants.KEY_COLLEGE_IMAGE).getUrl())
                 .into(viewHolder.ivCollegeImage);
 
         viewHolder.lbLikeButton.setLiked(false);
@@ -350,8 +348,8 @@ public class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.ViewHold
     public static void removeUserCollegeRelation(final College college) {
         UserCollegeRelation.Query ucQuery = new UserCollegeRelation.Query();
         ucQuery.getTop().withCollege().withUser();
-        ucQuery.whereEqualTo("college", college);
-        ucQuery.whereEqualTo("user", ParseUser.getCurrentUser());
+        ucQuery.whereEqualTo(Constants.KEY_COLLEGE, college);
+        ucQuery.whereEqualTo(Constants.KEY_USER, ParseUser.getCurrentUser());
 
         ucQuery.findInBackground(new FindCallback<UserCollegeRelation>() {
             @Override
@@ -385,8 +383,8 @@ public class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.ViewHold
     public static void removeUserDeadlinesRelation(final College college) {
         UserDeadlineRelation.Query udQuery = new UserDeadlineRelation.Query();
         udQuery.getTop().withDeadline().withUser().withCollege();
-        udQuery.whereEqualTo(KEY_UD_COLLEGE, college);
-        udQuery.whereEqualTo(KEY_UD_USER, ParseUser.getCurrentUser());
+        udQuery.whereEqualTo(Constants.KEY_COLLEGE, college);
+        udQuery.whereEqualTo(Constants.KEY_USER, ParseUser.getCurrentUser());
 
         udQuery.findInBackground(new FindCallback<UserDeadlineRelation>() {
             @Override
@@ -454,6 +452,7 @@ public class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.ViewHold
     public static void addUserDeadlineRelations(final College college) {
         CollegeDeadlineRelation.Query cdQuery = new CollegeDeadlineRelation.Query();
         cdQuery.getTop().withDeadline().withCollege();
+        cdQuery.whereEqualTo(Constants.KEY_COLLEGE, college);
 
         cdQuery.findInBackground(new FindCallback<CollegeDeadlineRelation>() {
             @Override
@@ -461,65 +460,62 @@ public class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.ViewHold
                 if (e == null) {
                     for(int i = 0; i < objects.size(); i++) {
                         CollegeDeadlineRelation relation = objects.get(i);
-                        if (relation.getCollege().getObjectId().equals(college.getObjectId())) {
-                            UserDeadlineRelation userDeadlineRelation = new UserDeadlineRelation();
-                            userDeadlineRelation.setUser(ParseUser.getCurrentUser());
-                            userDeadlineRelation.setDeadline(relation.getDeadline());
-                            mAuthListener = new FirebaseAuth.AuthStateListener() {
-                                @Override
-                                public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                                    FirebaseUser user = firebaseAuth.getCurrentUser();
-                                    if (user != null) {
-                                        // User is signed in
-                                        Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
-                                        toastMessage("Successfully signed in with: " + user.getEmail());
-                                    } else {
-                                        // User is signed out
-                                        Log.d(TAG, "onAuthStateChanged:signed_out");
-                                        toastMessage("Successfully signed out.");
-                                    }
+                        UserDeadlineRelation userDeadlineRelation = new UserDeadlineRelation();
+                        userDeadlineRelation.setUser(ParseUser.getCurrentUser());
+                        userDeadlineRelation.setDeadline(relation.getDeadline());
+                        mAuthListener = new FirebaseAuth.AuthStateListener() {
+                            @Override
+                            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                                FirebaseUser user = firebaseAuth.getCurrentUser();
+                                if (user != null) {
+                                    // User is signed in
+                                    Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
+                                    toastMessage("Successfully signed in with: " + user.getEmail());
+                                } else {
+                                    // User is signed out
+                                    Log.d(TAG, "onAuthStateChanged:signed_out");
+                                    toastMessage("Successfully signed out.");
+                                }
                                     // ...
                                 }
                             };
 
-                            myRef.addValueEventListener(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(DataSnapshot dataSnapshot) {
-                                    // This method is called once with the initial value and again
-                                    // whenever data at this location is updated.
-                                    Object value = dataSnapshot.getValue();
-                                    Log.d(TAG, "Value is: " + value);
-                                }
+                        myRef.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                // This method is called once with the initial value and again
+                                // whenever data at this location is updated.
+                                Object value = dataSnapshot.getValue();
+                                Log.d(TAG, "Value is: " + value);
+                            }
 
-                                @Override
-                                public void onCancelled(DatabaseError error) {
-                                    // Failed to read value
-                                    Log.w(TAG, "Failed to read value.", error.toException());
-                                }
-                            });
+                            @Override
+                            public void onCancelled(DatabaseError error) {
+                                // Failed to read value
+                                Log.w(TAG, "Failed to read value.", error.toException());
+                            }
+                        });
 
-                            Log.d(TAG, "onClick: Attempting to add object to database.");
-                            String date = DateTimeUtils.parseDateTime(relation.getDeadline().getDeadlineDate().toString(), DateTimeUtils.parseInputFormat, DateTimeUtils.parseOutputFormat);
-                            String collegeName = relation.getCollege().getCollegeName();
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            String userID = user.getUid();
-                            myRef.child(mContext.getString(R.string.dbnode_users)).child(userID).child("dates").child(collegeName).child(date).setValue(true);
+                        Log.d(TAG, "onClick: Attempting to add object to database.");
+                        String date = DateTimeUtils.parseDateTime(relation.getDeadline().getDeadlineDate().toString(), DateTimeUtils.parseInputFormat, DateTimeUtils.parseOutputFormat);
+                        String collegeName = relation.getCollege().getCollegeName();
+                        FirebaseUser user = mAuth.getCurrentUser();
+                        String userID = user.getUid();
+                        myRef.child(mContext.getString(R.string.dbnode_users)).child(userID).child("dates").child(collegeName).child(date).setValue(true);
 
-                            userDeadlineRelation.setCompleted(false);
-                            userDeadlineRelation.setCollege(college);
-                            userDeadlineRelation.saveInBackground(new SaveCallback() {
-                                @Override
-                                public void done(ParseException e) {
-                                    if (e == null) {
-                                        Log.d("CollegeAdapter", "Create UserDeadlineRelation success");
-                                        //Toast.makeText(mContext, "College and Deadlines added!", Toast.LENGTH_SHORT).show();
-                                    } else {
-                                        Log.d("CollegeAdapter", "Create UserDeadlineRelation failure");
-                                        e.printStackTrace();
-                                    }
+                        userDeadlineRelation.setCompleted(false);
+                        userDeadlineRelation.setCollege(college);
+                        userDeadlineRelation.saveInBackground(new SaveCallback() {
+                            @Override
+                            public void done(ParseException e) {
+                                if (e == null) {
+                                    Log.d("CollegeAdapter", "Create UserDeadlineRelation success");
+                                } else {
+                                    Log.d("CollegeAdapter", "Create UserDeadlineRelation failure");
+                                    e.printStackTrace();
                                 }
-                            });
-                        }
+                            }
+                        });
                     }
                     likedOnSearchListView.getCollegeLikedOnSearchListView(true);
                 } else {

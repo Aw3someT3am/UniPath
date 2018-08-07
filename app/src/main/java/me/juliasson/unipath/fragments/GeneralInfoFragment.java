@@ -18,14 +18,14 @@ import me.juliasson.unipath.model.College;
 
 public class GeneralInfoFragment extends Fragment{
 
-    TextView tvWebsite;
-    TextView tvAddress;
-    TextView tvStudentPopulation;
-    TextView tvOutOfSateCost;
-    TextView tvInStateCost;
-    TextView tvAcceptanceRate;
+    private TextView tvWebsite;
+    private TextView tvAddress;
+    private TextView tvStudentPopulation;
+    private TextView tvOutOfSateCost;
+    private TextView tvInStateCost;
+    private TextView tvAcceptanceRate;
 
-    College college;
+    private College college;
 
     @Nullable
     @Override

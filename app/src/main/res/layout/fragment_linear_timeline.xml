@@ -11,10 +11,45 @@
     tools:showIn="@layout/fragment_linear_timeline"
     android:background="@color/background_grey" >
 
+    <TextView
+        android:id="@+id/LinearTimelineLabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:fontFamily="@font/lato"
+        android:gravity="center_horizontal"
+        android:text="Timeline"
+        android:textAppearance="@android:style/TextAppearance.Large"
+        android:textColor="@color/solid_white" />
+
+    <View
+        android:id="@+id/dividerLine"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_below="@+id/LinearTimelineLabel"
+        android:layout_marginEnd="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginStart="16dp"
+        android:background="@color/background_light_orange" />
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:listitem="@layout/item_timeline" />
+        tools:listitem="@layout/item_timeline"
+        android:layout_below="@id/dividerLine" />
+
+    <TextView
+        android:id="@+id/tvNoDeadlines"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/dividerLine"
+        android:layout_margin="8dp"
+        android:gravity="center_horizontal"
+        android:visibility="invisible"
+        android:text="No deadlines"
+        android:textAppearance="@android:style/TextAppearance.Small"
+        android:textColor="@color/white_80_transparent" />
 
 </RelativeLayout>

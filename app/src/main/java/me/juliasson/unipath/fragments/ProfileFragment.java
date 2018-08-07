@@ -54,6 +54,7 @@ import me.juliasson.unipath.internal.UpdateFavCollegeListProfile;
 import me.juliasson.unipath.model.College;
 import me.juliasson.unipath.model.UserCollegeRelation;
 import me.juliasson.unipath.model.UserDeadlineRelation;
+import me.juliasson.unipath.utils.Constants;
 import me.juliasson.unipath.utils.GalleryUtils;
 
 public class ProfileFragment extends Fragment implements UpdateFavCollegeListProfile, GetCollegeUnlikedFromProfileAdapter {
@@ -79,10 +80,6 @@ public class ProfileFragment extends Fragment implements UpdateFavCollegeListPro
     private static ArrayList<College> colleges;
 
     private static final String TAG = "ProfileFragment";
-    private final String KEY_FIRST_NAME = "firstName";
-    private final String KEY_LAST_NAME = "lastName";
-    private final String KEY_PROFILE_IMAGE = "profileImage";
-    private final String KEY_RELATION_USER = "user";
 
     private final Handler handler = new Handler();
     private final Runnable autoRefresh = new Runnable() {
@@ -227,14 +224,14 @@ public class ProfileFragment extends Fragment implements UpdateFavCollegeListPro
 
     //-------------------Handling assignment/prep for profile general info----------------------------
     public void assignGeneralProfileInfo() {
-        final String firstName = ParseUser.getCurrentUser().get(KEY_FIRST_NAME).toString();
-        final String lastName = ParseUser.getCurrentUser().get(KEY_LAST_NAME).toString();
+        final String firstName = ParseUser.getCurrentUser().get(Constants.KEY_USER_FIRST_NAME).toString();
+        final String lastName = ParseUser.getCurrentUser().get(Constants.KEY_USER_LAST_NAME).toString();
         tvProgressLabel.setText(String.format("Hi, %s! Here's your progress.", firstName));
         tvFirstName.setText(String.format("%s %s", firstName, lastName));
         tvEmail.setText(ParseUser.getCurrentUser().getEmail());
 
         Glide.with(this)
-                .load(ParseUser.getCurrentUser().getParseFile(KEY_PROFILE_IMAGE).getUrl())
+                .load(ParseUser.getCurrentUser().getParseFile(Constants.KEY_USER_PROFILE_IMAGE).getUrl())
                 .apply(RequestOptions.circleCropTransform())
                 .into(ivProfileImage);
 
@@ -254,7 +251,7 @@ public class ProfileFragment extends Fragment implements UpdateFavCollegeListPro
     public void setPbProgress() {
         UserDeadlineRelation.Query udQuery = new UserDeadlineRelation.Query();
         udQuery.getTop().withUser();
-        udQuery.whereEqualTo(KEY_RELATION_USER, ParseUser.getCurrentUser());
+        udQuery.whereEqualTo(Constants.KEY_USER, ParseUser.getCurrentUser());
 
         udQuery.findInBackground(new FindCallback<UserDeadlineRelation>() {
             @Override
@@ -307,7 +304,7 @@ public class ProfileFragment extends Fragment implements UpdateFavCollegeListPro
             @Override
             public void done(ParseException e) {
                 if (e == null) {
-                    ParseUser.getCurrentUser().put(KEY_PROFILE_IMAGE, parseImageProfile);
+                    ParseUser.getCurrentUser().put(Constants.KEY_USER_PROFILE_IMAGE, parseImageProfile);
                     ParseUser.getCurrentUser().saveInBackground(new SaveCallback() {
                         @Override
                         public void done(ParseException e) {
@@ -330,7 +327,7 @@ public class ProfileFragment extends Fragment implements UpdateFavCollegeListPro
     public void loadFavoriteColleges() {
         final UserCollegeRelation.Query ucRelationQuery = new UserCollegeRelation.Query();
         ucRelationQuery.getTop().withCollege().withUser();
-        ucRelationQuery.whereEqualTo("user", ParseUser.getCurrentUser());
+        ucRelationQuery.whereEqualTo(Constants.KEY_USER, ParseUser.getCurrentUser());
 
         ucRelationQuery.findInBackground(new FindCallback<UserCollegeRelation>() {
             @Override
@@ -373,6 +370,8 @@ public class ProfileFragment extends Fragment implements UpdateFavCollegeListPro
             mAuth.removeAuthStateListener(mAuthListener);
         }
     }
+
+    //--------------------Implementing Interface----------------------------
 
     @Override
     public void updateList(boolean update) {
