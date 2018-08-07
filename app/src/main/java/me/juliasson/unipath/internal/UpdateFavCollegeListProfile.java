@@ -1,5 +1,5 @@
 package me.juliasson.unipath.internal;
 
-public interface UpdateFavCollegeList {
+public interface UpdateFavCollegeListProfile {
     void updateList(boolean update);
 }

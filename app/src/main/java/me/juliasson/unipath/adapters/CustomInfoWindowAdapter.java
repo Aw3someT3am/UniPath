@@ -3,12 +3,15 @@ package me.juliasson.unipath.adapters;
 import android.app.Activity;
 import android.content.Context;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.Marker;
 
 import me.juliasson.unipath.R;
+import me.juliasson.unipath.model.College;
 
 public class CustomInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
 
@@ -16,6 +19,10 @@ public class CustomInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
 
     private TextView tvCollegeName;
     private TextView tvAddress;
+    private ImageView smallImage;
+    private College college;
+
+    private final static String KEY_COLLEGE_IMAGE = "image";
 
     public CustomInfoWindowAdapter(Context ctx) {
         mContext = ctx;
@@ -32,9 +39,21 @@ public class CustomInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
 
         tvCollegeName = view.findViewById(R.id.tvCollegeName);
         tvAddress = view.findViewById(R.id.tvAddress);
+        smallImage = view.findViewById(R.id.smallImage);
+
+        college = (College) marker.getTag();
+
+
+        Glide.with(mContext)
+                .load(college.getParseFile(KEY_COLLEGE_IMAGE).getUrl())
+                .into(smallImage);
 
         tvCollegeName.setText(marker.getTitle());
         tvAddress.setText(marker.getSnippet());
+
+
+
+
         return view;
     }
 }

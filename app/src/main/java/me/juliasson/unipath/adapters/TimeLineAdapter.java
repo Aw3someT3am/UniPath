@@ -30,7 +30,6 @@ import me.juliasson.unipath.internal.UpdateTimelineAdapterInterface;
 import me.juliasson.unipath.model.OrderStatus;
 import me.juliasson.unipath.model.TimeLine;
 import me.juliasson.unipath.model.UserDeadlineRelation;
-import me.juliasson.unipath.utils.DateTimeUtils;
 import me.juliasson.unipath.utils.VectorDrawableUtils;
 
 public class TimeLineAdapter extends RecyclerView.Adapter<TimeLineAdapter.ViewHolder> implements UpdateTimelineAdapterInterface {
@@ -69,7 +68,7 @@ public class TimeLineAdapter extends RecyclerView.Adapter<TimeLineAdapter.ViewHo
         //setting the date of the timeline
         if(!timeLineModel.getDate().isEmpty()) {
             viewHolder.mDate.setVisibility(View.VISIBLE);
-            viewHolder.mDate.setText(DateTimeUtils.parseDateTime(timeLineModel.getDate(), DateTimeUtils.parseInputFormat, DateTimeUtils.parseOutputFormat));
+            viewHolder.mDate.setText(timeLineModel.getDate());
         } else
             viewHolder.mDate.setVisibility(View.GONE);
 

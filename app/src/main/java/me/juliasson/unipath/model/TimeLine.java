@@ -82,6 +82,6 @@ public class TimeLine implements Parcelable{
     @SuppressLint("NewApi")
     @Override
     public int hashCode() {
-        return Objects.hash(dDate, mDate);
+        return Objects.hash(mDate);
     }
 }

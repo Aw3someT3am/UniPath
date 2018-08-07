@@ -16,7 +16,6 @@ import android.view.ViewTreeObserver;
 import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -37,11 +36,13 @@ import java.util.List;
 import java.util.Locale;
 
 import me.juliasson.unipath.R;
+import me.juliasson.unipath.activities.TimelineActivity;
+import me.juliasson.unipath.internal.UpdateFavCollegeListCalendar;
 import me.juliasson.unipath.model.College;
 import me.juliasson.unipath.model.Deadline;
 import me.juliasson.unipath.model.UserDeadlineRelation;
 
-public class CalendarFragment extends Fragment {
+public class CalendarFragment extends Fragment implements UpdateFavCollegeListCalendar {
 
     private static final String TAG = "MainActivity";
     private Calendar currentCalender = Calendar.getInstance(Locale.getDefault());
@@ -50,7 +51,6 @@ public class CalendarFragment extends Fragment {
     private boolean shouldShow = false;
     private CompactCalendarView compactCalendarView;
     private TextView monthYearTv;
-    private ImageView refreshBtn;
     private Button btnToday;
     private Button btnPrevious;
     private Button btnNext;
@@ -76,6 +76,8 @@ public class CalendarFragment extends Fragment {
         // Defines the xml file for the fragment
         View view = inflater.inflate(R.layout.fragment_calendar, parent, false);
         setHasOptionsMenu(true);
+
+        TimelineActivity.updateFavCollegeListInterfaceCalendar(this);
 
         //Title textview shows in form "Mmm YYYY"
         monthYearTv = view.findViewById(R.id.monthYearBtn);
@@ -141,17 +143,6 @@ public class CalendarFragment extends Fragment {
 //                currentCalendarDate = firstDayOfNewMonth;
             }
 
-        });
-
-        refreshBtn = view.findViewById(R.id.refreshBtn);
-        refreshBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                view.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.image_view_click));
-                compactCalendarView.removeAllEvents();
-                loadEvents();
-                setDataListItems();
-            }
         });
 
         btnToday = view.findViewById(R.id.btnToday);
@@ -352,8 +343,9 @@ public class CalendarFragment extends Fragment {
         udQuery.findInBackground(new FindCallback<UserDeadlineRelation>() {
             @Override
             public void done(List<UserDeadlineRelation> objects, ParseException e) {
-
-                Log.d("I'm in here", "asdkfjals");
+                mDataList.clear();
+                compactCalendarView.removeAllEvents();
+                loadEvents();
                 if (e == null) {
                     for (int i = 0; i < objects.size(); i++) {
                         // Access each deadline associated with current user
@@ -378,4 +370,16 @@ public class CalendarFragment extends Fragment {
         });
     }
 
+    public void refresh() {
+        setDataListItems();
+    }
+
+    //---------------------Implementing interface----------------------
+
+    @Override
+    public void updateList(boolean update) {
+        if (update) {
+            refresh();
+        }
+    }
 }
