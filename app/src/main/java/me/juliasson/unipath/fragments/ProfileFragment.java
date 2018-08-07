@@ -48,13 +48,13 @@ import me.juliasson.unipath.activities.MapActivity;
 import me.juliasson.unipath.activities.NewDeadlineDialog;
 import me.juliasson.unipath.activities.TimelineActivity;
 import me.juliasson.unipath.adapters.CollegeAdapter;
-import me.juliasson.unipath.internal.UpdateFavCollegeList;
+import me.juliasson.unipath.internal.UpdateFavCollegeListProfile;
 import me.juliasson.unipath.model.College;
 import me.juliasson.unipath.model.UserCollegeRelation;
 import me.juliasson.unipath.model.UserDeadlineRelation;
 import me.juliasson.unipath.utils.GalleryUtils;
 
-public class ProfileFragment extends Fragment implements UpdateFavCollegeList {
+public class ProfileFragment extends Fragment implements UpdateFavCollegeListProfile {
 
     private TextView tvProgressLabel;
     private ProgressBar pbProgress;
@@ -101,7 +101,7 @@ public class ProfileFragment extends Fragment implements UpdateFavCollegeList {
         pager = (ViewPager) parent;
         setHasOptionsMenu(true);
         mTimelineActivity=(TimelineActivity) getActivity();
-        TimelineActivity.updateFavCollegeListInterface(this);
+        TimelineActivity.updateFavCollegeListInterfaceProfile(this);
 
         return inflater.inflate(R.layout.fragment_profile, parent, false);
     }

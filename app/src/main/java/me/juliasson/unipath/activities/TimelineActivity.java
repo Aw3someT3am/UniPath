@@ -20,7 +20,8 @@ import me.juliasson.unipath.event.EventBus;
 import me.juliasson.unipath.event.PageChangedEvent;
 import me.juliasson.unipath.fragments.SearchFragment;
 import me.juliasson.unipath.internal.GetCollegeAddedToFavList;
-import me.juliasson.unipath.internal.UpdateFavCollegeList;
+import me.juliasson.unipath.internal.UpdateFavCollegeListCalendar;
+import me.juliasson.unipath.internal.UpdateFavCollegeListProfile;
 import me.juliasson.unipath.view.VerticalPager;
 
 
@@ -31,7 +32,8 @@ public class TimelineActivity extends AppCompatActivity implements GetCollegeAdd
      */
     private static final int CENTRAL_PAGE_INDEX = 1;
     public VerticalPager mVerticalPager;
-    private static UpdateFavCollegeList updateFavCollegeListInterace;
+    private static UpdateFavCollegeListProfile updateFavCollegeListInterfaceProfile;
+    private static UpdateFavCollegeListCalendar updateFavCollegeListInterfaceCalendar;
 
     private static final String TAG = "TimelineActivity";
 
@@ -143,11 +145,16 @@ public class TimelineActivity extends AppCompatActivity implements GetCollegeAdd
     public void getCollegeListChanged(boolean isChanged) {
         if (isChanged) {
             //tell calendar and profile fragments to refresh please
-            updateFavCollegeListInterace.updateList(true);
+            updateFavCollegeListInterfaceProfile.updateList(true);
+            updateFavCollegeListInterfaceCalendar.updateList(true);
         }
     }
 
-    public static void updateFavCollegeListInterface(UpdateFavCollegeList listInterface) {
-        updateFavCollegeListInterace = listInterface;
+    public static void updateFavCollegeListInterfaceProfile(UpdateFavCollegeListProfile listInterface) {
+        updateFavCollegeListInterfaceProfile = listInterface;
+    }
+
+    public static void updateFavCollegeListInterfaceCalendar(UpdateFavCollegeListCalendar listInterface) {
+        updateFavCollegeListInterfaceCalendar = listInterface;
     }
 }
