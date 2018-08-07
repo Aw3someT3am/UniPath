@@ -20,12 +20,14 @@ import me.juliasson.unipath.event.EventBus;
 import me.juliasson.unipath.event.PageChangedEvent;
 import me.juliasson.unipath.fragments.SearchFragment;
 import me.juliasson.unipath.internal.GetCollegeAddedToFavList;
+import me.juliasson.unipath.internal.GetCustomDeadlineAdded;
 import me.juliasson.unipath.internal.UpdateFavCollegeListCalendar;
+import me.juliasson.unipath.internal.UpdateFavCollegeListLinearTimeline;
 import me.juliasson.unipath.internal.UpdateFavCollegeListProfile;
 import me.juliasson.unipath.view.VerticalPager;
 
 
-public class TimelineActivity extends AppCompatActivity implements GetCollegeAddedToFavList {
+public class TimelineActivity extends AppCompatActivity implements GetCollegeAddedToFavList, GetCustomDeadlineAdded {
 
     /**
      * Start page index. 0 - top page, 1 - central page, 2 - bottom page.
@@ -34,6 +36,7 @@ public class TimelineActivity extends AppCompatActivity implements GetCollegeAdd
     public VerticalPager mVerticalPager;
     private static UpdateFavCollegeListProfile updateFavCollegeListInterfaceProfile;
     private static UpdateFavCollegeListCalendar updateFavCollegeListInterfaceCalendar;
+    private static UpdateFavCollegeListLinearTimeline updateFavCollegeListInterfaceLinearTimeline;
 
     private static final String TAG = "TimelineActivity";
 
@@ -41,6 +44,7 @@ public class TimelineActivity extends AppCompatActivity implements GetCollegeAdd
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         SearchFragment.setCollegeListChangedInterface(this);
+        NewDeadlineDialog.setCustomDeadlineInterface(this);
         setContentView(R.layout.activity_timeline);
         findViews();
 
@@ -150,11 +154,24 @@ public class TimelineActivity extends AppCompatActivity implements GetCollegeAdd
         }
     }
 
+    @Override
+    public void getCustomDeadlineAdded(boolean added) {
+        if (added) {
+            //update linear timeline fragment and calendar
+            updateFavCollegeListInterfaceCalendar.updateList(true);
+            updateFavCollegeListInterfaceLinearTimeline.updateList(true);
+        }
+    }
+
     public static void updateFavCollegeListInterfaceProfile(UpdateFavCollegeListProfile listInterface) {
         updateFavCollegeListInterfaceProfile = listInterface;
     }
 
     public static void updateFavCollegeListInterfaceCalendar(UpdateFavCollegeListCalendar listInterface) {
         updateFavCollegeListInterfaceCalendar = listInterface;
+    }
+
+    public static void updateFavCollegeListInterfaceLinearTimeline(UpdateFavCollegeListLinearTimeline listInterface) {
+        updateFavCollegeListInterfaceLinearTimeline = listInterface;
     }
 }

@@ -16,7 +16,6 @@ import android.view.ViewTreeObserver;
 import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -52,7 +51,6 @@ public class CalendarFragment extends Fragment implements UpdateFavCollegeListCa
     private boolean shouldShow = false;
     private CompactCalendarView compactCalendarView;
     private TextView monthYearTv;
-    private ImageView refreshBtn;
     private Button btnToday;
     private Button btnPrevious;
     private Button btnNext;
@@ -145,15 +143,6 @@ public class CalendarFragment extends Fragment implements UpdateFavCollegeListCa
 //                currentCalendarDate = firstDayOfNewMonth;
             }
 
-        });
-
-        refreshBtn = view.findViewById(R.id.refreshBtn);
-        refreshBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                view.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.image_view_click));
-                refresh();
-            }
         });
 
         btnToday = view.findViewById(R.id.btnToday);

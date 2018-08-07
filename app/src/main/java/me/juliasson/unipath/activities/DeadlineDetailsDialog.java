@@ -22,7 +22,6 @@ import me.juliasson.unipath.internal.GetDeadlineDialogStatusInterface;
 import me.juliasson.unipath.internal.UpdateTimelineAdapterInterface;
 import me.juliasson.unipath.model.TimeLine;
 import me.juliasson.unipath.model.UserDeadlineRelation;
-import me.juliasson.unipath.utils.DateTimeUtils;
 
 
 public class DeadlineDetailsDialog extends AppCompatActivity implements GetDeadlineDialogStatusInterface{
@@ -55,7 +54,7 @@ public class DeadlineDetailsDialog extends AppCompatActivity implements GetDeadl
         timeline = Parcels.unwrap(getIntent().getParcelableExtra(TimeLine.class.getSimpleName()));
         mHashRelations = Parcels.unwrap(getIntent().getParcelableExtra(HashMap.class.getSimpleName()));
         tvDate = findViewById(R.id.tvDate);
-        activityDate = DateTimeUtils.parseDateTime(timeline.getDate(), DateTimeUtils.parseInputFormat, DateTimeUtils.parseOutputFormat);
+        activityDate = timeline.getDate();
         tvDate.setText(activityDate);
 
         rvRelations = findViewById(R.id.rvCollegeList);
