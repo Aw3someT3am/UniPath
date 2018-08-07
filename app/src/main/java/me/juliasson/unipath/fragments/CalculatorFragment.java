@@ -16,6 +16,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import me.juliasson.unipath.R;
+import me.juliasson.unipath.model.College;
 
 public class CalculatorFragment extends Fragment implements AdapterView.OnItemSelectedListener {
     private Spinner spCitizenship;
@@ -37,10 +38,10 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
     private int parentAssets;
     private int efc;
 
-    private int citzenshipStatus;
-    private int state;
+    private String citzenshipStatus;
+    private String state;
 
-    //private College college;
+    private College college;
 
     @Nullable
     @Override
@@ -53,10 +54,12 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        //college = (College) getArguments().getParcelable(College.class.getSimpleName());
+        college = (College) getArguments().getParcelable(College.class.getSimpleName());
 
         spCitizenship = (Spinner) view.findViewById(R.id.spCitizenship);
+        spCitizenship.setOnItemSelectedListener(this);
         spStateResidence = (Spinner) view.findViewById(R.id.spStateResidence);
+        spStateResidence.setOnItemSelectedListener(this);
         etParentIncome = (EditText) view.findViewById(R.id.etParentIncome);
         etStudentAssets = (EditText) view.findViewById(R.id.etStudentAsset);
         etParentAssets = (EditText) view.findViewById(R.id.etParentAsset);
@@ -73,6 +76,8 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
         spCitizenship.setAdapter(citizenshipAdapter);
         spStateResidence.setAdapter(stateResidenceAdapter);
 
+        final String address = college.getAddress();
+
         btnCalculate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -81,7 +86,16 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
                 parentAssets = Integer.parseInt((etParentAssets.getText().toString().equals("") || !etParentAssets.getText().toString().matches("^[0-9]+$") ? "0" : etParentAssets.getText().toString()));
                 efc = Integer.parseInt((etEFC.getText().toString().equals("") || !etEFC.getText().toString().matches("^[0-9]+$") ? "0" : etEFC.getText().toString()));
                 int netCost = parentIncome + studentAssets + parentAssets + efc;
-                tvTotal.setText(Integer.toString(netCost));
+                parentIncome = (int) Math.round(parentIncome + parentIncome*0.5);
+                int pellGrant = 5000;
+                int cost = 0;
+                if(address.contains(String.format(", %s", state))) {
+                    cost = college.getInStateCost();
+                } else {
+                    cost = college.getOutOfStateCost();
+                }
+//                tvTotal.setText(Integer.toString(netCost));
+                tvTotal.setText(Integer.toString(cost - parentIncome - studentAssets - parentAssets - pellGrant));
             }
         });
     }
@@ -90,10 +104,10 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         switch(adapterView.getId()) {
             case R.id.spCitizenship:
-                citzenshipStatus = spCitizenship.getSelectedItemPosition();
+                citzenshipStatus = spCitizenship.getItemAtPosition(i).toString();
                 break;
             case R.id.spStateResidence:
-                state = spStateResidence.getSelectedItemPosition();
+                state = adapterView.getItemAtPosition(i).toString();
                 break;
         }
 
