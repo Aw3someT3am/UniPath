@@ -34,6 +34,7 @@ import me.juliasson.unipath.R;
 import me.juliasson.unipath.activities.NewDeadlineDialog;
 import me.juliasson.unipath.activities.TimelineActivity;
 import me.juliasson.unipath.adapters.TimeLineAdapter;
+import me.juliasson.unipath.internal.GetDeadlineCheckedInterface;
 import me.juliasson.unipath.internal.GetItemDetailOpenedInterface;
 import me.juliasson.unipath.internal.UpdateFavCollegeListLinearTimeline;
 import me.juliasson.unipath.internal.UpdateLinearTimelineInterface;
@@ -44,7 +45,11 @@ import me.juliasson.unipath.model.UserDeadlineRelation;
 import me.juliasson.unipath.utils.Constants;
 import me.juliasson.unipath.utils.DateTimeUtils;
 
-public class LinearTimelineFragment extends Fragment implements UpdateLinearTimelineInterface, UpdateFavCollegeListLinearTimeline, GetItemDetailOpenedInterface {
+public class LinearTimelineFragment extends Fragment implements
+        UpdateLinearTimelineInterface,
+        UpdateFavCollegeListLinearTimeline,
+        GetItemDetailOpenedInterface,
+        GetDeadlineCheckedInterface {
 
     private FrameLayout touchInterceptor;
 
@@ -60,6 +65,8 @@ public class LinearTimelineFragment extends Fragment implements UpdateLinearTime
 
     private UpdateLinearTimelineInterface ultInterface;
     private GetItemDetailOpenedInterface gidInterface;
+    private GetDeadlineCheckedInterface dcInterface;
+    private static GetDeadlineCheckedInterface dcInterfaceFromTimelineActivity;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
@@ -78,6 +85,7 @@ public class LinearTimelineFragment extends Fragment implements UpdateLinearTime
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         ultInterface = this;
         gidInterface = this;
+        dcInterface = this;
         tvNoDeadlines = (TextView) view.findViewById(R.id.tvNoDeadlines);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -112,7 +120,11 @@ public class LinearTimelineFragment extends Fragment implements UpdateLinearTime
                         addTimeLineToRelationMap(timeline, relation);
                     }
                     mDataList.addAll(mDataSet);
-                    mTimeLineAdapter = new TimeLineAdapter(mDataList, mRelationsInTimeLine, ultInterface, gidInterface);
+                    mTimeLineAdapter = new TimeLineAdapter(mDataList,
+                            mRelationsInTimeLine,
+                            ultInterface,
+                            gidInterface,
+                            dcInterface);
                     mRecyclerView.setAdapter(mTimeLineAdapter);
                     sortData();
                     if (!mDataList.isEmpty()) {
@@ -218,5 +230,16 @@ public class LinearTimelineFragment extends Fragment implements UpdateLinearTime
     @Override
     public void getItemDetailOpened(boolean isOpened) {
         isTimelineOpened = isOpened;
+    }
+
+    @Override
+    public void getDeadlineChecked(boolean isChanged) {
+        if (isChanged) {
+            dcInterfaceFromTimelineActivity.getDeadlineChecked(true);
+        }
+    }
+
+    public static void setDcInterfaceFromTimelineActivity(GetDeadlineCheckedInterface dcInterface) {
+        dcInterfaceFromTimelineActivity = dcInterface;
     }
 }

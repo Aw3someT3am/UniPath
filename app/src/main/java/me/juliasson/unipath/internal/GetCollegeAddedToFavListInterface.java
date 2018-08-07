@@ -1,5 +1,5 @@
 package me.juliasson.unipath.internal;
 
-public interface GetCollegeAddedToFavList {
+public interface GetCollegeAddedToFavListInterface {
     void getCollegeListChanged(boolean isChanged);
 }

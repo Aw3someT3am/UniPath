@@ -19,19 +19,27 @@ import me.juliasson.unipath.R;
 import me.juliasson.unipath.adapters.DDCollegeListAdapter;
 import me.juliasson.unipath.event.EventBus;
 import me.juliasson.unipath.event.PageChangedEvent;
+import me.juliasson.unipath.fragments.LinearTimelineFragment;
 import me.juliasson.unipath.fragments.ProfileFragment;
 import me.juliasson.unipath.fragments.SearchFragment;
-import me.juliasson.unipath.internal.GetCollegeAddedToFavList;
-import me.juliasson.unipath.internal.GetCollegeUnlikedFromProfile;
-import me.juliasson.unipath.internal.GetCustomDeadlineAdded;
+import me.juliasson.unipath.internal.GetCollegeAddedToFavListInterface;
+import me.juliasson.unipath.internal.GetCollegeUnlikedFromProfileInterface;
+import me.juliasson.unipath.internal.GetCustomDeadlineAddedInterface;
+import me.juliasson.unipath.internal.GetDeadlineCheckedInterface;
 import me.juliasson.unipath.internal.GetDeadlineDeletedInterface;
 import me.juliasson.unipath.internal.UpdateFavCollegeListCalendar;
 import me.juliasson.unipath.internal.UpdateFavCollegeListLinearTimeline;
 import me.juliasson.unipath.internal.UpdateFavCollegeListProfile;
+import me.juliasson.unipath.internal.UpdateProfileProgressBarInterface;
 import me.juliasson.unipath.view.VerticalPager;
 
 
-public class TimelineActivity extends AppCompatActivity implements GetCollegeAddedToFavList, GetCustomDeadlineAdded, GetDeadlineDeletedInterface, GetCollegeUnlikedFromProfile {
+public class TimelineActivity extends AppCompatActivity implements
+        GetCollegeAddedToFavListInterface,
+        GetCustomDeadlineAddedInterface,
+        GetDeadlineDeletedInterface,
+        GetCollegeUnlikedFromProfileInterface,
+        GetDeadlineCheckedInterface {
 
     /**
      * Start page index. 0 - top page, 1 - central page, 2 - bottom page.
@@ -41,6 +49,7 @@ public class TimelineActivity extends AppCompatActivity implements GetCollegeAdd
     private static UpdateFavCollegeListProfile updateFavCollegeListInterfaceProfile;
     private static UpdateFavCollegeListCalendar updateFavCollegeListInterfaceCalendar;
     private static UpdateFavCollegeListLinearTimeline updateFavCollegeListInterfaceLinearTimeline;
+    private static UpdateProfileProgressBarInterface updateProfileProgressBarInterface;
 
     private static final String TAG = "TimelineActivity";
 
@@ -51,6 +60,7 @@ public class TimelineActivity extends AppCompatActivity implements GetCollegeAdd
         NewDeadlineDialog.setCustomDeadlineInterface(this);
         DDCollegeListAdapter.setDeadlineDeletedInterface(this);
         ProfileFragment.setUnlikedFromProfileInterface(this);
+        LinearTimelineFragment.setDcInterfaceFromTimelineActivity(this);
         setContentView(R.layout.activity_timeline);
         findViews();
 
@@ -184,6 +194,13 @@ public class TimelineActivity extends AppCompatActivity implements GetCollegeAdd
         }
     }
 
+    @Override
+    public void getDeadlineChecked(boolean isChanged) {
+        if (isChanged) {
+            updateProfileProgressBarInterface.updateProgressBar(true);
+        }
+    }
+
     public static void updateFavCollegeListInterfaceProfile(UpdateFavCollegeListProfile listInterface) {
         updateFavCollegeListInterfaceProfile = listInterface;
     }
@@ -194,5 +211,9 @@ public class TimelineActivity extends AppCompatActivity implements GetCollegeAdd
 
     public static void updateFavCollegeListInterfaceLinearTimeline(UpdateFavCollegeListLinearTimeline listInterface) {
         updateFavCollegeListInterfaceLinearTimeline = listInterface;
+    }
+
+    public static void updateProfileProgressBarInterface(UpdateProfileProgressBarInterface listInterface) {
+        updateProfileProgressBarInterface = listInterface;
     }
 }

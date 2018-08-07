@@ -41,8 +41,8 @@ import me.juliasson.unipath.R;
 import me.juliasson.unipath.activities.CollegeDetailsDialog;
 import me.juliasson.unipath.activities.MapActivity;
 import me.juliasson.unipath.internal.GetItemDetailOpenedInterface;
-import me.juliasson.unipath.internal.GetCollegeLikedOnSearchListView;
-import me.juliasson.unipath.internal.GetCollegeUnlikedFromProfileAdapter;
+import me.juliasson.unipath.internal.GetCollegeLikedOnSearchListViewInterface;
+import me.juliasson.unipath.internal.GetCollegeUnlikedFromProfileAdapterInterface;
 import me.juliasson.unipath.internal.LikedRefreshInterface;
 import me.juliasson.unipath.internal.LikesInterface;
 import me.juliasson.unipath.internal.SearchInterface;
@@ -72,14 +72,14 @@ public class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.ViewHold
     private static SearchInterface searchInterface;
     private static LikesInterface likesInterface;
     private static LikedRefreshInterface likedRefreshInterface;
-    private static GetCollegeLikedOnSearchListView likedOnSearchListView;
-    private static GetCollegeUnlikedFromProfileAdapter unlikedFromProfileAdapterInterface;
+    private static GetCollegeLikedOnSearchListViewInterface likedOnSearchListView;
+    private static GetCollegeUnlikedFromProfileAdapterInterface unlikedFromProfileAdapterInterface;
     private static GetItemDetailOpenedInterface collegeDetailOpenedInterface;
 
     public CollegeAdapter(ArrayList<College> arrayList,
                           SearchInterface searchInterface,
                           LikedRefreshInterface likedRefreshInterface,
-                          GetCollegeLikedOnSearchListView likedOnSearchListView,
+                          GetCollegeLikedOnSearchListViewInterface likedOnSearchListView,
                           GetItemDetailOpenedInterface collegeDetailOpenedInterface) {
         CollegeAdapter.searchInterface = searchInterface;
         CollegeAdapter.likedRefreshInterface = likedRefreshInterface;
@@ -91,7 +91,7 @@ public class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.ViewHold
 
     Button mapsButton;
 
-    public CollegeAdapter(ArrayList<College> arrayList, GetCollegeUnlikedFromProfileAdapter unlikedFromProfileadapterInterface) {
+    public CollegeAdapter(ArrayList<College> arrayList, GetCollegeUnlikedFromProfileAdapterInterface unlikedFromProfileadapterInterface) {
         mColleges = arrayList;
         mFilteredList = arrayList;
         CollegeAdapter.unlikedFromProfileAdapterInterface = unlikedFromProfileadapterInterface;

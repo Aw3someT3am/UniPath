@@ -32,9 +32,9 @@ import me.juliasson.unipath.activities.MapActivity;
 import me.juliasson.unipath.activities.SearchFilteringDialog;
 import me.juliasson.unipath.adapters.CollegeAdapter;
 import me.juliasson.unipath.adapters.MyExpandableListAdapter;
-import me.juliasson.unipath.internal.GetCollegeAddedToFavList;
+import me.juliasson.unipath.internal.GetCollegeAddedToFavListInterface;
 import me.juliasson.unipath.internal.GetItemDetailOpenedInterface;
-import me.juliasson.unipath.internal.GetCollegeLikedOnSearchListView;
+import me.juliasson.unipath.internal.GetCollegeLikedOnSearchListViewInterface;
 import me.juliasson.unipath.internal.LikedRefreshInterface;
 import me.juliasson.unipath.internal.SearchInterface;
 import me.juliasson.unipath.model.College;
@@ -43,7 +43,7 @@ import me.juliasson.unipath.utils.Constants;
 
 import static android.app.Activity.RESULT_OK;
 
-public class SearchFragment extends Fragment implements SearchInterface, LikedRefreshInterface, GetCollegeLikedOnSearchListView, GetItemDetailOpenedInterface {
+public class SearchFragment extends Fragment implements SearchInterface, LikedRefreshInterface, GetCollegeLikedOnSearchListViewInterface, GetItemDetailOpenedInterface {
 
     private FrameLayout touchInterceptor;
 
@@ -74,7 +74,7 @@ public class SearchFragment extends Fragment implements SearchInterface, LikedRe
     private String stateValue;
     private boolean isDetailsOpened = false;
 
-    private static GetCollegeAddedToFavList collegeListChangedInterface;
+    private static GetCollegeAddedToFavListInterface collegeListChangedInterface;
 
     private final String DEFAULT_MAX_VAL = "2147483647";
     private final String DEFAULT_MIN_VAL = "0";
@@ -172,7 +172,7 @@ public class SearchFragment extends Fragment implements SearchInterface, LikedRe
         postsQuery.limit20();
         LikedRefreshInterface lrInterface = this;
         SearchInterface sInterface = this;
-        GetCollegeLikedOnSearchListView closlInterface = this;
+        GetCollegeLikedOnSearchListViewInterface closlInterface = this;
         GetItemDetailOpenedInterface cdoInterface = this;
         collegeAdapter = new CollegeAdapter(colleges, sInterface, lrInterface, closlInterface, cdoInterface);
         mRecyclerView.setAdapter(collegeAdapter);
@@ -249,7 +249,7 @@ public class SearchFragment extends Fragment implements SearchInterface, LikedRe
         }
     }
 
-    public static void setCollegeListChangedInterface(GetCollegeAddedToFavList collegeListChanged) {
+    public static void setCollegeListChangedInterface(GetCollegeAddedToFavListInterface collegeListChanged) {
         collegeListChangedInterface = collegeListChanged;
     }
 

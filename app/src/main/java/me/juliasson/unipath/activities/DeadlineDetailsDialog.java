@@ -18,13 +18,17 @@ import java.util.HashMap;
 
 import me.juliasson.unipath.R;
 import me.juliasson.unipath.adapters.DDCollegeListAdapter;
+import me.juliasson.unipath.internal.GetDeadlineCheckedInterface;
 import me.juliasson.unipath.internal.GetDeadlineDialogStatusInterface;
+import me.juliasson.unipath.internal.UpdateProfileProgressBarInterface;
 import me.juliasson.unipath.internal.UpdateTimelineAdapterInterface;
 import me.juliasson.unipath.model.TimeLine;
 import me.juliasson.unipath.model.UserDeadlineRelation;
 
 
-public class DeadlineDetailsDialog extends AppCompatActivity implements GetDeadlineDialogStatusInterface{
+public class DeadlineDetailsDialog extends AppCompatActivity implements
+        GetDeadlineDialogStatusInterface,
+        GetDeadlineCheckedInterface {
 
     private DDCollegeListAdapter ddcAdapter;
     private ArrayList<UserDeadlineRelation> relations;
@@ -32,7 +36,9 @@ public class DeadlineDetailsDialog extends AppCompatActivity implements GetDeadl
     private TimeLine timeline;
     private HashMap<TimeLine, ArrayList<UserDeadlineRelation>> mHashRelations;
     private boolean isChanged = false;
+
     private static UpdateTimelineAdapterInterface utaInterface;
+    private static UpdateProfileProgressBarInterface ppbInterface;
 
     private TextView tvDate;
 
@@ -59,7 +65,7 @@ public class DeadlineDetailsDialog extends AppCompatActivity implements GetDeadl
 
         rvRelations = findViewById(R.id.rvCollegeList);
         relations = new ArrayList<>();
-        ddcAdapter = new DDCollegeListAdapter(relations, this);
+        ddcAdapter = new DDCollegeListAdapter(relations, this, this);
         rvRelations.setLayoutManager(new LinearLayoutManager(this));
         rvRelations.setAdapter(ddcAdapter);
 
@@ -99,8 +105,19 @@ public class DeadlineDetailsDialog extends AppCompatActivity implements GetDeadl
         }
     }
 
+    @Override
+    public void getDeadlineChecked(boolean isChanged) {
+        if (isChanged) {
+            ppbInterface.updateProgressBar(true);
+        }
+    }
+
     public static void setUtaInterface(UpdateTimelineAdapterInterface utaInterface0) {
         utaInterface = utaInterface0;
+    }
+
+    public static void setPpbInterface(UpdateProfileProgressBarInterface ppbInterface0) {
+        ppbInterface = ppbInterface0;
     }
 
     //------------------------listen for clicking outside of dialog-------------

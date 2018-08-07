@@ -1,5 +1,5 @@
 package me.juliasson.unipath.internal;
 
-public interface GetCustomDeadlineAdded {
+public interface GetCustomDeadlineAddedInterface {
     void getCustomDeadlineAdded(boolean added);
 }

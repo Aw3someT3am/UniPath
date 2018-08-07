@@ -22,6 +22,7 @@ import com.parse.SaveCallback;
 import java.util.List;
 
 import me.juliasson.unipath.R;
+import me.juliasson.unipath.internal.GetDeadlineCheckedInterface;
 import me.juliasson.unipath.internal.GetDeadlineDeletedInterface;
 import me.juliasson.unipath.internal.GetDeadlineDialogStatusInterface;
 import me.juliasson.unipath.model.UserDeadlineRelation;
@@ -32,14 +33,18 @@ public class DDCollegeListAdapter extends RecyclerView.Adapter<DDCollegeListAdap
     private Context mContext;
     private static GetDeadlineDialogStatusInterface ddStatusInterface;
     private static GetDeadlineDeletedInterface getDeadlineDeletedInterface;
+    private static GetDeadlineCheckedInterface getDeadlineCheckedInterface;
 
     private final String ALERT_MESSAGE = "Delete this deadline?";
     private final String ALERT_POSITIVE = "Delete";
     private final String ALERT_NEGATIVE = "Cancel";
 
-    public DDCollegeListAdapter (List<UserDeadlineRelation> deadlines, GetDeadlineDialogStatusInterface updateInterface) {
+    public DDCollegeListAdapter (List<UserDeadlineRelation> deadlines,
+                                 GetDeadlineDialogStatusInterface updateInterface,
+                                 GetDeadlineCheckedInterface checkedInterface) {
         mCollegeDeadlines = deadlines;
         ddStatusInterface = updateInterface;
+        getDeadlineCheckedInterface = checkedInterface;
     }
 
     @NonNull
@@ -70,6 +75,7 @@ public class DDCollegeListAdapter extends RecyclerView.Adapter<DDCollegeListAdap
                         if (e == null) {
                             Log.d("DDCLAdapter", "Deadline completion saved");
                             ddStatusInterface.isDialogChanged(true);
+                            getDeadlineCheckedInterface.getDeadlineChecked(true);
                         } else {
                             e.printStackTrace();
                             Log.d("DDCLAdapter", "Deadline completion failed to save");
@@ -87,6 +93,7 @@ public class DDCollegeListAdapter extends RecyclerView.Adapter<DDCollegeListAdap
                         if (e == null) {
                             Log.d("DDCLAdapter", "Deadline incompletion saved");
                             ddStatusInterface.isDialogChanged(true);
+                            getDeadlineCheckedInterface.getDeadlineChecked(true);
                         } else {
                             e.printStackTrace();
                             Log.d("DDCLAdapter", "Deadline incompletion failed to save");
