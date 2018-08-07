@@ -40,6 +40,7 @@ import java.util.List;
 import me.juliasson.unipath.R;
 import me.juliasson.unipath.activities.CollegeDetailsDialog;
 import me.juliasson.unipath.activities.MapActivity;
+import me.juliasson.unipath.internal.GetItemDetailOpenedInterface;
 import me.juliasson.unipath.internal.GetCollegeLikedOnSearchListView;
 import me.juliasson.unipath.internal.GetCollegeUnlikedFromProfileAdapter;
 import me.juliasson.unipath.internal.LikedRefreshInterface;
@@ -73,11 +74,17 @@ public class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.ViewHold
     private static LikedRefreshInterface likedRefreshInterface;
     private static GetCollegeLikedOnSearchListView likedOnSearchListView;
     private static GetCollegeUnlikedFromProfileAdapter unlikedFromProfileAdapterInterface;
+    private static GetItemDetailOpenedInterface collegeDetailOpenedInterface;
 
-    public CollegeAdapter(ArrayList<College> arrayList, SearchInterface searchInterface, LikedRefreshInterface likedRefreshInterface, GetCollegeLikedOnSearchListView likedOnSearchListView) {
+    public CollegeAdapter(ArrayList<College> arrayList,
+                          SearchInterface searchInterface,
+                          LikedRefreshInterface likedRefreshInterface,
+                          GetCollegeLikedOnSearchListView likedOnSearchListView,
+                          GetItemDetailOpenedInterface collegeDetailOpenedInterface) {
         CollegeAdapter.searchInterface = searchInterface;
         CollegeAdapter.likedRefreshInterface = likedRefreshInterface;
         CollegeAdapter.likedOnSearchListView = likedOnSearchListView;
+        CollegeAdapter.collegeDetailOpenedInterface = collegeDetailOpenedInterface;
         mColleges = arrayList;
         mFilteredList = arrayList;
     }
@@ -88,11 +95,6 @@ public class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.ViewHold
         mColleges = arrayList;
         mFilteredList = arrayList;
         CollegeAdapter.unlikedFromProfileAdapterInterface = unlikedFromProfileadapterInterface;
-    }
-
-    public CollegeAdapter(ArrayList<College> arrayList) {
-        mColleges = arrayList;
-        mFilteredList = arrayList;
     }
 
     @NonNull
@@ -188,6 +190,7 @@ public class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.ViewHold
             int position = getAdapterPosition();
 
             if (position != RecyclerView.NO_POSITION) {
+                collegeDetailOpenedInterface.getItemDetailOpened(true);
                 College college = mFilteredList.get(position);
                 Intent intent = new Intent(mContext, CollegeDetailsDialog.class);
                 intent.putExtra(College.class.getSimpleName(), Parcels.wrap(college));
@@ -537,6 +540,7 @@ public class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.ViewHold
 
     @Override
     public void setValues(boolean isChanged) {
+        collegeDetailOpenedInterface.getItemDetailOpened(false);
         if (isChanged) {
             likedRefreshInterface.setValues(true);
         }

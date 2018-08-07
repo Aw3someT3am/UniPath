@@ -108,9 +108,7 @@ public class DeadlineDetailsDialog extends AppCompatActivity implements GetDeadl
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_OUTSIDE) {
-            if (isChanged) {
-                utaInterface.updateItemStatus(true);
-            }
+            utaInterface.updateItemStatus(isChanged);
             finish();
         }
         return false;
