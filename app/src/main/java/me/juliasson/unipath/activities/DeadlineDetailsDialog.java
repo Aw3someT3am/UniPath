@@ -34,7 +34,7 @@ public class DeadlineDetailsDialog extends AppCompatActivity implements GetDeadl
     private boolean isChanged = false;
     private static UpdateTimelineAdapterInterface utaInterface;
 
-    TextView tvDate;
+    private TextView tvDate;
 
     private String activityDate;
 

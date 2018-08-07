@@ -43,18 +43,12 @@ public class CustomInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
 
         college = (College) marker.getTag();
 
-
-
-
         Glide.with(mContext)
                 .load(college.getParseFile(KEY_COLLEGE_IMAGE).getUrl())
                 .into(smallImage);
 
         tvCollegeName.setText(marker.getTitle());
         tvAddress.setText(marker.getSnippet());
-
-
-
 
         return view;
     }

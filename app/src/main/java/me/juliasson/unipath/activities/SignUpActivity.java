@@ -38,6 +38,7 @@ import java.io.File;
 import java.io.IOException;
 
 import me.juliasson.unipath.R;
+import me.juliasson.unipath.utils.Constants;
 import me.juliasson.unipath.utils.GalleryUtils;
 
 public class SignUpActivity extends AppCompatActivity {
@@ -53,10 +54,6 @@ public class SignUpActivity extends AppCompatActivity {
 
     private static final String TAG = "SignUpActivity";
     private final int MIN_PASS_LENGTH = 6;
-
-    private final String KEY_FIRST_NAME = "firstName";
-    private final String KEY_LAST_NAME = "lastName";
-    private final String KEY_PROFILE_IMAGE = "profileImage";
 
     private FirebaseAuth mAuth;
 
@@ -154,9 +151,9 @@ public class SignUpActivity extends AppCompatActivity {
         parseUser.setPassword(password);
         parseUser.setEmail(email);
 
-        parseUser.put(KEY_FIRST_NAME, firstName);
-        parseUser.put(KEY_LAST_NAME, lastName);
-        parseUser.put(KEY_PROFILE_IMAGE, profileImage);
+        parseUser.put(Constants.KEY_USER_FIRST_NAME, firstName);
+        parseUser.put(Constants.KEY_USER_LAST_NAME, lastName);
+        parseUser.put(Constants.KEY_USER_PROFILE_IMAGE, profileImage);
 
         parseUser.signUpInBackground(new SignUpCallback() {
             @Override

@@ -59,7 +59,6 @@ public class NewDeadlineDialog extends AppCompatActivity {
     private Date currentDate;
     private Date assignedDate;
     private DatePickerDialog datePickerDialog;
-    private NDCollegeListDialog collegePickerDialog;
     private College chosenCollege;
     private int mYear;
     private int mMonth;
@@ -231,8 +230,6 @@ public class NewDeadlineDialog extends AppCompatActivity {
     }
 
     public void showCollegePicker(View view) {
-        collegePickerDialog = new NDCollegeListDialog();
-
         Intent intent = new Intent(mContext, NDCollegeListDialog.class);
         startActivityForResult(intent, RESULT_COLLEGE_PICKER);
     }
