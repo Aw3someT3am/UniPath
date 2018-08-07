@@ -206,6 +206,10 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:textAppearance="@android:style/TextAppearance.Small"
+                    android:backgroundTint="@color/background_orange"
+                    android:padding="8dp"
+                    android:textColor="@color/solid_white"
                     android:text="Calculate" />
 
                 <TextView
