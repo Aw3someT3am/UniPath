@@ -9,17 +9,21 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import me.juliasson.unipath.R;
+import me.juliasson.unipath.model.UserDeadlineRelation;
 
 public class CalendarDeadlineAdapter extends RecyclerView.Adapter<CalendarDeadlineAdapter.ViewHolder> {
 
     private Context mContext;
-    private List<String> deadlines;
+    private List<UserDeadlineRelation> relations;
+    private Date currentDate = Calendar.getInstance().getTime();
 
-    public CalendarDeadlineAdapter(List<String> deadlines) {
-        this.deadlines = deadlines;
+    public CalendarDeadlineAdapter(List<UserDeadlineRelation> deadlines) {
+        this.relations = deadlines;
     }
 
     @NonNull
@@ -35,9 +39,25 @@ public class CalendarDeadlineAdapter extends RecyclerView.Adapter<CalendarDeadli
 
     @Override
     public void onBindViewHolder(@NonNull CalendarDeadlineAdapter.ViewHolder viewHolder, int i) {
-        final String deadline = deadlines.get(i);
+        final UserDeadlineRelation relation = relations.get(i);
 
-        viewHolder.tvDeadlineDesc.setText(deadline);
+        Date relationDate = relation.getDeadline().getDeadlineDate();
+
+        if (currentDate.after(relationDate)) {
+            if (!relation.getCompleted()) {
+                viewHolder.deadlineStatusIndicator.setColorFilter(mContext.getResources().getColor(R.color.background_orange));
+            } else {
+                viewHolder.deadlineStatusIndicator.setColorFilter(mContext.getResources().getColor(R.color.progress_green));
+            }
+        } else {
+            if (!relation.getCompleted()) {
+                viewHolder.deadlineStatusIndicator.setColorFilter(mContext.getResources().getColor(R.color.holo_blue_bright));
+            } else {
+                viewHolder.deadlineStatusIndicator.setColorFilter(mContext.getResources().getColor(R.color.progress_green));
+            }
+        }
+
+        viewHolder.tvDeadlineDesc.setText(String.format("%s\n%s", relation.getCollege().getCollegeName(), relation.getDeadline().getDescription()));
 //        viewHolder.tvDeadlineDate.setText(DateTimeUtils.parseDateTime(deadline.getDeadlineDate().toString(), DateTimeUtils.parseInputFormat, DateTimeUtils.parseOutputFormat));
 
 //        if (deadline.getIsFinancial()) {
@@ -49,33 +69,34 @@ public class CalendarDeadlineAdapter extends RecyclerView.Adapter<CalendarDeadli
 
     @Override
     public int getItemCount() {
-        return deadlines.size();
+        return relations.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         public TextView tvDeadlineDesc;
         public ImageView deadlineImage;
+        public ImageView deadlineStatusIndicator;
 
         public ViewHolder(View itemView) {
             super(itemView);
 
             tvDeadlineDesc = itemView.findViewById(R.id.tvDeadlineDesc);
             deadlineImage = itemView.findViewById(R.id.image);
-
+            deadlineStatusIndicator = itemView.findViewById(R.id.deadlineStatusIndicator);
             //itemView.setOnClickListener(this);
         }
     }
 
     // Clean all elements of the recycler
     public void clear() {
-        deadlines.clear();
+        relations.clear();
         notifyDataSetChanged();
     }
 
     // Add a list of items -- change to type used
-    public void addAll(List<String> list) {
-        deadlines.addAll(list);
+    public void addAll(List<UserDeadlineRelation> list) {
+        relations.addAll(list);
         notifyDataSetChanged();
     }
 }

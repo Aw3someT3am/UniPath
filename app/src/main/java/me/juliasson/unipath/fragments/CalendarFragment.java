@@ -30,6 +30,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
@@ -59,11 +60,12 @@ public class CalendarFragment extends Fragment implements UpdateFavCollegeListCa
 
     private CompactCalendarView.CompactCalendarViewListener listener;
 
+    private HashMap<Event, UserDeadlineRelation> eventRelationMap = new HashMap<>();
+
     private Date currentCalendarDate;
 
     // A list of strings of format "description, college" to display for each specific date when clicked
-    final List<String> mutableBookings = new ArrayList<>();
-
+    final List<UserDeadlineRelation> mutableBookings = new ArrayList<>();
     private List<UserDeadlineRelation> mDataList = new ArrayList<>();
     private List<Date> mDates = new ArrayList<>();
 
@@ -257,9 +259,12 @@ public class CalendarFragment extends Fragment implements UpdateFavCollegeListCa
             Log.d(TAG, bookingsFromMap.toString());
             mutableBookings.clear();
             for (Event booking : bookingsFromMap) {
+
+                UserDeadlineRelation relation = eventRelationMap.get(booking);
+
                 // Query through Parse to find additional info for each event for given date
                 booking.getTimeInMillis();
-                mutableBookings.add((String) booking.getData());
+                mutableBookings.add(relation);
             }
             calendarAdapter.notifyDataSetChanged();
         }
@@ -340,6 +345,7 @@ public class CalendarFragment extends Fragment implements UpdateFavCollegeListCa
             @Override
             public void done(List<UserDeadlineRelation> objects, ParseException e) {
                 mDataList.clear();
+                eventRelationMap.clear();
                 compactCalendarView.removeAllEvents();
                 loadEvents();
                 if (e == null) {
@@ -355,8 +361,11 @@ public class CalendarFragment extends Fragment implements UpdateFavCollegeListCa
 
                         // Create event for each deadline and add to CompactCalendarView
                         Event event = new Event(Color.argb(255, 0 ,221, 255), date.getTime(), String.format("%s: %s", college, description.toUpperCase()));
+
                         compactCalendarView.addEvent(event);
                         mDataList.add(relation);
+
+                        eventRelationMap.put(event, relation);
 
                     }
                 } else {
