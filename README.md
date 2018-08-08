@@ -61,7 +61,7 @@ The purpose of this app is to assist students and parents with finding and apply
   - [X] If no deadlines in linear timeline, tell user "no deadlines"
   - [X] Title linear timeline fragment
   - [ ] Make search icon clickable from entire left side of icon on action bar
-  - [ ] Adjust action bar title to either display in center/replace with icon
+  - [X] Adjust action bar title to either display in center/replace with icon
   - Animation: 
   - [X] Party animation for completing all deadlines
   - [X] clicking on a college item from search/profile should open details nicely
