@@ -47,7 +47,6 @@ The purpose of this app is to assist students and parents with finding and apply
 - [X] Pass in updated filtered list to map in search fragment
 - Minor goals:
   - Code: 
-  - [ ] Fix bug in calendar; Previous button doesn't always know about custom deadlines 
   - [X] Remove excess Toasts and Logs
   - [X] Replace hardcoded values in xml files
   - [ ] Get launcher icon to show on s9
