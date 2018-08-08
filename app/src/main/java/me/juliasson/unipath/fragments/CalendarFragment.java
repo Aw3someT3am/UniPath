@@ -366,8 +366,8 @@ public class CalendarFragment extends Fragment implements UpdateFavCollegeListCa
                         mDataList.add(relation);
 
                         eventRelationMap.put(event, relation);
-
                     }
+                    selectDay(currentCalendarDate);
                 } else {
                     e.printStackTrace();
                 }

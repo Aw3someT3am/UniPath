@@ -263,7 +263,7 @@ public class ProfileFragment extends Fragment implements
                     }
                     pbProgress.setProgress((int)(numCompleted/objects.size()*100));
                     tvProgressText.setText(String.format("%s/%s", (int) numCompleted, objects.size()));
-                    if ((int) numCompleted == objects.size()) {
+                    if ((int) numCompleted == objects.size() && objects.size() > 0) {
                         isProgressCompleteInterface.isProgressComplete(true);
                     }
                 } else {

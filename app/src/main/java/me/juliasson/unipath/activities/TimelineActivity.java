@@ -251,6 +251,7 @@ public class TimelineActivity extends AppCompatActivity implements
     public void getDeadlineChecked(boolean isChanged) {
         if (isChanged) {
             updateProfileProgressBarInterface.updateProgressBar(true);
+            updateFavCollegeListInterfaceCalendar.updateList(true);
         }
     }
 
