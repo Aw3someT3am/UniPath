@@ -16,6 +16,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.github.sundeepk.compactcalendarview.CompactCalendarView;
 import com.github.sundeepk.compactcalendarview.domain.Event;
@@ -60,7 +61,7 @@ public class CalendarFragment extends Fragment implements UpdateFavCollegeListCa
 
     private HashMap<Event, UserDeadlineRelation> eventRelationMap = new HashMap<>();
 
-    private Date currentCalendarDate;
+    private Date currentSelectedDate;
 
     // List of relations specific to one day when selected
     final List<UserDeadlineRelation> mutableBookings = new ArrayList<>();
@@ -85,7 +86,7 @@ public class CalendarFragment extends Fragment implements UpdateFavCollegeListCa
         // Default message over list view when a date contains no deadlines
         tvNoDeadlines = (TextView) view.findViewById(R.id.tvNoDeadlines);
 
-        currentCalendarDate = Calendar.getInstance().getTime();
+        currentSelectedDate = Calendar.getInstance().getTime();
 
         // Listview of details for selected date in calendar
         final DiscreteScrollView bookingsListView = view.findViewById(R.id.bookings_listview);
@@ -120,7 +121,7 @@ public class CalendarFragment extends Fragment implements UpdateFavCollegeListCa
             @Override
             public void onDayClick(Date dateClicked) {
                 selectDay(dateClicked);
-                currentCalendarDate = dateClicked;
+                currentSelectedDate = dateClicked;
                 calendarAdapter.notifyDataSetChanged();
             }
             @Override
@@ -157,20 +158,21 @@ public class CalendarFragment extends Fragment implements UpdateFavCollegeListCa
                 for (int i = 0; i < mDataList.size(); i ++) {
                     Date date = mDataList.get(i).getDeadline().getDeadlineDate();
 
-                    if (date.after(currentCalendarDate) && date.before(nextClosestDeadline)) {
+                    if (date.after(currentSelectedDate) && date.before(nextClosestDeadline)) {
                         nextClosestDeadline = date;
                     }
                 }
 
                 // Be sure not to select default future date that likely doesn't contain deadlines
                 getDates();
-                if (! mDates.contains(nextClosestDeadline)) { nextClosestDeadline = currentCalendarDate; }
+                if (! mDates.contains(nextClosestDeadline)) { nextClosestDeadline = currentSelectedDate; }
 
                 // Calculate scrolls to show date in custom calendar view
                 int nextMonth = nextClosestDeadline.getMonth();
                 int currentMonth = Calendar.getInstance().getTime().getMonth();
 
                 int difference = nextMonth - currentMonth;
+
 
                 for (int j = 0; j < difference; j ++) {
                     compactCalendarView.scrollRight();
@@ -193,18 +195,28 @@ public class CalendarFragment extends Fragment implements UpdateFavCollegeListCa
                 for (int i = 0; i < mDataList.size(); i ++) {
                     Date date = mDataList.get(i).getDeadline().getDeadlineDate();
 
-                    if (date.before(currentCalendarDate) && date.after(nextClosestDeadline)) {
+                    if (date.before(currentSelectedDate) && date.after(nextClosestDeadline)) {
                         nextClosestDeadline = date;
                     }
                 }
 
+                Toast.makeText(mContext, nextClosestDeadline.toString(), Toast.LENGTH_SHORT).show();
+
+
                 // Be sure not to select default past date that likely doesn't contain deadlines
                 getDates();
-                if (! mDates.contains(nextClosestDeadline)) { nextClosestDeadline = currentCalendarDate; }
+                if (! mDates.contains(nextClosestDeadline)) {
+                    nextClosestDeadline = currentSelectedDate;
+                }
 
                 // Calculate how many times to scroll custom calendar view
-                int yearDifference = currentCalendarDate.getYear() - nextClosestDeadline.getYear() ;
-                int difference = yearDifference * 12 + currentCalendarDate.getMonth() - nextClosestDeadline.getMonth();
+//                int nextMonth = nextClosestDeadline.getMonth();
+//                int currentMonth = Calendar.getInstance().getTime().getMonth();
+//
+//                int difference = currentMonth - nextMonth;
+
+                int yearDifference = currentSelectedDate.getYear() - nextClosestDeadline.getYear() ;
+                int difference = yearDifference * 12 + currentSelectedDate.getMonth() - nextClosestDeadline.getMonth();
 
                 for (int j = 0; j < difference; j ++) {
                     compactCalendarView.scrollLeft();
@@ -254,7 +266,7 @@ public class CalendarFragment extends Fragment implements UpdateFavCollegeListCa
 
     // Show pink circle on clicked day, load events into mutable bookings
     public void selectDay(Date dateClicked) {
-        currentCalendarDate = dateClicked;
+        currentSelectedDate = dateClicked;
         monthYearTv.setText(dateFormatForMonth.format(dateClicked));
         List<Event> bookingsFromMap = compactCalendarView.getEvents(dateClicked);
         Log.d(TAG, "inside onclick " + dateFormatForDisplaying.format(dateClicked));
@@ -371,7 +383,7 @@ public class CalendarFragment extends Fragment implements UpdateFavCollegeListCa
 
                         eventRelationMap.put(event, relation);
                     }
-                    selectDay(currentCalendarDate);
+                    selectDay(currentSelectedDate);
                 } else {
                     e.printStackTrace();
                 }
