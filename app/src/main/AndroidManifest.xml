@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="me.juliasson.unipath"
-    android:versionCode="1"
-    android:versionName="1.0">
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="me.juliasson.unipath" >
 
     <permission android:name="android.permission.ACCESS_FINE_LOCATION" android:protectionLevel="dangerous"/>
     <permission android:name="android.permission.ACCESS_COARSE_LOCATION" android:protectionLevel="dangerous"/>
@@ -22,10 +22,11 @@
         android:required="true" />
 
     <application
+        tools:replace="android:icon,android:theme"
         android:name=".ParseApp"
         android:allowBackup="true"
-        android:logo="@drawable/up_icon_design"
-        android:roundIcon="@mipmap/up_icon_design_round"
+        android:icon="@mipmap/ic_up_launcher_icon_0"
+        android:roundIcon="@mipmap/ic_up_launcher_icon_0_round"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
