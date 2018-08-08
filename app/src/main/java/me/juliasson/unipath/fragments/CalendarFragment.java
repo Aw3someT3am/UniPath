@@ -58,15 +58,17 @@ public class CalendarFragment extends Fragment implements UpdateFavCollegeListCa
     private Context mContext;
     private CalendarDeadlineAdapter calendarAdapter;
 
-    private CompactCalendarView.CompactCalendarViewListener listener;
-
     private HashMap<Event, UserDeadlineRelation> eventRelationMap = new HashMap<>();
 
     private Date currentCalendarDate;
 
-    // A list of strings of format "description, college" to display for each specific date when clicked
+    // List of relations specific to one day when selected
     final List<UserDeadlineRelation> mutableBookings = new ArrayList<>();
+
+    // User's complete list of deadlines being fed into the calendar
     private List<UserDeadlineRelation> mDataList = new ArrayList<>();
+
+
     private List<Date> mDates = new ArrayList<>();
 
     @Override
@@ -111,10 +113,8 @@ public class CalendarFragment extends Fragment implements UpdateFavCollegeListCa
         compactCalendarView.removeAllEvents();
 
         // fetch list of userDeadlineRelations from parse and feed into calendar
-//        compactCalendarView.addEvents(mDataList);
         setDataListItems();
 
-        //TODO: Display "No events for this day" on days where there are no deadlines.
         //set title on calendar scroll
         compactCalendarView.setListener(new CompactCalendarView.CompactCalendarViewListener() {
             @Override
@@ -126,7 +126,6 @@ public class CalendarFragment extends Fragment implements UpdateFavCollegeListCa
             @Override
             public void onMonthScroll(Date firstDayOfNewMonth) {
                 monthYearTv.setText(dateFormatForMonth.format(firstDayOfNewMonth));
-//                currentCalendarDate = firstDayOfNewMonth;
             }
 
         });
@@ -188,6 +187,7 @@ public class CalendarFragment extends Fragment implements UpdateFavCollegeListCa
                 view.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.image_view_click));
                 // get the list of deadlines, compare each deadline date to today's date
                 Date nextClosestDeadline = Calendar.getInstance().getTime();
+                nextClosestDeadline.setYear(nextClosestDeadline.getYear() - 1);
 
                 // Get the next closest deadline
                 for (int i = 0; i < mDataList.size(); i ++) {
@@ -197,6 +197,10 @@ public class CalendarFragment extends Fragment implements UpdateFavCollegeListCa
                         nextClosestDeadline = date;
                     }
                 }
+
+                // Be sure not to select default past date that likely doesn't contain deadlines
+                getDates();
+                if (! mDates.contains(nextClosestDeadline)) { nextClosestDeadline = currentCalendarDate; }
 
                 // Calculate how many times to scroll custom calendar view
                 int yearDifference = currentCalendarDate.getYear() - nextClosestDeadline.getYear() ;
@@ -223,8 +227,6 @@ public class CalendarFragment extends Fragment implements UpdateFavCollegeListCa
         tvNoDeadlines.setVisibility(View.INVISIBLE);
     }
 
-    // This event is triggered soon after onCreateView().
-    // Any view setup should occur here.  E.g., view lookups and attaching view listeners.
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         mContext = view.getContext();
@@ -250,6 +252,7 @@ public class CalendarFragment extends Fragment implements UpdateFavCollegeListCa
         }
     }
 
+    // Show pink circle on clicked day, load events into mutable bookings
     public void selectDay(Date dateClicked) {
         currentCalendarDate = dateClicked;
         monthYearTv.setText(dateFormatForMonth.format(dateClicked));
@@ -335,6 +338,7 @@ public class CalendarFragment extends Fragment implements UpdateFavCollegeListCa
         calendar.set(Calendar.MILLISECOND, 0);
     }
 
+    // Find events to display in scrollview for entire calendar
     private void setDataListItems(){
         //ParseQuery go through each of the current user's deadlines and add them.
         UserDeadlineRelation.Query udQuery = new UserDeadlineRelation.Query();
