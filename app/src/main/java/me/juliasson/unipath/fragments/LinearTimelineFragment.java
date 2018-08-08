@@ -230,6 +230,7 @@ public class LinearTimelineFragment extends Fragment implements
     @Override
     public void updateItemRemoval(boolean remove) {
         if (remove) {
+            isTimelineOpened = false;
             refresh();
         }
     }

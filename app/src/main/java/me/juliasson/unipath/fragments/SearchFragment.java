@@ -156,6 +156,7 @@ public class SearchFragment extends Fragment implements SearchInterface, LikedRe
 
     @Override
     public void onResume() {
+        isDetailsOpened = false;
         ((ViewGroup) mView.getRootView()).removeView(touchInterceptor);
         super.onResume();
     }
