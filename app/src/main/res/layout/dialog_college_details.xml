@@ -33,6 +33,7 @@
 
             <TextView
                 android:id="@+id/tvCollege"
+                android:transitionName="collegeName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
@@ -40,6 +41,11 @@
                 android:layout_marginRight="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
+                android:fontFamily="@font/lato"
+                android:shadowColor="#000000"
+                android:shadowDx="1.5"
+                android:shadowDy="1.3"
+                android:shadowRadius="2.6"
                 android:text="@string/college_name"
                 android:layout_alignParentLeft="true"
                 android:layout_toLeftOf="@id/lbLikeButtonDetails"
@@ -51,6 +57,7 @@
 
         <ImageView
             android:id="@+id/ivCollegeImage"
+            android:transitionName="collegeImage"
             android:layout_width="match_parent"
             android:layout_height="125dp"
             android:layout_marginEnd="8dp"

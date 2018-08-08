@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.util.Pair;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -40,9 +42,9 @@ import java.util.List;
 import me.juliasson.unipath.R;
 import me.juliasson.unipath.activities.CollegeDetailsDialog;
 import me.juliasson.unipath.activities.MapActivity;
-import me.juliasson.unipath.internal.GetItemDetailOpenedInterface;
 import me.juliasson.unipath.internal.GetCollegeLikedOnSearchListViewInterface;
 import me.juliasson.unipath.internal.GetCollegeUnlikedFromProfileAdapterInterface;
+import me.juliasson.unipath.internal.GetItemDetailOpenedInterface;
 import me.juliasson.unipath.internal.LikedRefreshInterface;
 import me.juliasson.unipath.internal.LikesInterface;
 import me.juliasson.unipath.internal.SearchInterface;
@@ -194,7 +196,10 @@ public class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.ViewHold
                 College college = mFilteredList.get(position);
                 Intent intent = new Intent(mContext, CollegeDetailsDialog.class);
                 intent.putExtra(College.class.getSimpleName(), Parcels.wrap(college));
-                ((Activity) mContext).startActivityForResult(intent, LIKED);
+                Pair<View, String> p1 = Pair.create((View) ivCollegeImage,"collegeImage");
+                Pair<View, String> p2 = Pair.create((View) tvCollegeName, "collegeName");
+                ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) mContext, p1, p2);
+                mContext.startActivity(intent, options.toBundle());
             }
         }
     }

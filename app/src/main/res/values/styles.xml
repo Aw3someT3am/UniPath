@@ -6,6 +6,10 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowContentTransitions">true</item>
+        <!-- specify enter and exit transitions -->
+        <!--<item name="android:windowEnterTransition">@transition/slide_and_chage_bounds_sequential</item>-->
+        <!--<item name="android:windowExitTransition">@transition/slide_and_chage_bounds_sequential</item>-->
     </style>
 
     <style name="AppTheme.DatePicker" parent="Theme.AppCompat.Light.Dialog.Alert">
