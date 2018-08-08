@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_height="match_parent"
     android:layout_width="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
@@ -10,7 +11,6 @@
         android:layout_height="match_parent"
         android:layout_alignParentStart="true"
         android:layout_centerVertical="true">
-
 
         <fragment
             android:id="@+id/main_top_fragment"
@@ -25,6 +25,11 @@
             android:layout_height="match_parent" />
 
     </me.juliasson.unipath.view.VerticalPager>
+
+    <FrameLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
 </RelativeLayout>
 

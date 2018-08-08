@@ -1,13 +1,21 @@
 package me.juliasson.unipath.activities;
 
 import android.annotation.TargetApi;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.LayoutRes;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 
+import com.github.jinatonic.confetti.CommonConfetti;
+import com.github.jinatonic.confetti.ConfettiSource;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -27,44 +35,64 @@ import me.juliasson.unipath.internal.GetCollegeUnlikedFromProfileInterface;
 import me.juliasson.unipath.internal.GetCustomDeadlineAddedInterface;
 import me.juliasson.unipath.internal.GetDeadlineCheckedInterface;
 import me.juliasson.unipath.internal.GetDeadlineDeletedInterface;
+import me.juliasson.unipath.internal.GetIsProgressCompleteInterface;
 import me.juliasson.unipath.internal.UpdateFavCollegeListCalendar;
 import me.juliasson.unipath.internal.UpdateFavCollegeListLinearTimeline;
 import me.juliasson.unipath.internal.UpdateFavCollegeListProfile;
 import me.juliasson.unipath.internal.UpdateProfileProgressBarInterface;
 import me.juliasson.unipath.view.VerticalPager;
 
-
 public class TimelineActivity extends AppCompatActivity implements
         GetCollegeAddedToFavListInterface,
         GetCustomDeadlineAddedInterface,
         GetDeadlineDeletedInterface,
         GetCollegeUnlikedFromProfileInterface,
-        GetDeadlineCheckedInterface {
+        GetDeadlineCheckedInterface,
+        GetIsProgressCompleteInterface {
 
     /**
      * Start page index. 0 - top page, 1 - central page, 2 - bottom page.
      */
     private static final int CENTRAL_PAGE_INDEX = 1;
     public VerticalPager mVerticalPager;
+
     private static UpdateFavCollegeListProfile updateFavCollegeListInterfaceProfile;
     private static UpdateFavCollegeListCalendar updateFavCollegeListInterfaceCalendar;
     private static UpdateFavCollegeListLinearTimeline updateFavCollegeListInterfaceLinearTimeline;
     private static UpdateProfileProgressBarInterface updateProfileProgressBarInterface;
 
     private static final String TAG = "TimelineActivity";
+    private int size;
+    private int velocitySlow, velocityNormal, velocityFast;
+    private Bitmap bitmap;
+
+    protected ViewGroup container;
+    protected int goldDark, goldMed, gold, goldLight;
+    protected int[] colors;
+    private final int CONFETTI_DURATION = 3000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(getLayoutRes());
+
         SearchFragment.setCollegeListChangedInterface(this);
         NewDeadlineDialog.setCustomDeadlineInterface(this);
         DDCollegeListAdapter.setDeadlineDeletedInterface(this);
         ProfileFragment.setUnlikedFromProfileInterface(this);
+        ProfileFragment.setIsProgressCompleteInterface(this);
         LinearTimelineFragment.setDcInterfaceFromTimelineActivity(this);
-        setContentView(R.layout.activity_timeline);
-        findViews();
 
+        findViews();
         initFCM();
+
+        container = (ViewGroup) findViewById(R.id.container);
+
+        goldDark = ContextCompat.getColor(this, R.color.holo_blue_bright);
+        goldMed = ContextCompat.getColor(this, R.color.background_orange);
+        gold = ContextCompat.getColor(this, R.color.background_dark_orange);
+        goldLight = ContextCompat.getColor(this, R.color.background_light_orange);
+        colors = new int[] { goldDark, goldMed, gold, goldLight };
     }
 
     private void findViews() {
@@ -74,6 +102,31 @@ public class TimelineActivity extends AppCompatActivity implements
 
     private void initViews() {
         snapPageWhenLayoutIsReady(mVerticalPager, CENTRAL_PAGE_INDEX);
+    }
+
+    private CommonConfetti getCommonConfetti() {
+        final Resources res = getResources();
+        size = res.getDimensionPixelSize(R.dimen.default_confetti_size);
+        ConfettiSource confettiSource = new ConfettiSource(-size, -size);
+        CommonConfetti commonConfetti = CommonConfetti.rainingConfetti(container, confettiSource, new int[] {Color.BLUE});
+
+        velocitySlow = res.getDimensionPixelOffset(R.dimen.default_velocity_slow);
+        velocityNormal = res.getDimensionPixelOffset(R.dimen.default_velocity_normal);
+        velocityFast = res.getDimensionPixelOffset(R.dimen.default_velocity_fast);
+
+        commonConfetti.getConfettiManager()
+                .setVelocityX(velocityFast, velocityNormal)
+                .setAccelerationX(-velocityNormal, velocitySlow)
+                .setTargetVelocityX(0, velocitySlow/2)
+                .setVelocityY(velocityNormal, velocitySlow);
+
+        Log.d("Being called", "being called");
+        return commonConfetti;
+    }
+
+    @LayoutRes
+    protected int getLayoutRes() {
+        return R.layout.activity_timeline;
     }
 
     private void snapPageWhenLayoutIsReady(final View pageView, final int page) {
@@ -198,6 +251,13 @@ public class TimelineActivity extends AppCompatActivity implements
     public void getDeadlineChecked(boolean isChanged) {
         if (isChanged) {
             updateProfileProgressBarInterface.updateProgressBar(true);
+        }
+    }
+
+    @Override
+    public void isProgressComplete(boolean isComplete) {
+        if (isComplete) {
+            CommonConfetti.rainingConfetti(container, colors).stream(CONFETTI_DURATION);
         }
     }
 

@@ -49,6 +49,7 @@ import me.juliasson.unipath.activities.TimelineActivity;
 import me.juliasson.unipath.adapters.CollegeAdapter;
 import me.juliasson.unipath.internal.GetCollegeUnlikedFromProfileAdapterInterface;
 import me.juliasson.unipath.internal.GetCollegeUnlikedFromProfileInterface;
+import me.juliasson.unipath.internal.GetIsProgressCompleteInterface;
 import me.juliasson.unipath.internal.UpdateFavCollegeListProfile;
 import me.juliasson.unipath.internal.UpdateProfileProgressBarInterface;
 import me.juliasson.unipath.model.College;
@@ -76,6 +77,7 @@ public class ProfileFragment extends Fragment implements
     private FirebaseAuth.AuthStateListener mAuthListener;
 
     private static GetCollegeUnlikedFromProfileInterface unlikedFromProfileInterface;
+    private static GetIsProgressCompleteInterface isProgressCompleteInterface;
 
     ViewPager pager;
     TimelineActivity mTimelineActivity;
@@ -260,7 +262,10 @@ public class ProfileFragment extends Fragment implements
                         }
                     }
                     pbProgress.setProgress((int)(numCompleted/objects.size()*100));
-                    tvProgressText.setText(String.format("%s/%s", (int)numCompleted, objects.size()));
+                    tvProgressText.setText(String.format("%s/%s", (int) numCompleted, objects.size()));
+                    if ((int) numCompleted == objects.size()) {
+                        isProgressCompleteInterface.isProgressComplete(true);
+                    }
                 } else {
                     e.printStackTrace();
                 }
@@ -392,5 +397,9 @@ public class ProfileFragment extends Fragment implements
 
     public static void setUnlikedFromProfileInterface(GetCollegeUnlikedFromProfileInterface unlikedInterface) {
         unlikedFromProfileInterface = unlikedInterface;
+    }
+
+    public static void setIsProgressCompleteInterface(GetIsProgressCompleteInterface completeInterface) {
+        isProgressCompleteInterface = completeInterface;
     }
 }

@@ -97,6 +97,9 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth:9.4.0'
 //    implementation 'org.lucasr.twowayview:core:1.0.0-SNAPSHOT@aar'
 //    implementation 'org.lucasr.twowayview:layouts:1.0.0-SNAPSHOT@aar'
+
+    //confetti
+    implementation 'com.github.jinatonic.confetti:confetti:1.1.1'
 }
 
 apply plugin: 'com.google.gms.google-services'
