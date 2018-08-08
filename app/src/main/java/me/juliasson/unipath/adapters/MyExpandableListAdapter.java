@@ -2,6 +2,7 @@ package me.juliasson.unipath.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,7 @@ import me.juliasson.unipath.activities.CollegeDetailsDialog;
 import me.juliasson.unipath.model.College;
 import me.juliasson.unipath.rows.ChildRow;
 import me.juliasson.unipath.rows.ParentRow;
+import me.juliasson.unipath.utils.Constants;
 
 public class MyExpandableListAdapter extends BaseExpandableListAdapter {
     private List<College> mColleges;
@@ -111,7 +113,9 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
                 Intent intent = new Intent(context, CollegeDetailsDialog.class);
                 context.startActivity(intent);
 
-                Toast.makeText(finalConvertView.getContext(), childText.getText(), Toast.LENGTH_LONG).show();
+                Toast toast = Toast.makeText(finalConvertView.getContext(), childText.getText(), Toast.LENGTH_LONG);
+                toast.setGravity(Gravity.TOP|Gravity.CENTER_HORIZONTAL, Constants.TOAST_X_OFFSET, Constants.TOAST_Y_OFFSET);
+                toast.show();
             }
         });
 

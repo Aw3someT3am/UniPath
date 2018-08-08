@@ -7,6 +7,8 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -15,7 +17,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
@@ -31,6 +35,7 @@ import java.util.List;
 import java.util.Locale;
 
 import me.juliasson.unipath.R;
+import me.juliasson.unipath.activities.LoginActivity;
 import me.juliasson.unipath.activities.NewDeadlineDialog;
 import me.juliasson.unipath.activities.TimelineActivity;
 import me.juliasson.unipath.adapters.TimeLineAdapter;
@@ -68,10 +73,13 @@ public class LinearTimelineFragment extends Fragment implements
     private GetDeadlineCheckedInterface dcInterface;
     private static GetDeadlineCheckedInterface dcInterfaceFromTimelineActivity;
 
+    private FirebaseAuth mAuth;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         // Defines the xml file for the fragment
         setHasOptionsMenu(true);
+        mAuth = FirebaseAuth.getInstance();
         mContext = parent.getContext();
         touchInterceptor = new FrameLayout(mContext);
         touchInterceptor.setClickable(true);
@@ -190,12 +198,25 @@ public class LinearTimelineFragment extends Fragment implements
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_new_deadline, menu);
+        inflater.inflate(R.menu.profile_toolbar, menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.actionbar_logout:
+                ParseUser.logOut();
+                mAuth.signOut();
+
+                Log.d("ProfileFragment", "Logged out successfully");
+                Toast toast = Toast.makeText(mContext, "Logout successful", Toast.LENGTH_SHORT);
+                toast.setGravity(Gravity.TOP|Gravity.CENTER_HORIZONTAL, Constants.TOAST_X_OFFSET, Constants.TOAST_Y_OFFSET);
+                toast.show();
+
+                Intent i = new Intent(mContext, LoginActivity.class);
+                startActivity(i);
+                getActivity().getSupportFragmentManager().popBackStack();
+                break;
             case R.id.new_deadline:
                 Intent intent = new Intent(mContext, NewDeadlineDialog.class);
                 startActivity(intent);

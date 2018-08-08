@@ -28,8 +28,7 @@
         android:id="@+id/search_filter"
         android:icon="@drawable/ic_format_list_bulleted"
         android:title="Filter"
-        app:showAsAction="always"
-        />
+        app:showAsAction="always" />
     <item
         android:id="@+id/toggle_map"
         android:icon="@drawable/world"

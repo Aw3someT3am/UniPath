@@ -8,6 +8,7 @@ import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.util.Pair;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -406,13 +407,11 @@ public class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.ViewHold
                                 FirebaseUser user = mAuth.getCurrentUser();
                                 String userID = user.getUid();
                                 myRef.child(mContext.getString(R.string.dbnode_users)).child(userID).child("dates").child(collegeName).child(date).removeValue();
-                                //toastMessage("Removing " + date + " to database...");
                             }
                             relation.delete();
                             relation.saveInBackground(new SaveCallback() {
                                 @Override
                                 public void done(ParseException e) {
-                                    //Toast.makeText(mContext, "College and Deadlines removed!", Toast.LENGTH_SHORT).show();
                                     Log.d("College Adapter", "User Deadline Relation removed");
                                 }
                             });
@@ -538,7 +537,9 @@ public class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.ViewHold
      * @param message
      */
     private static void toastMessage(String message){
-        Toast.makeText(mContext,message,Toast.LENGTH_SHORT).show();
+        Toast toast = Toast.makeText(mContext,message,Toast.LENGTH_SHORT);
+        toast.setGravity(Gravity.TOP|Gravity.CENTER_HORIZONTAL, Constants.TOAST_X_OFFSET, Constants.TOAST_Y_OFFSET);
+        toast.show();
     }
 
     @Override
