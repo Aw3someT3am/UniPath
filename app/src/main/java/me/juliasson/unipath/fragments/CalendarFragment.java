@@ -16,7 +16,6 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.github.sundeepk.compactcalendarview.CompactCalendarView;
 import com.github.sundeepk.compactcalendarview.domain.Event;
@@ -200,9 +199,6 @@ public class CalendarFragment extends Fragment implements UpdateFavCollegeListCa
                     }
                 }
 
-                Toast.makeText(mContext, nextClosestDeadline.toString(), Toast.LENGTH_SHORT).show();
-
-
                 // Be sure not to select default past date that likely doesn't contain deadlines
                 getDates();
                 if (! mDates.contains(nextClosestDeadline)) {
@@ -210,11 +206,6 @@ public class CalendarFragment extends Fragment implements UpdateFavCollegeListCa
                 }
 
                 // Calculate how many times to scroll custom calendar view
-//                int nextMonth = nextClosestDeadline.getMonth();
-//                int currentMonth = Calendar.getInstance().getTime().getMonth();
-//
-//                int difference = currentMonth - nextMonth;
-
                 int yearDifference = currentSelectedDate.getYear() - nextClosestDeadline.getYear() ;
                 int difference = yearDifference * 12 + currentSelectedDate.getMonth() - nextClosestDeadline.getMonth();
 
