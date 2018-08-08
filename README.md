@@ -47,6 +47,7 @@ The purpose of this app is to assist students and parents with finding and apply
 - [X] Pass in updated filtered list to map in search fragment
 - Minor goals:
   - Code: 
+  - [ ] Fix bug in calendar; Previous button doesn't always know about custom deadlines 
   - [X] Remove excess Toasts and Logs
   - [X] Replace hardcoded values in xml files
   - [ ] Get launcher icon to show on s9
@@ -63,7 +64,7 @@ The purpose of this app is to assist students and parents with finding and apply
   - [ ] Adjust action bar title to either display in center/replace with icon
   - Animation: 
   - [X] Party animation for completing all deadlines
-  - [ ] clicking on a college item from search/profile should open details nicely
+  - [X] clicking on a college item from search/profile should open details nicely
   - [X] Speed up scrolling animation in favorites list in profile
 
 ## Walkthrough week 3 progress
