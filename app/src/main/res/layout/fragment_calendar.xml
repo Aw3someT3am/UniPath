@@ -46,21 +46,17 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <ListView
+        <com.yarolegovich.discretescrollview.DiscreteScrollView
             android:id="@+id/bookings_listview"
-            android:layout_width="wrap_content"
+            android:layout_width="349dp"
             android:layout_height="195dp"
             android:layout_alignParentBottom="true"
             android:layout_alignParentStart="true"
             android:layout_below="@+id/dividerLine"
-            android:layout_marginBottom="4dp"
             android:layout_marginEnd="8dp"
-            android:focusableInTouchMode="true"
-            android:headerDividersEnabled="true"
-            android:nestedScrollingEnabled="true"
-            android:paddingTop="0dp">
-
-        </ListView>
+            android:layout_marginStart="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
     </android.support.constraint.ConstraintLayout>
 
