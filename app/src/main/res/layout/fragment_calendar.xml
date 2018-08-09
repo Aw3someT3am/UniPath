@@ -10,54 +10,56 @@
 
 
     <android.support.constraint.ConstraintLayout
+        android:id="@+id/EventScrollView"
         android:layout_width="match_parent"
-        android:layout_height="180dp"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp">
 
         <View
             android:id="@+id/dividerLine"
             android:layout_width="match_parent"
             android:layout_height="2dp"
-            android:layout_marginBottom="4dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:background="@color/background_light_orange" />
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:background="@color/background_light_orange"
+            app:layout_constraintBottom_toTopOf="@+id/bookings_listview"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
             android:id="@+id/tvNoDeadlines"
             android:layout_width="match_parent"
-            android:layout_height="17dp"
+            android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"
-            android:layout_marginBottom="156dp"
             android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:gravity="center_horizontal"
             android:text="No deadlines"
             android:textAppearance="@android:style/TextAppearance.Small"
             android:textColor="@color/white_80_transparent"
             android:visibility="invisible"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/dividerLine" />
 
         <com.yarolegovich.discretescrollview.DiscreteScrollView
             android:id="@+id/bookings_listview"
             android:layout_width="match_parent"
-            android:layout_height="195dp"
+            android:layout_height="120dp"
             android:layout_alignParentBottom="true"
             android:layout_alignParentStart="true"
             android:layout_below="@+id/dividerLine"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintStart_toStartOf="parent" />
 
     </android.support.constraint.ConstraintLayout>
 
@@ -111,28 +113,32 @@
     <TextView
         android:id="@+id/monthYearBtn"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:textStyle="bold"
-        android:textFontWeight=""
+        android:layout_marginBottom="8dp"
         android:gravity="center"
+        android:text="Month - Year"
         android:textColor="@color/white"
-        android:textSize="24sp" />
+        android:textFontWeight=""
+        android:textSize="24sp"
+        android:textStyle="bold" />
 
 
     <com.github.sundeepk.compactcalendarview.CompactCalendarView xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/compactcalendar_view"
-        android:layout_width="fill_parent"
-        android:layout_height="300dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_below="@id/btnNextDeadline"
+        android:layout_marginTop="8dp"
         android:fadingEdge="horizontal"
         android:hapticFeedbackEnabled="true"
         android:paddingBottom="10dp"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:paddingTop="10dp"
+        android:layout_above="@+id/EventScrollView"
         app:compactCalendarBackgroundColor="@color/transparent"
         app:compactCalendarCurrentDayBackgroundColor="#B71C1C"
         app:compactCalendarCurrentSelectedDayBackgroundColor="#E57373"
@@ -140,24 +146,6 @@
         app:compactCalendarTargetHeight="305dp"
         app:compactCalendarTextColor="#fff"
         app:compactCalendarTextSize="16sp" />
-
-
-    <!--<android.support.v4.widget.NestedScrollView-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:scrollbars="vertical"-->
-    <!--android:layout_alignParentStart="true"-->
-    <!--android:layout_below="@+id/compactcalendar_view">-->
-
-
-    <!--</android.support.v4.widget.NestedScrollView>-->
-
-    <!--<ListView-->
-    <!--android:id="@+id/empty_listview"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent"-->
-    <!--android:text="HELLOHELLOHELLO"/>-->
-
 
 </RelativeLayout>
 
