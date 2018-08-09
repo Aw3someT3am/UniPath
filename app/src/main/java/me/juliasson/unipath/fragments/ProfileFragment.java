@@ -50,9 +50,11 @@ import me.juliasson.unipath.adapters.CollegeAdapter;
 import me.juliasson.unipath.internal.GetCollegeUnlikedFromProfileAdapterInterface;
 import me.juliasson.unipath.internal.GetCollegeUnlikedFromProfileInterface;
 import me.juliasson.unipath.internal.GetIsProgressCompleteInterface;
+import me.juliasson.unipath.internal.NotificationInterface;
 import me.juliasson.unipath.internal.UpdateFavCollegeListProfile;
 import me.juliasson.unipath.internal.UpdateProfileProgressBarInterface;
 import me.juliasson.unipath.model.College;
+import me.juliasson.unipath.model.Notify;
 import me.juliasson.unipath.model.UserCollegeRelation;
 import me.juliasson.unipath.model.UserDeadlineRelation;
 import me.juliasson.unipath.utils.Constants;
@@ -61,7 +63,8 @@ import me.juliasson.unipath.utils.GalleryUtils;
 public class ProfileFragment extends Fragment implements
         UpdateFavCollegeListProfile,
         GetCollegeUnlikedFromProfileAdapterInterface,
-        UpdateProfileProgressBarInterface {
+        UpdateProfileProgressBarInterface,
+        NotificationInterface {
 
     private TextView tvProgressLabel;
     private ProgressBar pbProgress;
@@ -84,6 +87,7 @@ public class ProfileFragment extends Fragment implements
 
     private CollegeAdapter collegeAdapter;
     private static ArrayList<College> colleges;
+    private ArrayList<Notify> notifications;
 
     private static final String TAG = "ProfileFragment";
 
@@ -401,5 +405,10 @@ public class ProfileFragment extends Fragment implements
 
     public static void setIsProgressCompleteInterface(GetIsProgressCompleteInterface completeInterface) {
         isProgressCompleteInterface = completeInterface;
+    }
+
+    @Override
+    public void setValues(ArrayList<Notify> notifications) {
+        this.notifications = notifications;
     }
 }

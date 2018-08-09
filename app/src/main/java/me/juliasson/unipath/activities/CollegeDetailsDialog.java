@@ -14,6 +14,7 @@ import android.view.MotionEvent;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -48,6 +49,7 @@ public class CollegeDetailsDialog extends AppCompatActivity {
     private TextView tvCollegeName;
     private ImageView ivCollegeImage;
     private LikeButton lbLikeButtonDetails;
+    private LinearLayout vContainerHeart;
 
     private static LikesInterface likesInterface;
 
@@ -69,6 +71,7 @@ public class CollegeDetailsDialog extends AppCompatActivity {
         ivCollegeImage = (ImageView) findViewById(R.id.ivCollegeImage);
         college = (College) Parcels.unwrap(getIntent().getParcelableExtra(College.class.getSimpleName()));
         lbLikeButtonDetails = (LikeButton) findViewById(R.id.lbLikeButtonDetails);
+        vContainerHeart = (LinearLayout) findViewById(R.id.vContainerHeart);
 
         lbLikeButtonDetails.setLiked(false);
         loadCollege(college);
