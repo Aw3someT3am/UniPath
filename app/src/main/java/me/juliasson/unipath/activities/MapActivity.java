@@ -14,6 +14,7 @@ import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
@@ -50,6 +51,7 @@ import java.util.List;
 
 import me.juliasson.unipath.Manifest;
 import me.juliasson.unipath.R;
+import me.juliasson.unipath.adapters.CollegeAdapter;
 import me.juliasson.unipath.adapters.CustomInfoWindowAdapter;
 import me.juliasson.unipath.model.College;
 import me.juliasson.unipath.utils.Constants;
@@ -68,24 +70,26 @@ public class MapActivity extends AppCompatActivity implements
     private LocationRequest mLocationRequest;
     private Location mCurrentLocation;
     private ArrayList<College> everyCollege;
+    private CollegeAdapter collegeAdapter;
     private long UPDATE_INTERVAL = 60000;  /* 60 secs */
     private long FASTEST_INTERVAL = 5000; /* 5 secs */
-
     private final static String KEY_LOCATION = "location";
-
     private static final LatLng center_us = new LatLng(39.809860, -98.555183);
 
     private List<LatLng> mLocationsList = new ArrayList<>();
     private ArrayList<College> filteredColleges;
 
+    private int sizeIndex = -1;
+    private int inStateCostIndex = -1;
+    private int outStateCostIndex = -1;
+    private int acceptanceRateIndex = -1;
+    private String stateValue;
+    private final String DEFAULT_MAX_VAL = "2147483647";
+    private final String DEFAULT_MIN_VAL = "0";
     private static final int REQUEST_FILTER_CODE = 1034;
-
-
-    /*
-     * Define a request code to send to Google Play services This code is
-     * returned in Activity.onActivityResult
-     */
+    private String query = "";
     private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,13 +100,11 @@ public class MapActivity extends AppCompatActivity implements
         if (TextUtils.isEmpty(getResources().getString(R.string.google_maps_api_key))) {
             throw new IllegalStateException("You forgot to supply a Google Maps API key ya dummy");
         }
-
         if (savedInstanceState != null && savedInstanceState.keySet().contains(KEY_LOCATION)) {
             // Since KEY_LOCATION was found in the Bundle, we can be sure that mCurrentLocation
             // is not null.
             mCurrentLocation = savedInstanceState.getParcelable(KEY_LOCATION);
         }
-
         mapFragment = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map));
         if (mapFragment != null) {
             mapFragment.getMapAsync(new OnMapReadyCallback() {
@@ -113,7 +115,7 @@ public class MapActivity extends AppCompatActivity implements
                 }
             });
         } else {
-            Toast toast = Toast.makeText(this, "Error - Map Fragment was null!!", Toast.LENGTH_SHORT);
+            Toast toast = Toast.makeText(this, "Error - Map Fragment was null", Toast.LENGTH_SHORT);
             toast.setGravity(Gravity.TOP|Gravity.CENTER_HORIZONTAL, Constants.TOAST_X_OFFSET, Constants.TOAST_Y_OFFSET);
             toast.show();
         }
@@ -147,6 +149,39 @@ public class MapActivity extends AppCompatActivity implements
         }
         return true;
 
+    }
+
+    private void search(SearchView searchView) {
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                searchRef(newText);
+                return false;
+            }
+        });
+    }
+
+    public void searchRef(String query) {
+        this.query = query;
+
+        if (collegeAdapter != null) {
+            collegeAdapter.getFilter().filter(query.toLowerCase());
+            Log.d("Search", query);
+            System.out.print(query);
+        }
+        if (query.isEmpty()) {
+//            refreshList.clear();
+//            refreshList.addAll(colleges);
+        } else {
+//            refreshList.clear();
+//            refreshList.addAll(filteredColleges);
+        }
     }
 
     protected void loadMap(GoogleMap googleMap) {
@@ -396,6 +431,7 @@ public class MapActivity extends AppCompatActivity implements
 
     public void loadCollegeMarkers() {
         filteredColleges = this.getIntent().getParcelableArrayListExtra("favoritedList");
+//        collegeAdapter = new CollegeAdapter(filteredColleges, sInterface, lrInterface, closlInterface, cdoInterface);
         if (filteredColleges != null) {
             for (int i = 0; i < filteredColleges.size(); i++) {
                 College college = filteredColleges.get(i);
@@ -432,4 +468,112 @@ public class MapActivity extends AppCompatActivity implements
             }
         }
     }
+
+    //----------------------------Filter Dialog Responses-------------------------------
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_FILTER_CODE && resultCode == RESULT_OK) {
+            //assign filter values
+            sizeIndex = data.getIntExtra(Constants.SIZE, 0);
+            String sizeValue = assignSizeValue(sizeIndex);
+
+            inStateCostIndex = data.getIntExtra(Constants.IN_STATE_COST, 0);
+            String isCostValue = assignCostValue(inStateCostIndex);
+
+            outStateCostIndex = data.getIntExtra(Constants.OUT_STATE_COST, 0);
+            String osCostValue = assignCostValue(outStateCostIndex);
+
+            acceptanceRateIndex = data.getIntExtra(Constants.ACCEPTANCE_RATE, 0);
+            String acceptanceRateValue = assignAcceptanceRateValue(acceptanceRateIndex);
+
+            stateValue = data.getStringExtra(Constants.STATE);
+
+            //use new values to filter college list
+            if (collegeAdapter != null) {
+                /*
+                CORRECT FORMAT TO PASS IN DATA FOR FILTERING:
+                "lower_bound_pop upper_bound_pop, lower_bound_iscost upper_bound_iscost, lower_bound_oscost upper_bound_oscost, acceptance_rate, address"
+                 */
+                String filter_string = String.format("%s, %s, %s, %s, %s", sizeValue, isCostValue, osCostValue, acceptanceRateValue, stateValue);
+                collegeAdapter.getSelectionFilter().filter(filter_string);
+            }
+        }
+    }
+
+    public String assignSizeValue(int sizeIndex) {
+        switch (sizeIndex) {
+            case 0:     //Any
+                return String.format("%s %s", DEFAULT_MIN_VAL, DEFAULT_MAX_VAL);
+            case 1:     //Small
+                return String.format("%s %s", DEFAULT_MIN_VAL, "5000");
+            case 2:     //Medium
+                return String.format("%s %s", "5000", "15000");
+            case 3:     //Large
+                return String.format("%s %s", "15000", DEFAULT_MAX_VAL);
+        }
+        return null;
+    }
+
+    public String assignCostValue(int costIndex) {
+        switch (costIndex) {
+            case 0:     //Any
+                return String.format("%s %s", DEFAULT_MIN_VAL, DEFAULT_MAX_VAL);
+            case 1:     //<$20k
+                return String.format("%s %s", DEFAULT_MIN_VAL, "20000");
+            case 2:     //$20k-$40k
+                return String.format("%s %s", "20000", "40000");
+            case 3:     //>$40k
+                return String.format("%s %s", "40000", DEFAULT_MAX_VAL);
+        }
+        return null;
+    }
+
+    public String assignAcceptanceRateValue(int acceptanceRateIndex) {
+        switch (acceptanceRateIndex) {
+            case 0:
+                return DEFAULT_MIN_VAL;
+            case 1:
+                return "5";
+            case 2:
+                return "10";
+            case 3:
+                return "15";
+            case 4:
+                return "20";
+            case 5:
+                return "25";
+            case 6:
+                return "30";
+            case 7:
+                return "35";
+            case 8:
+                return "40";
+            case 9:
+                return "45";
+            case 10:
+                return "50";
+            case 11:
+                return "55";
+            case 12:
+                return "60";
+            case 13:
+                return "65";
+            case 14:
+                return "70";
+            case 15:
+                return "75";
+            case 16:
+                return "80";
+            case 17:
+                return "85";
+            case 18:
+                return "90";
+            case 19:
+                return "95";
+        }
+        return null;
+    }
+
 }
