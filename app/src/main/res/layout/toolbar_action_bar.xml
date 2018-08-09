@@ -5,9 +5,10 @@
     android:layout_height="?actionBarSize">
 
     <android.support.v7.widget.AppCompatImageView
-        android:layout_height="?actionBarSize"
-        android:layout_width="?actionBarSize"
-        android:scaleType="fitCenter"
-        app:srcCompat="@mipmap/up_icon_design_round" />
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_centerVertical="true"
+        android:scaleType="fitXY"
+        app:srcCompat="@mipmap/ic_up_launcher_icon_0" />
 
 </RelativeLayout>
