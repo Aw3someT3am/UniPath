@@ -12,6 +12,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -110,13 +111,13 @@ public class SignUpActivity extends AppCompatActivity {
                 final ParseFile parseImageProfile = new ParseFile(file);
 
                 if (firstName.isEmpty() || lastName.isEmpty() || username.isEmpty() || password.isEmpty() || email.isEmpty()) {
-                    Toast.makeText(mContext, "Please fill all sections.", Toast.LENGTH_SHORT).show();
+                    makeToast("Please fill all sections");
                     hideProgressBar();
                 } else if (password.length() < MIN_PASS_LENGTH) {
-                    Toast.makeText(mContext, "Password must be 6 or more characters", Toast.LENGTH_SHORT).show();
+                    makeToast("Password must be 6 or more characters");
                     hideProgressBar();
                 } else if (!email.contains("@")) {
-                    Toast.makeText(mContext, "Please enter a valid email address", Toast.LENGTH_SHORT).show();
+                    makeToast("Please enter a valid email address");
                     hideProgressBar();
                 } else {
                     parseImageProfile.saveInBackground(new SaveCallback() {
@@ -125,7 +126,7 @@ public class SignUpActivity extends AppCompatActivity {
                             if (e == null) {
                                 onSignUp(firstName, lastName, username, password, email, parseImageProfile);
                             } else {
-                                Toast.makeText(SignUpActivity.this, "Please choose a profile image", Toast.LENGTH_SHORT).show();
+                                makeToast("Please choose a profile image");
                                 Log.d("SignupActivity", "Bad Parse Image");
                                 hideProgressBar();
                                 e.printStackTrace();
@@ -144,6 +145,12 @@ public class SignUpActivity extends AppCompatActivity {
         });
     }
 
+    private void makeToast(String message) {
+        Toast toast = Toast.makeText(mContext, message, Toast.LENGTH_SHORT);
+        toast.setGravity(Gravity.TOP|Gravity.CENTER_HORIZONTAL, Constants.TOAST_X_OFFSET, Constants.TOAST_Y_OFFSET);
+        toast.show();
+    }
+
     private void onSignUp(String firstName, String lastName, String username, final String password, final String email, ParseFile profileImage) {
         ParseUser parseUser = new ParseUser();
 
@@ -159,7 +166,7 @@ public class SignUpActivity extends AppCompatActivity {
             @Override
             public void done(ParseException e) {
                 if (e == null) {
-                    Toast.makeText(SignUpActivity.this, "Sign up successful", Toast.LENGTH_SHORT).show();
+                    makeToast("Sign up successful");
                     Log.d("SignupActivity", "Sign Up successful");
 
                     //if successful sign up, then sign up authentication
@@ -175,7 +182,7 @@ public class SignUpActivity extends AppCompatActivity {
                                         // If sign in fails, display a message to the user.
                                         Log.w(TAG, "createUserWithEmail:failure", task.getException());
                                         Toast.makeText(SignUpActivity.this, "Authentication failed.",
-                                                Toast.LENGTH_SHORT).show();
+                                                Toast.LENGTH_SHORT);
                                     }
 
                                     // ...
@@ -188,7 +195,7 @@ public class SignUpActivity extends AppCompatActivity {
                     hideProgressBar();
                     finish();
                 } else {
-                    Toast.makeText(SignUpActivity.this, "Sign up failure\nFill all fields with valid answers.", Toast.LENGTH_SHORT).show();
+                    makeToast("Sign up failure\nFill all fields with valid answers.");
                     Log.d("SignupActivity", "Sign up failure");
                     hideProgressBar();
                     e.printStackTrace();

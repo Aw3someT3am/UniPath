@@ -8,6 +8,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -75,6 +76,9 @@ public class TimelineActivity extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(getLayoutRes());
+
+        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        getSupportActionBar().setCustomView(R.layout.toolbar_action_bar);
 
         SearchFragment.setCollegeListChangedInterface(this);
         NewDeadlineDialog.setCustomDeadlineInterface(this);
@@ -251,6 +255,7 @@ public class TimelineActivity extends AppCompatActivity implements
     public void getDeadlineChecked(boolean isChanged) {
         if (isChanged) {
             updateProfileProgressBarInterface.updateProgressBar(true);
+            updateFavCollegeListInterfaceCalendar.updateList(true);
         }
     }
 

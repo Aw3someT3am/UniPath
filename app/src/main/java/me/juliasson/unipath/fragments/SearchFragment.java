@@ -154,6 +154,7 @@ public class SearchFragment extends Fragment implements SearchInterface, LikedRe
 
     @Override
     public void onResume() {
+        isDetailsOpened = false;
         ((ViewGroup) mView.getRootView()).removeView(touchInterceptor);
         super.onResume();
     }
@@ -180,7 +181,6 @@ public class SearchFragment extends Fragment implements SearchInterface, LikedRe
             @Override
             public void done(List<College> objects, ParseException e) {
                 if (e == null) {
-                    //Toast.makeText(getActivity(), "Add Posts", Toast.LENGTH_SHORT).show();
                     Log.d("Search", Integer.toString(objects.size()));
                     for (int i = 0; i < objects.size(); i++) {
                         College college = objects.get(i);

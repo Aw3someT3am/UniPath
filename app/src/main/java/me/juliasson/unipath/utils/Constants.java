@@ -18,4 +18,7 @@ public class Constants {
 
     public static final String KEY_COLLEGE_NAME = "name";
     public static final String KEY_COLLEGE_IMAGE = "image";
+
+    public static final int TOAST_Y_OFFSET = 8;
+    public static final int TOAST_X_OFFSET = 0;
 }

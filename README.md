@@ -41,10 +41,10 @@ The purpose of this app is to assist students and parents with finding and apply
 - [ ] Push notifications
 - Refreshing: 
   - [X] based on liking and unliking colleges
-  - [ ] based on checking and unchecking deadlines
+  - [X] based on checking and unchecking deadlines
   - [X] based on adding and removing deadlines
 - [ ] Financial Aid Calculator mock up
-- [ ] Pass in updated filtered list to map in search fragment
+- [X] Pass in updated filtered list to map in search fragment
 - Minor goals:
   - Code: 
   - [X] Remove excess Toasts and Logs
@@ -52,19 +52,19 @@ The purpose of this app is to assist students and parents with finding and apply
   - [ ] Get launcher icon to show on s9
   - [X] Prevent bleeding click in linear timeline and search
   - Calendar: 
-  - [ ] Change text color on events in calendar based on status (completed, missed, ongoing)
-  - [ ] Upon refreshing, calendar should update shown events for date cursor is currently on
+  - [X] Change marker color on events in calendar based on status (completed, missed, ongoing)
+  - [X] Upon refreshing, calendar should update shown events for date cursor is currently on
   - User friendly:
   - [X] If no search results, tell user "no college found"
   - [X] If no deadlines in calendar, tell user "no deadlines this day"
   - [X] If no deadlines in linear timeline, tell user "no deadlines"
   - [X] Title linear timeline fragment
   - [ ] Make search icon clickable from entire left side of icon on action bar
-  - [ ] Adjust action bar title to either display in center/replace with icon
+  - [X] Adjust action bar title to either display in center/replace with icon
   - Animation: 
-  - [ ] Party animation for completing all deadlines
-  - [ ] clicking on a college item from search/profile should open details nicely
-  - [ ] Speed up scrolling animation in favorites list in profile
+  - [X] Party animation for completing all deadlines
+  - [X] clicking on a college item from search/profile should open details nicely
+  - [X] Speed up scrolling animation in favorites list in profile
 
 ## Walkthrough week 3 progress
 - click on walkthrough_week_3.mp4 file

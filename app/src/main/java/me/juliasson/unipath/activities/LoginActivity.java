@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,6 +23,7 @@ import com.parse.ParseException;
 import com.parse.ParseUser;
 
 import me.juliasson.unipath.R;
+import me.juliasson.unipath.utils.Constants;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -108,14 +110,19 @@ public class LoginActivity extends AppCompatActivity {
                     }
 
                     Log.d("LoginActivity", "Login successful");
-                    Toast.makeText(LoginActivity.this, "Login successful", Toast.LENGTH_SHORT).show();
+                    Toast toast = Toast.makeText(LoginActivity.this, "Login successful", Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.TOP|Gravity.CENTER_HORIZONTAL, Constants.TOAST_X_OFFSET, Constants.TOAST_Y_OFFSET);
+                    toast.show();
+
                     final Intent i = new Intent(LoginActivity.this, TimelineActivity.class);
                     startActivity(i);
                     hideProgressBar();
                     finish();
                 } else {
                     Log.e("LoginActivity","Login failure");
-                    Toast.makeText(LoginActivity.this, "Login failure\nIncorrect username or password", Toast.LENGTH_SHORT).show();
+                    Toast toast = Toast.makeText(LoginActivity.this, "Login failure\nIncorrect username or password", Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.TOP|Gravity.CENTER_HORIZONTAL, Constants.TOAST_X_OFFSET, Constants.TOAST_Y_OFFSET);
+                    toast.show();
                     hideProgressBar();
                     e.printStackTrace();
                 }

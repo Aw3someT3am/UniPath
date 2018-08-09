@@ -12,6 +12,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -92,6 +93,7 @@ public class ProfileFragment extends Fragment implements
     private static final String TAG = "ProfileFragment";
 
     private final static int GALLERY_IMAGE_SELECTION_REQUEST_CODE = 2034;
+    private final static int SCROLL_VIEW_TRANSITION_TIME = 125; //in milliseconds
     private String filePath;
     private Context mContext;
 
@@ -128,7 +130,7 @@ public class ProfileFragment extends Fragment implements
 
         scrollView = view.findViewById(R.id.picker);
         scrollView.setOrientation(DSVOrientation.HORIZONTAL);
-
+        scrollView.setItemTransitionTimeMillis(SCROLL_VIEW_TRANSITION_TIME);
 
         colleges = new ArrayList<>();
         collegeAdapter = new CollegeAdapter(colleges, this);
@@ -207,8 +209,12 @@ public class ProfileFragment extends Fragment implements
             case R.id.actionbar_logout:
                 ParseUser.logOut();
                 mAuth.signOut();
-                Log.d("ProfileActivity", "Logged out successfully");
-                Toast.makeText(mContext, "Logout successful", Toast.LENGTH_SHORT).show();
+
+                Log.d("ProfileFragment", "Logged out successfully");
+                Toast toast = Toast.makeText(mContext, "Logout successful", Toast.LENGTH_SHORT);
+                toast.setGravity(Gravity.TOP|Gravity.CENTER_HORIZONTAL, Constants.TOAST_X_OFFSET, Constants.TOAST_Y_OFFSET);
+                toast.show();
+
                 Intent i = new Intent(mContext, LoginActivity.class);
                 startActivity(i);
                 getActivity().getSupportFragmentManager().popBackStack();
@@ -267,7 +273,7 @@ public class ProfileFragment extends Fragment implements
                     }
                     pbProgress.setProgress((int)(numCompleted/objects.size()*100));
                     tvProgressText.setText(String.format("%s/%s", (int) numCompleted, objects.size()));
-                    if ((int) numCompleted == objects.size()) {
+                    if ((int) numCompleted == objects.size() && objects.size() > 0) {
                         isProgressCompleteInterface.isProgressComplete(true);
                     }
                 } else {
@@ -314,7 +320,10 @@ public class ProfileFragment extends Fragment implements
                         public void done(ParseException e) {
                             if (e == null) {
                                 Log.d("ProfileFragment", "Create item_post success");
-                                Toast.makeText(mContext, "Profile image changed!", Toast.LENGTH_SHORT).show();
+
+                                Toast toast = Toast.makeText(mContext, "Profile image changed!", Toast.LENGTH_SHORT);
+                                toast.setGravity(Gravity.TOP|Gravity.CENTER_HORIZONTAL, Constants.TOAST_X_OFFSET, Constants.TOAST_Y_OFFSET);
+                                toast.show();
                             } else {
                                 e.printStackTrace();
                             }

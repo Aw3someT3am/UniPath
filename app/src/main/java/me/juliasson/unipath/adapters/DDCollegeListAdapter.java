@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +27,7 @@ import me.juliasson.unipath.internal.GetDeadlineCheckedInterface;
 import me.juliasson.unipath.internal.GetDeadlineDeletedInterface;
 import me.juliasson.unipath.internal.GetDeadlineDialogStatusInterface;
 import me.juliasson.unipath.model.UserDeadlineRelation;
+import me.juliasson.unipath.utils.Constants;
 
 public class DDCollegeListAdapter extends RecyclerView.Adapter<DDCollegeListAdapter.ViewHolder> {
 
@@ -117,7 +119,9 @@ public class DDCollegeListAdapter extends RecyclerView.Adapter<DDCollegeListAdap
                                 if (mCollegeDeadlines.isEmpty()) {
                                     ddStatusInterface.isDialogEmpty(true);
                                 }
-                                Toast.makeText(mContext, "Deadline deleted!", Toast.LENGTH_SHORT).show();
+                                Toast toast = Toast.makeText(mContext, "Deadline deleted!", Toast.LENGTH_SHORT);
+                                toast.setGravity(Gravity.TOP|Gravity.CENTER_HORIZONTAL, Constants.TOAST_X_OFFSET, Constants.TOAST_Y_OFFSET);
+                                toast.show();
                             }
                         })
                         .setNegativeButton(ALERT_NEGATIVE, new DialogInterface.OnClickListener() {

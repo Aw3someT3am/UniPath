@@ -16,6 +16,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.animation.BounceInterpolator;
 import android.widget.Toast;
 
@@ -49,6 +50,7 @@ import me.juliasson.unipath.Manifest;
 import me.juliasson.unipath.R;
 import me.juliasson.unipath.adapters.CustomInfoWindowAdapter;
 import me.juliasson.unipath.model.College;
+import me.juliasson.unipath.utils.Constants;
 import permissions.dispatcher.NeedsPermission;
 import permissions.dispatcher.RuntimePermissions;
 
@@ -105,7 +107,9 @@ public class MapActivity extends AppCompatActivity implements
                 }
             });
         } else {
-            Toast.makeText(this, "Error - Map Fragment was null!!", Toast.LENGTH_SHORT).show();
+            Toast toast = Toast.makeText(this, "Error - Map Fragment was null!!", Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.TOP|Gravity.CENTER_HORIZONTAL, Constants.TOAST_X_OFFSET, Constants.TOAST_Y_OFFSET);
+            toast.show();
         }
     }
 
@@ -125,7 +129,9 @@ public class MapActivity extends AppCompatActivity implements
             MapActivityPermissionsDispatcher.startLocationUpdatesWithPermissionCheck(this);
             map.setOnMapLongClickListener(this);
         } else {
-            Toast.makeText(this, "Error - Map was null!!", Toast.LENGTH_SHORT).show();
+            Toast toast = Toast.makeText(this, "Error - Map was null!!", Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.TOP|Gravity.CENTER_HORIZONTAL, Constants.TOAST_X_OFFSET, Constants.TOAST_Y_OFFSET);
+            toast.show();
         }
 
         map.moveCamera(CameraUpdateFactory.newLatLng(center_us));

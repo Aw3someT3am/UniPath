@@ -11,6 +11,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.view.animation.AnimationUtils;
@@ -50,6 +51,7 @@ import me.juliasson.unipath.internal.GetCustomDeadlineAddedInterface;
 import me.juliasson.unipath.model.College;
 import me.juliasson.unipath.model.Deadline;
 import me.juliasson.unipath.model.UserDeadlineRelation;
+import me.juliasson.unipath.utils.Constants;
 import me.juliasson.unipath.utils.DateTimeUtils;
 
 public class NewDeadlineDialog extends AppCompatActivity {
@@ -67,7 +69,8 @@ public class NewDeadlineDialog extends AppCompatActivity {
     private EditText etDescription;
     private TextView tvDate;
     private TextView tvCollegeName;
-    private ImageView ivDatePicker;
+
+    private RelativeLayout rlDatePicker;
     private ImageView ivCollegeImage;
     private Button bvAddDeadline;
     private LikeButton lbIsFinancial;
@@ -104,7 +107,7 @@ public class NewDeadlineDialog extends AppCompatActivity {
         etDescription = findViewById(R.id.etDescription);
         tvDate = findViewById(R.id.tvDate);
         tvCollegeName = findViewById(R.id.tvCollegeName);
-        ivDatePicker = findViewById(R.id.ivDatePicker);
+        rlDatePicker = findViewById(R.id.rlDatePicker);
         ivCollegeImage = findViewById(R.id.ivCollegeImage);
         bvAddDeadline = findViewById(R.id.bvAddDeadline);
         lbIsFinancial = findViewById(R.id.lbIsFinancial);
@@ -119,7 +122,7 @@ public class NewDeadlineDialog extends AppCompatActivity {
 
         tvDate.setText(DateTimeUtils.parseDateTime(currentDate.toString(), DateTimeUtils.parseInputFormat, DateTimeUtils.parseOutputFormat));
 
-        ivDatePicker.setOnClickListener(new View.OnClickListener() {
+        rlDatePicker.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 view.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.image_view_click));
@@ -188,13 +191,17 @@ public class NewDeadlineDialog extends AppCompatActivity {
                         @Override
                         public void done(com.parse.ParseException e) {
                             Log.d("NewDeadlineDialog", "New custom deadline saved and created.");
-                            Toast.makeText(mContext, "Custom deadline added!", Toast.LENGTH_SHORT).show();
+                            Toast toast = Toast.makeText(mContext, "Custom deadline added!", Toast.LENGTH_SHORT);
+                            toast.setGravity(Gravity.TOP|Gravity.CENTER_HORIZONTAL, Constants.TOAST_X_OFFSET, Constants.TOAST_Y_OFFSET);
+                            toast.show();
                             customDeadlineInterface.getCustomDeadlineAdded(true);
                             mActivity.finish();
                         }
                     });
                 } else {
-                    Toast.makeText(mContext, "Please fill all fields", Toast.LENGTH_SHORT).show();
+                    Toast toast = Toast.makeText(mContext, "Please fill all fields", Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.TOP|Gravity.CENTER_HORIZONTAL, Constants.TOAST_X_OFFSET, Constants.TOAST_Y_OFFSET);
+                    toast.show();
                 }
             }
         });
