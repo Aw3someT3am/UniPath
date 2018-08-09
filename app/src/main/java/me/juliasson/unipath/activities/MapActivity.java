@@ -17,6 +17,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.animation.BounceInterpolator;
 import android.widget.Toast;
 
@@ -65,6 +67,7 @@ public class MapActivity extends AppCompatActivity implements
     private GoogleMap map;
     private LocationRequest mLocationRequest;
     private Location mCurrentLocation;
+    private ArrayList<College> everyCollege;
     private long UPDATE_INTERVAL = 60000;  /* 60 secs */
     private long FASTEST_INTERVAL = 5000; /* 5 secs */
 
@@ -73,7 +76,10 @@ public class MapActivity extends AppCompatActivity implements
     private static final LatLng center_us = new LatLng(39.809860, -98.555183);
 
     private List<LatLng> mLocationsList = new ArrayList<>();
-    private ArrayList<College> colleges;
+    private ArrayList<College> filteredColleges;
+
+    private static final int REQUEST_FILTER_CODE = 1034;
+
 
     /*
      * Define a request code to send to Google Play services This code is
@@ -85,7 +91,7 @@ public class MapActivity extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
-        getSupportActionBar().hide();
+//        getSupportActionBar().hide();
 
         if (TextUtils.isEmpty(getResources().getString(R.string.google_maps_api_key))) {
             throw new IllegalStateException("You forgot to supply a Google Maps API key ya dummy");
@@ -111,6 +117,42 @@ public class MapActivity extends AppCompatActivity implements
             toast.setGravity(Gravity.TOP|Gravity.CENTER_HORIZONTAL, Constants.TOAST_X_OFFSET, Constants.TOAST_Y_OFFSET);
             toast.show();
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_search, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.search:
+//                SearchView searchView = (SearchView) MenuItemCompat.getActionView(item);
+//                search(searchView);
+                break;
+            case R.id.search_filter:
+                Intent intent = new Intent(MapActivity.this, SearchFilteringDialog.class);
+                startActivityForResult(intent, REQUEST_FILTER_CODE);
+                break;
+            case R.id.toggle_map:
+                // The list of 'liked' colleges is can simply be sent to map activity
+
+
+                finish();
+
+
+//                FragmentTransaction ft = getSupportFragmentManager().beginTransaction()
+//                        .replace(R.id.activity_map, new SearchFragment()).commit();;
+//                Bundle bundle = new Bundle();
+//                if (filteredColleges == null) { filteredColleges = colleges; }
+//                bundle.putParcelableArrayList("favoritedList", filteredColleges);
+//                i.putExtras(bundle);
+//                startActivity(i);
+                break;
+        }
+        return true;
     }
 
     protected void loadMap(GoogleMap googleMap) {
@@ -246,7 +288,7 @@ public class MapActivity extends AppCompatActivity implements
         //noinspection MissingPermission
         if (ActivityCompat.checkSelfPermission(
                 this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                        this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
         }
         getFusedLocationProviderClient(this).requestLocationUpdates(mLocationRequest, new LocationCallback() {
@@ -359,10 +401,10 @@ public class MapActivity extends AppCompatActivity implements
     }
 
     public void loadCollegeMarkers() {
-        colleges = this.getIntent().getParcelableArrayListExtra("favoritedList");
-        if (colleges != null) {
-            for (int i = 0; i < colleges.size(); i++) {
-                College college = colleges.get(i);
+        filteredColleges = this.getIntent().getParcelableArrayListExtra("favoritedList");
+        if (filteredColleges != null) {
+            for (int i = 0; i < filteredColleges.size(); i++) {
+                College college = filteredColleges.get(i);
 
                 Log.d("college", college.getCollegeName());
 
