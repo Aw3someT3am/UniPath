@@ -31,7 +31,6 @@ import me.juliasson.unipath.R;
 import me.juliasson.unipath.activities.MapActivity;
 import me.juliasson.unipath.activities.SearchFilteringDialog;
 import me.juliasson.unipath.adapters.CollegeAdapter;
-import me.juliasson.unipath.adapters.MyExpandableListAdapter;
 import me.juliasson.unipath.internal.GetCollegeAddedToFavListInterface;
 import me.juliasson.unipath.internal.GetItemDetailOpenedInterface;
 import me.juliasson.unipath.internal.GetCollegeLikedOnSearchListViewInterface;
@@ -50,7 +49,6 @@ public class SearchFragment extends Fragment implements SearchInterface, LikedRe
     private Context mContext;
     private SearchManager searchManager;
     private android.widget.SearchView searchView;
-    private MyExpandableListAdapter listAdapter;
     private ExpandableListView myList;
     private ArrayList<ParentRow> parentList = new ArrayList<>();
     private ArrayList<ParentRow> showTheseParentList = new ArrayList<>();

@@ -52,27 +52,35 @@
 
     </RelativeLayout>
 
-    <com.like.LikeButton
-        android:id="@+id/lbLikeButton"
+    <LinearLayout
+        android:id="@+id/vContainerHeart"
+        android:transitionName="containerHeart"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="4dp"
         android:layout_marginEnd="4dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="4dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        app:anim_scale_factor="2"
-        app:icon_size="25dp"
-        app:icon_type="heart"
+        android:layout_marginBottom="4dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/ivCollegeImage"
-        app:layout_constraintVertical_bias="1.0"
-        app:like_drawable="@drawable/ufi_heart_active_pink"
-        app:unlike_drawable="@drawable/ufi_heart_white" />
+        app:layout_constraintVertical_bias="1.0">
+
+        <com.like.LikeButton
+            android:id="@+id/lbLikeButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:anim_scale_factor="2"
+            app:icon_size="25dp"
+            app:icon_type="heart"
+            app:like_drawable="@drawable/ufi_heart_active_pink"
+            app:unlike_drawable="@drawable/ufi_heart_white" />
+
+    </LinearLayout>
 
     <Button
         android:id="@+id/mapsButton"

@@ -15,6 +15,7 @@ import com.google.firebase.messaging.RemoteMessage;
 import com.parse.ParseUser;
 
 import me.juliasson.unipath.activities.TimelineActivity;
+import me.juliasson.unipath.internal.NotificationInterface;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
@@ -22,6 +23,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     private static final int BROADCAST_NOTIFICATION_ID = 1;
 
     private ParseUser user;
+    private NotificationInterface notificationInterface;
 
     @Override
     public void onDeletedMessages() {
@@ -37,12 +39,12 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     public void onMessageReceived(RemoteMessage remoteMessage) {
 
 //        if (remoteMessage.getNotification().getBody() != null) {
-//            Log.e("FIREBASE", "Message Notification Body: " + remoteMessage.getNotification().getBody());
+//            Log.e("FIREBASE", "Message Notify Body: " + remoteMessage.getNotification().getBody());
 //            sendNotification(remoteMessage);
 //        }
 
 //        super.onMessageReceived(remoteMessage);
-//        Notification notification = new NotificationCompat.Builder(this)
+//        Notify notification = new NotificationCompat.Builder(this)
 //                .setContentTitle(remoteMessage.getNotification().getTitle())
 //                .setContentText(remoteMessage.getNotification().getBody())
 //                .setSmallIcon(R.drawable.ic_insert_emoticon_black_24dp)

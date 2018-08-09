@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -174,6 +175,7 @@ public class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.ViewHold
         public ImageView ivCollegeImage;
         public LikeButton lbLikeButton;
         public Button mapsButton;
+        public LinearLayout containerHeart;
 
 
         public ViewHolder(View itemView) {
@@ -182,6 +184,7 @@ public class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.ViewHold
             tvCollegeName = itemView.findViewById(R.id.tvCollegeName);
             ivCollegeImage = itemView.findViewById(R.id.ivCollegeImage);
             lbLikeButton = itemView.findViewById(R.id.lbLikeButton);
+            containerHeart = itemView.findViewById(R.id.vContainerHeart);
             mapsButton = (Button) itemView.findViewById(R.id.mapsButton);
 
 
@@ -199,7 +202,8 @@ public class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.ViewHold
                 intent.putExtra(College.class.getSimpleName(), Parcels.wrap(college));
                 Pair<View, String> p1 = Pair.create((View) ivCollegeImage,"collegeImage");
                 Pair<View, String> p2 = Pair.create((View) tvCollegeName, "collegeName");
-                ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) mContext, p1, p2);
+                Pair<View, String> p3 = Pair.create((View) containerHeart, "containerHeart");
+                ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) mContext, p1, p2, p3);
                 mContext.startActivity(intent, options.toBundle());
             }
         }
