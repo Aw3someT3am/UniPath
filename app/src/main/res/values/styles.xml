@@ -12,6 +12,22 @@
         <!--<item name="android:windowExitTransition">@transition/slide_and_chage_bounds_sequential</item>-->
     </style>
 
+    <!-- Base application theme for animation. -->
+    <style name="AppTheme.Animated" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowTranslucentNavigation">true</item>
+        <item name="android:windowTranslucentStatus">true</item>
+    </style>
+
+    <style name="AppTheme.Animated.Transparent" parent="AppTheme.Animated">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+    </style>
+
     <style name="AppTheme.DatePicker" parent="Theme.AppCompat.Light.Dialog.Alert">
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:datePickerStyle">@style/CustomDatePickerStyle</item>

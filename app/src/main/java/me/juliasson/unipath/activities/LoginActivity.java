@@ -3,12 +3,11 @@ package me.juliasson.unipath.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.view.MenuItemCompat;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Gravity;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -32,16 +31,18 @@ public class LoginActivity extends AppCompatActivity {
     private Button bvLogin;
     private Button bvSignup;
     private FirebaseAuth mAuth;
-    private MenuItem miActionProgressItem;
+    private ProgressBar pbProgressBar;
 
     private static final String TAG = "LoginActivity";
-    private EditText etEmail;
     private FirebaseAuth.AuthStateListener mAuthListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_);
+
+        //getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        //getSupportActionBar().setCustomView(R.layout.toolbar_action_bar);
 
         FirebaseApp.initializeApp(this);
         mAuth = FirebaseAuth.getInstance();
@@ -70,9 +71,9 @@ public class LoginActivity extends AppCompatActivity {
             finish();
         }
 
+        pbProgressBar = findViewById(R.id.pbLoading);
         etUsername = findViewById(R.id.etUsername);
         etPassword = findViewById(R.id.etPassword);
-        etEmail = findViewById(R.id.etEmail);
         bvLogin = findViewById(R.id.bvLogin);
         bvSignup = findViewById(R.id.bvSignUp);
 
@@ -89,8 +90,7 @@ public class LoginActivity extends AppCompatActivity {
         bvSignup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final Intent i = new Intent(LoginActivity.this, SignUpActivity.class);
-                startActivity(i);
+                presentActivity(view);
             }
         });
     }
@@ -144,24 +144,25 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.progress_action_bar, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        miActionProgressItem = menu.findItem(R.id.miActionProgress);
-        ProgressBar v = (ProgressBar) MenuItemCompat.getActionView(miActionProgressItem);
-        return super.onPrepareOptionsMenu(menu);
-    }
-
     public void showProgressBar() {
-        miActionProgressItem.setVisible(true);
+        pbProgressBar.setVisibility(View.VISIBLE);
     }
 
     public void hideProgressBar() {
-        miActionProgressItem.setVisible(false);
+        pbProgressBar.setVisibility(View.INVISIBLE);
+    }
+
+    //--------------------Animation---------------------
+    public void presentActivity(View view) {
+        ActivityOptionsCompat options = ActivityOptionsCompat.
+                makeSceneTransitionAnimation(this, view, "transition");
+        int revealX = (int) (view.getX() + view.getWidth() / 2);
+        int revealY = (int) (view.getY() + view.getHeight() / 2);
+
+        Intent intent = new Intent(LoginActivity.this, SignUpActivity.class);
+        intent.putExtra(SignUpActivity.EXTRA_CIRCULAR_REVEAL_X, revealX);
+        intent.putExtra(SignUpActivity.EXTRA_CIRCULAR_REVEAL_Y, revealY);
+
+        ActivityCompat.startActivity(this, intent, options.toBundle());
     }
 }

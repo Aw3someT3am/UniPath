@@ -1,168 +1,191 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+    android:id="@+id/rootLayout"
     android:layout_height="match_parent"
-    android:background="@color/background_grey"
-    tools:context=".activities.SignUpActivity">
+    android:layout_width="match_parent"
+    android:background="@color/background_grey" >
 
-    <ImageView
-        android:id="@+id/ivCircleView"
-        android:layout_width="110dp"
-        android:layout_height="110dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/border_circle_orange" />
-
-    <ImageView
-        android:id="@+id/ivProfileImage"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:cropToPadding="false"
-        android:padding="4dp"
-        app:layout_constraintBottom_toBottomOf="@+id/ivCircleView"
-        app:layout_constraintEnd_toEndOf="@+id/ivCircleView"
-        app:layout_constraintStart_toStartOf="@+id/ivCircleView"
-        app:layout_constraintTop_toTopOf="@+id/ivCircleView"
-        app:srcCompat="@drawable/rounded_transparent_bg" />
-
-    <LinearLayout
-        android:id="@+id/linearLayout"
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ivCircleView">
+        android:background="@color/background_grey"
+        tools:context=".activities.SignUpActivity"
+        android:layout_centerVertical="true" >
+
+        <ImageView
+            android:id="@+id/ivCircleView"
+            android:layout_width="110dp"
+            android:layout_height="110dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/border_circle_orange" />
+
+        <ImageView
+            android:id="@+id/ivProfileImage"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:cropToPadding="false"
+            android:padding="4dp"
+            app:layout_constraintBottom_toBottomOf="@+id/ivCircleView"
+            app:layout_constraintEnd_toEndOf="@+id/ivCircleView"
+            app:layout_constraintStart_toStartOf="@+id/ivCircleView"
+            app:layout_constraintTop_toTopOf="@+id/ivCircleView"
+            app:srcCompat="@drawable/rounded_transparent_bg" />
+
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ivCircleView">
+
+            <EditText
+                android:id="@+id/etFirstName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="8dp"
+                android:layout_weight="1"
+                android:background="@drawable/rounded_transparent_bg"
+                android:hint="@string/first_name"
+                android:inputType="text"
+                android:lines="1"
+                android:maxLines="1"
+                android:padding="8dp"
+                android:textColor="@color/solid_white"
+                android:textColorHint="@color/white_80_transparent" />
+
+            <EditText
+                android:id="@+id/etLastName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_weight="1"
+                android:background="@drawable/rounded_transparent_bg"
+                android:hint="@string/last_name"
+                android:inputType="text"
+                android:lines="1"
+                android:maxLines="1"
+                android:padding="8dp"
+                android:textColor="@color/solid_white"
+                android:textColorHint="@color/white_80_transparent" />
+        </LinearLayout>
 
         <EditText
-            android:id="@+id/etFirstName"
-            android:layout_width="0dp"
+            android:id="@+id/etUsername"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginRight="8dp"
-            android:layout_weight="1"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
             android:background="@drawable/rounded_transparent_bg"
-            android:hint="@string/first_name"
+            android:hint="@string/username"
             android:inputType="text"
             android:lines="1"
             android:maxLines="1"
             android:padding="8dp"
             android:textColor="@color/solid_white"
-            android:textColorHint="@color/white_80_transparent" />
+            android:textColorHint="@color/white_80_transparent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
         <EditText
-            android:id="@+id/etLastName"
-            android:layout_width="0dp"
+            android:id="@+id/etPassword"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:layout_weight="1"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
             android:background="@drawable/rounded_transparent_bg"
-            android:hint="@string/last_name"
-            android:inputType="text"
+            android:hint="@string/password"
+            android:inputType="textPassword"
             android:lines="1"
             android:maxLines="1"
             android:padding="8dp"
             android:textColor="@color/solid_white"
-            android:textColorHint="@color/white_80_transparent" />
-    </LinearLayout>
+            android:textColorHint="@color/white_80_transparent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/etUsername" />
 
-    <EditText
-        android:id="@+id/etUsername"
-        android:layout_width="match_parent"
+        <EditText
+            android:id="@+id/etEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/rounded_transparent_bg"
+            android:hint="@string/email"
+            android:inputType="textEmailAddress"
+            android:lines="1"
+            android:maxLines="1"
+            android:padding="8dp"
+            android:textColor="@color/solid_white"
+            android:textColorHint="@color/white_80_transparent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/etPassword" />
+
+        <Button
+            android:id="@+id/bvCreateAccount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:background="@color/background_orange"
+            android:text="@string/create_account"
+            android:textColor="@color/solid_white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/etEmail" />
+
+        <Button
+            android:id="@+id/bvCancel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:background="@color/background_orange"
+            android:text="@string/cancel"
+            android:textColor="@color/solid_white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/bvCreateAccount" />
+
+    </android.support.constraint.ConstraintLayout>
+
+    <ProgressBar
+        android:id="@+id/pbLoading"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/rounded_transparent_bg"
-        android:hint="@string/username"
-        android:inputType="text"
-        android:lines="1"
-        android:maxLines="1"
-        android:padding="8dp"
-        android:textColor="@color/solid_white"
-        android:textColorHint="@color/white_80_transparent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_margin="8dp"
+        android:layout_below="@+id/content"
+        android:visibility="invisible" />
 
-    <EditText
-        android:id="@+id/etPassword"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/rounded_transparent_bg"
-        android:hint="@string/password"
-        android:inputType="textPassword"
-        android:lines="1"
-        android:maxLines="1"
-        android:padding="8dp"
-        android:textColor="@color/solid_white"
-        android:textColorHint="@color/white_80_transparent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etUsername" />
-
-    <EditText
-        android:id="@+id/etEmail"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/rounded_transparent_bg"
-        android:hint="@string/email"
-        android:inputType="textEmailAddress"
-        android:lines="1"
-        android:maxLines="1"
-        android:padding="8dp"
-        android:textColor="@color/solid_white"
-        android:textColorHint="@color/white_80_transparent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etPassword" />
-
-    <Button
-        android:id="@+id/bvCreateAccount"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:background="@color/background_orange"
-        android:text="@string/create_account"
-        android:textColor="@color/solid_white"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etEmail" />
-
-    <Button
-        android:id="@+id/bvCancel"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:background="@color/background_orange"
-        android:text="@string/cancel"
-        android:textColor="@color/solid_white"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/bvCreateAccount" />
-
-</android.support.constraint.ConstraintLayout>
+</RelativeLayout>

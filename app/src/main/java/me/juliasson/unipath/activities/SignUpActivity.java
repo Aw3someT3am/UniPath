@@ -1,5 +1,7 @@
 package me.juliasson.unipath.activities;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
@@ -9,13 +11,13 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Gravity;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewAnimationUtils;
+import android.view.ViewTreeObserver;
+import android.view.animation.AccelerateInterpolator;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -54,7 +56,14 @@ public class SignUpActivity extends AppCompatActivity {
     private Button bvCancel;
 
     private static final String TAG = "SignUpActivity";
+    public static final String EXTRA_CIRCULAR_REVEAL_X = "EXTRA_CIRCULAR_REVEAL_X";
+    public static final String EXTRA_CIRCULAR_REVEAL_Y = "EXTRA_CIRCULAR_REVEAL_Y";
     private final int MIN_PASS_LENGTH = 6;
+
+    View rootLayout;
+
+    private int revealX;
+    private int revealY;
 
     private FirebaseAuth mAuth;
 
@@ -62,17 +71,46 @@ public class SignUpActivity extends AppCompatActivity {
     private String filePath="";
     private Context mContext;
     private Activity mActivity;
-    private MenuItem miActionProgressItem;
+    private ProgressBar pbProgressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
 
+        //getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        //getSupportActionBar().setCustomView(R.layout.toolbar_action_bar);
+
         mContext = this;
         mActivity = this;
         mAuth = FirebaseAuth.getInstance();
 
+        rootLayout = findViewById(R.id.rootLayout);
+        final Intent intent = getIntent();
+        if (savedInstanceState == null &&
+                intent.hasExtra(EXTRA_CIRCULAR_REVEAL_X) &&
+                intent.hasExtra(EXTRA_CIRCULAR_REVEAL_Y)) {
+            rootLayout.setVisibility(View.INVISIBLE);
+
+            revealX = intent.getIntExtra(EXTRA_CIRCULAR_REVEAL_X, 0);
+            revealY = intent.getIntExtra(EXTRA_CIRCULAR_REVEAL_Y, 0);
+
+
+            ViewTreeObserver viewTreeObserver = rootLayout.getViewTreeObserver();
+            if (viewTreeObserver.isAlive()) {
+                viewTreeObserver.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                    @Override
+                    public void onGlobalLayout() {
+                        revealActivity(revealX, revealY);
+                        rootLayout.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                    }
+                });
+            }
+        } else {
+            rootLayout.setVisibility(View.VISIBLE);
+        }
+
+        pbProgressBar = findViewById(R.id.pbLoading);
         ivProfileImage = findViewById(R.id.ivProfileImage);
         etFirstName = findViewById(R.id.etFirstName);
         etLastName = findViewById(R.id.etLastName);
@@ -140,7 +178,7 @@ public class SignUpActivity extends AppCompatActivity {
         bvCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                finish();
+                unRevealActivity();
             }
         });
     }
@@ -234,24 +272,40 @@ public class SignUpActivity extends AppCompatActivity {
         FirebaseUser currentUser = mAuth.getCurrentUser();
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.progress_action_bar, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        miActionProgressItem = menu.findItem(R.id.miActionProgress);
-        ProgressBar v = (ProgressBar) MenuItemCompat.getActionView(miActionProgressItem);
-        return super.onPrepareOptionsMenu(menu);
-    }
-
     public void showProgressBar() {
-        miActionProgressItem.setVisible(true);
+        pbProgressBar.setVisibility(View.VISIBLE);
     }
 
     public void hideProgressBar() {
-        miActionProgressItem.setVisible(false);
+        pbProgressBar.setVisibility(View.INVISIBLE);
+    }
+
+    //--------------------Animation---------------------
+    protected void revealActivity(int x, int y) {
+        float finalRadius = (float) (Math.max(rootLayout.getWidth(), rootLayout.getHeight()) * 1.1);
+
+        // create the animator for this view (the start radius is zero)
+        Animator circularReveal = ViewAnimationUtils.createCircularReveal(rootLayout, x, y, 0, finalRadius);
+        circularReveal.setDuration(500);
+        circularReveal.setInterpolator(new AccelerateInterpolator());
+        // make the view visible and start the animation
+        rootLayout.setVisibility(View.VISIBLE);
+        circularReveal.start();
+    }
+
+    protected void unRevealActivity() {
+        float finalRadius = (float) (Math.max(rootLayout.getWidth(), rootLayout.getHeight()) * 1.1);
+        Animator circularReveal = ViewAnimationUtils.createCircularReveal(
+                rootLayout, revealX, revealY, finalRadius, 0);
+
+        circularReveal.setDuration(500);
+        circularReveal.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                rootLayout.setVisibility(View.INVISIBLE);
+                finish();
+            }
+        });
+        circularReveal.start();
     }
 }

@@ -64,6 +64,7 @@
 
         <activity
             android:name=".activities.LoginActivity"
+            android:theme="@style/AppTheme.Animated"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -73,10 +74,14 @@
         </activity>
 
         <activity
+            android:name=".activities.SignUpActivity"
+            android:theme="@style/AppTheme.Animated.Transparent" />
+
+        <activity
             android:name=".activities.TimelineActivity"
             android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"
             android:windowSoftInputMode="adjustPan"/>
-        <activity android:name=".activities.SignUpActivity" />
 
         <activity
             android:name=".activities.CollegeDetailsDialog"
