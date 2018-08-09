@@ -49,7 +49,7 @@ The purpose of this app is to assist students and parents with finding and apply
   - Code: 
   - [X] Remove excess Toasts and Logs
   - [X] Replace hardcoded values in xml files
-  - [ ] Get launcher icon to show on s9
+  - [X] Get launcher icon to show on s9
   - [X] Prevent bleeding click in linear timeline and search
   - Calendar: 
   - [X] Change marker color on events in calendar based on status (completed, missed, ongoing)
