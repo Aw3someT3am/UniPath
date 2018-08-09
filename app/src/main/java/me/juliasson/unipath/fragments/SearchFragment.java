@@ -30,19 +30,25 @@ import java.util.List;
 import me.juliasson.unipath.R;
 import me.juliasson.unipath.activities.MapActivity;
 import me.juliasson.unipath.activities.SearchFilteringDialog;
+import me.juliasson.unipath.activities.TimelineActivity;
 import me.juliasson.unipath.adapters.CollegeAdapter;
 import me.juliasson.unipath.internal.GetCollegeAddedToFavListInterface;
 import me.juliasson.unipath.internal.GetItemDetailOpenedInterface;
 import me.juliasson.unipath.internal.GetCollegeLikedOnSearchListViewInterface;
 import me.juliasson.unipath.internal.LikedRefreshInterface;
 import me.juliasson.unipath.internal.SearchInterface;
+import me.juliasson.unipath.internal.UpdateFavCollegeListSearchInterface;
 import me.juliasson.unipath.model.College;
 import me.juliasson.unipath.rows.ParentRow;
 import me.juliasson.unipath.utils.Constants;
 
 import static android.app.Activity.RESULT_OK;
 
-public class SearchFragment extends Fragment implements SearchInterface, LikedRefreshInterface, GetCollegeLikedOnSearchListViewInterface, GetItemDetailOpenedInterface {
+public class SearchFragment extends Fragment implements SearchInterface,
+        LikedRefreshInterface,
+        GetCollegeLikedOnSearchListViewInterface,
+        GetItemDetailOpenedInterface,
+        UpdateFavCollegeListSearchInterface {
 
     private FrameLayout touchInterceptor;
 
@@ -88,6 +94,7 @@ public class SearchFragment extends Fragment implements SearchInterface, LikedRe
         mContext = parent.getContext();
         touchInterceptor = new FrameLayout(mContext);
         touchInterceptor.setClickable(true);
+        TimelineActivity.updateFavCollegeListSearchInterface(this);
         View v = inflater.inflate(R.layout.fragment_search, parent, false);
         mView = v;
         //initFCM();
@@ -374,6 +381,13 @@ public class SearchFragment extends Fragment implements SearchInterface, LikedRe
     public void getCollegeLikedOnSearchListView(boolean isChanged) {
         if (isChanged) {
             collegeListChangedInterface.getCollegeListChanged(true);
+        }
+    }
+
+    @Override
+    public void updateList(boolean update) {
+        if (update) {
+            refresh();
         }
     }
 
