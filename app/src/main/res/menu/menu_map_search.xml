@@ -1,18 +1,3 @@
-<!--<?xml version="1.0" encoding="utf-8"?>-->
-<!--<menu xmlns:android="http://schemas.android.com/apk/res/android"-->
-    <!--xmlns:app="http://schemas.android.com/apk/res-auto"-->
-    <!--xmlns:tools="http://schemas.android.com/tools"-->
-    <!--tools:context="com.exampke.user.searchviewexpandablelistview.SearchActivity">-->
-    <!--<item-->
-        <!--android:id="@+id/action_search"-->
-        <!--android:orderInCategory="100"-->
-        <!--android:title="@string/search"-->
-        <!--android:icon="@drawable/ic_search_white_24dp"-->
-        <!--app:actionViewClass="android.widget.SearchView"-->
-        <!--app:showAsAction="ifRoom|collapseActionView"/>-->
-
-<!--</menu>-->
-
 <menu
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -29,9 +14,10 @@
         android:icon="@drawable/filter_list_white"
         android:title="Filter"
         app:showAsAction="always" />
+
     <item
-        android:id="@+id/map"
-        android:icon="@drawable/world"
+        android:id="@+id/list"
+        android:icon="@drawable/ic_format_list_bulleted"
         android:title="Map"
         android:visible="true"
         app:showAsAction="always" />

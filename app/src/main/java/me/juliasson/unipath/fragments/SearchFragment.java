@@ -62,6 +62,7 @@ public class SearchFragment extends Fragment implements SearchInterface,
     private Activity activity;
     private Context context;
     private View mView;
+    private Menu searchMenu;
 
     private RecyclerView mRecyclerView;
     private ArrayList<College> colleges;
@@ -138,7 +139,7 @@ public class SearchFragment extends Fragment implements SearchInterface,
                 Intent intent = new Intent(mContext, SearchFilteringDialog.class);
                 startActivityForResult(intent, REQUEST_FILTER_CODE);
                 break;
-            case R.id.toggle_map:
+            case R.id.map:
                 // The list of 'liked' colleges is can simply be sent to map activity
                 Intent i = new Intent(mContext, MapActivity.class);
                 Bundle bundle = new Bundle();
