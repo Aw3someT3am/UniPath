@@ -78,6 +78,7 @@ public class SearchFragment extends Fragment implements SearchInterface, LikedRe
     private final String DEFAULT_MAX_VAL = "2147483647";
     private final String DEFAULT_MIN_VAL = "0";
     private static final int REQUEST_FILTER_CODE = 1034;
+    private String SEARCH_MAP_CODE = "Nighty nighty. Ah spaghetti. Ah, ravioli. Ahh, mama mia.";
 
     private String query = "";
 
@@ -139,6 +140,7 @@ public class SearchFragment extends Fragment implements SearchInterface, LikedRe
                 if (filteredColleges == null) { filteredColleges = colleges; }
                 bundle.putParcelableArrayList("favoritedList", filteredColleges);
                 i.putExtras(bundle);
+                i.putExtra("Itsa me, Mario!", SEARCH_MAP_CODE);
                 startActivity(i);
                 break;
         }

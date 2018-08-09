@@ -121,11 +121,12 @@ public class MapActivity extends AppCompatActivity implements
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_map_search, menu);
-//        MenuItem mapButton = menu.findItem(R.id.map);
-//        mapButton.setVisible(true);
-//        MenuItem listButton = menu.findItem(R.id.list);
-//        listButton.setVisible(false);
+
+        String code = getIntent().getStringExtra("Itsa me, Mario!");
+
+        if (code != null && code.equals("Nighty nighty. Ah spaghetti. Ah, ravioli. Ahh, mama mia.")) {
+            getMenuInflater().inflate(R.menu.menu_map_search, menu);
+        }
         return true;
     }
 
@@ -141,16 +142,7 @@ public class MapActivity extends AppCompatActivity implements
                 startActivityForResult(intent, REQUEST_FILTER_CODE);
                 break;
             case R.id.list:
-                // The list of 'liked' colleges is can simply be sent to map activity
                 finish();
-
-//                FragmentTransaction ft = getSupportFragmentManager().beginTransaction()
-//                        .replace(R.id.activity_map, new SearchFragment()).commit();;
-//                Bundle bundle = new Bundle();
-//                if (filteredColleges == null) { filteredColleges = colleges; }
-//                bundle.putParcelableArrayList("favoritedList", filteredColleges);
-//                i.putExtras(bundle);
-//                startActivity(i);
                 break;
         }
         return true;
