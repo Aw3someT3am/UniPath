@@ -81,6 +81,7 @@ public class MapActivity extends AppCompatActivity implements
     private final static String KEY_LOCATION = "location";
     private static final LatLng center_us = new LatLng(39.809860, -98.555183);
     private static MapSearchInterface mapSearchInterface;
+    private SearchView searchBar;
 
     private List<LatLng> mLocationsList = new ArrayList<>();
     private ArrayList<College> filteredColleges;
@@ -92,6 +93,7 @@ public class MapActivity extends AppCompatActivity implements
     private int outStateCostIndex = -1;
     private int acceptanceRateIndex = -1;
     private String stateValue;
+    private boolean firstSelection;
     private final String DEFAULT_MAX_VAL = "2147483647";
     private final String DEFAULT_MIN_VAL = "0";
     private static final int REQUEST_FILTER_CODE = 1034;
@@ -108,11 +110,14 @@ public class MapActivity extends AppCompatActivity implements
         setContentView(R.layout.activity_map);
 
         CollegeAdapter.setSearchInterface(this);
+        firstSelection = true;
 
         code = getIntent().getStringExtra(CODE_KEY);
         if (code != null && code.equals(CODE_YES_SEARCH)) {
             getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
             getSupportActionBar().setCustomView(R.layout.toolbar_action_bar);
+
+            query = getIntent().getStringExtra("query_code");
         } else {
             getSupportActionBar().hide();
         }
@@ -125,8 +130,6 @@ public class MapActivity extends AppCompatActivity implements
             throw new IllegalStateException("You forgot to supply a Google Maps API key ya dummy");
         }
         if (savedInstanceState != null && savedInstanceState.keySet().contains(KEY_LOCATION)) {
-            // Since KEY_LOCATION was found in the Bundle, we can be sure that mCurrentLocation
-            // is not null.
             mCurrentLocation = savedInstanceState.getParcelable(KEY_LOCATION);
         }
         mapFragment = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map));
@@ -149,6 +152,12 @@ public class MapActivity extends AppCompatActivity implements
     public boolean onCreateOptionsMenu(Menu menu) {
         if (code != null && code.equals(CODE_YES_SEARCH)) {
             getMenuInflater().inflate(R.menu.menu_map_search, menu);
+
+        MenuItem menuItem = menu.getItem(0);
+        searchBar = (SearchView) MenuItemCompat.getActionView(menuItem);
+        searchBar.setQuery(query, true);
+        searchBar.clearFocus();
+//        searchBar.findFocus();
         }
         return true;
     }
@@ -177,8 +186,7 @@ public class MapActivity extends AppCompatActivity implements
 
     }
 
-    private void search(SearchView searchView) {
-
+    private void search(final SearchView searchView) {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -187,11 +195,21 @@ public class MapActivity extends AppCompatActivity implements
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                searchRef(newText);
+
+                if (firstSelection == true) {
+                    searchRef(query);
+                    firstSelection =  false;
+                } else {
+                    searchRef(newText);
+                }
+
                 return false;
             }
         });
     }
+
+
+//    searchRef(newText);
 
     public void searchRef(String query) {
         this.query = query;
@@ -455,7 +473,8 @@ public class MapActivity extends AppCompatActivity implements
     }
 
     public void loadCollegeMarkers() {
-//        collegeAdapter = new CollegeAdapter(filteredColleges, sInterface, lrInterface, closlInterface, cdoInterface);
+
+
         if (refreshList != null) {
             for (int i = 0; i < refreshList.size(); i++) {
                 College college = refreshList.get(i);
@@ -492,8 +511,6 @@ public class MapActivity extends AppCompatActivity implements
             }
         }
     }
-
-
 
     //----------------------------Filter Dialog Responses-------------------------------
 

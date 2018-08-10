@@ -89,6 +89,7 @@ public class SearchFragment extends Fragment implements SearchInterface,
     private static final int REQUEST_MAP_CODE = 2034;
     private String SEARCH_MAP_CODE_KEY = "Itsa me, Mario!";
     private String SEARCH_MAP_CODE = "Nighty nighty. Ah spaghetti. Ah, ravioli. Ahh, mama mia.";
+    private String QUERY_CODE = "query_code";
 
     private String query = "";
 
@@ -157,6 +158,7 @@ public class SearchFragment extends Fragment implements SearchInterface,
                 bundle.putParcelableArrayList("everyCollege", everyCollege);
                 i.putExtras(bundle);
                 i.putExtra(SEARCH_MAP_CODE_KEY, SEARCH_MAP_CODE);
+                i.putExtra(QUERY_CODE, query);
                 MapActivity.setCollegeAdapter(collegeAdapter);
                 startActivityForResult(i, REQUEST_MAP_CODE);
                 break;
