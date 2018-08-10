@@ -12,7 +12,7 @@
   - [ ] make background the same grey as item in timeline
   - [ ] Set fonts as lustria (compare to lato)
   - [ ] Get rid of rounded transparent background
-- PROFILE: 
+- PROFILE: KATHERINE
   - [ ] remove roundness
   - [ ] Notification pink
   - [ ] Deeper orange for progress bar
@@ -33,11 +33,11 @@
   - [ ] make selection date color light orange
   - [ ] make dots orange
   - [ ] Calendar status should be (15 x 15px check markers, no circles/border around them)
-- SEARCH: 
+- SEARCH: JORGE
   - [ ] loading color of item should be dark grey
   - [ ] black drop shadow on marker and unfilled heart, thicker line for heart
   - [ ] Move title(college name) to bottom of card view next to icons
-- SEARCH COLLEGE DETAIL:
+- SEARCH COLLEGE DETAIL: JORGE
   - [ ] No padding on image
   - [ ] make it similar to search card view appearance (makes more room for other stuff)
   - [ ] NetCost on a new line
