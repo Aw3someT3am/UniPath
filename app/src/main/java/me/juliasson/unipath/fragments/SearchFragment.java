@@ -30,19 +30,27 @@ import java.util.List;
 import me.juliasson.unipath.R;
 import me.juliasson.unipath.activities.MapActivity;
 import me.juliasson.unipath.activities.SearchFilteringDialog;
+import me.juliasson.unipath.activities.TimelineActivity;
 import me.juliasson.unipath.adapters.CollegeAdapter;
 import me.juliasson.unipath.internal.GetCollegeAddedToFavListInterface;
 import me.juliasson.unipath.internal.GetItemDetailOpenedInterface;
 import me.juliasson.unipath.internal.GetCollegeLikedOnSearchListViewInterface;
 import me.juliasson.unipath.internal.LikedRefreshInterface;
+import me.juliasson.unipath.internal.MapSearchInterface;
 import me.juliasson.unipath.internal.SearchInterface;
+import me.juliasson.unipath.internal.UpdateFavCollegeListSearchInterface;
 import me.juliasson.unipath.model.College;
 import me.juliasson.unipath.rows.ParentRow;
 import me.juliasson.unipath.utils.Constants;
 
 import static android.app.Activity.RESULT_OK;
 
-public class SearchFragment extends Fragment implements SearchInterface, LikedRefreshInterface, GetCollegeLikedOnSearchListViewInterface, GetItemDetailOpenedInterface {
+public class SearchFragment extends Fragment implements SearchInterface,
+        LikedRefreshInterface,
+        GetCollegeLikedOnSearchListViewInterface,
+        GetItemDetailOpenedInterface,
+        UpdateFavCollegeListSearchInterface,
+        MapSearchInterface {
 
     private FrameLayout touchInterceptor;
 
@@ -56,6 +64,7 @@ public class SearchFragment extends Fragment implements SearchInterface, LikedRe
     private Activity activity;
     private Context context;
     private View mView;
+    private Menu searchMenu;
 
     private RecyclerView mRecyclerView;
     private ArrayList<College> colleges;
@@ -77,6 +86,9 @@ public class SearchFragment extends Fragment implements SearchInterface, LikedRe
     private final String DEFAULT_MAX_VAL = "2147483647";
     private final String DEFAULT_MIN_VAL = "0";
     private static final int REQUEST_FILTER_CODE = 1034;
+    private static final int REQUEST_MAP_CODE = 2034;
+    private String SEARCH_MAP_CODE_KEY = "Itsa me, Mario!";
+    private String SEARCH_MAP_CODE = "Nighty nighty. Ah spaghetti. Ah, ravioli. Ahh, mama mia.";
 
     private String query = "";
 
@@ -86,6 +98,8 @@ public class SearchFragment extends Fragment implements SearchInterface, LikedRe
         mContext = parent.getContext();
         touchInterceptor = new FrameLayout(mContext);
         touchInterceptor.setClickable(true);
+        TimelineActivity.updateFavCollegeListSearchInterface(this);
+        MapActivity.setMapSearchInterface(this);
         View v = inflater.inflate(R.layout.fragment_search, parent, false);
         mView = v;
         //initFCM();
@@ -129,16 +143,22 @@ public class SearchFragment extends Fragment implements SearchInterface, LikedRe
                 break;
             case R.id.search_filter:
                 Intent intent = new Intent(mContext, SearchFilteringDialog.class);
+                intent.putExtra(SEARCH_MAP_CODE_KEY, SEARCH_MAP_CODE);
                 startActivityForResult(intent, REQUEST_FILTER_CODE);
                 break;
-            case R.id.toggle_map:
+            case R.id.map:
                 // The list of 'liked' colleges is can simply be sent to map activity
                 Intent i = new Intent(mContext, MapActivity.class);
                 Bundle bundle = new Bundle();
-                if (filteredColleges == null) { filteredColleges = colleges; }
+                if (filteredColleges == null) {
+                    filteredColleges = everyCollege;
+                }
                 bundle.putParcelableArrayList("favoritedList", filteredColleges);
+                bundle.putParcelableArrayList("everyCollege", everyCollege);
                 i.putExtras(bundle);
-                startActivity(i);
+                i.putExtra(SEARCH_MAP_CODE_KEY, SEARCH_MAP_CODE);
+                MapActivity.setCollegeAdapter(collegeAdapter);
+                startActivityForResult(i, REQUEST_MAP_CODE);
                 break;
         }
         return true;
@@ -218,6 +238,14 @@ public class SearchFragment extends Fragment implements SearchInterface, LikedRe
         collegeAdapter.clear();
         collegeAdapter.addAll(everyCollege);
         searchRef(query);
+        MapActivity.setCollegeAdapter(collegeAdapter);
+    }
+
+    public void refreshFromMap() {
+        collegeAdapter.clearWithFilter();
+        collegeAdapter.addAllFiltered(filteredColleges);
+        collegeAdapter.clear();
+        collegeAdapter.addAll(everyCollege);
     }
 
     @Override
@@ -236,7 +264,6 @@ public class SearchFragment extends Fragment implements SearchInterface, LikedRe
         if (collegeAdapter != null) {
             collegeAdapter.getFilter().filter(query.toLowerCase());
             Log.d("Search", query);
-            System.out.print(query);
         }
         if (query.isEmpty()) {
             refreshList.clear();
@@ -282,6 +309,12 @@ public class SearchFragment extends Fragment implements SearchInterface, LikedRe
                 String filter_string = String.format("%s, %s, %s, %s, %s", sizeValue, isCostValue, osCostValue, acceptanceRateValue, stateValue);
                 collegeAdapter.getSelectionFilter().filter(filter_string);
             }
+        } else if (requestCode == REQUEST_MAP_CODE && resultCode == RESULT_OK) {
+            CollegeAdapter.setSearchInterface(this);
+            refreshList = data.getParcelableArrayListExtra("filteredColleges");
+            filteredColleges = new ArrayList<>(refreshList);
+            collegeAdapter.notifyDataSetChanged();
+            refreshFromMap();
         }
     }
 
@@ -368,9 +401,22 @@ public class SearchFragment extends Fragment implements SearchInterface, LikedRe
     }
 
     @Override
+    public void setFilteredColleges(ArrayList<College> filtered) {
+        filteredColleges = filtered;
+        refresh();
+    }
+
+    @Override
     public void getCollegeLikedOnSearchListView(boolean isChanged) {
         if (isChanged) {
             collegeListChangedInterface.getCollegeListChanged(true);
+        }
+    }
+
+    @Override
+    public void updateList(boolean update) {
+        if (update) {
+            refresh();
         }
     }
 

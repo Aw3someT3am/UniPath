@@ -103,6 +103,11 @@ public class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.ViewHold
         CollegeAdapter.unlikedFromProfileAdapterInterface = unlikedFromProfileadapterInterface;
     }
 
+    public CollegeAdapter(ArrayList<College> everyCollege) {
+        mColleges = everyCollege;
+        mFilteredList = everyCollege;
+    }
+
     @NonNull
     @Override
     public CollegeAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
@@ -161,6 +166,7 @@ public class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.ViewHold
                 ArrayList<College> singleCollege = new ArrayList<>();
                 singleCollege.add(college);
                 i.putParcelableArrayListExtra("favoritedList", singleCollege);
+                i.putParcelableArrayListExtra("everyCollege", singleCollege);
                 mContext.startActivity(i);
             }
         });
@@ -557,5 +563,9 @@ public class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.ViewHold
         if (isChanged) {
             likedRefreshInterface.setValues(true);
         }
+    }
+
+    public static void setSearchInterface(SearchInterface searchInterface) {
+        CollegeAdapter.searchInterface = searchInterface;
     }
 }

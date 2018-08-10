@@ -73,6 +73,7 @@ public class ProfileFragment extends Fragment implements
     private TextView tvProgressText;
     private TextView tvFirstName;
     private TextView tvEmail;
+    private TextView tvNoColleges;
     private ImageView ivForward;
     private ImageView ivBack;
     private ImageView bvFavoritesMap;
@@ -126,6 +127,7 @@ public class ProfileFragment extends Fragment implements
         tvProgressText = view.findViewById(R.id.tvProgressText);
         tvFirstName = view.findViewById(R.id.tvFirstName);
         tvEmail = view.findViewById(R.id.tvEmail);
+        tvNoColleges = view.findViewById(R.id.tvNoColleges);
         bvFavoritesMap = view.findViewById(R.id.mapFavorites);
         ivForward = view.findViewById(R.id.ivForward);
         ivBack = view.findViewById(R.id.ivBack);
@@ -154,6 +156,7 @@ public class ProfileFragment extends Fragment implements
                 Intent i = new Intent(mContext, MapActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putParcelableArrayList("favoritedList", colleges);
+                bundle.putParcelableArrayList("everyCollege", colleges);
                 i.putExtras(bundle);
                 startActivity(i);
             }
@@ -358,11 +361,24 @@ public class ProfileFragment extends Fragment implements
                         colleges.add(college);
                         collegeAdapter.notifyItemInserted(colleges.size()-1);
                     }
+                    if (objects.isEmpty()) {
+                        showNoFavColleges();
+                    } else {
+                        hideNoFavColleges();
+                    }
                 } else {
                     e.printStackTrace();
                 }
             }
         });
+    }
+
+    public void showNoFavColleges() {
+        tvNoColleges.setVisibility(View.VISIBLE);
+    }
+
+    public void hideNoFavColleges() {
+        tvNoColleges.setVisibility(View.INVISIBLE);
     }
 
     //--------------------Refreshing Fragment-----------------------------

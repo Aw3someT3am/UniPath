@@ -45,6 +45,7 @@ import me.juliasson.unipath.internal.NotificationInterface;
 import me.juliasson.unipath.internal.UpdateFavCollegeListCalendar;
 import me.juliasson.unipath.internal.UpdateFavCollegeListLinearTimeline;
 import me.juliasson.unipath.internal.UpdateFavCollegeListProfile;
+import me.juliasson.unipath.internal.UpdateFavCollegeListSearchInterface;
 import me.juliasson.unipath.internal.UpdateProfileProgressBarInterface;
 import me.juliasson.unipath.model.Notify;
 import me.juliasson.unipath.view.VerticalPager;
@@ -69,7 +70,7 @@ public class TimelineActivity extends AppCompatActivity implements
     private static UpdateFavCollegeListLinearTimeline updateFavCollegeListInterfaceLinearTimeline;
     private static UpdateProfileProgressBarInterface updateProfileProgressBarInterface;
     private static NotificationInProfile notificationInProfile;
-
+    private static UpdateFavCollegeListSearchInterface updateFavCollegeListSearchInterface;
     private static final String TAG = "TimelineActivity";
     private int size;
     private int velocitySlow, velocityNormal, velocityFast;
@@ -259,6 +260,7 @@ public class TimelineActivity extends AppCompatActivity implements
         if (unliked) {
             updateFavCollegeListInterfaceCalendar.updateList(true);
             updateFavCollegeListInterfaceLinearTimeline.updateList(true);
+            updateFavCollegeListSearchInterface.updateList(true);
         }
     }
 
@@ -304,4 +306,7 @@ public class TimelineActivity extends AppCompatActivity implements
         notificationInProfile = listInterface;
     }
 
+    public static void updateFavCollegeListSearchInterface(UpdateFavCollegeListSearchInterface listInterface) {
+        updateFavCollegeListSearchInterface = listInterface;
+    }
 }

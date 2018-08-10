@@ -115,27 +115,45 @@
         android:background="@drawable/rounded_transparent_bg"
         android:fontFamily="@font/lato">
 
-        <TextView
-            android:id="@+id/tvFavoritesLabel"
+        <RelativeLayout
+            android:id="@+id/rlFavoritesLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
             android:layout_margin="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:text="Favorite Colleges"
-            android:textColor="@color/solid_white"
-            android:textSize="16sp" />
+            android:layout_marginTop="8dp" >
+
+            <TextView
+                android:id="@+id/tvFavoritesLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:text="Favorite Colleges"
+                android:textColor="@color/solid_white"
+                android:textSize="16sp" />
+
+            <View
+                android:id="@+id/dividerLine"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_below="@+id/tvFavoritesLabel"
+                android:layout_marginEnd="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:background="@color/background_light_orange" />
+        </RelativeLayout>
 
         <com.yarolegovich.discretescrollview.DiscreteScrollView
             android:id="@+id/picker"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_above="@+id/ivBack"
-            android:layout_below="@+id/mapFavorites"
+            android:layout_below="@+id/rlFavoritesLabel"
             android:layout_margin="4dp"
             app:dsv_orientation="horizontal" />
 
@@ -178,6 +196,18 @@
             android:scaleType="fitXY"
             android:tint="@color/solid_white"
             app:srcCompat="@drawable/world" />
+
+        <TextView
+            android:id="@+id/tvNoColleges"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/rlFavoritesLabel"
+            android:layout_margin="8dp"
+            android:gravity="center_horizontal"
+            android:visibility="invisible"
+            android:text="No favorite colleges"
+            android:textAppearance="@android:style/TextAppearance.Small"
+            android:textColor="@color/white_80_transparent" />
 
     </RelativeLayout>
 

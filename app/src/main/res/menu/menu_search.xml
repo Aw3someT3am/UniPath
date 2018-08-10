@@ -18,6 +18,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.learn2crack.recyclerviewsearch.SearchFragment">
+
     <item
         android:id="@+id/search"
         android:icon="@drawable/ic_search_white_24dp"
@@ -26,13 +27,14 @@
         app:actionViewClass="android.support.v7.widget.SearchView" />
     <item
         android:id="@+id/search_filter"
-        android:icon="@drawable/ic_format_list_bulleted"
+        android:icon="@drawable/filter_list_white"
         android:title="Filter"
         app:showAsAction="always" />
     <item
-        android:id="@+id/toggle_map"
+        android:id="@+id/map"
         android:icon="@drawable/world"
         android:title="Map"
         android:visible="true"
         app:showAsAction="always" />
 </menu>
+
