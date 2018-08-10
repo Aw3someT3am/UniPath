@@ -1,9 +1,7 @@
 package me.juliasson.unipath.activities;
 
 import android.annotation.TargetApi;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
@@ -16,7 +14,6 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 
 import com.github.jinatonic.confetti.CommonConfetti;
-import com.github.jinatonic.confetti.ConfettiSource;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -118,26 +115,6 @@ public class TimelineActivity extends AppCompatActivity implements
 
     private void initViews() {
         snapPageWhenLayoutIsReady(mVerticalPager, CENTRAL_PAGE_INDEX);
-    }
-
-    private CommonConfetti getCommonConfetti() {
-        final Resources res = getResources();
-        size = res.getDimensionPixelSize(R.dimen.default_confetti_size);
-        ConfettiSource confettiSource = new ConfettiSource(-size, -size);
-        CommonConfetti commonConfetti = CommonConfetti.rainingConfetti(container, confettiSource, new int[] {Color.BLUE});
-
-        velocitySlow = res.getDimensionPixelOffset(R.dimen.default_velocity_slow);
-        velocityNormal = res.getDimensionPixelOffset(R.dimen.default_velocity_normal);
-        velocityFast = res.getDimensionPixelOffset(R.dimen.default_velocity_fast);
-
-        commonConfetti.getConfettiManager()
-                .setVelocityX(velocityFast, velocityNormal)
-                .setAccelerationX(-velocityNormal, velocitySlow)
-                .setTargetVelocityX(0, velocitySlow/2)
-                .setVelocityY(velocityNormal, velocitySlow);
-
-        Log.d("Being called", "being called");
-        return commonConfetti;
     }
 
     @LayoutRes
@@ -309,4 +286,5 @@ public class TimelineActivity extends AppCompatActivity implements
     public static void updateFavCollegeListSearchInterface(UpdateFavCollegeListSearchInterface listInterface) {
         updateFavCollegeListSearchInterface = listInterface;
     }
+
 }

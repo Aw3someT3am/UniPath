@@ -1,6 +1,7 @@
 package me.juliasson.unipath.activities;
 
-import android.app.Dialog;
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -22,11 +23,13 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewAnimationUtils;
+import android.view.ViewTreeObserver;
+import android.view.animation.AccelerateInterpolator;
 import android.view.animation.BounceInterpolator;
 import android.widget.Toast;
 
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -80,8 +83,8 @@ public class MapActivity extends AppCompatActivity implements
     private long FASTEST_INTERVAL = 5000; /* 5 secs */
     private final static String KEY_LOCATION = "location";
     private static final LatLng center_us = new LatLng(39.809860, -98.555183);
-    private static MapSearchInterface mapSearchInterface;
     private SearchView searchBar;
+    private static MapSearchInterface mapSearchInterface;
 
     private List<LatLng> mLocationsList = new ArrayList<>();
     private ArrayList<College> filteredColleges;
@@ -98,11 +101,19 @@ public class MapActivity extends AppCompatActivity implements
     private final String DEFAULT_MIN_VAL = "0";
     private static final int REQUEST_FILTER_CODE = 1034;
     private String query = "";
-    private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
 
     private String code = "";
     private final String CODE_KEY = "Itsa me, Mario!";
     private final String CODE_YES_SEARCH = "Nighty nighty. Ah spaghetti. Ah, ravioli. Ahh, mama mia.";
+    public static final String EXTRA_CIRCULAR_REVEAL_X = "EXTRA_CIRCULAR_REVEAL_X";
+    public static final String EXTRA_CIRCULAR_REVEAL_Y = "EXTRA_CIRCULAR_REVEAL_Y";
+
+    // For reveal animation
+    View rootLayout;
+    private int revealX;
+    private int revealY;
+
+    //TODO: HIDE ACTION BAR BEFORE ANIMATION
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,6 +123,7 @@ public class MapActivity extends AppCompatActivity implements
         CollegeAdapter.setSearchInterface(this);
         firstSelection = true;
 
+        // Differentiate between intent from search or some other fragment
         code = getIntent().getStringExtra(CODE_KEY);
         if (code != null && code.equals(CODE_YES_SEARCH)) {
             getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
@@ -120,6 +132,31 @@ public class MapActivity extends AppCompatActivity implements
             query = getIntent().getStringExtra("query_code");
         } else {
             getSupportActionBar().hide();
+        }
+
+        rootLayout = findViewById(R.id.rootLayout);
+        final Intent intent = getIntent();
+        if (savedInstanceState == null &&
+                intent.hasExtra(EXTRA_CIRCULAR_REVEAL_X) &&
+                intent.hasExtra(EXTRA_CIRCULAR_REVEAL_Y)) {
+            rootLayout.setVisibility(View.INVISIBLE);
+
+            revealX = intent.getIntExtra(EXTRA_CIRCULAR_REVEAL_X, 0);
+            revealY = intent.getIntExtra(EXTRA_CIRCULAR_REVEAL_Y, 0);
+
+
+            ViewTreeObserver viewTreeObserver = rootLayout.getViewTreeObserver();
+            if (viewTreeObserver.isAlive()) {
+                viewTreeObserver.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                    @Override
+                    public void onGlobalLayout() {
+                        revealActivity(revealX, revealY);
+                        rootLayout.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                    }
+                });
+            }
+        } else {
+            rootLayout.setVisibility(View.VISIBLE);
         }
 
         filteredColleges = this.getIntent().getParcelableArrayListExtra("favoritedList");
@@ -152,12 +189,10 @@ public class MapActivity extends AppCompatActivity implements
     public boolean onCreateOptionsMenu(Menu menu) {
         if (code != null && code.equals(CODE_YES_SEARCH)) {
             getMenuInflater().inflate(R.menu.menu_map_search, menu);
-
         MenuItem menuItem = menu.getItem(0);
         searchBar = (SearchView) MenuItemCompat.getActionView(menuItem);
         searchBar.setQuery(query, true);
         searchBar.clearFocus();
-//        searchBar.findFocus();
         }
         return true;
     }
@@ -178,7 +213,7 @@ public class MapActivity extends AppCompatActivity implements
                     Intent i = new Intent(MapActivity.this, SearchFragment.class);
                     i.putParcelableArrayListExtra("filteredColleges", refreshList);
                     setResult(RESULT_OK, i);
-                    finish();
+                    unRevealActivity();
                     break;
             }
         }
@@ -202,14 +237,10 @@ public class MapActivity extends AppCompatActivity implements
                 } else {
                     searchRef(newText);
                 }
-
                 return false;
             }
         });
     }
-
-
-//    searchRef(newText);
 
     public void searchRef(String query) {
         this.query = query;
@@ -238,7 +269,6 @@ public class MapActivity extends AppCompatActivity implements
 
         if (map != null) {
             // Map is ready
-
             MapActivityPermissionsDispatcher.getMyLocationWithPermissionCheck(this);
             MapActivityPermissionsDispatcher.startLocationUpdatesWithPermissionCheck(this);
             map.setOnMapLongClickListener(this);
@@ -291,44 +321,14 @@ public class MapActivity extends AppCompatActivity implements
                 });
     }
 
-    /*
-     * Called when the Activity becomes visible.
-     */
     @Override
     protected void onStart() {
         super.onStart();
     }
 
-    /*
-     * Called when the Activity is no longer visible.
-     */
     @Override
     protected void onStop() {
         super.onStop();
-    }
-
-    private boolean isGooglePlayServicesAvailable() {
-        // Check that Google Play services is available
-        int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
-        // If Google Play services is available
-        if (ConnectionResult.SUCCESS == resultCode) {
-            // In debug mode, log the status
-            Log.d("Location Updates", "Google Play services is available.");
-            return true;
-        } else {
-            // Get the error dialog from Google Play services
-            Dialog errorDialog = GooglePlayServicesUtil.getErrorDialog(resultCode, this,
-                    CONNECTION_FAILURE_RESOLUTION_REQUEST);
-
-            // If Google Play services can provide an error dialog
-            if (errorDialog != null) {
-                // Create a new DialogFragment for the error dialog
-                ErrorDialogFragment errorFragment = new ErrorDialogFragment();
-                errorFragment.setDialog(errorDialog);
-                errorFragment.show(getSupportFragmentManager(), "Location Updates");
-            }
-            return false;
-        }
     }
 
     @Override
@@ -377,7 +377,6 @@ public class MapActivity extends AppCompatActivity implements
         if (location == null) {
             return;
         }
-
         // Report to the UI that the location was updated
         mCurrentLocation = location;
     }
@@ -392,7 +391,9 @@ public class MapActivity extends AppCompatActivity implements
 
     }
 
-
+    /**
+     * Launch info window
+     */
     private void showDialogForCollege(final Marker marker) {
         // Marker should come with info bundle of college
         College college = (College) marker.getTag();
@@ -448,33 +449,10 @@ public class MapActivity extends AppCompatActivity implements
         return BitmapDescriptorFactory.fromBitmap(bitmap);
     }
 
-    // Define a DialogFragment that displays the error dialog
-    public static class ErrorDialogFragment extends android.support.v4.app.DialogFragment {
-
-        // Global field to contain the error dialog
-        private Dialog mDialog;
-
-        // Default constructor. Sets the dialog field to null
-        public ErrorDialogFragment() {
-            super();
-            mDialog = null;
-        }
-
-        // Set the dialog to display
-        public void setDialog(Dialog dialog) {
-            mDialog = dialog;
-        }
-
-        // Return a Dialog to the DialogFragment.
-        @Override
-        public Dialog onCreateDialog(Bundle savedInstanceState) {
-            return mDialog;
-        }
-    }
-
+    /**
+     * Load list of colleges given by intent
+     */
     public void loadCollegeMarkers() {
-
-
         if (refreshList != null) {
             for (int i = 0; i < refreshList.size(); i++) {
                 College college = refreshList.get(i);
@@ -635,4 +613,32 @@ public class MapActivity extends AppCompatActivity implements
         mapSearchInterface = searchInterface;
     }
 
+    //--------------------Animation---------------------
+
+    protected void revealActivity(int x, int y) {
+        float finalRadius = (float) (Math.max(rootLayout.getWidth(), rootLayout.getHeight()) * 1.1);
+        // create the animator for this view (the start radius is zero)
+        Animator circularReveal = ViewAnimationUtils.createCircularReveal(rootLayout, x, y, 0, finalRadius);
+        circularReveal.setDuration(500);
+        circularReveal.setInterpolator(new AccelerateInterpolator());
+        // make the view visible and start the animation
+        rootLayout.setVisibility(View.VISIBLE);
+        circularReveal.start();
+    }
+
+    protected void unRevealActivity() {
+        float finalRadius = (float) (Math.max(rootLayout.getWidth(), rootLayout.getHeight()) * 1.1);
+        Animator circularReveal = ViewAnimationUtils.createCircularReveal(
+                rootLayout, revealX, revealY, finalRadius, 0);
+
+        circularReveal.setDuration(200);
+        circularReveal.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                rootLayout.setVisibility(View.INVISIBLE);
+                finish();
+            }
+        });
+        circularReveal.start();
+    }
 }
