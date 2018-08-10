@@ -15,6 +15,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.like.LikeButton;
 import com.like.OnLikeListener;
 import com.parse.ParseException;
@@ -28,6 +32,7 @@ import me.juliasson.unipath.internal.GetDeadlineDeletedInterface;
 import me.juliasson.unipath.internal.GetDeadlineDialogStatusInterface;
 import me.juliasson.unipath.model.UserDeadlineRelation;
 import me.juliasson.unipath.utils.Constants;
+import me.juliasson.unipath.utils.DateTimeUtils;
 
 public class DDCollegeListAdapter extends RecyclerView.Adapter<DDCollegeListAdapter.ViewHolder> {
 
@@ -36,6 +41,9 @@ public class DDCollegeListAdapter extends RecyclerView.Adapter<DDCollegeListAdap
     private static GetDeadlineDialogStatusInterface ddStatusInterface;
     private static GetDeadlineDeletedInterface getDeadlineDeletedInterface;
     private static GetDeadlineCheckedInterface getDeadlineCheckedInterface;
+    private static FirebaseDatabase mFirebaseDatabase;
+    private static FirebaseAuth mAuth;
+    private static DatabaseReference myRef;
 
     private final String ALERT_MESSAGE = "Delete this deadline?";
     private final String ALERT_POSITIVE = "Delete";
@@ -54,6 +62,10 @@ public class DDCollegeListAdapter extends RecyclerView.Adapter<DDCollegeListAdap
     public DDCollegeListAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         mContext = viewGroup.getContext();
         LayoutInflater inflater = LayoutInflater.from(mContext);
+
+        mAuth = FirebaseAuth.getInstance();
+        mFirebaseDatabase = FirebaseDatabase.getInstance();
+        myRef = mFirebaseDatabase.getReference();
 
         View collegeView = inflater.inflate(R.layout.item_deadlinedetails_college, viewGroup, false);
         DDCollegeListAdapter.ViewHolder viewHolder = new DDCollegeListAdapter.ViewHolder(collegeView);
@@ -144,12 +156,19 @@ public class DDCollegeListAdapter extends RecyclerView.Adapter<DDCollegeListAdap
 
     public void deleteDeadline(UserDeadlineRelation relation, int position) {
         try {
+            String date = DateTimeUtils.parseDateTime(relation.getDeadline().getDeadlineDate().toString(), DateTimeUtils.parseInputFormat, DateTimeUtils.parseOutputFormat);
+            String collegeName = relation.getCollege().getCollegeName();
             mCollegeDeadlines.remove(relation);
             notifyItemRemoved(position);
             if (relation.getDeadline().getIsCustom()) {
                 relation.getDeadline().delete();
             }
             relation.delete();
+            if(!date.equals("")){
+                FirebaseUser user = mAuth.getCurrentUser();
+                String userID = user.getUid();
+                myRef.child(mContext.getString(R.string.dbnode_users)).child(userID).child("dates").child(collegeName).child(date).removeValue();
+            }
             relation.saveInBackground(new SaveCallback() {
                 @Override
                 public void done(ParseException e) {
