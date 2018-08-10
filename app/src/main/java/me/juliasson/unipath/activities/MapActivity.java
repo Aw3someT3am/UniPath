@@ -1,5 +1,7 @@
 package me.juliasson.unipath.activities;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -22,6 +24,10 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewAnimationUtils;
+import android.view.ViewTreeObserver;
+import android.view.animation.AccelerateInterpolator;
 import android.view.animation.BounceInterpolator;
 import android.widget.Toast;
 
@@ -103,6 +109,15 @@ public class MapActivity extends AppCompatActivity implements
     private String code = "";
     private final String CODE_KEY = "Itsa me, Mario!";
     private final String CODE_YES_SEARCH = "Nighty nighty. Ah spaghetti. Ah, ravioli. Ahh, mama mia.";
+    public static final String EXTRA_CIRCULAR_REVEAL_X = "EXTRA_CIRCULAR_REVEAL_X";
+    public static final String EXTRA_CIRCULAR_REVEAL_Y = "EXTRA_CIRCULAR_REVEAL_Y";
+
+    View rootLayout;
+
+    private int revealX;
+    private int revealY;
+
+    //TODO: HIDE ACTION BAR BEFORE ANIMATION
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,6 +135,31 @@ public class MapActivity extends AppCompatActivity implements
             query = getIntent().getStringExtra("query_code");
         } else {
             getSupportActionBar().hide();
+        }
+
+        rootLayout = findViewById(R.id.rootLayout);
+        final Intent intent = getIntent();
+        if (savedInstanceState == null &&
+                intent.hasExtra(EXTRA_CIRCULAR_REVEAL_X) &&
+                intent.hasExtra(EXTRA_CIRCULAR_REVEAL_Y)) {
+            rootLayout.setVisibility(View.INVISIBLE);
+
+            revealX = intent.getIntExtra(EXTRA_CIRCULAR_REVEAL_X, 0);
+            revealY = intent.getIntExtra(EXTRA_CIRCULAR_REVEAL_Y, 0);
+
+
+            ViewTreeObserver viewTreeObserver = rootLayout.getViewTreeObserver();
+            if (viewTreeObserver.isAlive()) {
+                viewTreeObserver.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                    @Override
+                    public void onGlobalLayout() {
+                        revealActivity(revealX, revealY);
+                        rootLayout.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                    }
+                });
+            }
+        } else {
+            rootLayout.setVisibility(View.VISIBLE);
         }
 
         filteredColleges = this.getIntent().getParcelableArrayListExtra("favoritedList");
@@ -178,7 +218,7 @@ public class MapActivity extends AppCompatActivity implements
                     Intent i = new Intent(MapActivity.this, SearchFragment.class);
                     i.putParcelableArrayListExtra("filteredColleges", refreshList);
                     setResult(RESULT_OK, i);
-                    finish();
+                    unRevealActivity();
                     break;
             }
         }
@@ -633,6 +673,35 @@ public class MapActivity extends AppCompatActivity implements
 
     public static void setMapSearchInterface(MapSearchInterface searchInterface) {
         mapSearchInterface = searchInterface;
+    }
+
+    //--------------------Animation---------------------
+    protected void revealActivity(int x, int y) {
+        float finalRadius = (float) (Math.max(rootLayout.getWidth(), rootLayout.getHeight()) * 1.1);
+
+        // create the animator for this view (the start radius is zero)
+        Animator circularReveal = ViewAnimationUtils.createCircularReveal(rootLayout, x, y, 0, finalRadius);
+        circularReveal.setDuration(500);
+        circularReveal.setInterpolator(new AccelerateInterpolator());
+        // make the view visible and start the animation
+        rootLayout.setVisibility(View.VISIBLE);
+        circularReveal.start();
+    }
+
+    protected void unRevealActivity() {
+        float finalRadius = (float) (Math.max(rootLayout.getWidth(), rootLayout.getHeight()) * 1.1);
+        Animator circularReveal = ViewAnimationUtils.createCircularReveal(
+                rootLayout, revealX, revealY, finalRadius, 0);
+
+        circularReveal.setDuration(200);
+        circularReveal.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                rootLayout.setVisibility(View.INVISIBLE);
+                finish();
+            }
+        });
+        circularReveal.start();
     }
 
 }

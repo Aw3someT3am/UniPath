@@ -5,6 +5,7 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.LinearLayoutManager;
@@ -18,8 +19,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
-import android.widget.TextView;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -33,8 +34,8 @@ import me.juliasson.unipath.activities.SearchFilteringDialog;
 import me.juliasson.unipath.activities.TimelineActivity;
 import me.juliasson.unipath.adapters.CollegeAdapter;
 import me.juliasson.unipath.internal.GetCollegeAddedToFavListInterface;
-import me.juliasson.unipath.internal.GetItemDetailOpenedInterface;
 import me.juliasson.unipath.internal.GetCollegeLikedOnSearchListViewInterface;
+import me.juliasson.unipath.internal.GetItemDetailOpenedInterface;
 import me.juliasson.unipath.internal.LikedRefreshInterface;
 import me.juliasson.unipath.internal.MapSearchInterface;
 import me.juliasson.unipath.internal.SearchInterface;
@@ -55,6 +56,7 @@ public class SearchFragment extends Fragment implements SearchInterface,
     private FrameLayout touchInterceptor;
 
     private Context mContext;
+    private Activity mActivity;
     private SearchManager searchManager;
     private android.widget.SearchView searchView;
     private ExpandableListView myList;
@@ -97,6 +99,7 @@ public class SearchFragment extends Fragment implements SearchInterface,
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         // Defines the xml file for the fragment
         mContext = parent.getContext();
+        mActivity = getActivity();
         touchInterceptor = new FrameLayout(mContext);
         touchInterceptor.setClickable(true);
         TimelineActivity.updateFavCollegeListSearchInterface(this);
@@ -149,18 +152,7 @@ public class SearchFragment extends Fragment implements SearchInterface,
                 break;
             case R.id.map:
                 // The list of 'liked' colleges is can simply be sent to map activity
-                Intent i = new Intent(mContext, MapActivity.class);
-                Bundle bundle = new Bundle();
-                if (filteredColleges == null) {
-                    filteredColleges = everyCollege;
-                }
-                bundle.putParcelableArrayList("favoritedList", filteredColleges);
-                bundle.putParcelableArrayList("everyCollege", everyCollege);
-                i.putExtras(bundle);
-                i.putExtra(SEARCH_MAP_CODE_KEY, SEARCH_MAP_CODE);
-                i.putExtra(QUERY_CODE, query);
-                MapActivity.setCollegeAdapter(collegeAdapter);
-                startActivityForResult(i, REQUEST_MAP_CODE);
+                presentActivity(mView);
                 break;
         }
         return true;
@@ -435,4 +427,28 @@ public class SearchFragment extends Fragment implements SearchInterface,
         isDetailsOpened = isOpened;
     }
 
+    //--------------------Animation---------------------
+    public void presentActivity(View view) {
+        ActivityOptionsCompat options = ActivityOptionsCompat.
+                makeSceneTransitionAnimation(mActivity, view, "transition");
+
+        int revealX = (int) (view.getX() + view.getWidth() / 2);
+        int revealY = (int) (view.getY() + view.getHeight() / 2);
+
+        Intent i = new Intent(mContext, MapActivity.class);
+        Bundle bundle = new Bundle();
+        if (filteredColleges == null) {
+            filteredColleges = everyCollege;
+        }
+        bundle.putParcelableArrayList("favoritedList", filteredColleges);
+        bundle.putParcelableArrayList("everyCollege", everyCollege);
+        i.putExtras(bundle);
+        i.putExtra(SEARCH_MAP_CODE_KEY, SEARCH_MAP_CODE);
+        i.putExtra(QUERY_CODE, query);
+        MapActivity.setCollegeAdapter(collegeAdapter);
+        i.putExtra(MapActivity.EXTRA_CIRCULAR_REVEAL_X, revealX);
+        i.putExtra(MapActivity.EXTRA_CIRCULAR_REVEAL_Y, revealY);
+
+        startActivityForResult(i, REQUEST_MAP_CODE);
+    }
 }
