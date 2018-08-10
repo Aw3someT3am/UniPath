@@ -26,6 +26,7 @@ public class SearchFilteringDialog extends AppCompatActivity implements AdapterV
     private Spinner spAcceptanceRate;
     private Spinner spState;
     private Button bvSearch;
+    private Intent intent;
 
     private ArrayAdapter<CharSequence> sizeAdapter;
     private ArrayAdapter<CharSequence> inStateCostAdapter;
@@ -39,6 +40,9 @@ public class SearchFilteringDialog extends AppCompatActivity implements AdapterV
     private int acceptanceRate = 0;
     private String state = Constants.STATE_DEFAULT;
 
+    private final String CODE_KEY = "Itsa me, Mario!";
+    private final String CODE_YES_SEARCH = "Nighty nighty. Ah spaghetti. Ah, ravioli. Ahh, mama mia.";
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +51,8 @@ public class SearchFilteringDialog extends AppCompatActivity implements AdapterV
         this.setFinishOnTouchOutside(true);
 
         setSize();
+
+        intent = getIntent();
 
         spSize = findViewById(R.id.spCollegeSize);
         spInStateCost = findViewById(R.id.spInStateCost);
@@ -123,13 +129,23 @@ public class SearchFilteringDialog extends AppCompatActivity implements AdapterV
 
     @Override
     public void getFilters(int size, int inStateCost, int outStateCost, int acceptanceRate, String state) {
-        Intent intent = new Intent(this, SearchFragment.class);
-        intent.putExtra(Constants.SIZE, size);
-        intent.putExtra(Constants.IN_STATE_COST, inStateCost);
-        intent.putExtra(Constants.OUT_STATE_COST, outStateCost);
-        intent.putExtra(Constants.ACCEPTANCE_RATE, acceptanceRate);
-        intent.putExtra(Constants.STATE, state);
-        setResult(RESULT_OK, intent);
+        if (!(intent.getStringExtra(CODE_KEY) == null) && intent.getStringExtra(CODE_KEY).equals(CODE_YES_SEARCH)) {
+            Intent intent = new Intent(this, SearchFragment.class);
+            intent.putExtra(Constants.SIZE, size);
+            intent.putExtra(Constants.IN_STATE_COST, inStateCost);
+            intent.putExtra(Constants.OUT_STATE_COST, outStateCost);
+            intent.putExtra(Constants.ACCEPTANCE_RATE, acceptanceRate);
+            intent.putExtra(Constants.STATE, state);
+            setResult(RESULT_OK, intent);
+        } else {
+            Intent intent = new Intent(this, MapActivity.class);
+            intent.putExtra(Constants.SIZE, size);
+            intent.putExtra(Constants.IN_STATE_COST, inStateCost);
+            intent.putExtra(Constants.OUT_STATE_COST, outStateCost);
+            intent.putExtra(Constants.ACCEPTANCE_RATE, acceptanceRate);
+            intent.putExtra(Constants.STATE, state);
+            setResult(RESULT_OK, intent);
+        }
         finish();
     }
 }

@@ -13,6 +13,8 @@ import android.os.Looper;
 import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.view.MenuItemCompat;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.text.TextUtils;
@@ -53,6 +55,9 @@ import me.juliasson.unipath.Manifest;
 import me.juliasson.unipath.R;
 import me.juliasson.unipath.adapters.CollegeAdapter;
 import me.juliasson.unipath.adapters.CustomInfoWindowAdapter;
+import me.juliasson.unipath.fragments.SearchFragment;
+import me.juliasson.unipath.internal.MapSearchInterface;
+import me.juliasson.unipath.internal.SearchInterface;
 import me.juliasson.unipath.model.College;
 import me.juliasson.unipath.utils.Constants;
 import permissions.dispatcher.NeedsPermission;
@@ -63,21 +68,24 @@ import static com.google.android.gms.location.LocationServices.getFusedLocationP
 @RuntimePermissions
 public class MapActivity extends AppCompatActivity implements
         GoogleMap.OnMapLongClickListener,
-        GoogleMap.OnMarkerClickListener {
+        GoogleMap.OnMarkerClickListener,
+        SearchInterface {
 
     private SupportMapFragment mapFragment;
     private GoogleMap map;
     private LocationRequest mLocationRequest;
     private Location mCurrentLocation;
-    private ArrayList<College> everyCollege;
-    private CollegeAdapter collegeAdapter;
+    private static CollegeAdapter collegeAdapter;
     private long UPDATE_INTERVAL = 60000;  /* 60 secs */
     private long FASTEST_INTERVAL = 5000; /* 5 secs */
     private final static String KEY_LOCATION = "location";
     private static final LatLng center_us = new LatLng(39.809860, -98.555183);
+    private static MapSearchInterface mapSearchInterface;
 
     private List<LatLng> mLocationsList = new ArrayList<>();
     private ArrayList<College> filteredColleges;
+    private ArrayList<College> everyCollege =  new ArrayList<>();
+    private ArrayList<College> refreshList;
 
     private int sizeIndex = -1;
     private int inStateCostIndex = -1;
@@ -90,12 +98,28 @@ public class MapActivity extends AppCompatActivity implements
     private String query = "";
     private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
 
+    private String code = "";
+    private final String CODE_KEY = "Itsa me, Mario!";
+    private final String CODE_YES_SEARCH = "Nighty nighty. Ah spaghetti. Ah, ravioli. Ahh, mama mia.";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
-//        getSupportActionBar().hide();
+
+        CollegeAdapter.setSearchInterface(this);
+
+        code = getIntent().getStringExtra(CODE_KEY);
+        if (code != null && code.equals(CODE_YES_SEARCH)) {
+            getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+            getSupportActionBar().setCustomView(R.layout.toolbar_action_bar);
+        } else {
+            getSupportActionBar().hide();
+        }
+
+        filteredColleges = this.getIntent().getParcelableArrayListExtra("favoritedList");
+        everyCollege = this.getIntent().getParcelableArrayListExtra("everyCollege");
+        refreshList = new ArrayList<>(filteredColleges);
 
         if (TextUtils.isEmpty(getResources().getString(R.string.google_maps_api_key))) {
             throw new IllegalStateException("You forgot to supply a Google Maps API key ya dummy");
@@ -123,10 +147,7 @@ public class MapActivity extends AppCompatActivity implements
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-
-        String code = getIntent().getStringExtra("Itsa me, Mario!");
-
-        if (code != null && code.equals("Nighty nighty. Ah spaghetti. Ah, ravioli. Ahh, mama mia.")) {
+        if (code != null && code.equals(CODE_YES_SEARCH)) {
             getMenuInflater().inflate(R.menu.menu_map_search, menu);
         }
         return true;
@@ -134,18 +155,23 @@ public class MapActivity extends AppCompatActivity implements
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.search:
-//                SearchView searchView = (SearchView) MenuItemCompat.getActionView(item);
-//                search(searchView);
-                break;
-            case R.id.search_filter:
-                Intent intent = new Intent(MapActivity.this, SearchFilteringDialog.class);
-                startActivityForResult(intent, REQUEST_FILTER_CODE);
-                break;
-            case R.id.list:
-                finish();
-                break;
+        if (code != null && code.equals(CODE_YES_SEARCH)) {
+            switch (item.getItemId()) {
+                case R.id.search:
+                    SearchView searchView = (SearchView) MenuItemCompat.getActionView(item);
+                    search(searchView);
+                    break;
+                case R.id.search_filter:
+                    Intent intent = new Intent(MapActivity.this, SearchFilteringDialog.class);
+                    startActivityForResult(intent, REQUEST_FILTER_CODE);
+                    break;
+                case R.id.list:
+                    Intent i = new Intent(MapActivity.this, SearchFragment.class);
+                    i.putParcelableArrayListExtra("filteredColleges", refreshList);
+                    setResult(RESULT_OK, i);
+                    finish();
+                    break;
+            }
         }
         return true;
 
@@ -172,15 +198,14 @@ public class MapActivity extends AppCompatActivity implements
 
         if (collegeAdapter != null) {
             collegeAdapter.getFilter().filter(query.toLowerCase());
-            Log.d("Search", query);
-            System.out.print(query);
+            Log.d("MapActivity", query);
         }
         if (query.isEmpty()) {
-//            refreshList.clear();
-//            refreshList.addAll(colleges);
+            refreshList.clear();
+            refreshList.addAll(everyCollege);
         } else {
-//            refreshList.clear();
-//            refreshList.addAll(filteredColleges);
+            refreshList.clear();
+            refreshList.addAll(filteredColleges);
         }
     }
 
@@ -430,11 +455,10 @@ public class MapActivity extends AppCompatActivity implements
     }
 
     public void loadCollegeMarkers() {
-        filteredColleges = this.getIntent().getParcelableArrayListExtra("favoritedList");
 //        collegeAdapter = new CollegeAdapter(filteredColleges, sInterface, lrInterface, closlInterface, cdoInterface);
-        if (filteredColleges != null) {
-            for (int i = 0; i < filteredColleges.size(); i++) {
-                College college = filteredColleges.get(i);
+        if (refreshList != null) {
+            for (int i = 0; i < refreshList.size(); i++) {
+                College college = refreshList.get(i);
 
                 Log.d("college", college.getCollegeName());
 
@@ -468,6 +492,8 @@ public class MapActivity extends AppCompatActivity implements
             }
         }
     }
+
+
 
     //----------------------------Filter Dialog Responses-------------------------------
 
@@ -574,6 +600,22 @@ public class MapActivity extends AppCompatActivity implements
                 return "95";
         }
         return null;
+    }
+
+    @Override
+    public void setValues(ArrayList<College> filtered) {
+        filteredColleges = filtered;
+        refreshList = new ArrayList<>(filtered);
+        map.clear();
+        loadCollegeMarkers();
+    }
+
+    public static void setCollegeAdapter(CollegeAdapter collegeAdapter) {
+        MapActivity.collegeAdapter = collegeAdapter;
+    }
+
+    public static void setMapSearchInterface(MapSearchInterface searchInterface) {
+        mapSearchInterface = searchInterface;
     }
 
 }

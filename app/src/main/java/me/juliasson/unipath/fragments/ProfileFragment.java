@@ -152,6 +152,7 @@ public class ProfileFragment extends Fragment implements
                 Intent i = new Intent(mContext, MapActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putParcelableArrayList("favoritedList", colleges);
+                bundle.putParcelableArrayList("everyCollege", colleges);
                 i.putExtras(bundle);
                 startActivity(i);
             }
