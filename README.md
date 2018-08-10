@@ -43,7 +43,7 @@ The purpose of this app is to assist students and parents with finding and apply
   - [X] based on liking and unliking colleges
   - [X] based on checking and unchecking deadlines
   - [X] based on adding and removing deadlines
-- [ ] Financial Aid Calculator mock up
+- [X] Financial Aid Calculator mock up
 - [X] Pass in updated filtered list to map in search fragment
 - Minor goals:
   - Code: 
