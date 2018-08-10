@@ -171,10 +171,12 @@ public class NewDeadlineDialog extends AppCompatActivity {
                     });
 
                     Log.d(TAG, "onClick: Attempting to add object to database.");
-                    String date = DateTimeUtils.parseDateTime(assignedDate.toString(), DateTimeUtils.parseInputFormat, DateTimeUtils.parseOutputFormat);
+                    SimpleDateFormat format = new SimpleDateFormat("dd MM yyyy", Locale.ENGLISH);
+                    String parseDate = DateTimeUtils.parseDateTime(assignedDate.toString(), DateTimeUtils.parseInputFormat, DateTimeUtils.parseOutputFormat);
+                    String date = format.format(assignedDate);
                     FirebaseUser user = mAuth.getCurrentUser();
                     String userID = user.getUid();
-                    myRef.child(mContext.getString(R.string.dbnode_users)).child(userID).child("dates").child("custom_deadline").setValue(date);
+                    myRef.child(mContext.getString(R.string.dbnode_users)).child(userID).child("dates").child(chosenCollege.getCollegeName()).child(parseDate).setValue(date);
                     //toastMessage("Adding " + date + " to database...");
 
                     Deadline deadline = new Deadline();

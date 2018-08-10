@@ -13,7 +13,10 @@ import android.os.Looper;
 import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.view.MenuItemCompat;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
@@ -50,7 +53,11 @@ import java.util.List;
 
 import me.juliasson.unipath.Manifest;
 import me.juliasson.unipath.R;
+import me.juliasson.unipath.adapters.CollegeAdapter;
 import me.juliasson.unipath.adapters.CustomInfoWindowAdapter;
+import me.juliasson.unipath.fragments.SearchFragment;
+import me.juliasson.unipath.internal.MapSearchInterface;
+import me.juliasson.unipath.internal.SearchInterface;
 import me.juliasson.unipath.model.College;
 import me.juliasson.unipath.utils.Constants;
 import permissions.dispatcher.NeedsPermission;
@@ -61,48 +68,67 @@ import static com.google.android.gms.location.LocationServices.getFusedLocationP
 @RuntimePermissions
 public class MapActivity extends AppCompatActivity implements
         GoogleMap.OnMapLongClickListener,
-        GoogleMap.OnMarkerClickListener {
+        GoogleMap.OnMarkerClickListener,
+        SearchInterface {
 
     private SupportMapFragment mapFragment;
     private GoogleMap map;
     private LocationRequest mLocationRequest;
     private Location mCurrentLocation;
-    private ArrayList<College> everyCollege;
+    private static CollegeAdapter collegeAdapter;
     private long UPDATE_INTERVAL = 60000;  /* 60 secs */
     private long FASTEST_INTERVAL = 5000; /* 5 secs */
-
     private final static String KEY_LOCATION = "location";
-
     private static final LatLng center_us = new LatLng(39.809860, -98.555183);
+    private static MapSearchInterface mapSearchInterface;
 
     private List<LatLng> mLocationsList = new ArrayList<>();
     private ArrayList<College> filteredColleges;
+    private ArrayList<College> everyCollege =  new ArrayList<>();
+    private ArrayList<College> refreshList;
 
+    private int sizeIndex = -1;
+    private int inStateCostIndex = -1;
+    private int outStateCostIndex = -1;
+    private int acceptanceRateIndex = -1;
+    private String stateValue;
+    private final String DEFAULT_MAX_VAL = "2147483647";
+    private final String DEFAULT_MIN_VAL = "0";
     private static final int REQUEST_FILTER_CODE = 1034;
-
-
-    /*
-     * Define a request code to send to Google Play services This code is
-     * returned in Activity.onActivityResult
-     */
+    private String query = "";
     private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
+
+    private String code = "";
+    private final String CODE_KEY = "Itsa me, Mario!";
+    private final String CODE_YES_SEARCH = "Nighty nighty. Ah spaghetti. Ah, ravioli. Ahh, mama mia.";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
-//        getSupportActionBar().hide();
+
+        CollegeAdapter.setSearchInterface(this);
+
+        code = getIntent().getStringExtra(CODE_KEY);
+        if (code != null && code.equals(CODE_YES_SEARCH)) {
+            getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+            getSupportActionBar().setCustomView(R.layout.toolbar_action_bar);
+        } else {
+            getSupportActionBar().hide();
+        }
+
+        filteredColleges = this.getIntent().getParcelableArrayListExtra("favoritedList");
+        everyCollege = this.getIntent().getParcelableArrayListExtra("everyCollege");
+        refreshList = new ArrayList<>(filteredColleges);
 
         if (TextUtils.isEmpty(getResources().getString(R.string.google_maps_api_key))) {
             throw new IllegalStateException("You forgot to supply a Google Maps API key ya dummy");
         }
-
         if (savedInstanceState != null && savedInstanceState.keySet().contains(KEY_LOCATION)) {
             // Since KEY_LOCATION was found in the Bundle, we can be sure that mCurrentLocation
             // is not null.
             mCurrentLocation = savedInstanceState.getParcelable(KEY_LOCATION);
         }
-
         mapFragment = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map));
         if (mapFragment != null) {
             mapFragment.getMapAsync(new OnMapReadyCallback() {
@@ -113,7 +139,7 @@ public class MapActivity extends AppCompatActivity implements
                 }
             });
         } else {
-            Toast toast = Toast.makeText(this, "Error - Map Fragment was null!!", Toast.LENGTH_SHORT);
+            Toast toast = Toast.makeText(this, "Error - Map Fragment was null", Toast.LENGTH_SHORT);
             toast.setGravity(Gravity.TOP|Gravity.CENTER_HORIZONTAL, Constants.TOAST_X_OFFSET, Constants.TOAST_Y_OFFSET);
             toast.show();
         }
@@ -121,40 +147,66 @@ public class MapActivity extends AppCompatActivity implements
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_map_search, menu);
-//        MenuItem mapButton = menu.findItem(R.id.map);
-//        mapButton.setVisible(true);
-//        MenuItem listButton = menu.findItem(R.id.list);
-//        listButton.setVisible(false);
+        if (code != null && code.equals(CODE_YES_SEARCH)) {
+            getMenuInflater().inflate(R.menu.menu_map_search, menu);
+        }
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.search:
-//                SearchView searchView = (SearchView) MenuItemCompat.getActionView(item);
-//                search(searchView);
-                break;
-            case R.id.search_filter:
-                Intent intent = new Intent(MapActivity.this, SearchFilteringDialog.class);
-                startActivityForResult(intent, REQUEST_FILTER_CODE);
-                break;
-            case R.id.list:
-                // The list of 'liked' colleges is can simply be sent to map activity
-                finish();
-
-//                FragmentTransaction ft = getSupportFragmentManager().beginTransaction()
-//                        .replace(R.id.activity_map, new SearchFragment()).commit();;
-//                Bundle bundle = new Bundle();
-//                if (filteredColleges == null) { filteredColleges = colleges; }
-//                bundle.putParcelableArrayList("favoritedList", filteredColleges);
-//                i.putExtras(bundle);
-//                startActivity(i);
-                break;
+        if (code != null && code.equals(CODE_YES_SEARCH)) {
+            switch (item.getItemId()) {
+                case R.id.search:
+                    SearchView searchView = (SearchView) MenuItemCompat.getActionView(item);
+                    search(searchView);
+                    break;
+                case R.id.search_filter:
+                    Intent intent = new Intent(MapActivity.this, SearchFilteringDialog.class);
+                    startActivityForResult(intent, REQUEST_FILTER_CODE);
+                    break;
+                case R.id.list:
+                    Intent i = new Intent(MapActivity.this, SearchFragment.class);
+                    i.putParcelableArrayListExtra("filteredColleges", refreshList);
+                    setResult(RESULT_OK, i);
+                    finish();
+                    break;
+            }
         }
         return true;
 
+    }
+
+    private void search(SearchView searchView) {
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                searchRef(newText);
+                return false;
+            }
+        });
+    }
+
+    public void searchRef(String query) {
+        this.query = query;
+
+        if (collegeAdapter != null) {
+            collegeAdapter.getFilter().filter(query.toLowerCase());
+            Log.d("MapActivity", query);
+        }
+        if (query.isEmpty()) {
+            refreshList.clear();
+            refreshList.addAll(everyCollege);
+        } else {
+            refreshList.clear();
+            refreshList.addAll(filteredColleges);
+        }
     }
 
     protected void loadMap(GoogleMap googleMap) {
@@ -403,10 +455,10 @@ public class MapActivity extends AppCompatActivity implements
     }
 
     public void loadCollegeMarkers() {
-        filteredColleges = this.getIntent().getParcelableArrayListExtra("favoritedList");
-        if (filteredColleges != null) {
-            for (int i = 0; i < filteredColleges.size(); i++) {
-                College college = filteredColleges.get(i);
+//        collegeAdapter = new CollegeAdapter(filteredColleges, sInterface, lrInterface, closlInterface, cdoInterface);
+        if (refreshList != null) {
+            for (int i = 0; i < refreshList.size(); i++) {
+                College college = refreshList.get(i);
 
                 Log.d("college", college.getCollegeName());
 
@@ -440,4 +492,130 @@ public class MapActivity extends AppCompatActivity implements
             }
         }
     }
+
+
+
+    //----------------------------Filter Dialog Responses-------------------------------
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_FILTER_CODE && resultCode == RESULT_OK) {
+            //assign filter values
+            sizeIndex = data.getIntExtra(Constants.SIZE, 0);
+            String sizeValue = assignSizeValue(sizeIndex);
+
+            inStateCostIndex = data.getIntExtra(Constants.IN_STATE_COST, 0);
+            String isCostValue = assignCostValue(inStateCostIndex);
+
+            outStateCostIndex = data.getIntExtra(Constants.OUT_STATE_COST, 0);
+            String osCostValue = assignCostValue(outStateCostIndex);
+
+            acceptanceRateIndex = data.getIntExtra(Constants.ACCEPTANCE_RATE, 0);
+            String acceptanceRateValue = assignAcceptanceRateValue(acceptanceRateIndex);
+
+            stateValue = data.getStringExtra(Constants.STATE);
+
+            //use new values to filter college list
+            if (collegeAdapter != null) {
+                /*
+                CORRECT FORMAT TO PASS IN DATA FOR FILTERING:
+                "lower_bound_pop upper_bound_pop, lower_bound_iscost upper_bound_iscost, lower_bound_oscost upper_bound_oscost, acceptance_rate, address"
+                 */
+                String filter_string = String.format("%s, %s, %s, %s, %s", sizeValue, isCostValue, osCostValue, acceptanceRateValue, stateValue);
+                collegeAdapter.getSelectionFilter().filter(filter_string);
+            }
+        }
+    }
+
+    public String assignSizeValue(int sizeIndex) {
+        switch (sizeIndex) {
+            case 0:     //Any
+                return String.format("%s %s", DEFAULT_MIN_VAL, DEFAULT_MAX_VAL);
+            case 1:     //Small
+                return String.format("%s %s", DEFAULT_MIN_VAL, "5000");
+            case 2:     //Medium
+                return String.format("%s %s", "5000", "15000");
+            case 3:     //Large
+                return String.format("%s %s", "15000", DEFAULT_MAX_VAL);
+        }
+        return null;
+    }
+
+    public String assignCostValue(int costIndex) {
+        switch (costIndex) {
+            case 0:     //Any
+                return String.format("%s %s", DEFAULT_MIN_VAL, DEFAULT_MAX_VAL);
+            case 1:     //<$20k
+                return String.format("%s %s", DEFAULT_MIN_VAL, "20000");
+            case 2:     //$20k-$40k
+                return String.format("%s %s", "20000", "40000");
+            case 3:     //>$40k
+                return String.format("%s %s", "40000", DEFAULT_MAX_VAL);
+        }
+        return null;
+    }
+
+    public String assignAcceptanceRateValue(int acceptanceRateIndex) {
+        switch (acceptanceRateIndex) {
+            case 0:
+                return DEFAULT_MIN_VAL;
+            case 1:
+                return "5";
+            case 2:
+                return "10";
+            case 3:
+                return "15";
+            case 4:
+                return "20";
+            case 5:
+                return "25";
+            case 6:
+                return "30";
+            case 7:
+                return "35";
+            case 8:
+                return "40";
+            case 9:
+                return "45";
+            case 10:
+                return "50";
+            case 11:
+                return "55";
+            case 12:
+                return "60";
+            case 13:
+                return "65";
+            case 14:
+                return "70";
+            case 15:
+                return "75";
+            case 16:
+                return "80";
+            case 17:
+                return "85";
+            case 18:
+                return "90";
+            case 19:
+                return "95";
+        }
+        return null;
+    }
+
+    @Override
+    public void setValues(ArrayList<College> filtered) {
+        filteredColleges = filtered;
+        refreshList = new ArrayList<>(filtered);
+        map.clear();
+        loadCollegeMarkers();
+    }
+
+    public static void setCollegeAdapter(CollegeAdapter collegeAdapter) {
+        MapActivity.collegeAdapter = collegeAdapter;
+    }
+
+    public static void setMapSearchInterface(MapSearchInterface searchInterface) {
+        mapSearchInterface = searchInterface;
+    }
+
 }

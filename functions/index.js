@@ -4,11 +4,45 @@ let admin = require('firebase-admin');
 
 admin.initializeApp(functions.config().firebase);
 
-exports.sendNotification = functions.database.ref('/users/{userId}/dates/').onWrite((snapshot, context) => {
+var db = admin.database();
+var ref = db.ref("/users/{userId}/dates/");
 
+exports.sendNotification = functions.database.ref('/users/{userId}/dates/').onWrite((snapshot, context) => {
+  var rootRef = admin.database().ref('/users/{userId}/dates/');
 	// ///get the userId of the person receiving the notification because we need to get their token
 	const receiverId = context.params.userId;
 	console.log("receiverId: ", receiverId);
+
+  var dates;
+
+  rootRef.once('value').then(function(snapshot) {
+    // snapshot.forEach(function(childSnapshot) {
+    //   console.log(childSnapshot.key+": "+childSnapshot.val());
+    // });
+    dates = snapshot.val();
+    console.log("Node date: " + dates);
+    return true;
+  }).catch(function(error){
+    console.error(error);
+  });
+
+  // var dates;
+  // return admin.database().ref("/users/" + receiverId).once('value').then(function(snapshot) {
+  //   dates = snaphot.child("dates").val();
+  //   console.log("dates Node: ", dates);
+  // }).catch(function(error) {
+  //   console.error(error);
+  // });
+
+  var today = new Date();
+  var dd = today.getDate();
+  var mm = today.getMonth()+1; //January is 0!
+  var yyyy = today.getFullYear();
+
+  today = mm + '/' + dd + '/' + yyyy;
+  console.log(today);
+
+
 
   // const dates = context.ref.parent.child("Harvard").val();
   // console.log("dates: ", dates);
@@ -24,8 +58,7 @@ exports.sendNotification = functions.database.ref('/users/{userId}/dates/').onWr
   //
 	// 	///get the token of the user receiving the message
   return admin.database().ref("/users/" + receiverId).once('value').then(snap => {
-    const custom = snap.child("dates").child("custom_deadline").val();
-    console.log("custom date: ", custom);
+    const custom = snap.child("dates").val();
 
   		return admin.database().ref("/users/" + receiverId).once('value').then(snap => {
         const username = snap.child("username").val();

@@ -1,27 +1,27 @@
 package me.juliasson.unipath.model;
 
 public class Notify {
-    private String userNotified;
-    private String deadline;
+    private String title;
+    private String body;
 
-    public Notify(String userNotified, String deadline) {
-        this.deadline = deadline;
-        this.userNotified = userNotified;
+    public Notify(String title, String body) {
+        this.title = title;
+        this.body = body;
     }
 
-    public String getUserNotified() {
-        return userNotified;
+    public String getTitle() {
+        return title;
     }
 
-    public void setUserNotified(String userNotified) {
-        this.userNotified = userNotified;
+    public void setTitle(String title) {
+        this.title= title;
     }
 
-    public String getDeadline() {
-        return deadline;
+    public String getBody() {
+        return body;
     }
 
-    public void setDeadline(String deadline) {
-        this.deadline = deadline;
+    public void setBody(String body) {
+        this.body = body;
     }
 }
