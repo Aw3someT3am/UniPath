@@ -16,6 +16,8 @@ import com.google.firebase.messaging.RemoteMessage;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 import me.juliasson.unipath.activities.TimelineActivity;
 import me.juliasson.unipath.internal.NotificationInterface;
@@ -30,6 +32,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     private static NotificationInterface notificationInterface;
     private static Activity timelineActivity;
 
+    private Set<Notify> uniqueNotifications = new HashSet<>();
     private ArrayList<Notify> notifications = new ArrayList<>();
 
     @Override
@@ -95,11 +98,11 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
      * @param message
      */
     private void sendMessageNotification(String title, String message){
-//        for(Notify notification : notifications) {
-//            if(message.equals(notification.getBody())){
-//
-//            }
-//        }
+        uniqueNotifications.add(new Notify(title, message));
+        notifications.clear();
+        for (Notify notify : uniqueNotifications) {
+            notifications.add(notify);
+        }
 
         timelineActivity.runOnUiThread(new Runnable() {
             @Override
