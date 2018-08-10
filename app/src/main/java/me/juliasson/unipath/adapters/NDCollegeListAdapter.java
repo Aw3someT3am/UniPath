@@ -65,7 +65,6 @@ public class NDCollegeListAdapter extends RecyclerView.Adapter<NDCollegeListAdap
         public ImageView ivCollegeImage;
         public LikeButton lbLikeButton;
 
-
         public ViewHolder(View itemView) {
             super(itemView);
 

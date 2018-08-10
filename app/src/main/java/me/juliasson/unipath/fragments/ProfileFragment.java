@@ -150,6 +150,7 @@ public class ProfileFragment extends Fragment implements
             public void onClick(View view) {
                 view.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.image_view_click));
                 Intent intent = new Intent(mContext, NotificationsDialog.class);
+                intent.putParcelableArrayListExtra(Constants.KEY_NOTIFICATIONS, notifications);
                 startActivity(intent);
             }
         });

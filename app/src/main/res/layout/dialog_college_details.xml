@@ -56,7 +56,7 @@
                 android:shadowRadius="2.6"
                 android:text="@string/college_name"
                 android:layout_alignParentLeft="true"
-                android:layout_toLeftOf="@id/lbLikeButtonDetails"
+                android:layout_toLeftOf="@id/vContainerHeart"
                 android:textAppearance="@android:style/TextAppearance.Large"
                 android:textColor="@color/solid_white"
                 android:textStyle="bold" />

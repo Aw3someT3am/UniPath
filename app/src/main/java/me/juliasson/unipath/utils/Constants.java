@@ -21,4 +21,6 @@ public class Constants {
 
     public static final int TOAST_Y_OFFSET = 8;
     public static final int TOAST_X_OFFSET = 0;
+
+    public static final String KEY_NOTIFICATIONS = "notifications";
 }
