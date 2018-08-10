@@ -117,7 +117,7 @@ exports.sendNotification = functions.database.ref('/users/{userId}/dates/').onWr
                     },
                   };
 
-                  return admin.messaging().sendToDevice(token, payload);
+                  admin.messaging().sendToDevice(token, payload);
                 }
               }
             }

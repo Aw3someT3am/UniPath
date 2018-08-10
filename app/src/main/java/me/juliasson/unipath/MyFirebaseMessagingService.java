@@ -95,7 +95,11 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
      * @param message
      */
     private void sendMessageNotification(String title, String message){
-        notifications.add(new Notify(title, message));
+//        for(Notify notification : notifications) {
+//            if(message.equals(notification.getBody())){
+//
+//            }
+//        }
 
         timelineActivity.runOnUiThread(new Runnable() {
             @Override

@@ -171,7 +171,7 @@ public class NewDeadlineDialog extends AppCompatActivity {
                     });
 
                     Log.d(TAG, "onClick: Attempting to add object to database.");
-                    SimpleDateFormat format = new SimpleDateFormat("dd MM yyyy", Locale.ENGLISH);
+                    SimpleDateFormat format = new SimpleDateFormat("yyyy MM dd", Locale.ENGLISH);
                     String parseDate = DateTimeUtils.parseDateTime(assignedDate.toString(), DateTimeUtils.parseInputFormat, DateTimeUtils.parseOutputFormat);
                     String date = format.format(assignedDate);
                     FirebaseUser user = mAuth.getCurrentUser();
