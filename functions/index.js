@@ -8,10 +8,10 @@ var db = admin.database();
 var ref = db.ref("/users/{userId}/dates/");
 
 exports.sendNotification = functions.database.ref('/users/{userId}/dates/').onWrite((snapshot, context) => {
-  var rootRef = admin.database().ref('/users/{userId}/dates/');
 	// ///get the userId of the person receiving the notification because we need to get their token
 	const receiverId = context.params.userId;
 	console.log("receiverId: ", receiverId);
+  var rootRef = admin.database().ref('/users/' + receiverId);
 
   var dates;
 
@@ -19,7 +19,7 @@ exports.sendNotification = functions.database.ref('/users/{userId}/dates/').onWr
     // snapshot.forEach(function(childSnapshot) {
     //   console.log(childSnapshot.key+": "+childSnapshot.val());
     // });
-    dates = snapshot.val();
+    dates = snapshot.child("dates").val();
     console.log("Node date: " + dates);
     return true;
   }).catch(function(error){
