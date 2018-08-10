@@ -37,9 +37,11 @@ import com.parse.SaveCallback;
 
 import org.parceler.Parcels;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 
 import me.juliasson.unipath.R;
 import me.juliasson.unipath.activities.CollegeDetailsDialog;
@@ -506,11 +508,14 @@ public class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.ViewHold
                         });
 
                         Log.d(TAG, "onClick: Attempting to add object to database.");
-                        String date = DateTimeUtils.parseDateTime(relation.getDeadline().getDeadlineDate().toString(), DateTimeUtils.parseInputFormat, DateTimeUtils.parseOutputFormat);
+                        String parseDate = DateTimeUtils.parseDateTime(relation.getDeadline().getDeadlineDate().toString(), DateTimeUtils.parseInputFormat, DateTimeUtils.parseOutputFormat);
                         String collegeName = relation.getCollege().getCollegeName();
                         FirebaseUser user = mAuth.getCurrentUser();
                         String userID = user.getUid();
-                        myRef.child(mContext.getString(R.string.dbnode_users)).child(userID).child("dates").child(collegeName).child(date).setValue(true);
+
+                        SimpleDateFormat format = new SimpleDateFormat("dd MM yyyy", Locale.ENGLISH);
+                        String date = format.format(relation.getDeadline().getDeadlineDate());
+                        myRef.child(mContext.getString(R.string.dbnode_users)).child(userID).child("dates").child(collegeName).child(parseDate).setValue(date);
 
                         userDeadlineRelation.setCompleted(false);
                         userDeadlineRelation.setCollege(college);

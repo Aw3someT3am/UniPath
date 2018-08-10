@@ -24,6 +24,9 @@ import com.google.firebase.iid.FirebaseInstanceId;
 import com.parse.ParseUser;
 import com.squareup.otto.Subscribe;
 
+import java.util.ArrayList;
+
+import me.juliasson.unipath.MyFirebaseMessagingService;
 import me.juliasson.unipath.R;
 import me.juliasson.unipath.adapters.DDCollegeListAdapter;
 import me.juliasson.unipath.event.EventBus;
@@ -37,10 +40,13 @@ import me.juliasson.unipath.internal.GetCustomDeadlineAddedInterface;
 import me.juliasson.unipath.internal.GetDeadlineCheckedInterface;
 import me.juliasson.unipath.internal.GetDeadlineDeletedInterface;
 import me.juliasson.unipath.internal.GetIsProgressCompleteInterface;
+import me.juliasson.unipath.internal.NotificationInProfile;
+import me.juliasson.unipath.internal.NotificationInterface;
 import me.juliasson.unipath.internal.UpdateFavCollegeListCalendar;
 import me.juliasson.unipath.internal.UpdateFavCollegeListLinearTimeline;
 import me.juliasson.unipath.internal.UpdateFavCollegeListProfile;
 import me.juliasson.unipath.internal.UpdateProfileProgressBarInterface;
+import me.juliasson.unipath.model.Notify;
 import me.juliasson.unipath.view.VerticalPager;
 
 public class TimelineActivity extends AppCompatActivity implements
@@ -49,7 +55,8 @@ public class TimelineActivity extends AppCompatActivity implements
         GetDeadlineDeletedInterface,
         GetCollegeUnlikedFromProfileInterface,
         GetDeadlineCheckedInterface,
-        GetIsProgressCompleteInterface {
+        GetIsProgressCompleteInterface,
+        NotificationInterface {
 
     /**
      * Start page index. 0 - top page, 1 - central page, 2 - bottom page.
@@ -61,11 +68,13 @@ public class TimelineActivity extends AppCompatActivity implements
     private static UpdateFavCollegeListCalendar updateFavCollegeListInterfaceCalendar;
     private static UpdateFavCollegeListLinearTimeline updateFavCollegeListInterfaceLinearTimeline;
     private static UpdateProfileProgressBarInterface updateProfileProgressBarInterface;
+    private static NotificationInProfile notificationInProfile;
 
     private static final String TAG = "TimelineActivity";
     private int size;
     private int velocitySlow, velocityNormal, velocityFast;
     private Bitmap bitmap;
+    private ArrayList<Notify> notifications;
 
     protected ViewGroup container;
     protected int goldDark, goldMed, gold, goldLight;
@@ -86,6 +95,8 @@ public class TimelineActivity extends AppCompatActivity implements
         ProfileFragment.setUnlikedFromProfileInterface(this);
         ProfileFragment.setIsProgressCompleteInterface(this);
         LinearTimelineFragment.setDcInterfaceFromTimelineActivity(this);
+        MyFirebaseMessagingService.setNotificationInterface(this);
+        MyFirebaseMessagingService.setTimelineActivity(this);
 
         findViews();
         initFCM();
@@ -266,6 +277,13 @@ public class TimelineActivity extends AppCompatActivity implements
         }
     }
 
+    @Override
+    public void setValues(ArrayList<Notify> notifications) {
+        this.notifications = notifications;
+        notificationInProfile.setNotifications(notifications);
+        Log.d("TimelineActivity", Integer.toString(notifications.size()));
+    }
+
     public static void updateFavCollegeListInterfaceProfile(UpdateFavCollegeListProfile listInterface) {
         updateFavCollegeListInterfaceProfile = listInterface;
     }
@@ -281,4 +299,9 @@ public class TimelineActivity extends AppCompatActivity implements
     public static void updateProfileProgressBarInterface(UpdateProfileProgressBarInterface listInterface) {
         updateProfileProgressBarInterface = listInterface;
     }
+
+    public static void updateNotifications(NotificationInProfile listInterface) {
+        notificationInProfile = listInterface;
+    }
+
 }

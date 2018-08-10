@@ -51,7 +51,7 @@ import me.juliasson.unipath.adapters.CollegeAdapter;
 import me.juliasson.unipath.internal.GetCollegeUnlikedFromProfileAdapterInterface;
 import me.juliasson.unipath.internal.GetCollegeUnlikedFromProfileInterface;
 import me.juliasson.unipath.internal.GetIsProgressCompleteInterface;
-import me.juliasson.unipath.internal.NotificationInterface;
+import me.juliasson.unipath.internal.NotificationInProfile;
 import me.juliasson.unipath.internal.UpdateFavCollegeListProfile;
 import me.juliasson.unipath.internal.UpdateProfileProgressBarInterface;
 import me.juliasson.unipath.model.College;
@@ -65,7 +65,7 @@ public class ProfileFragment extends Fragment implements
         UpdateFavCollegeListProfile,
         GetCollegeUnlikedFromProfileAdapterInterface,
         UpdateProfileProgressBarInterface,
-        NotificationInterface {
+        NotificationInProfile {
 
     private TextView tvProgressLabel;
     private ProgressBar pbProgress;
@@ -79,6 +79,7 @@ public class ProfileFragment extends Fragment implements
     private DiscreteScrollView scrollView;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
+    private TextView tvCounter;
 
     private static GetCollegeUnlikedFromProfileInterface unlikedFromProfileInterface;
     private static GetIsProgressCompleteInterface isProgressCompleteInterface;
@@ -88,7 +89,7 @@ public class ProfileFragment extends Fragment implements
 
     private CollegeAdapter collegeAdapter;
     private static ArrayList<College> colleges;
-    private ArrayList<Notify> notifications;
+    private ArrayList<Notify> notifications = new ArrayList<>();
 
     private static final String TAG = "ProfileFragment";
 
@@ -106,6 +107,7 @@ public class ProfileFragment extends Fragment implements
         mTimelineActivity=(TimelineActivity) getActivity();
         TimelineActivity.updateFavCollegeListInterfaceProfile(this);
         TimelineActivity.updateProfileProgressBarInterface(this);
+        TimelineActivity.updateNotifications(this);
 
         return inflater.inflate(R.layout.fragment_profile, parent, false);
     }
@@ -127,10 +129,12 @@ public class ProfileFragment extends Fragment implements
         bvFavoritesMap = view.findViewById(R.id.mapFavorites);
         ivForward = view.findViewById(R.id.ivForward);
         ivBack = view.findViewById(R.id.ivBack);
+        tvCounter = view.findViewById(R.id.tvCounter);
 
         scrollView = view.findViewById(R.id.picker);
         scrollView.setOrientation(DSVOrientation.HORIZONTAL);
         scrollView.setItemTransitionTimeMillis(SCROLL_VIEW_TRANSITION_TIME);
+        tvCounter.setText(Integer.toString(notifications.size()));
 
         colleges = new ArrayList<>();
         collegeAdapter = new CollegeAdapter(colleges, this);
@@ -416,8 +420,17 @@ public class ProfileFragment extends Fragment implements
         isProgressCompleteInterface = completeInterface;
     }
 
+//    public static void updateNotifications(ArrayList<Notify> notifications) {
+//        tvCounter.setText(Integer.toString(notifications.size()));
+//    }
+
+    public void refreshCounter() {
+        tvCounter.setText(String.format("%s", Integer.toString(notifications.size())));
+    }
+
     @Override
-    public void setValues(ArrayList<Notify> notifications) {
+    public void setNotifications(ArrayList<Notify> notifications) {
         this.notifications = notifications;
+        refreshCounter();
     }
 }

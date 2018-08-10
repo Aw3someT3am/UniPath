@@ -1,5 +1,6 @@
 package me.juliasson.unipath;
 
+import android.app.Activity;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -14,8 +15,11 @@ import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.parse.ParseUser;
 
+import java.util.ArrayList;
+
 import me.juliasson.unipath.activities.TimelineActivity;
 import me.juliasson.unipath.internal.NotificationInterface;
+import me.juliasson.unipath.model.Notify;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
@@ -23,7 +27,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     private static final int BROADCAST_NOTIFICATION_ID = 1;
 
     private ParseUser user;
-    private NotificationInterface notificationInterface;
+    private static NotificationInterface notificationInterface;
+    private static Activity timelineActivity;
+
+    private ArrayList<Notify> notifications = new ArrayList<>();
 
     @Override
     public void onDeletedMessages() {
@@ -76,9 +83,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 //            String messageId = remoteMessage.getData().get(getString(R.string.data_message_id));
 //            sendMessageNotification(title, message);
 //        }
-        String title = "String";
+        String title = user.getUsername();
         String message = notificationBody;
         sendMessageNotification(title, message);
+
     }
 
     /**
@@ -87,6 +95,17 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
      * @param message
      */
     private void sendMessageNotification(String title, String message){
+        notifications.add(new Notify(title, message));
+
+        timelineActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                notificationInterface.setValues(notifications);
+                Log.d("MyFirebaseMessagingService", Integer.toString(notifications.size()));
+            }
+        });
+
+        //ProfileFragment.updateNotifications(notifications);
         Log.d(TAG, "sendChatmessageNotification: building a chatmessage notification");
 
         //get the notification id
@@ -181,4 +200,11 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         return notificationId;
     }
 
+    public static void setNotificationInterface(NotificationInterface notifInterface){
+        notificationInterface = notifInterface;
+    }
+
+    public static void setTimelineActivity(TimelineActivity activity) {
+        timelineActivity = activity;
+    }
 }
