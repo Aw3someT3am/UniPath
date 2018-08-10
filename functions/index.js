@@ -11,21 +11,21 @@ exports.sendNotification = functions.database.ref('/users/{userId}/dates/').onWr
 	// ///get the userId of the person receiving the notification because we need to get their token
 	const receiverId = context.params.userId;
 	console.log("receiverId: ", receiverId);
-  var rootRef = admin.database().ref('/users/' + receiverId);
+  const rootRef = admin.database().ref('/users/' + receiverId);
 
   var dates;
 
-  rootRef.once('value').then(function(snapshot) {
+  rootRef.once('value').then(snap => {
     // snapshot.forEach(function(childSnapshot) {
     //   console.log(childSnapshot.key+": "+childSnapshot.val());
     // });
-    dates = snapshot.child("dates").val();
-    console.log("Node date: " + dates);
+    dates = snap.child("dates").val();
+    console.log('JSON.stringify',dates);
     return true;
   }).catch(function(error){
     console.error(error);
   });
-
+  //console.log("First: " + Object.keys(dates)[0]);
   // var dates;
   // return admin.database().ref("/users/" + receiverId).once('value').then(function(snapshot) {
   //   dates = snaphot.child("dates").val();
@@ -39,7 +39,7 @@ exports.sendNotification = functions.database.ref('/users/{userId}/dates/').onWr
   var mm = today.getMonth()+1; //January is 0!
   var yyyy = today.getFullYear();
 
-  today = mm + '/' + dd + '/' + yyyy;
+  today = mm + ' ' + dd + ' ' + yyyy;
   console.log(today);
 
 
@@ -59,6 +59,7 @@ exports.sendNotification = functions.database.ref('/users/{userId}/dates/').onWr
 	// 	///get the token of the user receiving the message
   return admin.database().ref("/users/" + receiverId).once('value').then(snap => {
     const custom = snap.child("dates").val();
+    console.log("Node date: " + JSON.stringify(custom));
 
   		return admin.database().ref("/users/" + receiverId).once('value').then(snap => {
         const username = snap.child("username").val();
@@ -83,21 +84,58 @@ exports.sendNotification = functions.database.ref('/users/{userId}/dates/').onWr
             //   },
             //   topic: 'industry-tech'
             // };
+            var len = dates.length;
+            var i;
+            for (i = 0; i < len; i++) {
+              var d = dates[Object.keys(dates)[i]];
+              console.log("Date: " + d);
+            }
 
-            const payload = {
-              // data: {
-              //   data_type: 'reminder',
-              //   title: "Hey " + username + "!",
-              //   message: "Deadline coming up",
-              //   //icon: 'https://github.com/Aw3someT3am/UniPath/blob/master/app/src/main/up_icon_design-web.png'
-              // },
-              notification: {
-                title: "Hey " + username + "!",
-                body: "Deadline coming up: " + custom
-              },
-            };
+            for (const key of Object.keys(dates)) {
+              var da = dates[key];
+              console.log(key, da);
+              for (const key1 of Object.keys(da)) {
+                console.log(da[key1].replace(/ /g,'/'));
+                var diff = Math.abs(new Date() - new Date(da[key1].replace(/ /g,'/')));
+                var days, hours, minutes, seconds, total_hours, total_minutes, total_seconds;
+                total_seconds = parseInt(Math.floor(diff / 1000));
+                total_minutes = parseInt(Math.floor(total_seconds / 60));
+                total_hours = parseInt(Math.floor(total_minutes / 60));
+                days = parseInt(Math.floor(total_hours / 24));
+                console.log(key, key1, da[key1], days);
+                if(days< 300) {
+                  const payload = {
+                    // data: {
+                    //   data_type: 'reminder',
+                    //   title: "Hey " + username + "!",
+                    //   message: "Deadline coming up",
+                    //   //icon: 'https://github.com/Aw3someT3am/UniPath/blob/master/app/src/main/up_icon_design-web.png'
+                    // },
+                    notification: {
+                      title: "Hey " + username + "!",
+                      body: "Deadline coming up: " + key + " on " + da[key1]
+                    },
+                  };
 
-            return admin.messaging().sendToDevice(token, payload);
+                  return admin.messaging().sendToDevice(token, payload);
+                }
+              }
+            }
+
+            // var deadline = dates[Object.keys(dates)[1]];
+            // var date = deadline[Object.keys(deadline)[0]];
+            // console.log("Deadline: " + JSON.stringify(deadline));
+            // console.log("Date of Deadline: "+ date);
+            // var c, d;
+            // for (college in custom) {
+            //   for(date in college) {
+            //     c = college;
+            //     d = date;
+            //     console.log("college: " + c + " Date: " + d);
+            //   }
+            // }
+
+            return true;
           });
 
         });
