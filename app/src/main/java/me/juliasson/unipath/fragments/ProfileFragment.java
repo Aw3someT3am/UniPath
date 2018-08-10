@@ -22,6 +22,7 @@ import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -46,6 +47,7 @@ import me.juliasson.unipath.R;
 import me.juliasson.unipath.activities.LoginActivity;
 import me.juliasson.unipath.activities.MapActivity;
 import me.juliasson.unipath.activities.NewDeadlineDialog;
+import me.juliasson.unipath.activities.NotificationsDialog;
 import me.juliasson.unipath.activities.TimelineActivity;
 import me.juliasson.unipath.adapters.CollegeAdapter;
 import me.juliasson.unipath.internal.GetCollegeUnlikedFromProfileAdapterInterface;
@@ -65,7 +67,8 @@ public class ProfileFragment extends Fragment implements
         UpdateFavCollegeListProfile,
         GetCollegeUnlikedFromProfileAdapterInterface,
         UpdateProfileProgressBarInterface,
-        NotificationInProfile {
+        NotificationInProfile,
+        DiscreteScrollView.OnItemChangedListener<CollegeAdapter.ViewHolder> {
 
     private TextView tvProgressLabel;
     private ProgressBar pbProgress;
@@ -80,7 +83,9 @@ public class ProfileFragment extends Fragment implements
     private DiscreteScrollView scrollView;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
+
     private TextView tvCounter;
+    private RelativeLayout rlBadgeNotification;
 
     private static GetCollegeUnlikedFromProfileInterface unlikedFromProfileInterface;
     private static GetIsProgressCompleteInterface isProgressCompleteInterface;
@@ -132,14 +137,25 @@ public class ProfileFragment extends Fragment implements
         ivForward = view.findViewById(R.id.ivForward);
         ivBack = view.findViewById(R.id.ivBack);
         tvCounter = view.findViewById(R.id.tvCounter);
+        rlBadgeNotification = view.findViewById(R.id.bagde_notification);
 
         scrollView = view.findViewById(R.id.picker);
         scrollView.setOrientation(DSVOrientation.HORIZONTAL);
         scrollView.setItemTransitionTimeMillis(SCROLL_VIEW_TRANSITION_TIME);
+        scrollView.addOnItemChangedListener(this);
+
         tvCounter.setText(Integer.toString(notifications.size()));
+        rlBadgeNotification.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                view.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.image_view_click));
+                Intent intent = new Intent(mContext, NotificationsDialog.class);
+                startActivity(intent);
+            }
+        });
 
         colleges = new ArrayList<>();
-        collegeAdapter = new CollegeAdapter(colleges, this);
+        collegeAdapter = new CollegeAdapter(colleges, this, true);
         //InfiniteScrollAdapter wrapper = InfiniteScrollAdapter.wrap(collegeAdapter);
         scrollView.setAdapter(collegeAdapter);
 
@@ -147,6 +163,7 @@ public class ProfileFragment extends Fragment implements
 
         //set up of favorite colleges list
         loadFavoriteColleges();
+        //initializeArrows();
 
         bvFavoritesMap.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -169,8 +186,8 @@ public class ProfileFragment extends Fragment implements
                 Boolean scroll = scrollView.fling(10, 0);
                 if (scrollView.getCurrentItem() < colleges.size() - 1) {
                     scrollView.smoothScrollToPosition(scrollView.getCurrentItem() + 1);
+                    Log.d("ProfileFragment AFTER", Integer.toString(scrollView.getCurrentItem()));
                 }
-
             }
         });
 
@@ -181,8 +198,6 @@ public class ProfileFragment extends Fragment implements
                 Boolean scroll = scrollView.fling(10, 0);
                 if (scrollView.getCurrentItem() >= 1) {
                     scrollView.smoothScrollToPosition(scrollView.getCurrentItem() - 1);
-//                  ObjectAnimator.ofInt(scrollView, "scrollX",  scrollView.getCurrentItem() - 1).setDuration(500).start();
-
                 }
             }
         });
@@ -448,5 +463,19 @@ public class ProfileFragment extends Fragment implements
     public void setNotifications(ArrayList<Notify> notifications) {
         this.notifications = notifications;
         refreshCounter();
+    }
+
+    @Override
+    public void onCurrentItemChanged(@Nullable CollegeAdapter.ViewHolder viewHolder, int adapterPosition) {
+        if (adapterPosition == colleges.size() - 1) {
+            ivForward.setVisibility(View.INVISIBLE);
+        } else {
+            ivForward.setVisibility(View.VISIBLE);
+        }
+        if (adapterPosition <= 0) {
+            ivBack.setVisibility(View.INVISIBLE);
+        } else {
+            ivBack.setVisibility(View.VISIBLE);
+        }
     }
 }

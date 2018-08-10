@@ -82,6 +82,8 @@ public class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.ViewHold
     private static GetCollegeUnlikedFromProfileAdapterInterface unlikedFromProfileAdapterInterface;
     private static GetItemDetailOpenedInterface collegeDetailOpenedInterface;
 
+    private boolean mIsProfileFragment = false;
+
     public CollegeAdapter(ArrayList<College> arrayList,
                           SearchInterface searchInterface,
                           LikedRefreshInterface likedRefreshInterface,
@@ -97,10 +99,13 @@ public class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.ViewHold
 
     Button mapsButton;
 
-    public CollegeAdapter(ArrayList<College> arrayList, GetCollegeUnlikedFromProfileAdapterInterface unlikedFromProfileadapterInterface) {
+    public CollegeAdapter(ArrayList<College> arrayList,
+                          GetCollegeUnlikedFromProfileAdapterInterface unlikedFromProfileadapterInterface,
+                          boolean isProfileFragment) {
         mColleges = arrayList;
         mFilteredList = arrayList;
         CollegeAdapter.unlikedFromProfileAdapterInterface = unlikedFromProfileadapterInterface;
+        mIsProfileFragment = isProfileFragment;
     }
 
     public CollegeAdapter(ArrayList<College> everyCollege) {
@@ -153,8 +158,11 @@ public class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.ViewHold
             @Override
             public void unLiked(LikeButton likeButton) {
                 removeUserCollegeRelation(college);
-                removeUserDeadlinesRelation(college);
-                likedOnSearchListView.getCollegeLikedOnSearchListView(true);
+                if (mIsProfileFragment) {
+                    removeUserDeadlinesRelationProfile(college);
+                } else {
+                    removeUserDeadlinesRelation(college);
+                }
             }
         });
 
@@ -400,6 +408,52 @@ public class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.ViewHold
      * @param college the college whose deadlines are being unrelated to the user.
      */
     public static void removeUserDeadlinesRelation(final College college) {
+        UserDeadlineRelation.Query udQuery = new UserDeadlineRelation.Query();
+        udQuery.getTop().withDeadline().withUser().withCollege();
+        udQuery.whereEqualTo(Constants.KEY_COLLEGE, college);
+        udQuery.whereEqualTo(Constants.KEY_USER, ParseUser.getCurrentUser());
+
+        udQuery.findInBackground(new FindCallback<UserDeadlineRelation>() {
+            @Override
+            public void done(List<UserDeadlineRelation> objects, ParseException e) {
+                if (e == null) {
+                    for (int i = 0; i < objects.size(); i++) {
+                        try {
+                            UserDeadlineRelation relation = objects.get(i);
+                            Log.d(TAG, "onClick: Attempting to add object to database.");
+                            String date = DateTimeUtils.parseDateTime(relation.getDeadline().getDeadlineDate().toString(), DateTimeUtils.parseInputFormat, DateTimeUtils.parseOutputFormat);
+                            String collegeName = relation.getCollege().getCollegeName();
+                            if(!date.equals("")){
+                                FirebaseUser user = mAuth.getCurrentUser();
+                                String userID = user.getUid();
+                                myRef.child(mContext.getString(R.string.dbnode_users)).child(userID).child("dates").child(collegeName).child(date).removeValue();
+                            }
+                            relation.delete();
+                            relation.saveInBackground(new SaveCallback() {
+                                @Override
+                                public void done(ParseException e) {
+                                    Log.d("College Adapter", "User Deadline Relation removed");
+                                }
+                            });
+                        } catch (ParseException o) {
+                            o.printStackTrace();
+                        }
+
+                    }
+                    likedOnSearchListView.getCollegeLikedOnSearchListView(true);
+                } else {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    /**
+     * Removes all UserDeadlineRelation rows from the parse-dashboard database based on inputted college.
+     * This should only be called if the adapter is related to ProfileFragment.
+     * @param college the college whose deadlines are being unrelated to the user.
+     */
+    public static void removeUserDeadlinesRelationProfile(final College college) {
         UserDeadlineRelation.Query udQuery = new UserDeadlineRelation.Query();
         udQuery.getTop().withDeadline().withUser().withCollege();
         udQuery.whereEqualTo(Constants.KEY_COLLEGE, college);
