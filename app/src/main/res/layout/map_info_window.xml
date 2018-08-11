@@ -17,7 +17,7 @@
         android:gravity="center"
         android:text="College Name"
         android:textAppearance="@android:style/TextAppearance.Medium"
-        android:textColor="@color/background_dark_orange"
+        android:textColor="@color/dark_grey"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
