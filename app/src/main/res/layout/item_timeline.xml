@@ -25,7 +25,7 @@
         android:layout_marginBottom="15dp"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="15dp"
-        app:cardBackgroundColor="@color/transparent"
+        app:cardBackgroundColor="@color/grey"
         app:cardElevation="7dp"
         app:contentPadding="15dp">
 
@@ -45,9 +45,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="8dp"
-                    android:fontFamily="@font/lato"
+                    android:fontFamily="@font/lustria"
                     android:textAppearance="@android:style/TextAppearance.Large"
                     android:textColor="@color/solid_white"
+                    android:textSize="18sp"
                     tools:text="24 JAN" />
 
             </LinearLayout>

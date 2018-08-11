@@ -40,6 +40,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:gravity="center_horizontal"
+            android:fontFamily="@font/lustria"
             android:text="No deadlines"
             android:textAppearance="@android:style/TextAppearance.Small"
             android:textColor="@color/white_80_transparent"

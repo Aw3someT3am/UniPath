@@ -7,7 +7,7 @@ import java.util.Locale;
 
 public class DateTimeUtils {
     public static String parseInputFormat = "EEE MMM dd HH:mm:ss ZZZZZ yyyy";
-    public static String parseOutputFormat = "dd MMM yyyy";
+    public static String parseOutputFormat = "MMMM d, yyyy";
 
     public static String parseDateTime(String dateString, String originalFormat, String outputFormat){
 

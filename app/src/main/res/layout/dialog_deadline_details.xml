@@ -24,6 +24,8 @@
             android:text = "@string/date"
             android:textAppearance="@android:style/TextAppearance.Large"
             android:textStyle="bold"
+            android:gravity="center_horizontal"
+            android:fontFamily="@font/lustria"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"

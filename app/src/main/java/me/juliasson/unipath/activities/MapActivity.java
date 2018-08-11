@@ -1,5 +1,6 @@
 package me.juliasson.unipath.activities;
 
+import android.Manifest;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.content.Intent;
@@ -54,7 +55,6 @@ import org.parceler.Parcels;
 import java.util.ArrayList;
 import java.util.List;
 
-import me.juliasson.unipath.Manifest;
 import me.juliasson.unipath.R;
 import me.juliasson.unipath.adapters.CollegeAdapter;
 import me.juliasson.unipath.adapters.CustomInfoWindowAdapter;
