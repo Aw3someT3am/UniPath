@@ -230,7 +230,7 @@ public class MapActivity extends AppCompatActivity implements
 
             @Override
             public boolean onQueryTextChange(String newText) {
-
+                // Get query from SearchFragment if there is one already
                 if (firstSelection == true) {
                     searchRef(query);
                     firstSelection =  false;
@@ -457,8 +457,6 @@ public class MapActivity extends AppCompatActivity implements
             for (int i = 0; i < refreshList.size(); i++) {
                 College college = refreshList.get(i);
 
-                Log.d("college", college.getCollegeName());
-
                 // Note coords must have 6 decimal places to appear in correct location
                 Double lat = college.getLatitude();
                 Double lng = college.getLongitude();
@@ -619,7 +617,7 @@ public class MapActivity extends AppCompatActivity implements
         float finalRadius = (float) (Math.max(rootLayout.getWidth(), rootLayout.getHeight()) * 1.1);
         // create the animator for this view (the start radius is zero)
         Animator circularReveal = ViewAnimationUtils.createCircularReveal(rootLayout, x, y, 0, finalRadius);
-        circularReveal.setDuration(500);
+        circularReveal.setDuration(200);
         circularReveal.setInterpolator(new AccelerateInterpolator());
         // make the view visible and start the animation
         rootLayout.setVisibility(View.VISIBLE);

@@ -4,6 +4,8 @@ import android.os.Parcelable;
 
 import org.parceler.Parcel;
 
+import java.util.Objects;
+
 @Parcel
 public class Notify implements Parcelable{
     private String title;
@@ -61,5 +63,18 @@ public class Notify implements Parcelable{
     public void writeToParcel(android.os.Parcel parcel, int i) {
         parcel.writeString(title);
         parcel.writeString(body);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Notify notify = (Notify) o;
+        return Objects.equals(body, notify.body);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(body);
     }
 }

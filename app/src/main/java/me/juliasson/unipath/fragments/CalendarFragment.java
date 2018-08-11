@@ -49,6 +49,7 @@ public class CalendarFragment extends Fragment implements UpdateFavCollegeListCa
     private Calendar currentCalender = Calendar.getInstance(Locale.getDefault());
     private SimpleDateFormat dateFormatForDisplaying = new SimpleDateFormat("dd-M-yyyy a", Locale.getDefault());
     private SimpleDateFormat dateFormatForMonth = new SimpleDateFormat("MMM - yyyy", Locale.getDefault());
+    private SimpleDateFormat fullDateFormatForMonth = new SimpleDateFormat("MMMM - yyyy", Locale.getDefault());
     private CompactCalendarView compactCalendarView;
     private TextView monthYearTv;
     private Button btnToday;
@@ -107,7 +108,7 @@ public class CalendarFragment extends Fragment implements UpdateFavCollegeListCa
         logEventsByMonth(compactCalendarView);
 
         //set initial title
-        monthYearTv.setText(dateFormatForMonth.format(compactCalendarView.getFirstDayOfCurrentMonth()));
+        monthYearTv.setText(fullDateFormatForMonth.format(compactCalendarView.getFirstDayOfCurrentMonth()));
 
         // remove hard-coded events
         compactCalendarView.removeAllEvents();
@@ -125,7 +126,7 @@ public class CalendarFragment extends Fragment implements UpdateFavCollegeListCa
             }
             @Override
             public void onMonthScroll(Date firstDayOfNewMonth) {
-                monthYearTv.setText(dateFormatForMonth.format(firstDayOfNewMonth));
+                monthYearTv.setText(fullDateFormatForMonth.format(firstDayOfNewMonth));
             }
 
         });
@@ -238,10 +239,11 @@ public class CalendarFragment extends Fragment implements UpdateFavCollegeListCa
     @Override
     public void onResume() {
         super.onResume();
-        monthYearTv.setText(dateFormatForMonth.format(compactCalendarView.getFirstDayOfCurrentMonth()));
+        monthYearTv.setText(fullDateFormatForMonth.format(compactCalendarView.getFirstDayOfCurrentMonth()));
         // Set to current day on resume to set calendar to latest day
-        monthYearTv.setText(dateFormatForMonth.format(new Date()));
+        monthYearTv.setText(fullDateFormatForMonth.format(new Date()));
     }
+
 
     private void loadEvents() {
         addEvents(-1, -1);
@@ -258,7 +260,7 @@ public class CalendarFragment extends Fragment implements UpdateFavCollegeListCa
     // Show pink circle on clicked day, load events into mutable bookings
     public void selectDay(Date dateClicked) {
         currentSelectedDate = dateClicked;
-        monthYearTv.setText(dateFormatForMonth.format(dateClicked));
+        monthYearTv.setText(fullDateFormatForMonth.format(dateClicked));
         List<Event> bookingsFromMap = compactCalendarView.getEvents(dateClicked);
         Log.d(TAG, "inside onclick " + dateFormatForDisplaying.format(dateClicked));
         if (bookingsFromMap != null) {
@@ -367,8 +369,7 @@ public class CalendarFragment extends Fragment implements UpdateFavCollegeListCa
                         Date date = deadline.getDeadlineDate();
 
                         // Create event for each deadline and add to CompactCalendarView
-                        Event event = new Event(Color.argb(255, 0 ,221, 255), date.getTime(), String.format("%s: %s", college, description.toUpperCase()));
-
+                        Event event = new Event(Color.argb(255, 255 ,100, 30), date.getTime(), String.format("%s: %s", college, description.toUpperCase()));
                         compactCalendarView.addEvent(event);
                         mDataList.add(relation);
 

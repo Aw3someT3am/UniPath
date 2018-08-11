@@ -71,25 +71,13 @@ exports.sendNotification = functions.database.ref('/users/{userId}/dates/').onWr
         // This registration token comes from the client FCM SDKs.
         //const registrationToken = 'c_DV0-f7imo:APA91bGGLfzuFXtEZWP35qd1Orw73EBE1D61r2JnUhGaCe4r0_YXXZvFueS30y8iO1wUXMhY3uH0GhanjX1gT86E_MGDVLXQLm1tWWpgiTr1fYpEgt8C1_sdtVPIQ918xJW9CHLdy-5Mu3veAyrNqFYIFSTWNCRA1Q';
 
-            // var message = {
-            //   android: {
-            //     ttl: 3600 * 1000, // 1 hour in milliseconds
-            //     priority: 'normal',
-            //     notification: {
-            //       title: "Hey " + username + "!",
-            //       body: "Deadline coming up",
-            //       icon: 'https://github.com/Aw3someT3am/UniPath/blob/master/app/src/main/up_icon_design-web.png',
-            //       //color: '#f45342'
-            //     }
-            //   },
-            //   topic: 'industry-tech'
-            // };
-            var len = dates.length;
-            var i;
-            for (i = 0; i < len; i++) {
-              var d = dates[Object.keys(dates)[i]];
-              console.log("Date: " + d);
-            }
+
+            // var len = dates.length;
+            // var i;
+            // for (i = 0; i < len; i++) {
+            //   var d = dates[Object.keys(dates)[i]];
+            //   console.log("Date: " + d);
+            // }
 
             for (const key of Object.keys(dates)) {
               var da = dates[key];
@@ -103,7 +91,7 @@ exports.sendNotification = functions.database.ref('/users/{userId}/dates/').onWr
                 total_hours = parseInt(Math.floor(total_minutes / 60));
                 days = parseInt(Math.floor(total_hours / 24));
                 console.log(key, key1, da[key1], days);
-                if(days< 300) {
+                if(days< 3) {
                   const payload = {
                     // data: {
                     //   data_type: 'reminder',
@@ -113,11 +101,11 @@ exports.sendNotification = functions.database.ref('/users/{userId}/dates/').onWr
                     // },
                     notification: {
                       title: "Hey " + username + "!",
-                      body: "Deadline coming up: " + key + " on " + da[key1]
+                      body: "Deadline coming up: " + key + " on " + key1
                     },
                   };
 
-                  return admin.messaging().sendToDevice(token, payload);
+                  admin.messaging().sendToDevice(token, payload);
                 }
               }
             }

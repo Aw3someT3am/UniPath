@@ -573,7 +573,7 @@ public class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.ViewHold
                         FirebaseUser user = mAuth.getCurrentUser();
                         String userID = user.getUid();
 
-                        SimpleDateFormat format = new SimpleDateFormat("dd MM yyyy", Locale.ENGLISH);
+                        SimpleDateFormat format = new SimpleDateFormat("yyyy MM dd", Locale.ENGLISH);
                         String date = format.format(relation.getDeadline().getDeadlineDate());
                         myRef.child(mContext.getString(R.string.dbnode_users)).child(userID).child("dates").child(collegeName).child(parseDate).setValue(date);
 
