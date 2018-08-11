@@ -1,17 +1,17 @@
 # UI CHANGES:
-- LINEAR TIMELINE: 
+- LINEAR TIMELINE: JULIA
   - [X] Change font to Lustria 
-  - [ ] Remove parallelogram in timeline item
-  - [ ] Checks instead of dots, make vertical line on timeline all the same color, make them slightly rounded squares.
+  - [X] Remove parallelogram in timeline item
+  - [X] Checks instead of dots, make vertical line on timeline all the same color, make them slightly rounded squares.
   - [X] (Month Date, Year) inside Timeline
-  - [ ] Edit event dots to be orange
-- TIMELINE DETAIL VIEW: 
-  - [ ] Change checks to orange
-  - [ ] Negative margin to align button with title of college
+  - [X] Edit event dots to be orange
+- TIMELINE DETAIL VIEW: JULIA
+  - [X] Change checks to orange
+  - [X] Negative margin to align button with title of college
   - [ ] Make text font as large as size of box
-  - [ ] make background the same grey as item in timeline
-  - [ ] Set fonts as lustria (compare to lato)
-  - [ ] Get rid of rounded transparent background
+  - [X] make background the same grey as item in timeline
+  - [X] Set fonts as lustria (compare to lato)
+  - [X] Get rid of rounded transparent background
 - PROFILE: KATHERINE
   - [ ] remove roundness
   - [ ] Notification pink
@@ -22,11 +22,11 @@
   - [ ] center profile pic and emails, rounded square it
   - [ ] progress is darker orange, back is lighter orange
   - [ ] drop padding color on favorites.
-  - [ ] drop the divider line
-  - [ ] update fonts to lustria
+  - [X] drop the divider line
+  - [X] update fonts to lustria
   - [ ] stretch the card view from side to side
   - [ ] lighter orange for bell icon
-- CALENDAR: 
+- CALENDAR: KATHERINE
   - [X] Square buttons off
   - [ ] Left align card views
   - [X] Write full month
