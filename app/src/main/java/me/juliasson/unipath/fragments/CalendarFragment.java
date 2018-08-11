@@ -220,6 +220,13 @@ public class CalendarFragment extends Fragment implements UpdateFavCollegeListCa
             }
         });
 
+        compactCalendarView.setOnScrollChangeListener(new View.OnScrollChangeListener() {
+            @Override
+            public void onScrollChange(View view, int i, int i1, int i2, int i3) {
+                monthYearTv.setText(fullDateFormatForMonth.format(compactCalendarView.getFirstDayOfCurrentMonth()));
+            }
+        });
+
         return view;
     }
 
@@ -243,6 +250,7 @@ public class CalendarFragment extends Fragment implements UpdateFavCollegeListCa
         // Set to current day on resume to set calendar to latest day
         monthYearTv.setText(fullDateFormatForMonth.format(new Date()));
     }
+
 
     private void loadEvents() {
         addEvents(-1, -1);
