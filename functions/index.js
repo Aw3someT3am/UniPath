@@ -101,7 +101,7 @@ exports.sendNotification = functions.database.ref('/users/{userId}/dates/').onWr
                     // },
                     notification: {
                       title: "Hey " + username + "!",
-                      body: "Deadline coming up: " + key + " on " + key1
+                      body: days + 1 + " days left for this upcoming deadline: " + key + " on " + key1
                     },
                   };
 

@@ -68,7 +68,7 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="net_calculator">Net Calculator</string>
+    <string name="net_calculator">Expected Cost of Attendance</string>
 
     <!-- Spinner options for Search Filtering -->
     <string-array name="size_options" >

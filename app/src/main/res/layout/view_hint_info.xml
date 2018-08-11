@@ -46,7 +46,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/ivCalendar"
                 android:layout_centerHorizontal="true"
-                android:fontFamily="@font/lustria"
+                android:fontFamily="@font/lustria1"
                 android:text="Calendar"
                 android:textColor="@color/background_light_orange" />
         </RelativeLayout>
@@ -85,7 +85,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/ivLinearTime"
                 android:layout_centerHorizontal="true"
-                android:fontFamily="@font/lustria"
+                android:fontFamily="@font/lustria1"
                 android:text="Timeline"
                 android:textColor="@color/background_light_orange" />
 
@@ -125,7 +125,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/ivSearch"
                 android:layout_centerHorizontal="true"
-                android:fontFamily="@font/lustria"
+                android:fontFamily="@font/lustria1"
                 android:text="Search"
                 android:textColor="@color/background_light_orange" />
 

@@ -28,8 +28,8 @@
         android:layout_toStartOf="@+id/ivRemoveDeadline"
         android:layout_toEndOf="@id/lbLikeButton"
         android:singleLine="false"
-        android:fontFamily="@font/lustria"
         android:text="@string/college_name"
+        android:fontFamily="@font/lustria1"
         android:textAppearance="@android:style/TextAppearance.Medium"
         android:textColor="@color/solid_white" />
 
@@ -43,9 +43,9 @@
         android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:layout_toLeftOf="@+id/ivRemoveDeadline"
-        android:layout_toRightOf="@+id/lbLikeButton"
-        android:fontFamily="@font/lustria"
+        android:layout_toStartOf="@+id/ivRemoveDeadline"
+        android:layout_toEndOf="@+id/lbLikeButton"
+        android:fontFamily="@font/lustria1"
         android:text="@string/deadline_description"
         android:textAppearance="@android:style/TextAppearance.Medium"
         android:textColor="@color/white_80_transparent" />
@@ -54,7 +54,7 @@
         android:id="@+id/ivRemoveDeadline"
         android:layout_width="24dp"
         android:layout_height="24dp"
-        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentTop="true"
         android:layout_margin="8dp"
         app:srcCompat="@drawable/ic_remove_circle_outline" />
@@ -64,7 +64,7 @@
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:layout_alignBottom="@id/tvDeadlineDesc"
-        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:scaleType="fitXY"

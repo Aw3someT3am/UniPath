@@ -117,6 +117,7 @@
             android:layout_below="@id/rlUserInfo"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
+            android:background="@drawable/rounded_transparent_bg"
             android:fontFamily="@font/lustria">
 
             <RelativeLayout
