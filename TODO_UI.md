@@ -29,7 +29,7 @@
 - CALENDAR: 
   - [X] Square buttons off
   - [ ] Left align card views
-  - [ ] Write full month
+  - [X] Write full month
   - [X] make selection date color light orange
   - [X] make dots orange
   - [ ] Calendar status should be (15 x 15px check markers, no circles/border around them)
