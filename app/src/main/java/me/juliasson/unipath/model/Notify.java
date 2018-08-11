@@ -8,8 +8,8 @@ import java.util.Objects;
 
 @Parcel
 public class Notify implements Parcelable{
-    private String title;
-    private String body;
+    public String title;
+    public String body;
 
     public Notify() {
         this.title = "title";

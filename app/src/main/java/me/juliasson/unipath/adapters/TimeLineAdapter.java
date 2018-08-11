@@ -121,15 +121,20 @@ public class TimeLineAdapter extends RecyclerView.Adapter<TimeLineAdapter.ViewHo
         }
 
         if(timeLineModel.getStatus() == OrderStatus.COMPLETED) {
-            viewHolder.mTimelineView.setMarker(VectorDrawableUtils.getDrawable(mContext, R.drawable.ic_marker_inactive, android.R.color.holo_green_light));
+            viewHolder.mTimelineView.setMarker(VectorDrawableUtils.
+                    getDrawable(mContext, R.drawable.ic_check_active));
         } else if(timeLineModel.getStatus() == OrderStatus.ACTIVE) {
-            viewHolder.mTimelineView.setMarker(VectorDrawableUtils.getDrawable(mContext, R.drawable.ic_marker_active, android.R.color.holo_blue_light));
+            viewHolder.mTimelineView.setMarker(VectorDrawableUtils.
+                    getDrawable(mContext, R.drawable.ic_check_inactive));
         } else if (timeLineModel.getStatus() == OrderStatus.MISSED) {
-            viewHolder.mTimelineView.setMarker(VectorDrawableUtils.getDrawable(mContext, R.drawable.ic_marker_missed, android.R.color.holo_orange_light));
+            viewHolder.mTimelineView.setMarker(VectorDrawableUtils.
+                    getDrawable(mContext, R.drawable.ic_check_missed));
         } else if (timeLineModel.getStatus() == OrderStatus.COMPLETED_EARLY) {
-            viewHolder.mTimelineView.setMarker(VectorDrawableUtils.getDrawable(mContext, R.drawable.ic_marker_completed_early, android.R.color.holo_green_light));
+            viewHolder.mTimelineView.setMarker(VectorDrawableUtils.
+                    getDrawable(mContext, R.drawable.ic_check_active));
         } else {
-            viewHolder.mTimelineView.setMarker(VectorDrawableUtils.getDrawable(mContext, R.drawable.ic_marker_inactive, android.R.color.darker_gray));
+            viewHolder.mTimelineView.setMarker(VectorDrawableUtils.
+                    getDrawable(mContext, R.drawable.ic_check_inactive));
         }
     }
 

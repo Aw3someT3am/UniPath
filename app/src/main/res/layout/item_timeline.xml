@@ -45,11 +45,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="8dp"
-                    android:fontFamily="@font/lato"
+                    android:fontFamily="@font/lustria1"
                     android:textAppearance="@android:style/TextAppearance.Large"
                     android:textColor="@color/solid_white"
                     android:textSize="18sp"
-                    app:fontFamily="@font/lustria1"
                     tools:text="24 JAN" />
 
             </LinearLayout>
