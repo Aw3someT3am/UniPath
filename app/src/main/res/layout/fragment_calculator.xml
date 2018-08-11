@@ -202,18 +202,6 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:padding="8dp">
-
-                <Button
-                    android:id="@+id/btnTotalNet"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textAppearance="@android:style/TextAppearance.Small"
-                    android:backgroundTint="@color/background_orange"
-                    android:padding="8dp"
-                    android:textColor="@color/solid_white"
-                    android:text="Calculate" />
-
                 <TextView
                     android:id="@+id/tvTotalNetLabel"
                     android:layout_width="0dp"
@@ -234,6 +222,24 @@
                     android:text=""
                     android:textAppearance="@android:style/TextAppearance.Medium"
                     android:textColor="@color/white_80_transparent" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/llCostButton"
+                android:layout_below="@+id/llTotalNet"
+                android:orientation="horizontal"
+                android:padding="8dp">
+                <Button
+                    android:id="@+id/btnTotalNet"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@android:style/TextAppearance.Small"
+                    android:backgroundTint="@color/background_orange"
+                    android:padding="8dp"
+                    android:textColor="@color/solid_white"
+                    android:text="CALCULATE" />
+
             </LinearLayout>
         </RelativeLayout>
 
