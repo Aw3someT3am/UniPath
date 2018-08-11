@@ -367,8 +367,7 @@ public class CalendarFragment extends Fragment implements UpdateFavCollegeListCa
                         Date date = deadline.getDeadlineDate();
 
                         // Create event for each deadline and add to CompactCalendarView
-                        Event event = new Event(Color.argb(255, 0 ,221, 255), date.getTime(), String.format("%s: %s", college, description.toUpperCase()));
-
+                        Event event = new Event(Color.argb(255, 255 ,100, 30), date.getTime(), String.format("%s: %s", college, description.toUpperCase()));
                         compactCalendarView.addEvent(event);
                         mDataList.add(relation);
 
