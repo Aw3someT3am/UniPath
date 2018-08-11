@@ -20,6 +20,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -70,6 +72,11 @@ public class ProfileFragment extends Fragment implements
         NotificationInProfile,
         DiscreteScrollView.OnItemChangedListener<CollegeAdapter.ViewHolder> {
 
+    private FrameLayout helpView;
+    private boolean isHelpOpen = false;
+    private ViewGroup rootLayout;
+    private static boolean isFirstTime = true;
+
     private TextView tvProgressLabel;
     private ProgressBar pbProgress;
     private ImageView ivProfileImage;
@@ -80,6 +87,7 @@ public class ProfileFragment extends Fragment implements
     private ImageView ivForward;
     private ImageView ivBack;
     private ImageView bvFavoritesMap;
+    private Button bvHelp;
     private DiscreteScrollView scrollView;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
@@ -104,7 +112,6 @@ public class ProfileFragment extends Fragment implements
     private String filePath;
     private Context mContext;
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         // Defines the xml file for the fragment
@@ -114,8 +121,9 @@ public class ProfileFragment extends Fragment implements
         TimelineActivity.updateFavCollegeListInterfaceProfile(this);
         TimelineActivity.updateProfileProgressBarInterface(this);
         TimelineActivity.updateNotifications(this);
+        View v = inflater.inflate(R.layout.fragment_profile, parent, false);
 
-        return inflater.inflate(R.layout.fragment_profile, parent, false);
+        return v;
     }
 
     // This event is triggered soon after onCreateView().
@@ -126,6 +134,8 @@ public class ProfileFragment extends Fragment implements
         mContext = view.getContext();
 
         //settings up general profile info
+        helpView = view.findViewById(R.id.frameLayout);
+        rootLayout = (ViewGroup) view.findViewById(R.id.rootLayout);
         tvProgressLabel = view.findViewById(R.id.tvProgressLabel);
         pbProgress = view.findViewById(R.id.pbProgress);
         ivProfileImage = view.findViewById(R.id.ivProfileImage);
@@ -138,6 +148,7 @@ public class ProfileFragment extends Fragment implements
         ivBack = view.findViewById(R.id.ivBack);
         tvCounter = view.findViewById(R.id.tvCounter);
         rlBadgeNotification = view.findViewById(R.id.bagde_notification);
+        bvHelp = view.findViewById(R.id.bvHelp);
 
         scrollView = view.findViewById(R.id.picker);
         scrollView.setOrientation(DSVOrientation.HORIZONTAL);
@@ -157,14 +168,32 @@ public class ProfileFragment extends Fragment implements
 
         colleges = new ArrayList<>();
         collegeAdapter = new CollegeAdapter(colleges, this, true);
-        //InfiniteScrollAdapter wrapper = InfiniteScrollAdapter.wrap(collegeAdapter);
         scrollView.setAdapter(collegeAdapter);
 
         assignGeneralProfileInfo();
 
         //set up of favorite colleges list
         loadFavoriteColleges();
-        //initializeArrows();
+
+        if (isFirstTime) {
+            helpView.setVisibility(View.VISIBLE);
+        }
+        bvHelp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                isHelpOpen = true;
+                helpView.setVisibility(View.VISIBLE);
+            }
+        });
+
+        helpView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                isHelpOpen = false;
+                helpView.setVisibility(View.INVISIBLE);
+                isFirstTime = false;
+            }
+        });
 
         bvFavoritesMap.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -249,8 +278,6 @@ public class ProfileFragment extends Fragment implements
         }
         return true;
     }
-
-
 
     //-------------------Handling assignment/prep for profile general info----------------------------
     public void assignGeneralProfileInfo() {
@@ -478,5 +505,9 @@ public class ProfileFragment extends Fragment implements
         } else {
             ivBack.setVisibility(View.VISIBLE);
         }
+    }
+
+    public static void setIsFirstTime(boolean firstTime) {
+        isFirstTime = firstTime;
     }
 }

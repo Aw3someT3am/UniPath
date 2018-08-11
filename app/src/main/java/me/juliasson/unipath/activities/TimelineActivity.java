@@ -61,6 +61,7 @@ public class TimelineActivity extends AppCompatActivity implements
      */
     private static final int CENTRAL_PAGE_INDEX = 1;
     public VerticalPager mVerticalPager;
+    private static boolean isFirstTime = false;
 
     private static UpdateFavCollegeListProfile updateFavCollegeListInterfaceProfile;
     private static UpdateFavCollegeListCalendar updateFavCollegeListInterfaceCalendar;
@@ -106,6 +107,10 @@ public class TimelineActivity extends AppCompatActivity implements
         gold = ContextCompat.getColor(this, R.color.background_dark_orange);
         goldLight = ContextCompat.getColor(this, R.color.background_light_orange);
         colors = new int[] { goldDark, goldMed, gold, goldLight };
+
+        if (isFirstTime) {
+            ProfileFragment.setIsFirstTime(true);
+        }
     }
 
     private void findViews() {
@@ -287,4 +292,7 @@ public class TimelineActivity extends AppCompatActivity implements
         updateFavCollegeListSearchInterface = listInterface;
     }
 
+    public static void setIsFirstTime(boolean firstTime) {
+        isFirstTime = firstTime;
+    }
 }

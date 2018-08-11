@@ -167,7 +167,7 @@
         android:background="@drawable/todaybuttonstyle"
         android:backgroundTint="@color/background_orange"
         android:padding="8dp"
-        android:text="Add Deadline"
+        android:text="ADD DEADLINES"
         android:textAllCaps="false"
         android:textColor="@color/solid_white"
         app:layout_constraintBottom_toBottomOf="parent"

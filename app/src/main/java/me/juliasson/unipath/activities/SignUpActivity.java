@@ -231,6 +231,7 @@ public class SignUpActivity extends AppCompatActivity {
                     final Intent i = new Intent(SignUpActivity.this, TimelineActivity.class);
                     startActivity(i);
                     hideProgressBar();
+                    TimelineActivity.setIsFirstTime(true);
                     finish();
                 } else {
                     makeToast("Sign up failure\nFill all fields with valid answers.");
