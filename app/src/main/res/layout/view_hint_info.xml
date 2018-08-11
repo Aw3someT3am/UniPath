@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:background="@color/black_95_transparent"
+    android:id="@+id/frameLayout" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/rootLayout"
+        android:padding="8dp" >
+
+        <ImageView
+            android:id="@+id/ivUpArrow"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:tint="@color/background_light_orange"
+            android:layout_marginBottom="8dp"
+            app:srcCompat="@drawable/ic_arrow_upward" />
+
+        <RelativeLayout
+            android:id="@+id/rlCalendar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/ivUpArrow" >
+
+            <ImageView
+                android:id="@+id/ivCalendar"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_centerHorizontal="true"
+                android:tint="@color/background_orange"
+                app:srcCompat="@drawable/ic_calendar_orange" />
+
+            <TextView
+                android:id="@+id/tvCalendar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ivCalendar"
+                android:layout_centerHorizontal="true"
+                android:fontFamily="@font/lustria1"
+                android:text="Calendar"
+                android:textColor="@color/background_light_orange" />
+        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/ivLeftArrow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:tint="@color/background_light_orange"
+            app:srcCompat="@drawable/ic_arrow_back_black_24dp" />
+
+        <RelativeLayout
+            android:id="@+id/rlLinearTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/ivLeftArrow"
+            android:layout_toEndOf="@+id/ivLeftArrow"
+            android:layout_marginLeft="8dp" >
+
+            <ImageView
+                android:id="@+id/ivLinearTime"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_centerHorizontal="true"
+                android:tint="@color/background_orange"
+                app:srcCompat="@drawable/ic_format_list_bulleted" />
+
+            <TextView
+                android:id="@+id/tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/ivLinearTime"
+                android:layout_centerHorizontal="true"
+                android:fontFamily="@font/lustria1"
+                android:text="Timeline"
+                android:textColor="@color/background_light_orange" />
+
+        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/ivRightArrow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:tint="@color/background_light_orange"
+            app:srcCompat="@drawable/ic_arrow_forward_black_24dp" />
+
+        <RelativeLayout
+            android:id="@+id/rlSearch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/ivRightArrow"
+            android:layout_marginRight="8dp" >
+
+            <ImageView
+                android:id="@+id/ivSearch"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_centerHorizontal="true"
+                android:tint="@color/background_orange"
+                app:srcCompat="@drawable/ic_search_white_24dp" />
+
+            <TextView
+                android:id="@+id/tvSearch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ivSearch"
+                android:layout_centerHorizontal="true"
+                android:fontFamily="@font/lustria1"
+                android:text="Search"
+                android:textColor="@color/background_light_orange" />
+
+        </RelativeLayout>
+    </RelativeLayout>
+</RelativeLayout>

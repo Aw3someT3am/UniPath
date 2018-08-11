@@ -60,7 +60,8 @@
             android:layout_marginStart="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            />
 
     </android.support.constraint.ConstraintLayout>
 
@@ -141,12 +142,18 @@
         android:paddingRight="10dp"
         android:paddingTop="10dp"
         app:compactCalendarBackgroundColor="@color/transparent"
-        app:compactCalendarCurrentDayBackgroundColor="#B71C1C"
-        app:compactCalendarCurrentSelectedDayBackgroundColor="#E57373"
+        app:compactCalendarCurrentDayBackgroundColor="@color/background_dark_orange"
+        app:compactCalendarCurrentSelectedDayBackgroundColor="@color/background_light_orange"
         app:compactCalendarMultiEventIndicatorColor="#fff"
         app:compactCalendarTargetHeight="305dp"
         app:compactCalendarTextColor="#fff"
         app:compactCalendarTextSize="16sp" />
 
 </RelativeLayout>
+
+<!--Original Colors-->
+    <!--app:compactCalendarCurrentDayBackgroundColor="#B71C1C"-->
+    <!--app:compactCalendarCurrentSelectedDayBackgroundColor="#E57373"-->
+
+
 

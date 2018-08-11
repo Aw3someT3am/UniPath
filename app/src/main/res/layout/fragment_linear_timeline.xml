@@ -16,7 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
-        android:fontFamily="@font/lustria"
+        android:fontFamily="@font/lustria1"
         android:gravity="center_horizontal"
         android:text="Timeline"
         android:textAppearance="@android:style/TextAppearance.Large"

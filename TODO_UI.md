@@ -27,11 +27,11 @@
   - [ ] stretch the card view from side to side
   - [ ] lighter orange for bell icon
 - CALENDAR: 
-  - [ ] Square buttons off
+  - [X] Square buttons off
   - [ ] Left align card views
-  - [ ] Write full month
-  - [ ] make selection date color light orange
-  - [ ] make dots orange
+  - [X] Write full month
+  - [X] make selection date color light orange
+  - [X] make dots orange
   - [ ] Calendar status should be (15 x 15px check markers, no circles/border around them)
 - SEARCH: JORGE
   - [ ] loading color of item should be dark grey

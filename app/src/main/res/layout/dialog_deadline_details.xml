@@ -29,7 +29,7 @@
             app:layout_constraintTop_toTopOf="parent"
             android:textColor="@color/solid_white"
             android:gravity="center_horizontal"
-            android:fontFamily="@font/lustria"/>
+            android:fontFamily="@font/lustria1"/>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rvCollegeList"
