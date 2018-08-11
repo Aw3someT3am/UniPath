@@ -126,7 +126,7 @@ public class CalendarFragment extends Fragment implements UpdateFavCollegeListCa
             }
             @Override
             public void onMonthScroll(Date firstDayOfNewMonth) {
-                monthYearTv.setText(dateFormatForMonth.format(firstDayOfNewMonth));
+                monthYearTv.setText(fullDateFormatForMonth.format(firstDayOfNewMonth));
             }
 
         });
@@ -217,13 +217,6 @@ public class CalendarFragment extends Fragment implements UpdateFavCollegeListCa
                 // Show circle on selected date
                 compactCalendarView.setCurrentDate(nextClosestDeadline);
                 selectDay(nextClosestDeadline);
-            }
-        });
-
-        compactCalendarView.setOnScrollChangeListener(new View.OnScrollChangeListener() {
-            @Override
-            public void onScrollChange(View view, int i, int i1, int i2, int i3) {
-                monthYearTv.setText(fullDateFormatForMonth.format(compactCalendarView.getFirstDayOfCurrentMonth()));
             }
         });
 

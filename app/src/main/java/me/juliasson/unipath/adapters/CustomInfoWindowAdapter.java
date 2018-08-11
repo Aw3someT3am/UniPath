@@ -17,7 +17,6 @@ public class CustomInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
     private Context mContext;
 
     private TextView tvCollegeName;
-    private TextView tvAddress;
     private ImageView smallImage;
     private College college;
 
@@ -37,10 +36,8 @@ public class CustomInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
         View view = ((Activity)mContext).getLayoutInflater().inflate(R.layout.map_info_window, null);
 
         tvCollegeName = view.findViewById(R.id.tvCollegeName);
-        tvAddress = view.findViewById(R.id.tvAddress);
 
         tvCollegeName.setText(marker.getTitle());
-        tvAddress.setText(marker.getSnippet());
 
         return view;
     }
