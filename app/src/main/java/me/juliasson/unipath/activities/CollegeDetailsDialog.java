@@ -177,7 +177,7 @@ public class CollegeDetailsDialog extends AppCompatActivity {
     public boolean onTouchEvent(MotionEvent event) {
         if(event.getAction() == MotionEvent.ACTION_OUTSIDE) {
             likesInterface.setValues(isChanged);
-            supportFinishAfterTransition();
+            finish();
         }
         return super.onTouchEvent(event);
     }

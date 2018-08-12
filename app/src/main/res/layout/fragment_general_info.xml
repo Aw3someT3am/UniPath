@@ -13,10 +13,10 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:fontFamily="@font/lato"
         android:layout_marginBottom="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
+        android:fontFamily="@font/lustria1"
         android:text="@string/description"
         android:textAppearance="@android:style/TextAppearance.Medium"
         android:textColor="@color/solid_white" />
@@ -38,23 +38,27 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:padding="8dp">
+
                 <TextView
                     android:id="@+id/tvWebsiteLabel"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:fontFamily="@font/lustria1"
                     android:text="Website:"
                     android:textAppearance="@android:style/TextAppearance.Medium"
                     android:textColor="@color/solid_white" />
+
                 <TextView
                     android:id="@+id/tvWebsite"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="8dp"
                     android:layout_weight="2"
+                    android:autoLink="web"
+                    android:fontFamily="@font/lustria1"
                     android:gravity="end"
                     android:text="Website"
-                    android:autoLink="web"
                     android:textAppearance="@android:style/TextAppearance.Medium"
                     android:textColor="@color/background_light_orange" />
             </LinearLayout>
@@ -66,20 +70,24 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:padding="8dp">
+
                 <TextView
                     android:id="@+id/tvAddressLabel"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:fontFamily="@font/lustria1"
                     android:text="Address:"
                     android:textAppearance="@android:style/TextAppearance.Medium"
                     android:textColor="@color/solid_white" />
+
                 <TextView
                     android:id="@+id/tvAddress"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="8dp"
                     android:layout_weight="2"
+                    android:fontFamily="@font/lustria1"
                     android:gravity="end"
                     android:text="Address"
                     android:textAppearance="@android:style/TextAppearance.Medium"
@@ -93,20 +101,24 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:padding="8dp">
+
                 <TextView
                     android:id="@+id/tvPopulationLabel"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:fontFamily="@font/lustria1"
                     android:text="Population:"
                     android:textAppearance="@android:style/TextAppearance.Medium"
                     android:textColor="@color/solid_white" />
+
                 <TextView
                     android:id="@+id/tvStudentPopulation"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="2"
                     android:layout_marginLeft="8dp"
+                    android:layout_weight="2"
+                    android:fontFamily="@font/lustria1"
                     android:gravity="end"
                     android:text="Student Population"
                     android:textAppearance="@android:style/TextAppearance.Medium"
@@ -120,20 +132,24 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:padding="8dp">
+
                 <TextView
                     android:id="@+id/tvCostInStateLabel"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:fontFamily="@font/lustria1"
                     android:text="Cost In-State:"
                     android:textAppearance="@android:style/TextAppearance.Medium"
                     android:textColor="@color/solid_white" />
+
                 <TextView
                     android:id="@+id/tvCostInState"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="2"
                     android:layout_marginLeft="8dp"
+                    android:layout_weight="2"
+                    android:fontFamily="@font/lustria1"
                     android:gravity="end"
                     android:text="Cost in State"
                     android:textAppearance="@android:style/TextAppearance.Medium"
@@ -147,20 +163,24 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:padding="8dp">
+
                 <TextView
                     android:id="@+id/tvCostOutStateLabel"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:fontFamily="@font/lustria1"
                     android:text="Cost Out-State:"
                     android:textAppearance="@android:style/TextAppearance.Medium"
                     android:textColor="@color/solid_white" />
+
                 <TextView
                     android:id="@+id/tvCostOutState"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="2"
                     android:layout_marginLeft="8dp"
+                    android:layout_weight="2"
+                    android:fontFamily="@font/lustria1"
                     android:gravity="end"
                     android:text="Cost out of State"
                     android:textAppearance="@android:style/TextAppearance.Medium"
@@ -174,20 +194,24 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:padding="8dp">
+
                 <TextView
                     android:id="@+id/tvAcceptanceRateLabel"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:fontFamily="@font/lustria1"
                     android:text="Acceptance Rate:"
                     android:textAppearance="@android:style/TextAppearance.Medium"
                     android:textColor="@color/solid_white" />
+
                 <TextView
                     android:id="@+id/tvAcceptanceRate"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:layout_marginLeft="8dp"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/lustria1"
                     android:gravity="end"
                     android:text="Acceptance Rate"
                     android:textAppearance="@android:style/TextAppearance.Medium"

@@ -13,10 +13,10 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:fontFamily="@font/lato"
         android:layout_marginBottom="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
+        android:fontFamily="@font/lustria1"
         android:text="@string/net_calculator"
         android:textAppearance="@android:style/TextAppearance.Medium"
         android:textColor="@color/solid_white" />
@@ -44,6 +44,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:fontFamily="@font/lustria1"
                     android:text="Citizenship:"
                     android:textAppearance="@android:style/TextAppearance.Medium"
                     android:textColor="@color/solid_white" />
@@ -70,6 +71,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:fontFamily="@font/lustria1"
                     android:text="State of Residence:"
                     android:textAppearance="@android:style/TextAppearance.Medium"
                     android:textColor="@color/solid_white" />
@@ -96,6 +98,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="6dp"
                     android:layout_weight="1"
+                    android:fontFamily="@font/lustria1"
                     android:text="Parent Income:"
                     android:textAppearance="@android:style/TextAppearance.Medium"
                     android:textColor="@color/solid_white" />
@@ -125,6 +128,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="6dp"
                     android:layout_weight="1"
+                    android:fontFamily="@font/lustria1"
                     android:text="Student Assets:"
                     android:textAppearance="@android:style/TextAppearance.Medium"
                     android:textColor="@color/solid_white" />
@@ -153,6 +157,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="6dp"
                     android:layout_weight="1"
+                    android:fontFamily="@font/lustria1"
                     android:text="Parent Assets:"
                     android:textAppearance="@android:style/TextAppearance.Medium"
                     android:textColor="@color/solid_white" />
@@ -181,6 +186,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="6dp"
                     android:layout_weight="1"
+                    android:fontFamily="@font/lustria1"
                     android:text="Expected Family Contribution:"
                     android:textAppearance="@android:style/TextAppearance.Medium"
                     android:textColor="@color/solid_white" />
@@ -202,13 +208,15 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:padding="8dp">
+
                 <TextView
                     android:id="@+id/tvTotalNetLabel"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Net Cost:"
                     android:layout_marginLeft="8dp"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/lustria1"
+                    android:text="Net Cost:"
                     android:textAppearance="@android:style/TextAppearance.Medium"
                     android:textColor="@color/solid_white" />
 
@@ -230,15 +238,17 @@
                 android:layout_below="@+id/llTotalNet"
                 android:orientation="horizontal"
                 android:padding="8dp">
+
                 <Button
                     android:id="@+id/btnTotalNet"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textAppearance="@android:style/TextAppearance.Small"
                     android:backgroundTint="@color/background_orange"
+                    android:fontFamily="@font/lustria1"
                     android:padding="8dp"
-                    android:textColor="@color/solid_white"
-                    android:text="CALCULATE" />
+                    android:text="CALCULATE"
+                    android:textAppearance="@android:style/TextAppearance.Small"
+                    android:textColor="@color/solid_white" />
 
             </LinearLayout>
         </RelativeLayout>
