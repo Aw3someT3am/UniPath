@@ -159,6 +159,7 @@ public class ProfileFragment extends Fragment implements
         rlBadgeNotification.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //tvCounter.setVisibility(View.INVISIBLE);
                 view.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.image_view_click));
                 Intent intent = new Intent(mContext, NotificationsDialog.class);
                 intent.putParcelableArrayListExtra(Constants.KEY_NOTIFICATIONS, notifications);
@@ -484,7 +485,12 @@ public class ProfileFragment extends Fragment implements
 //    }
 
     public void refreshCounter() {
-        tvCounter.setText(String.format("%s", Integer.toString(notifications.size())));
+        if(notifications.size() > 0) {
+            tvCounter.setVisibility(View.VISIBLE);
+            tvCounter.setText(String.format("%s", Integer.toString(notifications.size())));
+        } else {
+            tvCounter.setVisibility(View.INVISIBLE);
+        }
     }
 
     @Override

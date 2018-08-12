@@ -229,6 +229,7 @@
                 android:layout_alignParentTop="true"
                 android:background="@drawable/item_count"
                 android:gravity="center"
+                android:visibility="invisible"
                 android:text="0"
                 android:textColor="#fff"
                 android:textSize="12sp" />
