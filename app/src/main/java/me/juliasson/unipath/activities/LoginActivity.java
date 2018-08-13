@@ -21,6 +21,7 @@ import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 
+import me.juliasson.unipath.MyFirebaseMessagingService;
 import me.juliasson.unipath.R;
 import me.juliasson.unipath.utils.Constants;
 
@@ -32,6 +33,7 @@ public class LoginActivity extends AppCompatActivity {
     private Button bvSignup;
     private FirebaseAuth mAuth;
     private ProgressBar pbProgressBar;
+    private MyFirebaseMessagingService myFirebaseMessagingService = new MyFirebaseMessagingService();
 
     private static final String TAG = "LoginActivity";
     private FirebaseAuth.AuthStateListener mAuthListener;
@@ -106,6 +108,7 @@ public class LoginActivity extends AppCompatActivity {
                         Toast.makeText(LoginActivity.this,"You didn't fill all the fields", Toast.LENGTH_LONG);
                     }
 
+                    myFirebaseMessagingService.clear();
                     Log.d("LoginActivity", "Login successful");
                     Toast toast = Toast.makeText(LoginActivity.this, "Login successful", Toast.LENGTH_SHORT);
                     toast.setGravity(Gravity.TOP|Gravity.CENTER_HORIZONTAL, Constants.TOAST_X_OFFSET, Constants.TOAST_Y_OFFSET);

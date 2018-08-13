@@ -77,15 +77,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         Log.d(TAG, "onMessageReceived: notification body: " + notificationBody);
         Log.d(TAG, "onMessageReceived: notification title: " + notificationTitle);
 
-
-//        String dataType = remoteMessage.getData().get(getString(R.string.data_type));
-//        if(dataType.equals(getString(R.string.reminder))){
-//            Log.d(TAG, "onMessageReceived: new incoming message.");
-//            String title = remoteMessage.getData().get(getString(R.string.data_title));
-//            String message = remoteMessage.getData().get(getString(R.string.data_message));
-//            String messageId = remoteMessage.getData().get(getString(R.string.data_message_id));
-//            sendMessageNotification(title, message);
-//        }
         String title = user.getUsername();
         String message = notificationBody;
         sendMessageNotification(title, message);
@@ -150,24 +141,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         NotificationManager mNotificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
-        //mNotificationManager.notify(notificationId, builder.build());
-
-//        Intent intent = new Intent(this, TimelineActivity.class);
-//        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
-//                PendingIntent.FLAG_ONE_SHOT);
-//
-//        Uri defaultSoundUri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-//        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
-//                .setSmallIcon(R.drawable.ic_insert_emoticon_black_24dp)
-//                .setContentTitle(title)
-//                .setContentText(message)
-//                .setAutoCancel(true)
-//                .setSound(defaultSoundUri)
-//                .setContentIntent(pendingIntent);
-//
-//        NotificationManager notificationManager =
-//                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
     }
 
     private void sendNotification(RemoteMessage remoteMessage) {
@@ -213,5 +186,9 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     public static void setTimelineActivity(TimelineActivity activity) {
         timelineActivity = activity;
+    }
+
+    public void clear() {
+        uniqueNotifications.clear();
     }
 }
