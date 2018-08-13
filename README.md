@@ -11,10 +11,10 @@ The purpose of this app is to assist students and parents with finding and apply
 - [X] When user favorites a college, deadlines for that college get added to a calendar
 - [ ] Financial aid: (e.g estimated cost, FAFSA, waiver fees)
 - [ ] Push notifications - Reminders for deadlines
-- [ ] Notification center
+- [X] Notification center
 - Account settings:
   - [ ] how often notified
-  - [ ] how many days before deadline
+  - [X] how many days before deadline
   - [ ] default settings
 - Search/Filtering:
   - [X] name of college
@@ -22,15 +22,15 @@ The purpose of this app is to assist students and parents with finding and apply
   - [X] size of college you're looking for
   - [X] location
   - [X] acceptance rate
-  - [ ] average GPA/SAT
+  - [X] average GPA/SAT
 - [X] Map of saved colleges
-- [ ] notify if finished applications
+- [X] notify if finished applications
 
 ## Optional user stores
 - [ ] Log in as either college admissions representative or general
 - [X] Map based search (List view vs Map view)
-- [ ] Showing colleges on map based on criteria (places that offer testing
-- [ ] Financial aid calculator that is specific to each college
+- [X] Showing colleges on map based on criteria (places that offer testing
+- [X] Financial aid calculator that is specific to each college
 - [ ] Push notifications - Reminders to parents for deadlines (text message/email)
 - [ ] Suggestions to succeed while in high school? (AP classes, leadership opportunities, volunteering)
 - [ ] More detailed information about campus life/majors/classes (link to website?)
@@ -38,7 +38,7 @@ The purpose of this app is to assist students and parents with finding and apply
 - [ ] after accepted what to do
 
 ## Goals for this week
-- [ ] Push notifications
+- [X] Push notifications
 - Refreshing: 
   - [X] based on liking and unliking colleges
   - [X] based on checking and unchecking deadlines
