@@ -508,6 +508,10 @@ public class ProfileFragment extends Fragment implements
         refreshCounter();
     }
 
+    public void setCounterToZero() {
+        tvCounter.setText("0");
+    }
+
     @Override
     public void onCurrentItemChanged(@Nullable CollegeAdapter.ViewHolder viewHolder, int adapterPosition) {
         if (adapterPosition == colleges.size() - 1) {
