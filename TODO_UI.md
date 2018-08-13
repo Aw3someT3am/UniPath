@@ -15,12 +15,12 @@
 - PROFILE: KATHERINE
   - [ ] remove roundness
   - [ ] Notification pink
-  - [ ] Deeper orange for progress bar
-  - [ ] Orange heart with white drop shadow
+  - [X] Deeper orange for progress bar
+  - [X] Orange heart with white drop shadow
   - [ ] White drop shadow for contrast to the icons
   - [ ] Try making it vertical
   - [ ] center profile pic and emails, rounded square it
-  - [ ] progress is darker orange, back is lighter orange
+  - [X] progress is darker orange, back is lighter orange
   - [ ] drop padding color on favorites.
   - [X] drop the divider line
   - [X] update fonts to lustria
@@ -49,7 +49,7 @@
   - [ ] Drop rounded transparent background or more it more square
   - [ ] No padding on button (remove the spacing between button and dialog)
 - MAP: 
-  - [ ] Address is not necessary
+  - [X] Address is not necessary
   - [ ] Make pills a little smaller
-  - [ ] consider dark text on white
-  - [ ] try to figure out how to make info window dark
+  - [X] consider dark text on white
+  - [X] try to figure out how to make info window dark
