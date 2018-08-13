@@ -14,7 +14,7 @@
         android:id="@+id/image"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white_15_transparent"
+        android:background="@color/dark_grey"
         android:scaleType="fitXY" />
 
     <TextView
@@ -22,7 +22,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="8dp"
-        android:fontFamily="@font/lato"
+        android:fontFamily="@font/lustria"
         android:scaleType="centerCrop"
         android:textAlignment="center"
         android:textColor="@color/white"

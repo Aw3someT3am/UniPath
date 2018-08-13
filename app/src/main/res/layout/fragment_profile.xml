@@ -37,13 +37,13 @@
                 android:id="@+id/pbProgress"
                 style="@android:style/Widget.ProgressBar.Horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="20dp"
+                android:layout_height="22dp"
                 android:layout_margin="8dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
                 android:progress="0"
                 android:progressBackgroundTint="@color/background_light_orange"
-                android:progressTint="@color/progress_green" />
+                android:progressTint="@android:color/holo_red_dark" />
 
             <TextView
                 android:id="@+id/tvProgressText"
@@ -54,7 +54,7 @@
                 android:layout_alignRight="@id/pbProgress"
                 android:layout_alignTop="@id/pbProgress"
                 android:background="@android:color/transparent"
-                android:fontFamily="@font/lato"
+                android:fontFamily="@font/lustria"
                 android:gravity="center"
                 android:text="0/0"
                 android:textColor="@color/solid_white"

@@ -11,6 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Body"
+        android:fontFamily="@font/lustria"
         android:textAppearance="@android:style/TextAppearance.Small"
         android:textColor="@color/solid_white"
         app:layout_constraintEnd_toEndOf="parent"
