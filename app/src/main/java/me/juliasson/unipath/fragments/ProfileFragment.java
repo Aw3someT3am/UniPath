@@ -76,7 +76,7 @@ public class ProfileFragment extends Fragment implements
     private FrameLayout helpView;
     private boolean isHelpOpen = false;
     private ViewGroup rootLayout;
-    private static boolean isFirstTime = true;
+    private static boolean isFirstTime = false;
 
     private TextView tvProgressLabel;
     private ProgressBar pbProgress;
