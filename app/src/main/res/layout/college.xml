@@ -3,21 +3,22 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="150dp">
+    android:layout_height="150dp"
+    android:background="@color/background_dark_orange">
 
     <ImageView
         android:id="@+id/ivCollegeImage"
-        android:transitionName="collegeImage"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
+        android:transitionName="collegeImage"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@color/grey" />
+        app:srcCompat="@color/background_dark_orange" />
 
     <RelativeLayout
         android:id="@+id/relativeLayout"
