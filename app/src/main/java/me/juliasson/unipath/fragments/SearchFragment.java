@@ -119,6 +119,7 @@ public class SearchFragment extends Fragment implements SearchInterface,
         context = view.getContext();
         searchManager = (SearchManager) context.getSystemService(Context.SEARCH_SERVICE);
         colleges = new ArrayList<>();
+        filteredColleges = new ArrayList<>();
         everyCollege = new ArrayList<>();
         refreshList = new ArrayList<>();
         notFound = (TextView) view.findViewById(R.id.tvNotFound);
@@ -201,6 +202,7 @@ public class SearchFragment extends Fragment implements SearchInterface,
                         colleges.add(college);
                         refreshList.add(college);
                         everyCollege.add(college);
+                        filteredColleges.add(college);
                         collegeAdapter.notifyItemInserted(colleges.size() - 1);
                     }
                 } else {
