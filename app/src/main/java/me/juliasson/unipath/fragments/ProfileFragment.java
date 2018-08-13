@@ -19,6 +19,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.FrameLayout;
@@ -183,8 +184,12 @@ public class ProfileFragment extends Fragment implements
             @Override
             public void onClick(View view) {
                 isHelpOpen = true;
-                
+
+                // slide-up animation
+                Animation expand = AnimationUtils.loadAnimation(mContext, R.anim.expand);
+
                 helpView.setVisibility(View.VISIBLE);
+                helpView.startAnimation(expand);
             }
         });
 
@@ -193,6 +198,9 @@ public class ProfileFragment extends Fragment implements
             public void onClick(View view) {
                 isHelpOpen = false;
                 helpView.setVisibility(View.INVISIBLE);
+                // slide-up animation
+                Animation shrink = AnimationUtils.loadAnimation(mContext, R.anim.shrink);
+                helpView.startAnimation(shrink);
                 isFirstTime = false;
             }
         });

@@ -46,7 +46,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:progress="0"
-                android:progressBackgroundTint="@color/background_light_orange"
+                android:progressBackgroundTint="@color/background_lighter_orange"
                 android:progressTint="@android:color/holo_red_dark"
                  />
 
