@@ -41,9 +41,6 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_);
 
-        //getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-        //getSupportActionBar().setCustomView(R.layout.toolbar_action_bar);
-
         FirebaseApp.initializeApp(this);
         mAuth = FirebaseAuth.getInstance();
         ParseUser currentUser = ParseUser.getCurrentUser();
