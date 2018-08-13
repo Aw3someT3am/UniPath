@@ -120,7 +120,7 @@
             android:id="@+id/spOutStateCost"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="2"
+            android:layout_weight="1"
             android:fontFamily="@font/lustria"
             android:backgroundTint="@color/background_orange" />
     </LinearLayout>
