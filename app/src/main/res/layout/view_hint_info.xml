@@ -28,7 +28,7 @@
                 android:id="@+id/ivUpArrow"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:tint="@color/background_light_orange"
+                android:tint="@color/background_lighter_orange"
                 android:layout_marginBottom="8dp"
                 android:layout_centerHorizontal="true"
                 app:srcCompat="@drawable/ic_arrow_upward" />
@@ -38,7 +38,7 @@
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_centerHorizontal="true"
-                android:tint="@color/background_orange"
+                android:tint="@color/background_lighter_orange"
                 android:layout_below="@+id/ivUpArrow"
                 app:srcCompat="@drawable/ic_calendar_orange" />
 
@@ -51,7 +51,7 @@
                 android:fontFamily="@font/lustria1"
                 android:text="Calendar"
                 android:layout_marginTop="8dp"
-                android:textColor="@color/background_light_orange" />
+                android:textColor="@color/background_lighter_orange" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -70,7 +70,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
-                android:tint="@color/background_light_orange"
+                android:tint="@color/background_lighter_orange"
                 app:srcCompat="@drawable/ic_arrow_back_black_24dp" />
 
             <ImageView
@@ -80,7 +80,7 @@
                 android:layout_height="50dp"
                 android:layout_marginLeft="8dp"
                 android:layout_centerHorizontal="true"
-                android:tint="@color/background_orange"
+                android:tint="@color/background_lighter_orange"
                 app:srcCompat="@drawable/ic_format_list_bulleted" />
 
             <TextView
@@ -88,11 +88,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/ivLinearTime"
-                android:layout_marginLeft="8dp"
-                android:layout_centerHorizontal="true"
+                android:layout_marginLeft="30dp"
                 android:fontFamily="@font/lustria1"
                 android:text="Timeline"
-                android:textColor="@color/background_light_orange" />
+                android:textColor="@color/background_lighter_orange" />
 
         </RelativeLayout>
 
@@ -112,7 +111,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:tint="@color/background_light_orange"
+                android:tint="@color/background_lighter_orange"
                 app:srcCompat="@drawable/ic_arrow_forward_black_24dp" />
 
             <ImageView
@@ -121,7 +120,7 @@
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_centerHorizontal="true"
-                android:tint="@color/background_orange"
+                android:tint="@color/background_lighter_orange"
                 app:srcCompat="@drawable/ic_search_white_24dp" />
 
             <TextView
@@ -132,7 +131,7 @@
                 android:layout_centerHorizontal="true"
                 android:fontFamily="@font/lustria1"
                 android:text="Search"
-                android:textColor="@color/background_light_orange" />
+                android:textColor="@color/background_lighter_orange" />
 
         </RelativeLayout>
 

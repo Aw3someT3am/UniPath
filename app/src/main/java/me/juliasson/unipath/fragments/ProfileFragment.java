@@ -183,6 +183,7 @@ public class ProfileFragment extends Fragment implements
             @Override
             public void onClick(View view) {
                 isHelpOpen = true;
+                
                 helpView.setVisibility(View.VISIBLE);
             }
         });
