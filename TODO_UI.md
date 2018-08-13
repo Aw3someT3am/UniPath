@@ -18,14 +18,14 @@
   - [X] Deeper orange for progress bar
   - [X] Orange heart with white drop shadow
   - [ ] White drop shadow for contrast to the icons
-  - [ ] Try making it vertical
-  - [ ] center profile pic and emails, rounded square it
+  - [X] Try making it vertical
+  - [X] center profile pic and emails, rounded square it
   - [X] progress is darker orange, back is lighter orange
-  - [ ] drop padding color on favorites.
+  - [X] drop padding color on favorites.
   - [X] drop the divider line
   - [X] update fonts to lustria
-  - [ ] stretch the card view from side to side
-  - [ ] lighter orange for bell icon
+  - [X] stretch the card view from side to side
+  - [X] lighter orange for bell icon
 - CALENDAR: KATHERINE
   - [X] Square buttons off
   - [ ] Left align card views
