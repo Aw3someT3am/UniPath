@@ -108,7 +108,7 @@ public class LoginActivity extends AppCompatActivity {
                         Toast.makeText(LoginActivity.this,"You didn't fill all the fields", Toast.LENGTH_LONG);
                     }
 
-                    myFirebaseMessagingService.clear();
+                    MyFirebaseMessagingService.clear();
                     Log.d("LoginActivity", "Login successful");
                     Toast toast = Toast.makeText(LoginActivity.this, "Login successful", Toast.LENGTH_SHORT);
                     toast.setGravity(Gravity.TOP|Gravity.CENTER_HORIZONTAL, Constants.TOAST_X_OFFSET, Constants.TOAST_Y_OFFSET);

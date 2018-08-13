@@ -32,7 +32,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     private static NotificationInterface notificationInterface;
     private static Activity timelineActivity;
 
-    private Set<Notify> uniqueNotifications = new HashSet<>();
+    public static Set<Notify> uniqueNotifications = new HashSet<>();
     private ArrayList<Notify> notifications = new ArrayList<>();
 
     @Override
@@ -188,7 +188,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         timelineActivity = activity;
     }
 
-    public void clear() {
+    public static void clear() {
         uniqueNotifications.clear();
     }
 }
