@@ -23,8 +23,10 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import me.juliasson.unipath.MyFirebaseMessagingService;
 import me.juliasson.unipath.R;
 import me.juliasson.unipath.activities.DeadlineDetailsDialog;
+import me.juliasson.unipath.fragments.ProfileFragment;
 import me.juliasson.unipath.internal.GetDeadlineCheckedInterface;
 import me.juliasson.unipath.internal.GetItemDetailOpenedInterface;
 import me.juliasson.unipath.internal.UpdateLinearTimelineInterface;
@@ -48,6 +50,7 @@ public class TimeLineAdapter extends RecyclerView.Adapter<TimeLineAdapter.ViewHo
     private UpdateTimelineAdapterInterface utaInterface;
     private GetItemDetailOpenedInterface gidInterface;
     private GetDeadlineCheckedInterface dcInterface;
+    private ProfileFragment profileFragment = new ProfileFragment();
 
     public TimeLineAdapter(List<TimeLine> list,
                            HashMap<TimeLine, ArrayList<UserDeadlineRelation>> events,
@@ -201,6 +204,8 @@ public class TimeLineAdapter extends RecyclerView.Adapter<TimeLineAdapter.ViewHo
     public void updateItemRemoval(boolean status) {
         if (status) {
             ultInterface.updateItemRemoval(true);
+            MyFirebaseMessagingService.clear();
+            profileFragment.setCounterToZero();
         }
     }
 

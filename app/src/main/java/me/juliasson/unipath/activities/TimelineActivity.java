@@ -103,9 +103,9 @@ public class TimelineActivity extends AppCompatActivity implements
         container = (ViewGroup) findViewById(R.id.container);
 
         goldDark = ContextCompat.getColor(this, R.color.holo_blue_bright);
-        goldMed = ContextCompat.getColor(this, R.color.background_orange);
-        gold = ContextCompat.getColor(this, R.color.background_dark_orange);
-        goldLight = ContextCompat.getColor(this, R.color.background_light_orange);
+        goldMed = ContextCompat.getColor(this, android.R.color.holo_red_light);
+        gold = ContextCompat.getColor(this, android.R.color.holo_orange_light);
+        goldLight = ContextCompat.getColor(this, android.R.color.holo_green_light);
         colors = new int[] { goldDark, goldMed, gold, goldLight };
 
         if (isFirstTime) {
