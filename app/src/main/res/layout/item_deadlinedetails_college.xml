@@ -68,7 +68,7 @@
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:scaleType="fitXY"
-        android:tint="@color/holo_blue_bright"
+        android:tint="@android:color/holo_green_light"
         app:srcCompat="@android:color/transparent" />
 
 </RelativeLayout>
