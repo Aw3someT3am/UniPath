@@ -24,10 +24,8 @@
         android:id="@+id/rlCollegeSize"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:background="@drawable/rounded_transparent_bg"
+        android:background="@color/white_15_transparent"
         android:paddingBottom="8dp"
         android:paddingLeft="8dp"
         android:paddingStart="8dp"
@@ -49,20 +47,18 @@
         <android.support.v7.widget.AppCompatSpinner
             android:id="@+id/spCollegeSize"
             android:layout_width="0dp"
-            android:fontFamily="@font/lustria"
             android:layout_height="wrap_content"
             android:layout_weight="2"
-            android:backgroundTint="@color/background_orange" />
+            android:backgroundTint="@color/background_orange"
+            android:fontFamily="@font/lustria" />
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/rlInStateCost"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:background="@drawable/rounded_transparent_bg"
+        android:background="@color/white_15_transparent"
         android:paddingBottom="8dp"
         android:paddingLeft="8dp"
         android:paddingStart="8dp"
@@ -74,30 +70,28 @@
         <TextView
             android:id="@+id/tvInStateCostLabel"
             android:layout_width="0dp"
-            android:fontFamily="@font/lustria"
             android:layout_height="wrap_content"
             android:layout_marginRight="8dp"
             android:layout_weight="1"
+            android:fontFamily="@font/lustria"
             android:text="In-State Cost: "
             android:textColor="@color/solid_white" />
 
         <android.support.v7.widget.AppCompatSpinner
             android:id="@+id/spInStateCost"
             android:layout_width="0dp"
-            android:fontFamily="@font/lustria"
             android:layout_height="wrap_content"
             android:layout_weight="2"
-            android:backgroundTint="@color/background_orange" />
+            android:backgroundTint="@color/background_orange"
+            android:fontFamily="@font/lustria" />
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/rlOutStateCost"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:background="@drawable/rounded_transparent_bg"
+        android:background="@color/white_15_transparent"
         android:paddingBottom="8dp"
         android:paddingLeft="8dp"
         android:paddingStart="8dp"
@@ -109,10 +103,10 @@
         <TextView
             android:id="@+id/tvOutStateCostLabel"
             android:layout_width="0dp"
-            android:fontFamily="@font/lustria"
             android:layout_height="wrap_content"
             android:layout_marginRight="8dp"
             android:layout_weight="1"
+            android:fontFamily="@font/lustria"
             android:text="Out-State Cost:"
             android:textColor="@color/solid_white" />
 
@@ -121,18 +115,16 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:fontFamily="@font/lustria"
-            android:backgroundTint="@color/background_orange" />
+            android:backgroundTint="@color/background_orange"
+            android:fontFamily="@font/lustria" />
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/rlAcceptanceRate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:background="@drawable/rounded_transparent_bg"
+        android:background="@color/white_15_transparent"
         android:paddingBottom="8dp"
         android:paddingLeft="8dp"
         android:paddingStart="8dp"
@@ -144,11 +136,11 @@
         <TextView
             android:id="@+id/tvAcceptanceRateLabel"
             android:layout_width="0dp"
-            android:fontFamily="@font/lustria"
             android:layout_height="wrap_content"
-            android:layout_marginRight="8dp"
             android:layout_marginBottom="8dp"
+            android:layout_marginRight="8dp"
             android:layout_weight="1"
+            android:fontFamily="@font/lustria"
             android:text="Acceptance Rate Greater Than:"
             android:textColor="@color/solid_white" />
 
@@ -157,18 +149,16 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="2"
-            android:fontFamily="@font/lustria"
-            android:backgroundTint="@color/background_orange" />
+            android:backgroundTint="@color/background_orange"
+            android:fontFamily="@font/lustria" />
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/rlState"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:background="@drawable/rounded_transparent_bg"
+        android:background="@color/white_15_transparent"
         android:paddingBottom="8dp"
         android:paddingLeft="8dp"
         android:paddingStart="8dp"
@@ -180,10 +170,10 @@
         <TextView
             android:id="@+id/tvStateLabel"
             android:layout_width="0dp"
-            android:fontFamily="@font/lustria"
             android:layout_height="wrap_content"
             android:layout_marginRight="8dp"
             android:layout_weight="1"
+            android:fontFamily="@font/lustria"
             android:text="State:"
             android:textColor="@color/solid_white" />
 
@@ -192,19 +182,16 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="2"
-            android:fontFamily="@font/lustria"
-            android:backgroundTint="@color/background_orange" />
+            android:backgroundTint="@color/background_orange"
+            android:fontFamily="@font/lustria" />
     </LinearLayout>
 
     <Button
         android:id="@+id/bvSearch"
-        android:fontFamily="@font/lustria"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
         android:background="@color/background_orange"
+        android:fontFamily="@font/lustria"
         android:text="Search"
         android:textColor="@color/solid_white"
         app:layout_constraintBottom_toBottomOf="parent"
