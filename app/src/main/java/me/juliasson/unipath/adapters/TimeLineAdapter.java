@@ -205,7 +205,8 @@ public class TimeLineAdapter extends RecyclerView.Adapter<TimeLineAdapter.ViewHo
         if (status) {
             ultInterface.updateItemRemoval(true);
             MyFirebaseMessagingService.clear();
-            profileFragment.setCounterToZero();
+//            ProfileFragment profileFragment = new ProfileFragment();
+//            profileFragment.setCounterToZero();
         }
     }
 
