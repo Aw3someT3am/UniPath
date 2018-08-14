@@ -45,15 +45,15 @@ public class CalendarDeadlineAdapter extends RecyclerView.Adapter<CalendarDeadli
 
         if (currentDate.after(relationDate)) {
             if (!relation.getCompleted()) {
-                viewHolder.deadlineStatusIndicator.setColorFilter(mContext.getResources().getColor(R.color.background_orange));
+                viewHolder.deadlineStatusIndicator.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_check_missed));
             } else {
-                viewHolder.deadlineStatusIndicator.setColorFilter(mContext.getResources().getColor(R.color.progress_green));
+                viewHolder.deadlineStatusIndicator.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_check_active));
             }
         } else {
             if (!relation.getCompleted()) {
-                viewHolder.deadlineStatusIndicator.setColorFilter(mContext.getResources().getColor(R.color.holo_blue_bright));
+                viewHolder.deadlineStatusIndicator.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_check_inactive));
             } else {
-                viewHolder.deadlineStatusIndicator.setColorFilter(mContext.getResources().getColor(R.color.progress_green));
+                viewHolder.deadlineStatusIndicator.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_check_active));
             }
         }
 
