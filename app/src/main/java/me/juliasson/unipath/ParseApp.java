@@ -24,9 +24,9 @@ public class ParseApp extends Application {
         ParseObject.registerSubclass(UserDeadlineRelation.class);
 
         final Parse.Configuration configuration = new Parse.Configuration.Builder(this)
-                .applicationId("unipath")
+                .applicationId("unipath0")
                 .clientKey("juliajorg3kath3rin3")
-                .server("https://unipath.herokuapp.com/parse/")
+                .server("https://unipath0.herokuapp.com/parse/")
                 .build();
 
 //        Stetho.initializeWithDefaults(this);
